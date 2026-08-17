@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unité 5 — Les stars qu'on like : Grammaire &amp; Vocabulaire</title>
+<style>
+  :root{
+    --bg: #1b1a20;
+    --bg-soft: #242330;
+    --card: #2b2a38;
+    --card-border: #3a3948;
+    --ink: #f2efe9;
+    --ink-dim: #b8b4c4;
+    --gold: #f0a93a;
+    --gold-dim: #caa15c;
+    --pink: #ff6f91;
+    --ok: #57b788;
+    --err: #e2574c;
+    --radius: 14px;
+    font-size: 17px;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(240,169,58,0.18), transparent 60%),
+      radial-gradient(ellipse 700px 400px at 90% 10%, rgba(255,111,145,0.10), transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+  .wrap{ max-width: 880px; margin: 0 auto; padding: 0 20px; }
+
+  header.hero{
+    padding: 48px 20px 28px;
+    text-align:center;
+    position:relative;
+  }
+  .eyebrow{
+    letter-spacing:.14em; text-transform:uppercase; font-size:.72rem;
+    color: var(--gold-dim); font-weight:700; margin-bottom:10px;
+  }
+  h1{
+    font-size: clamp(1.7rem, 4vw, 2.5rem);
+    margin: 0 0 8px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+  h1 .accent{ color: var(--gold); }
+  .sub{
+    color: var(--ink-dim); font-size: 1rem; max-width: 620px; margin: 0 auto;
+  }
+
+  nav.tabs{
+    display:flex; flex-wrap:wrap; gap:8px; justify-content:center;
+    margin: 28px auto 10px; max-width: 880px; padding: 0 12px;
+  }
+  nav.tabs button{
+    background: var(--bg-soft); color: var(--ink-dim); border: 1px solid var(--card-border);
+    padding: 10px 16px; border-radius: 999px; font-size: .92rem; font-weight:600;
+    cursor:pointer; transition: all .15s ease;
+  }
+  nav.tabs button:hover{ color: var(--ink); border-color: var(--gold-dim); }
+  nav.tabs button.active{
+    background: var(--gold); color: #241d0d; border-color: var(--gold);
+  }
+
+  section.panel{ display:none; padding: 10px 0 40px; }
+  section.panel.active{ display:block; }
+
+  .card{
+    background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius);
+    padding: 22px 22px; margin-bottom: 18px;
+  }
+  .card h2{ margin-top:0; font-size:1.25rem; }
+  .card h3{ font-size: 1.02rem; color: var(--gold-dim); margin: 0 0 12px; }
+  .muted{ color: var(--ink-dim); font-size: .92rem; }
+
+  /* Vokabel-Sub-Tabs */
+  .subtabs{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+  .subtabs button{
+    background: transparent; color: var(--ink-dim); border: 1px solid var(--card-border);
+    padding: 7px 14px; border-radius: 8px; font-size: .86rem; cursor:pointer;
+  }
+  .subtabs button.active{ background: var(--pink); color:#2a1017; border-color: var(--pink); font-weight:700; }
+
+  .modebar{ display:flex; gap:10px; margin-bottom: 18px; }
+  .modebar button{
+    flex:1; background: var(--bg-soft); border:1px solid var(--card-border); color:var(--ink);
+    padding:9px; border-radius:8px; cursor:pointer; font-weight:600; font-size:.9rem;
+  }
+  .modebar button.active{ background: var(--gold); color:#241d0d; border-color:var(--gold); }
+
+  /* Flashcard */
+  .flashcard{
+    background: linear-gradient(160deg, #33314a, #241f2e);
+    border: 1px solid var(--card-border); border-radius: 16px;
+    min-height: 170px; display:flex; align-items:center; justify-content:center;
+    text-align:center; padding: 26px; cursor:pointer; user-select:none;
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  }
+  .flashcard .fr{ font-size: 1.5rem; font-weight:700; }
+  .flashcard .de{ font-size: 1.3rem; font-weight:700; color: var(--gold); }
+  .flashcard .ex{ margin-top:10px; font-style: italic; color: var(--ink-dim); font-size:.92rem; }
+  .flashcard .hint{ margin-top:14px; font-size:.78rem; color: var(--ink-dim); text-transform:uppercase; letter-spacing:.08em;}
+  .cardnav{ display:flex; align-items:center; justify-content:space-between; margin-top:14px; }
+  .cardnav button{
+    background: var(--bg-soft); border:1px solid var(--card-border); color:var(--ink);
+    padding:8px 16px; border-radius:8px; cursor:pointer; font-weight:600;
+  }
+  .cardnav .count{ color: var(--ink-dim); font-size:.88rem; }
+
+  /* Quiz */
+  .quiz-q{ font-size:1.1rem; font-weight:700; margin-bottom:14px; }
+  .quiz-opts{ display:grid; gap:10px; }
+  .quiz-opts button{
+    text-align:left; background: var(--bg-soft); border:1px solid var(--card-border); color:var(--ink);
+    padding:12px 14px; border-radius:10px; cursor:pointer; font-size:.98rem;
+  }
+  .quiz-opts button.correct{ background: rgba(87,183,136,.18); border-color: var(--ok); color:#bdf0d6; }
+  .quiz-opts button.wrong{ background: rgba(226,87,76,.18); border-color: var(--err); color:#ffc9c4; }
+  .quiz-opts button:disabled{ cursor:default; }
+  .quizmeta{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; color:var(--ink-dim); font-size:.9rem; }
+  .quiz-score{ font-weight:700; color:var(--gold); }
+  .quiz-actions{ margin-top:16px; display:flex; gap:10px; }
+  .btn{
+    background: var(--gold); color:#241d0d; border:none; padding:10px 18px; border-radius:8px;
+    font-weight:700; cursor:pointer; font-size:.92rem;
+  }
+  .btn.secondary{ background: var(--bg-soft); color:var(--ink); border:1px solid var(--card-border); }
+
+  /* Grammatik-Übungen */
+  .paradigm-table{ width:100%; border-collapse: collapse; margin: 10px 0 18px; font-size:.94rem; }
+  .paradigm-table th, .paradigm-table td{ border:1px solid var(--card-border); padding:8px 10px; text-align:center; }
+  .paradigm-table th{ background: var(--bg-soft); color: var(--gold-dim); font-weight:700; }
+
+  .fill-row{ display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+  .fill-row .txt{ flex:1; min-width:220px; }
+  .fill-row input{
+    background: var(--bg-soft); border:1px solid var(--card-border); color: var(--ink);
+    border-radius:8px; padding:8px 10px; font-size:.96rem; width:150px;
+  }
+  .fill-row input.ok{ border-color: var(--ok); background: rgba(87,183,136,.12); }
+  .fill-row input.bad{ border-color: var(--err); background: rgba(226,87,76,.12); }
+  .fill-row .note{ font-size:.78rem; color: var(--ink-dim); min-width:80px; }
+  .fill-row .answer-reveal{ font-size:.82rem; color: var(--ok); font-weight:700; display:none; }
+
+  details.rule{
+    background: var(--bg-soft); border:1px solid var(--card-border); border-radius:10px;
+    padding: 10px 14px; margin-bottom:18px;
+  }
+  details.rule summary{ cursor:pointer; font-weight:700; color: var(--gold); }
+  details.rule .rulebody{ margin-top:10px; color: var(--ink-dim); font-size:.92rem; }
+
+  .check-btn{ margin-top: 8px; }
+  .summary-box{
+    margin-top:14px; padding:12px 16px; border-radius:10px; font-weight:700; display:none;
+  }
+  .summary-box.show{ display:block; }
+  .summary-good{ background: rgba(87,183,136,.15); color:#bdf0d6; border:1px solid var(--ok); }
+  .summary-mid{ background: rgba(240,169,58,.15); color:#f6d9a4; border:1px solid var(--gold); }
+
+  footer{ text-align:center; color: var(--ink-dim); font-size:.8rem; padding: 30px 20px 10px; }
+
+  @media (max-width:520px){
+    :root{ font-size:16px; }
+    header.hero{ padding:32px 14px 18px; }
+    .card{ padding:16px; }
+    .fill-row input{ width:120px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="eyebrow">À plus ! 2 · Unité 5</div>
+  <h1>Les stars qu<span class="accent">'</span>on <span class="accent">like</span></h1>
+  <p class="sub">Grammatik- und Vokabel-Lernmodul zur Wiederholung und Prüfungsvorbereitung (Klasse 9G).
+  Übe Wortschatz, Adjektivangleichung, Verben auf <em>-ir</em> und <em>tout</em> — mit direkter Rückmeldung.</p>
+</header>
+
+<nav class="tabs" id="mainTabs">
+  <button data-tab="vocab" class="active">Vocabulaire</button>
+  <button data-tab="adj">Adjectifs</button>
+  <button data-tab="ir">Verbes en -ir</button>
+  <button data-tab="tout">tout</button>
+  <button data-tab="bilan">Bilan</button>
+</nav>
+
+<div class="wrap">
+
+  <!-- ===================== VOCABULAIRE ===================== -->
+  <section class="panel active" id="panel-vocab">
+    <div class="card">
+      <h2>Vocabulaire — Unité 5</h2>
+      <p class="muted">Wähle eine Wortgruppe und ein Übungsformat. Die Karteikarten helfen beim Einprägen, das Quiz prüft, was schon sitzt.</p>
+      <div class="subtabs" id="vocabSubtabs"></div>
+      <div class="modebar">
+        <button id="modeCards" class="active">🃏 Karteikarten</button>
+        <button id="modeQuiz">✅ Quiz</button>
+      </div>
+      <div id="vocabCardsArea"></div>
+      <div id="vocabQuizArea" style="display:none;"></div>
+    </div>
+  </section>
+
+  <!-- ===================== ADJECTIFS ===================== -->
+  <section class="panel" id="panel-adj">
+    <div class="card">
+      <h2>L'accord et la place des adjectifs</h2>
+      <p class="muted">Beobachte zuerst die Beispiele und leite die Regel selbst her, bevor du die Hilfe öffnest.</p>
+      <table class="paradigm-table" id="adjParadigmTable"></table>
+      <details class="rule">
+        <summary>💡 Hilfe — die Regel</summary>
+        <div class="rulebody">
+          Die meisten Adjektive bilden das Femininum mit <strong>-e</strong> und den Plural mit <strong>-s</strong>
+          (génial → géniale → géniaux? nein — Achtung: Adjektive auf <strong>-al</strong> bilden den Maskulin-Plural
+          unregelmäßig auf <strong>-aux</strong>: génial → géniaux, national → nationaux, original → originaux).
+          Der Feminin-Plural bleibt regelmäßig: géniale → géniales.
+          Manche Adjektive sind <strong>invariable</strong> (ändern sich nicht), z. B. adjectifs, die bereits auf
+          <strong>-e</strong> enden: difficile (m.) = difficile (f.).
+        </div>
+      </details>
+    </div>
+
+    <div class="card">
+      <h3>Aufgabe 1 — Tabelle vervollständigen (induktiv)</h3>
+      <div id="adjTableTasks"></div>
+      <button class="btn check-btn" id="checkAdjTable">Prüfen</button>
+      <div class="summary-box" id="adjTableSummary"></div>
+    </div>
+
+    <div class="card">
+      <h3>Aufgabe 2 — Sätze ergänzen</h3>
+      <p class="muted">Setze die richtige Form des Adjektivs in Klammern ein. Achte auf Genus und Numerus.</p>
+      <div id="adjSentences"></div>
+      <button class="btn check-btn" id="checkAdjSentences">Prüfen</button>
+      <div class="summary-box" id="adjSentencesSummary"></div>
+    </div>
+  </section>
+
+  <!-- ===================== VERBES EN -IR ===================== -->
+  <section class="panel" id="panel-ir">
+    <div class="card">
+      <h2>Les verbes en -ir (type finir)</h2>
+      <details class="rule">
+        <summary>💡 Hilfe — die Formen</summary>
+        <div class="rulebody">
+          <strong>finir</strong> (Präsens): je fin<u>is</u> · tu fin<u>is</u> · il/elle/on fin<u>it</u> ·
+          nous fin<u>issons</u> · vous fin<u>issez</u> · ils/elles fin<u>issent</u>.
+          Ebenso: choisir, réussir, grandir.<br>
+          <strong>Passé composé</strong> (mit avoir, Partizip auf <strong>-i</strong>):
+          j'ai fini · j'ai choisi · j'ai réussi · j'ai grandi.
+        </div>
+      </details>
+    </div>
+
+    <div class="card">
+      <h3>Aufgabe 1 — Präsens</h3>
+      <div id="irPresent"></div>
+      <button class="btn check-btn" id="checkIrPresent">Prüfen</button>
+      <div class="summary-box" id="irPresentSummary"></div>
+    </div>
+
+    <div class="card">
+      <h3>Aufgabe 2 — Passé composé</h3>
+      <div id="irPc"></div>
+      <button class="btn check-btn" id="checkIrPc">Prüfen</button>
+      <div class="summary-box" id="irPcSummary"></div>
+    </div>
+  </section>
+
+  <!-- ===================== TOUT ===================== -->
+  <section class="panel" id="panel-tout">
+    <div class="card">
+      <h2>L'adjectif indéfini tout</h2>
+      <details class="rule">
+        <summary>💡 Hilfe — die Regel</summary>
+        <div class="rulebody">
+          <strong>tout</strong> richtet sich nach dem Nomen, das folgt:
+          <strong>tout le</strong> (m. sg.) · <strong>toute la</strong> (f. sg.) ·
+          <strong>tous les</strong> (m. pl.) · <strong>toutes les</strong> (f. pl.).
+        </div>
+      </details>
+    </div>
+    <div class="card">
+      <h3>Sätze ergänzen</h3>
+      <div id="toutSentences"></div>
+      <button class="btn check-btn" id="checkTout">Prüfen</button>
+      <div class="summary-box" id="toutSummary"></div>
+    </div>
+  </section>
+
+  <!-- ===================== BILAN ===================== -->
+  <section class="panel" id="panel-bilan">
+    <div class="card">
+      <h2>Bilan — Fais le point</h2>
+      <p class="muted">Gemischte Abschlussübung: Vokabular, Adjektive, Verben auf -ir und tout. Gute Vorbereitung auf die mündliche Leistungsfeststellung.</p>
+      <div id="bilanItems"></div>
+      <button class="btn check-btn" id="checkBilan">Prüfen</button>
+      <div class="summary-box" id="bilanSummary"></div>
+    </div>
+  </section>
+
+</div>
+
+<footer>À plus ! 2, Unité 5 « Les stars qu'on like » · Klasse 9G · Eigenständig erstelltes Übungsmodul auf Basis der Vokabelliste des Verlags</footer>
+
+<script>
+const DATA = {"vocab": {"groups": [{"id": "a", "title": "Qui est une star ?"}, {"id": "voc", "title": "Les activités en ligne"}, {"id": "p1", "title": "Portrait : au-delà des clichés"}, {"id": "p2", "title": "Le parcours d’une star"}], "data": {"a": [{"fr": "liker qn/qc", "de": "jdn/etw. liken", "ex": "Beaucoup de gens ont liké la photo !"}, {"fr": "le youtubeur / la youtubeuse", "de": "der/die Youtuber/in", "ex": "Quel est ton youtubeur préféré ?"}, {"fr": "l'acteur / l'actrice", "de": "der/die Schauspieler/in", "ex": "Comment s'appelle ton actrice préférée ?"}, {"fr": "engagé/engagée", "de": "engagiert", "ex": "M. Lunet est un principal très engagé."}, {"fr": "l'astronaute", "de": "der/die Astronaut/in", "ex": "Thomas Pesquet est astronaute."}], "voc": [{"fr": "l'activité", "de": "die Aktivität", "ex": "Quelles sont tes activités en ligne ?"}, {"fr": "télécharger qc", "de": "etw. herunterladen", "ex": "Je n'aime pas télécharger des films."}, {"fr": "cliquer sur qc", "de": "auf etw. klicken", "ex": "J'ai cliqué sur la photo."}, {"fr": "le lien", "de": "der Link", "ex": "Où est le lien ?"}, {"fr": "laisser qc", "de": "etw. lassen, (hier:) etw. hinterlassen", "ex": "Laissez des commentaires !"}, {"fr": "poster qc", "de": "etw. posten", "ex": "Hakim poste une vidéo."}, {"fr": "le tuto (fam.) / le tutoriel", "de": "das Erklärvideo, das Tutorial", "ex": "Il fait des tutos sur Internet."}, {"fr": "enregistrer qc", "de": "etw. aufnehmen, etw. speichern", "ex": "J'enregistre une vidéo sur mon portable."}, {"fr": "les réseaux sociaux", "de": "die sozialen Netzwerke", "ex": "Tu es sur quels réseaux sociaux ?"}, {"fr": "être accro à qc", "de": "nach etw. süchtig sein, von etw. abhängig sein", "ex": "Isabelle est accro aux réseaux sociaux."}, {"fr": "la victime", "de": "das Opfer", "ex": "Il est victime de cyberharcèlement !"}, {"fr": "le cyberharcèlement", "de": "das Cybermobbing", "ex": "Vous avez des problèmes de cyberharcèlement au collège ?"}, {"fr": "créer qc", "de": "etw. erschaffen, etw. gründen", "ex": "Il a créé une chaîne sympa !"}, {"fr": "avoir … vues", "de": "… Aufrufe/Klicks haben", "ex": "Cette vidéo a un million de vues."}, {"fr": "le million", "de": "die Million", "ex": "Il a deux millions d'abonnés !"}, {"fr": "l'abonné/l'abonnée", "de": "der/die Abonnent/in", "ex": "Tu as combien d'abonnés ?"}], "p1": [{"fr": "intelligent/intelligente", "de": "intelligent", "ex": "Les éléphants sont des animaux intelligents."}, {"fr": "normal (m.) / normale (f.) / normaux (m. pl.) / normales (f. pl.)", "de": "normal", "ex": "Qu'est-ce que c'est pour toi, une journée normale ?"}, {"fr": "la culture", "de": "die Kultur", "ex": "J'adore la culture française."}, {"fr": "le cliché", "de": "das Klischee", "ex": "Quels sont les clichés sur les Français ?"}, {"fr": "chinois/chinoise", "de": "chinesisch", "ex": "Shanghai est une ville chinoise."}, {"fr": "génial (m.) / géniale (f.) / géniaux (m. pl.) / géniales (f. pl.)", "de": "toll, genial", "ex": "Mes copains sont géniaux !"}, {"fr": "voir qn/qc", "de": "jdn/etw. sehen", "ex": "Tu vois le bateau, là ?"}, {"fr": "être d'origine (f.) (allemande/française)", "de": "(deutscher/französischer) Herkunft sein", "ex": "Laurin est d'origine allemande."}, {"fr": "asiatique", "de": "asiatisch", "ex": "J'aime la cuisine asiatique."}, {"fr": "l'Asie", "de": "Asien", "ex": "Plus tard, je voudrais voyager en Asie."}, {"fr": "le thème", "de": "das Thema", "ex": "C'est un thème important."}, {"fr": "critiquer (qn/qc)", "de": "(jdn/etw.) kritisieren", "ex": "Critiquer quelqu'un n'est pas facile."}, {"fr": "national (m.) / nationale (f.) / nationaux (m. pl.) / nationales (f. pl.)", "de": "national, National-", "ex": "Le 14 juillet en France, c'est le jour de la fête nationale."}, {"fr": "l'humour", "de": "der Humor", "ex": "Avec de l'humour, tout est plus facile."}, {"fr": "avant", "de": "früher, vorher", "ex": "Avant, c'était plus drôle."}, {"fr": "faire des études", "de": "studieren", "ex": "Julia fait des études de musique."}, {"fr": "l'ingénieur / l'ingénieure", "de": "der/die Ingenieur/in", "ex": "Ma mère est ingénieure."}, {"fr": "original (m.) / originale (f.) / originaux (m. pl.) / originales (f. pl.)", "de": "originell", "ex": "J'aime les films originaux."}, {"fr": "adulte", "de": "erwachsen", "ex": "À 18 ans, on est adulte."}, {"fr": "polonais/polonaise", "de": "polnisch", "ex": "Anna est d'origine polonaise."}, {"fr": "séparé/séparée", "de": "getrennt", "ex": "Je suis séparé de ma copine."}, {"fr": "la beauté", "de": "die Schönheit", "ex": "La beauté, c'est important pour toi ?"}, {"fr": "le policier / la policière", "de": "der/die Polizist/in", "ex": "Les policiers font des contrôles."}, {"fr": "l'émission", "de": "die Sendung", "ex": "Quelle est ton émission préférée ?"}, {"fr": "l'avis", "de": "die Meinung", "ex": "Quel est ton avis ?"}, {"fr": "autre chose", "de": "etwas anderes", "ex": "Je voudrais faire autre chose."}], "p2": [{"fr": "finir qc", "de": "etw. beenden, enden", "ex": "Il finit travail."}, {"fr": "grandir", "de": "aufwachsen, wachsen", "ex": "Bilal Hassani a grandi en France."}, {"fr": "réussir (qc)", "de": "es/etw. schaffen, gelingen, etw. bestehen", "ex": "Finalement, il a réussi."}, {"fr": "choisir qn/qc", "de": "jdn/etw. aussuchen, jdn/etw. auswählen", "ex": "On le choisit pour l'équipe de France."}, {"fr": "quitter qn/qc", "de": "jdn/etw. verlassen", "ex": "Benjamin Pavard a quitté la France."}, {"fr": "participer à qc", "de": "an etw. teilnehmen", "ex": "Elle a participé à une émission."}, {"fr": "baisser les bras", "de": "aufgeben", "ex": "Il n'a pas baissé les bras."}, {"fr": "encourager qn", "de": "jdn ermutigen", "ex": "Elle a encouragé beaucoup de gens."}, {"fr": "perdre (qn/qc)", "de": "(jdn/etw.) verlieren", "ex": "Elle a perdu ses parents très tôt."}, {"fr": "les médias", "de": "die Medien", "ex": "On parle de ce thème dans tous les médias."}, {"fr": "l'album", "de": "das Album", "ex": "Ils font un album."}, {"fr": "le concert", "de": "das Konzert", "ex": "Il fait des concerts en Europe."}, {"fr": "les hauts et les bas", "de": "die Höhen und Tiefen, das Auf und Ab", "ex": "Ils ont des hauts et des bas."}, {"fr": "marocain/marocaine", "de": "marokkanisch", "ex": "En histoire, j'ai appris des choses sur l'histoire marocaine."}, {"fr": "tout le / toute la, tous les / toutes les", "de": "ganzer/ganze/ganzes, alle", "ex": "Il a fait une photo de toute l'équipe."}, {"fr": "tomber amoureux/amoureuse (de qn)", "de": "sich (in jdn) verlieben", "ex": "Ils sont tombés amoureux."}, {"fr": "difficile", "de": "schwer, schwierig", "ex": "Entre nous, c'est difficile."}, {"fr": "le jury", "de": "die Jury", "ex": "C'est un jury sévère."}, {"fr": "la perruque", "de": "die Perücke", "ex": "Mon grand-père met une perruque."}, {"fr": "le bac (fam.) / le baccalauréat", "de": "das Abi, das Abitur", "ex": "Je vais avoir mon bac à 18 ans."}, {"fr": "homosexuel/homosexuelle", "de": "homosexuell", "ex": "Marie et Valérie sont homosexuelles."}]}}, "adjParadigms": [{"base": "génial", "m_sg": "génial", "f_sg": "géniale", "m_pl": "géniaux", "f_pl": "géniales"}, {"base": "original", "m_sg": "original", "f_sg": "originale", "m_pl": "originaux", "f_pl": "originales"}, {"base": "normal", "m_sg": "normal", "f_sg": "normale", "m_pl": "normaux", "f_pl": "normales"}, {"base": "national", "m_sg": "national", "f_sg": "nationale", "m_pl": "nationaux", "f_pl": "nationales"}], "adjTableTasks": [{"base": "génial", "given": {"m_sg": "génial", "f_sg": "géniale"}, "ask": ["m_pl", "f_pl"], "answers": {"m_pl": "géniaux", "f_pl": "géniales"}}, {"base": "original", "given": {"f_sg": "originale", "m_pl": "originaux"}, "ask": ["m_sg", "f_pl"], "answers": {"m_sg": "original", "f_pl": "originales"}}, {"base": "national", "given": {"m_sg": "national", "m_pl": "nationaux"}, "ask": ["f_sg", "f_pl"], "answers": {"f_sg": "nationale", "f_pl": "nationales"}}], "adjSentences": [{"prompt": "Le concert était vraiment _____. (génial)", "answer": "génial", "note": "m. sg."}, {"prompt": "C’est une youtubeuse _____. (chinois)", "answer": "chinoise", "note": "f. sg."}, {"prompt": "Ses looks sur les photos sont toujours très _____. (original)", "answer": "originaux", "note": "m. pl."}, {"prompt": "Les idées de cette chanteuse sont _____. (génial)", "answer": "géniales", "note": "f. pl."}, {"prompt": "Pour elle, ce n’est pas une vie _____. (normal)", "answer": "normale", "note": "f. sg."}, {"prompt": "Ce thème est vraiment _____ pour les jeunes. (difficile)", "answer": "difficile", "note": "invariable m./f."}, {"prompt": "Il est d’origine _____. (marocain)", "answer": "marocaine", "note": "f. sg."}, {"prompt": "Les jurys de l’émission sont très _____. (national)", "answer": "nationaux", "note": "m. pl."}], "irPresent": [{"prompt": "Le film _____ à 22 heures. (finir)", "answer": "finit"}, {"prompt": "Nous _____ une nouvelle chanson pour le concert. (choisir)", "answer": "choisissons"}, {"prompt": "Ils _____ toujours leurs projets. (réussir)", "answer": "réussissent"}, {"prompt": "Cette chanteuse _____ vite dans les médias. (grandir)", "answer": "grandit"}, {"prompt": "Vous _____ entre les deux chansons ? (choisir)", "answer": "choisissez"}], "irPc": [{"prompt": "Elle _____ son premier album l’année dernière. (finir)", "answer": "a fini"}, {"prompt": "Nous _____ ce parcours ensemble. (choisir)", "answer": "avons choisi"}, {"prompt": "Vous _____ votre présentation ! (réussir)", "answer": "avez réussi"}, {"prompt": "Il _____ dans une famille de musiciens. (grandir)", "answer": "a grandi"}], "toutSentences": [{"prompt": "_____ le monde aime cette chanson. ", "answer": "Tout"}, {"prompt": "Elle a répondu à _____ les questions.", "answer": "toutes"}, {"prompt": "_____ la classe a vu la vidéo.", "answer": "Toute"}, {"prompt": "Il travaille _____ les jours.", "answer": "tous"}, {"prompt": "J’ai regardé _____ l’interview.", "answer": "toute"}, {"prompt": "_____ les youtubeurs ne sont pas célèbres.", "answer": "Tous"}], "bilanItems": [{"type": "text", "prompt": "Elle _____ (choisir) toujours des chansons engagées. (Präsens)", "answer": "choisit"}, {"type": "text", "prompt": "Nous _____ (grandir) avec les réseaux sociaux. (Präsens)", "answer": "grandissons"}, {"type": "text", "prompt": "Il _____ (réussir) son examen l’année dernière. (PC)", "answer": "a réussi"}, {"type": "text", "prompt": "_____ les vidéos de cette chaîne sont drôles. (tout)", "answer": "Toutes"}, {"type": "text", "prompt": "C’est une actrice _____. (original)", "answer": "originale"}, {"type": "text", "prompt": "Ses clips sont _____. (génial)", "answer": "géniaux"}, {"type": "vocab", "de": "das Cybermobbing", "answer": "le cyberharcèlement"}, {"type": "vocab", "de": "jdn ermutigen", "answer": "encourager qn"}, {"type": "vocab", "de": "aufgeben", "answer": "baisser les bras"}, {"type": "vocab", "de": "die Höhen und Tiefen", "answer": "les hauts et les bas"}]};
+</script>
+<script>
+/* ===================== Helpers ===================== */
+function norm(s){
+  return (s||'').trim().toLowerCase()
+    .replace(/’/g, "'")
+    .replace(/\s+/g, ' ');
+}
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+function pickN(arr, n){
+  return shuffle(arr).slice(0, Math.min(n, arr.length));
+}
+
+/* ===================== Haupt-Tabs ===================== */
+document.querySelectorAll('#mainTabs button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#mainTabs button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('section.panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ===================== VOCABULAIRE ===================== */
+const vocabGroups = DATA.vocab.groups; // [{id,title}]
+const vocabData = DATA.vocab.data;     // {id: [{fr,de,ex}]}
+let currentGroup = vocabGroups[0].id;
+let currentMode = 'cards';
+let cardIndex = 0;
+let cardFlipped = false;
+
+const subtabsEl = document.getElementById('vocabSubtabs');
+vocabGroups.forEach(g=>{
+  const b = document.createElement('button');
+  b.textContent = g.title;
+  b.dataset.gid = g.id;
+  if(g.id===currentGroup) b.classList.add('active');
+  b.addEventListener('click', ()=>{
+    currentGroup = g.id; cardIndex = 0; cardFlipped = false;
+    document.querySelectorAll('#vocabSubtabs button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    renderVocabArea();
+  });
+  subtabsEl.appendChild(b);
+});
+
+document.getElementById('modeCards').addEventListener('click', ()=>{
+  currentMode='cards';
+  document.getElementById('modeCards').classList.add('active');
+  document.getElementById('modeQuiz').classList.remove('active');
+  document.getElementById('vocabCardsArea').style.display='';
+  document.getElementById('vocabQuizArea').style.display='none';
+  renderVocabArea();
+});
+document.getElementById('modeQuiz').addEventListener('click', ()=>{
+  currentMode='quiz';
+  document.getElementById('modeQuiz').classList.add('active');
+  document.getElementById('modeCards').classList.remove('active');
+  document.getElementById('vocabCardsArea').style.display='none';
+  document.getElementById('vocabQuizArea').style.display='';
+  renderVocabArea();
+});
+
+function renderVocabArea(){
+  if(currentMode==='cards') renderFlashcards();
+  else renderVocabQuiz();
+}
+
+function renderFlashcards(){
+  const entries = vocabData[currentGroup];
+  const area = document.getElementById('vocabCardsArea');
+  const e = entries[cardIndex];
+  area.innerHTML = `
+    <div class="flashcard" id="flashcardEl">
+      ${cardFlipped
+        ? `<div><div class="de">${e.de}</div><div class="ex">« ${e.ex} »</div><div class="hint">Klicken für Französisch</div></div>`
+        : `<div><div class="fr">${e.fr}</div><div class="hint">Klicken für Deutsch</div></div>`}
+    </div>
+    <div class="cardnav">
+      <button id="prevCard">← précédent</button>
+      <span class="count">Karte ${cardIndex+1} / ${entries.length}</span>
+      <button id="nextCard">suivant →</button>
+    </div>
+  `;
+  document.getElementById('flashcardEl').addEventListener('click', ()=>{
+    cardFlipped = !cardFlipped;
+    renderFlashcards();
+  });
+  document.getElementById('prevCard').addEventListener('click', ()=>{
+    cardIndex = (cardIndex - 1 + entries.length) % entries.length;
+    cardFlipped = false;
+    renderFlashcards();
+  });
+  document.getElementById('nextCard').addEventListener('click', ()=>{
+    cardIndex = (cardIndex + 1) % entries.length;
+    cardFlipped = false;
+    renderFlashcards();
+  });
+}
+
+let quizState = {};
+function newVocabQuiz(){
+  const entries = vocabData[currentGroup];
+  const n = Math.min(8, entries.length);
+  const chosen = pickN(entries.map((e,i)=>i), n);
+  quizState = { qs: chosen, idx: 0, score: 0, answered: false, groupRef: currentGroup };
+  renderQuizQuestion();
+}
+function renderVocabQuiz(){
+  if(!quizState.qs || quizState.groupRef !== currentGroup){
+    newVocabQuiz();
+    return;
+  }
+  renderQuizQuestion();
+}
+function renderQuizQuestion(){
+  const area = document.getElementById('vocabQuizArea');
+  const entries = vocabData[currentGroup];
+  if(quizState.idx >= quizState.qs.length){
+    area.innerHTML = `
+      <div class="quizmeta"><span>Quiz beendet</span><span class="quiz-score">${quizState.score} / ${quizState.qs.length}</span></div>
+      <div class="quiz-actions"><button class="btn" id="restartQuiz">Nochmal versuchen</button></div>
+    `;
+    document.getElementById('restartQuiz').addEventListener('click', newVocabQuiz);
+    return;
+  }
+  const qIdx = quizState.qs[quizState.idx];
+  const correct = entries[qIdx];
+  const distractors = pickN(entries.filter((_,i)=>i!==qIdx), 3);
+  const options = shuffle([correct, ...distractors]);
+  area.innerHTML = `
+    <div class="quizmeta"><span>Frage ${quizState.idx+1} / ${quizState.qs.length}</span><span class="quiz-score">Score: ${quizState.score}</span></div>
+    <div class="quiz-q">${correct.de}</div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-actions" id="quizNextWrap" style="display:none;"><button class="btn" id="nextQ">Weiter →</button></div>
+  `;
+  const optsEl = document.getElementById('quizOpts');
+  quizState.answered = false;
+  options.forEach(opt=>{
+    const b = document.createElement('button');
+    b.textContent = opt.fr;
+    b.addEventListener('click', ()=>{
+      if(quizState.answered) return;
+      quizState.answered = true;
+      const isCorrect = opt.fr === correct.fr;
+      if(isCorrect){ b.classList.add('correct'); quizState.score++; }
+      else{
+        b.classList.add('wrong');
+        [...optsEl.children].forEach(c=>{ if(c.textContent===correct.fr) c.classList.add('correct'); });
+      }
+      [...optsEl.children].forEach(c=>c.disabled=true);
+      document.getElementById('quizNextWrap').style.display='';
+    });
+    optsEl.appendChild(b);
+  });
+  const nextBtn = document.getElementById('nextQ');
+  nextBtn.addEventListener('click', ()=>{
+    quizState.idx++;
+    renderQuizQuestion();
+  });
+}
+
+renderVocabArea();
+
+/* ===================== ADJECTIFS ===================== */
+// Paradigmentabelle (Anschauung)
+(function(){
+  const tbl = document.getElementById('adjParadigmTable');
+  let html = '<tr><th>Grundform</th><th>m. sg.</th><th>f. sg.</th><th>m. pl.</th><th>f. pl.</th></tr>';
+  DATA.adjParadigms.forEach(p=>{
+    html += `<tr><td>${p.base}</td><td>${p.m_sg}</td><td>${p.f_sg}</td><td><strong>${p.m_pl}</strong></td><td>${p.f_pl}</td></tr>`;
+  });
+  tbl.innerHTML = html;
+})();
+
+// Aufgabe 1: induktive Tabelle
+(function(){
+  const wrap = document.getElementById('adjTableTasks');
+  DATA.adjTableTasks.forEach((task, ti)=>{
+    const givenKeys = Object.keys(task.given);
+    const row = document.createElement('div');
+    row.className = 'fill-row';
+    row.innerHTML = `<div class="txt"><strong>${task.base}</strong> — gegeben: ${givenKeys.map(k=>task.given[k]).join(', ')}</div>` +
+      task.ask.map(k=>`<input data-task="${ti}" data-key="${k}" placeholder="${k.replace('_',' ')}">`).join('');
+    wrap.appendChild(row);
+  });
+  document.getElementById('checkAdjTable').addEventListener('click', ()=>{
+    let correct=0, total=0;
+    DATA.adjTableTasks.forEach((task, ti)=>{
+      task.ask.forEach(k=>{
+        total++;
+        const input = document.querySelector(`input[data-task="${ti}"][data-key="${k}"]`);
+        if(norm(input.value)===norm(task.answers[k])){ input.classList.add('ok'); input.classList.remove('bad'); correct++; }
+        else{ input.classList.add('bad'); input.classList.remove('ok'); }
+      });
+    });
+    showSummary('adjTableSummary', correct, total);
+  });
+})();
+
+// Aufgabe 2: Sätze
+(function(){
+  const wrap = document.getElementById('adjSentences');
+  DATA.adjSentences.forEach((s, i)=>{
+    const row = document.createElement('div');
+    row.className = 'fill-row';
+    row.innerHTML = `<div class="txt">${s.prompt}</div><input data-i="${i}"><span class="note">${s.note}</span>`;
+    wrap.appendChild(row);
+  });
+  document.getElementById('checkAdjSentences').addEventListener('click', ()=>{
+    let correct=0;
+    DATA.adjSentences.forEach((s,i)=>{
+      const input = document.querySelector(`#adjSentences input[data-i="${i}"]`);
+      if(norm(input.value)===norm(s.answer)){ input.classList.add('ok'); input.classList.remove('bad'); correct++; }
+      else{ input.classList.add('bad'); input.classList.remove('ok'); }
+    });
+    showSummary('adjSentencesSummary', correct, DATA.adjSentences.length);
+  });
+})();
+
+/* ===================== VERBES EN -IR ===================== */
+function buildFillList(containerId, items, checkBtnId, summaryId){
+  const wrap = document.getElementById(containerId);
+  items.forEach((s,i)=>{
+    const row = document.createElement('div');
+    row.className = 'fill-row';
+    row.innerHTML = `<div class="txt">${s.prompt}</div><input data-i="${i}">`;
+    wrap.appendChild(row);
+  });
+  document.getElementById(checkBtnId).addEventListener('click', ()=>{
+    let correct=0;
+    items.forEach((s,i)=>{
+      const input = document.querySelector(`#${containerId} input[data-i="${i}"]`);
+      if(norm(input.value)===norm(s.answer)){ input.classList.add('ok'); input.classList.remove('bad'); correct++; }
+      else{ input.classList.add('bad'); input.classList.remove('ok'); }
+    });
+    showSummary(summaryId, correct, items.length);
+  });
+}
+buildFillList('irPresent', DATA.irPresent, 'checkIrPresent', 'irPresentSummary');
+buildFillList('irPc', DATA.irPc, 'checkIrPc', 'irPcSummary');
+
+/* ===================== TOUT ===================== */
+buildFillList('toutSentences', DATA.toutSentences, 'checkTout', 'toutSummary');
+
+/* ===================== BILAN ===================== */
+(function(){
+  const wrap = document.getElementById('bilanItems');
+  DATA.bilanItems.forEach((it,i)=>{
+    const row = document.createElement('div');
+    row.className = 'fill-row';
+    if(it.type==='vocab'){
+      row.innerHTML = `<div class="txt">${it.de}</div><input data-i="${i}" placeholder="français">`;
+    } else {
+      row.innerHTML = `<div class="txt">${it.prompt}</div><input data-i="${i}">`;
+    }
+    wrap.appendChild(row);
+  });
+  document.getElementById('checkBilan').addEventListener('click', ()=>{
+    let correct=0;
+    DATA.bilanItems.forEach((it,i)=>{
+      const input = document.querySelector(`#bilanItems input[data-i="${i}"]`);
+      if(norm(input.value)===norm(it.answer)){ input.classList.add('ok'); input.classList.remove('bad'); correct++; }
+      else{ input.classList.add('bad'); input.classList.remove('ok'); }
+    });
+    showSummary('bilanSummary', correct, DATA.bilanItems.length);
+  });
+})();
+
+/* ===================== Summary Helper ===================== */
+function showSummary(elId, correct, total){
+  const el = document.getElementById(elId);
+  const pct = total ? Math.round(100*correct/total) : 0;
+  el.classList.add('show');
+  if(pct>=80){
+    el.className = 'summary-box show summary-good';
+    el.textContent = `${correct} / ${total} richtig (${pct} %) — sehr gut !`;
+  } else {
+    el.className = 'summary-box show summary-mid';
+    el.textContent = `${correct} / ${total} richtig (${pct} %) — schau dir die rot markierten Felder noch einmal an.`;
+  }
+}
+
+</script>
+</body>
+</html>
