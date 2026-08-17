@@ -1,0 +1,1880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Genres — LK English</title>
+<style>
+  /* ── TOKENS ─────────────────────────────────────────────── */
+  :root {
+    --ink:      #1a1a2e;
+    --ink-soft: #4a4a6a;
+    --page:     #fafaf8;
+    --rule:     #e2e2dc;
+
+    --afb1:     #2563a8;   /* blue  — AFB I  */
+    --afb1-bg:  #eef4fc;
+    --afb2:     #1a7a5e;   /* green — AFB II */
+    --afb2-bg:  #e6f4f0;
+    --afb3:     #9b3a00;   /* amber — AFB III */
+    --afb3-bg:  #fdf0e6;
+
+    --accent:   #1a7a5e;
+    --check-ok: #1a7a5e;
+    --check-no: #c0392b;
+
+    --mono: 'Courier New', monospace;
+    --sans: 'Segoe UI', system-ui, sans-serif;
+
+    --radius: 6px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--page);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* ── LAYOUT ─────────────────────────────────────────────── */
+  .shell {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+
+  /* ── HERO ───────────────────────────────────────────────── */
+  .hero {
+    background: var(--ink);
+    color: #fff;
+    padding: 48px 40px 40px;
+    margin: 0 -20px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: rgba(26,122,94,0.25);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-size: 2.1rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .hero-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    max-width: 520px;
+  }
+  .afb-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+  }
+  .pill {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+  }
+  .pill-1 { background: var(--afb1); color: #fff; }
+  .pill-2 { background: var(--afb2); color: #fff; }
+  .pill-3 { background: var(--afb3); color: #fff; }
+
+  /* ── NAV TABS ───────────────────────────────────────────── */
+  .tab-nav {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--rule);
+    margin: 32px 0 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tab-nav::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 12px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--ink-soft);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: color .15s, border-color .15s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-btn .afb-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .tag-1 { background: var(--afb1-bg); color: var(--afb1); }
+  .tag-2 { background: var(--afb2-bg); color: var(--afb2); }
+  .tag-3 { background: var(--afb3-bg); color: var(--afb3); }
+
+  /* ── PANELS ─────────────────────────────────────────────── */
+  .panel { display: none; padding: 32px 0 0; }
+  .panel.active { display: block; }
+
+  /* ── SECTION BLOCKS ─────────────────────────────────────── */
+  .sec-head {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-block { margin-bottom: 36px; }
+
+  /* ── DEFINITION BOX ─────────────────────────────────────── */
+  .def-box {
+    border-left: 4px solid var(--accent);
+    background: var(--afb2-bg);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+  }
+  .def-box .def-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .def-box p { font-size: 14px; line-height: 1.7; }
+
+  /* AFB variants */
+  .def-box.afb1 { border-color: var(--afb1); background: var(--afb1-bg); }
+  .def-box.afb1 .def-label { color: var(--afb1); }
+  .def-box.afb3 { border-color: var(--afb3); background: var(--afb3-bg); }
+  .def-box.afb3 .def-label { color: var(--afb3); }
+
+  /* ── DO / DON'T GRID ────────────────────────────────────── */
+  .do-dont {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 560px) { .do-dont { grid-template-columns: 1fr; } }
+  .do-card, .dont-card {
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    font-size: 13.5px;
+  }
+  .do-card {
+    background: #f0faf6;
+    border: 1px solid #b3dece;
+  }
+  .dont-card {
+    background: #fdf4f4;
+    border: 1px solid #e8b4b4;
+  }
+  .do-card .card-head { color: var(--check-ok); font-weight: 700; margin-bottom: 8px; font-size: 12px; letter-spacing: 0.06em; }
+  .dont-card .card-head { color: var(--check-no); font-weight: 700; margin-bottom: 8px; font-size: 12px; letter-spacing: 0.06em; }
+  .do-card li, .dont-card li { margin-left: 16px; margin-bottom: 4px; }
+
+  /* ── STRUCTURE DIAGRAM ──────────────────────────────────── */
+  .structure {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-bottom: 20px;
+  }
+  .struct-row {
+    display: flex;
+    align-items: stretch;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .struct-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 16px;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+  }
+  .struct-content {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-left: none;
+    padding: 14px 18px;
+    font-size: 13.5px;
+    flex: 1;
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .struct-content strong { display: block; margin-bottom: 3px; }
+  .struct-content span { color: var(--ink-soft); font-size: 13px; }
+
+  .s-intro .struct-label { background: var(--afb1); }
+  .s-main  .struct-label { background: var(--afb2); }
+  .s-conc  .struct-label { background: var(--afb3); }
+  .s-arg   .struct-label { background: #5b6abf; }
+
+  /* ── CHECKLIST ──────────────────────────────────────────── */
+  .checklist {
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .checklist-head {
+    background: var(--ink);
+    color: #fff;
+    padding: 10px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--rule);
+    cursor: pointer;
+    transition: background .12s;
+  }
+  .checklist-item:last-child { border-bottom: none; }
+  .checklist-item:hover { background: #f5f5f0; }
+  .checklist-item input[type="checkbox"] {
+    width: 17px; height: 17px;
+    accent-color: var(--check-ok);
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+  }
+  .checklist-item label {
+    font-size: 13.5px;
+    line-height: 1.55;
+    cursor: pointer;
+  }
+  .checklist-item.checked label { text-decoration: line-through; color: var(--ink-soft); }
+  .checklist-group-label {
+    background: var(--rule);
+    padding: 6px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .checklist-progress {
+    padding: 10px 16px;
+    background: #f5f5f0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .progress-bar-wrap {
+    flex: 1;
+    height: 6px;
+    background: var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: var(--check-ok);
+    border-radius: 3px;
+    transition: width .3s ease;
+    width: 0%;
+  }
+
+  /* ── PHRASE BANK ────────────────────────────────────────── */
+  .phrase-bank {
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .phrase-bank-head {
+    background: var(--afb2);
+    color: #fff;
+    padding: 10px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .phrase-category { padding: 0; }
+  .phrase-cat-label {
+    background: var(--afb2-bg);
+    color: var(--afb2);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 7px 16px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--rule);
+  }
+  .phrase-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .phrase-chip {
+    font-size: 12.5px;
+    background: #f0faf6;
+    border: 1px solid #b3dece;
+    border-radius: 20px;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: background .12s, transform .1s;
+    color: var(--ink);
+    position: relative;
+  }
+  .phrase-chip:hover { background: var(--afb2-bg); transform: translateY(-1px); }
+  .phrase-chip .copy-hint {
+    display: none;
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: #fff;
+    font-size: 10px;
+    padding: 3px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .phrase-chip:hover .copy-hint { display: block; }
+
+  /* afb-1 phrase bank */
+  .phrase-bank.pb1 .phrase-bank-head { background: var(--afb1); }
+  .phrase-bank.pb1 .phrase-cat-label { background: var(--afb1-bg); color: var(--afb1); border-color: #c8dcf0; }
+  .phrase-bank.pb1 .phrase-chip { background: var(--afb1-bg); border-color: #9bbde0; }
+  .phrase-bank.pb1 .phrase-chip:hover { background: #d5e8f8; }
+
+  /* afb-3 phrase bank */
+  .phrase-bank.pb3 .phrase-bank-head { background: var(--afb3); }
+  .phrase-bank.pb3 .phrase-cat-label { background: var(--afb3-bg); color: var(--afb3); border-color: #e8c8a0; }
+  .phrase-bank.pb3 .phrase-chip { background: var(--afb3-bg); border-color: #e0b882; }
+  .phrase-bank.pb3 .phrase-chip:hover { background: #fde8c8; }
+
+  /* ── QUIZ ───────────────────────────────────────────────── */
+  .quiz { margin-bottom: 20px; }
+  .quiz-question {
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .quiz-q-head {
+    padding: 14px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    background: #fff;
+    border-bottom: 1px solid var(--rule);
+  }
+  .quiz-q-head .q-num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+  .quiz-options {
+    background: #fff;
+    padding: 12px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .quiz-opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 13.5px;
+    transition: background .12s, border-color .12s;
+  }
+  .quiz-opt:hover { background: var(--afb2-bg); border-color: #9fdecf; }
+  .quiz-opt input { accent-color: var(--accent); }
+  .quiz-feedback {
+    display: none;
+    padding: 10px 18px 14px;
+    font-size: 13px;
+    border-top: 1px solid var(--rule);
+  }
+  .quiz-feedback.correct { background: #f0faf6; color: #145c43; }
+  .quiz-feedback.wrong   { background: #fdf4f4; color: #922020; }
+  .quiz-feedback.show { display: block; }
+  .quiz-submit {
+    margin-top: 6px;
+    padding: 9px 22px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity .15s;
+  }
+  .quiz-submit:hover { opacity: .88; }
+  .quiz-submit:disabled { opacity: .45; cursor: default; }
+  .quiz-score {
+    margin-top: 16px;
+    padding: 14px 18px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 600;
+    display: none;
+  }
+  .quiz-score.show { display: block; }
+  .quiz-score.good { background: var(--afb2-bg); color: var(--afb2); }
+  .quiz-score.meh  { background: #fdf9e6; color: #7a5900; }
+  .quiz-score.bad  { background: #fdf4f4; color: var(--check-no); }
+  .quiz-reset {
+    margin-top: 8px;
+    padding: 7px 16px;
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--ink-soft);
+  }
+  .quiz-reset:hover { background: var(--rule); }
+
+  /* ── OVERVIEW TAB ───────────────────────────────────────── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 640px) { .overview-grid { grid-template-columns: 1fr; } }
+  .ov-card {
+    border-radius: var(--radius);
+    padding: 20px 18px;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+    box-shadow: var(--shadow);
+  }
+  .ov-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+  .ov-card.c1 { background: var(--afb1-bg); border-top: 4px solid var(--afb1); }
+  .ov-card.c2 { background: var(--afb2-bg); border-top: 4px solid var(--afb2); }
+  .ov-card.c3 { background: var(--afb3-bg); border-top: 4px solid var(--afb3); }
+  .ov-card .ov-afb {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .c1 .ov-afb { color: var(--afb1); }
+  .c2 .ov-afb { color: var(--afb2); }
+  .c3 .ov-afb { color: var(--afb3); }
+  .ov-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+  .ov-card p { font-size: 12.5px; color: var(--ink-soft); line-height: 1.5; }
+  .ov-card .ov-arrow { margin-top: 14px; font-size: 12px; color: var(--ink-soft); }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 28px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .compare-table th {
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: #fff;
+  }
+  .compare-table th:nth-child(2) { background: var(--afb1); }
+  .compare-table th:nth-child(3) { background: var(--afb2); }
+  .compare-table th:nth-child(4) { background: #5b6abf; }
+  .compare-table th:nth-child(5) { background: var(--afb3); }
+  .compare-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:nth-child(even) td { background: #f8f8f5; }
+  .tick { color: var(--check-ok); font-weight: 700; }
+  .cross { color: var(--check-no); font-weight: 700; }
+
+  /* ── TOAST ──────────────────────────────────────────────── */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--ink);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity .25s, transform .25s;
+    pointer-events: none;
+    z-index: 999;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ── MISC ───────────────────────────────────────────────── */
+  .info-box {
+    background: #f5f5f0;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+  }
+  .info-box strong { color: var(--ink); }
+  .operator-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin: 2px;
+  }
+  .op1 { background: var(--afb1-bg); color: var(--afb1); border: 1px solid #9bbde0; }
+  .op2 { background: var(--afb2-bg); color: var(--afb2); border: 1px solid #9fdecf; }
+  .op3 { background: var(--afb3-bg); color: var(--afb3); border: 1px solid #e0b882; }
+
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="shell">
+    <p class="hero-eyebrow">LK English · Year 12 · Q1 — Phase I</p>
+    <h1>Text Genres<br>Mastery Module</h1>
+    <p class="hero-sub">Systematise what you already know. Four genres, three requirement levels — one module to sharpen your writing for Abitur.</p>
+    <div class="afb-pills">
+      <span class="pill pill-1">AFB I — Outline / Summary</span>
+      <span class="pill pill-2">AFB II — Analysis / Characterisation</span>
+      <span class="pill pill-2">AFB II/III — Assess</span>
+      <span class="pill pill-3">AFB III — Comment · Discussion</span>
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+  <!-- NAV -->
+  <nav class="tab-nav" role="tablist">
+    <button class="tab-btn active" onclick="showTab('overview')" role="tab">Overview</button>
+    <button class="tab-btn" onclick="showTab('summary')" role="tab">Summary / Outline <span class="afb-tag tag-1">AFB I</span></button>
+    <button class="tab-btn" onclick="showTab('analysis')" role="tab">Analysis <span class="afb-tag tag-2">AFB II</span></button>
+    <button class="tab-btn" onclick="showTab('characterisation')" role="tab">Characterisation <span class="afb-tag tag-2">AFB II</span></button>
+    <button class="tab-btn" onclick="showTab('comment')" role="tab">Comment <span class="afb-tag tag-3">AFB III</span></button>
+    <button class="tab-btn" onclick="showTab('discussion')" role="tab">Discussion <span class="afb-tag tag-3">AFB III</span></button>
+    <button class="tab-btn" onclick="showTab('quiz')" role="tab">Self-Check ✓</button>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- OVERVIEW -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="panel-overview" class="panel active">
+
+    <div class="section-block">
+      <p class="sec-head">At a glance — choose a genre to dive in</p>
+      <div class="overview-grid">
+        <div class="ov-card c1" onclick="showTab('summary')">
+          <div class="ov-afb">AFB I · Requirement Level 1</div>
+          <h3>Summary &amp; Outline</h3>
+          <p>Reproduce and restructure the main ideas of a text accurately — in your own words.</p>
+          <p class="ov-arrow">Explore →</p>
+        </div>
+        <div class="ov-card c2" onclick="showTab('analysis')">
+          <div class="ov-afb">AFB II · Requirement Level 2</div>
+          <h3>Analysis</h3>
+          <p>Examine how a non-fictional text works: language, rhetoric, structure, effect on the reader.</p>
+          <p class="ov-arrow">Explore →</p>
+        </div>
+        <div class="ov-card c2" onclick="showTab('characterisation')">
+          <div class="ov-afb">AFB II · Requirement Level 2</div>
+          <h3>Characterisation</h3>
+          <p>Analyse a fictional character systematically using textual evidence.</p>
+          <p class="ov-arrow">Explore →</p>
+        </div>
+      </div>
+      <div class="overview-grid" style="grid-template-columns:repeat(3,1fr);">
+        <div class="ov-card c3" onclick="showTab('comment')">
+          <div class="ov-afb">AFB III · Linear argumentation</div>
+          <h3>Comment</h3>
+          <p>Develop one clear position linearly with at least 3 strong arguments and evidence.</p>
+          <p class="ov-arrow">Explore →</p>
+        </div>
+        <div class="ov-card c3" onclick="showTab('discussion')">
+          <div class="ov-afb">AFB III · Dialectical argumentation</div>
+          <h3>Discussion</h3>
+          <p>Weigh exactly 2 PRO and 2 CONTRA arguments before reaching a reasoned conclusion.</p>
+          <p class="ov-arrow">Explore →</p>
+        </div>
+        <div class="ov-card c2" onclick="showTab('analysis')">
+          <div class="ov-afb">AFB II/III · Borderline operator</div>
+          <h3>Assess</h3>
+          <p>Evaluate a claim or view in a balanced way — consider arguments for and against.</p>
+          <p class="ov-arrow">→ See Analysis tab</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Side-by-side comparison</p>
+      <div style="overflow-x:auto;">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Summary / Outline</th>
+              <th>Analysis</th>
+              <th>Characterisation</th>
+              <th>Comment</th>
+              <th style="background:#7b4a9e;">Discussion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>AFB</strong></td>
+              <td>I</td><td>II</td><td>II</td><td>III</td><td>III</td>
+            </tr>
+            <tr>
+              <td><strong>Argumentation type</strong></td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td>Linear: min. 3 strong arguments for one position</td>
+              <td>Dialectical: 2 PRO + 2 CONTRA, then conclusion</td>
+            </tr>
+            <tr>
+              <td><strong>Personal opinion</strong></td>
+              <td><span class="cross">✗ never</span></td>
+              <td><span class="cross">✗ never</span></td>
+              <td><span class="cross">✗ text-based only</span></td>
+              <td><span class="tick">✓ required</span></td>
+              <td><span class="tick">✓ in conclusion</span></td>
+            </tr>
+            <tr>
+              <td><strong>Counter-arguments</strong></td>
+              <td><span class="cross">✗</span></td>
+              <td><span class="cross">✗</span></td>
+              <td><span class="cross">✗</span></td>
+              <td><span class="tick">✓ address &amp; refute</span></td>
+              <td><span class="tick">✓ 2 CONTRA args</span></td>
+            </tr>
+            <tr>
+              <td><strong>Quotes from text</strong></td>
+              <td><span class="cross">✗ avoid</span></td>
+              <td><span class="tick">✓ selective</span></td>
+              <td><span class="tick">✓ with line nos.</span></td>
+              <td><span class="tick">✓ as evidence</span></td>
+              <td><span class="tick">✓ as evidence</span></td>
+            </tr>
+            <tr>
+              <td><strong>Central claim in intro</strong></td>
+              <td><span class="cross">✗</span></td>
+              <td><span class="tick">✓ thesis</span></td>
+              <td><span class="tick">✓ focus statement</span></td>
+              <td><span class="tick">✓ thesis statement</span></td>
+              <td><span class="tick">✓ question/problem</span></td>
+            </tr>
+            <tr>
+              <td><strong>Key operators</strong></td>
+              <td>
+                <span class="operator-tag op1">outline</span>
+                <span class="operator-tag op1">summarise</span>
+              </td>
+              <td>
+                <span class="operator-tag op2">analyse</span>
+                <span class="operator-tag op2">examine</span>
+                <span class="operator-tag op2">assess</span>
+              </td>
+              <td>
+                <span class="operator-tag op2">characterise</span>
+                <span class="operator-tag op2">describe</span>
+              </td>
+              <td>
+                <span class="operator-tag op3">comment on</span>
+              </td>
+              <td>
+                <span class="operator-tag op3">discuss</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">The operator is your instruction — not a suggestion</p>
+      <div class="info-box">
+        <strong>One operator = one cognitive operation.</strong> If an exam task says <em>analyse</em>, you do not summarise. If it says <em>outline</em>, you do not give your opinion. The operator tells you the <em>type</em> of thinking required — misreading it costs you the entire task mark. When in doubt: check the AFB level of the operator and match your response accordingly.
+      </div>
+    </div>
+
+  </div><!-- /overview -->
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- SUMMARY / OUTLINE -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="panel-summary" class="panel">
+
+    <div class="section-block">
+      <p class="sec-head">What is it?</p>
+      <div class="def-box afb1">
+        <div class="def-label">AFB I — Requirement Level 1</div>
+        <p>A <strong>summary</strong> (or <strong>outline</strong>) reproduces the main ideas of a source text accurately, concisely, and in your own words. You show <em>what</em> the text says — not <em>how</em> it says it, and not what <em>you</em> think about it. The finished text is at least two thirds shorter than the original.</p>
+      </div>
+      <div class="info-box">
+        <strong>Outline vs. Summarise:</strong> Both are AFB I. An <em>outline</em> typically calls for a more structured, point-based presentation of content (often bullet-style or numbered). A <em>summary</em> is usually written in continuous prose. Both forbid personal opinion and analysis.
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Structure</p>
+      <div class="structure">
+        <div class="struct-row s-intro">
+          <div class="struct-label">Intro<br>Sentence</div>
+          <div class="struct-content">
+            <strong>One sentence only.</strong>
+            <span>Name the author, title, text type, place and date of publication, and the main idea. Example: <em>"In her 2024 article 'Ambition Redefined' in The Guardian, journalist Maya Cole argues that young Americans are redefining success beyond financial achievement."</em></span>
+          </div>
+        </div>
+        <div class="struct-row s-main">
+          <div class="struct-label">Main<br>Points</div>
+          <div class="struct-content">
+            <strong>Chronological or logical order.</strong>
+            <span>Work through the text from beginning to end. Paraphrase — do not copy. Omit details, examples, and rhetoric. Include only what is essential to the argument or narrative.</span>
+          </div>
+        </div>
+        <div class="struct-row s-conc">
+          <div class="struct-label">No<br>Conclusion</div>
+          <div class="struct-content">
+            <strong>Summaries do not need a separate conclusion.</strong>
+            <span>The last main point is usually sufficient. Do not add your opinion or evaluation — that belongs in a Comment (AFB III).</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Do's and Don'ts</p>
+      <div class="do-dont">
+        <div class="do-card">
+          <div class="card-head">✓ DO</div>
+          <ul>
+            <li>Use the present tense throughout</li>
+            <li>Use your own words — rephrase actively</li>
+            <li>Include an introductory sentence with all key metadata</li>
+            <li>Use connectives (furthermore, however, as a result…)</li>
+            <li>Use formal language — no contractions</li>
+            <li>Aim for ≥ ⅔ shorter than the original</li>
+          </ul>
+        </div>
+        <div class="dont-card">
+          <div class="card-head">✗ DON'T</div>
+          <ul>
+            <li>Quote from the text</li>
+            <li>Give your own opinion</li>
+            <li>Analyse the author's style or language</li>
+            <li>Create suspense or dramatise</li>
+            <li>Use direct speech</li>
+            <li>Include irrelevant details</li>
+            <li>Copy the original's sentence structure</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Phrase bank — useful language</p>
+      <div class="phrase-bank pb1">
+        <div class="phrase-bank-head">📝 Summary phrases</div>
+        <div class="phrase-category">
+          <div class="phrase-cat-label">Introductory sentence</div>
+          <div class="phrase-list">
+            <span class="phrase-chip" onclick="copyPhrase(this)">In [his/her] [year] [text type] "[Title]", [author] argues that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">[Author]'s [text type] "[Title]" ([year]) examines the question of…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Published in [source] in [year], "[Title]" by [author] focuses on…<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+        <div class="phrase-category">
+          <div class="phrase-cat-label">Introducing main points</div>
+          <div class="phrase-list">
+            <span class="phrase-chip" onclick="copyPhrase(this)">[Author] begins by pointing out that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">[Author] goes on to explain that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Furthermore, [author] states that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">In addition, [author] points out that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Finally, [author] concludes that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">According to [author], …<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">[Author] also draws attention to the fact that…<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+        <div class="phrase-category" style="border:none;">
+          <div class="phrase-cat-label">Connectives</div>
+          <div class="phrase-list" style="border:none;">
+            <span class="phrase-chip" onclick="copyPhrase(this)">However,<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Moreover,<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">In contrast,<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">As a result,<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Consequently,<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">In addition,<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Nevertheless,<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">By contrast,<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Self-check — before you submit (KV3)</p>
+      <div id="cl-summary" class="checklist">
+        <div class="checklist-head">Summary checklist</div>
+        <div class="checklist-progress">
+          <span id="cl-summary-count">0 / 10</span>
+          <div class="progress-bar-wrap"><div class="progress-bar" id="cl-summary-bar"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /summary -->
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- ANALYSIS (non-fictional) -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="panel-analysis" class="panel">
+
+    <div class="section-block">
+      <p class="sec-head">What is it?</p>
+      <div class="def-box">
+        <div class="def-label">AFB II — Requirement Level 2</div>
+        <p>An <strong>analysis of a non-fictional text</strong> (article, speech, essay, interview) examines <em>how</em> the author constructs their argument: language choices, rhetorical strategies, stylistic devices, and structure — and explains the <em>effect</em> each creates on the reader. You do not summarise. You do not give your opinion. You interpret evidence.</p>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Structure</p>
+      <div class="structure">
+        <div class="struct-row s-intro">
+          <div class="struct-label">Introduction</div>
+          <div class="struct-content">
+            <strong>Context + central claim (thesis).</strong>
+            <span>Name the text and establish context briefly. Then state your central claim: what is the text's main intention/effect, and how does it achieve this? The last sentence of the intro should be your thesis.</span>
+          </div>
+        </div>
+        <div class="struct-row s-main">
+          <div class="struct-label">Main Part</div>
+          <div class="struct-content">
+            <strong>One paragraph per aspect.</strong>
+            <span>For each aspect (e.g. word choice, rhetorical devices, structure, tone): <em>identify</em> → <em>quote selectively</em> → <em>explain function and effect on reader</em>. Choose your evidence carefully — quality over quantity.</span>
+          </div>
+        </div>
+        <div class="struct-row s-conc">
+          <div class="struct-label">Conclusion</div>
+          <div class="struct-content">
+            <strong>Abstract level — more than just a summary.</strong>
+            <span>Refer back to the task and your thesis. State what your findings reveal on a higher level: What does this analysis tell us about the author's overall strategy or intention? Do not introduce new evidence here.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">What to analyse — key aspects</p>
+      <div class="do-dont">
+        <div class="do-card">
+          <div class="card-head">Language &amp; Style</div>
+          <ul>
+            <li>Word choice (formal/informal, emotive, connotations)</li>
+            <li>Sentence length and rhythm</li>
+            <li>Rhetorical devices (repetition, rhetorical questions, tricolon…)</li>
+            <li>Tone (ironic, urgent, empathetic…)</li>
+            <li>Use of statistics, quotes, anecdotes</li>
+          </ul>
+        </div>
+        <div class="do-card">
+          <div class="card-head">Structure &amp; Argumentation</div>
+          <ul>
+            <li>How the argument develops (chronological, problem-solution, compare-contrast)</li>
+            <li>Paragraph transitions and cohesion</li>
+            <li>How the introduction creates engagement</li>
+            <li>How the conclusion reinforces the thesis</li>
+            <li>Target audience and intended effect</li>
+          </ul>
+        </div>
+      </div>
+      <div class="info-box">
+        <strong>Always go P → E → E:</strong> <em>Point</em> (what you observe) → <em>Evidence</em> (selective quote + line number) → <em>Effect</em> (what this does to the reader and why). An observation without an effect explanation is incomplete analysis.
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Phrase bank — analysis language</p>
+      <div class="phrase-bank">
+        <div class="phrase-bank-head">🔍 Analysis phrases</div>
+        <div class="phrase-category">
+          <div class="phrase-cat-label">Introducing the analysis</div>
+          <div class="phrase-list">
+            <span class="phrase-chip" onclick="copyPhrase(this)">[Author] employs a [formal/informal/urgent] tone throughout the text in order to…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">The text's central argument is structured around…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">[Author]'s primary rhetorical strategy is to…<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+        <div class="phrase-category">
+          <div class="phrase-cat-label">Identifying a device</div>
+          <div class="phrase-list">
+            <span class="phrase-chip" onclick="copyPhrase(this)">[Author] uses [device] when [he/she] writes "…" (l. X).<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">The repetition of "…" (ll. X–Y) creates the impression that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">By employing a rhetorical question ("…", l. X), [author] invites the reader to…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">The emotive language in "…" (l. X) appeals to the reader's sense of…<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+        <div class="phrase-category">
+          <div class="phrase-cat-label">Explaining effect</div>
+          <div class="phrase-list">
+            <span class="phrase-chip" onclick="copyPhrase(this)">This creates a sense of…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">This reinforces the author's central argument that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">The effect on the reader is one of [urgency / empathy / unease]…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">This serves to persuade the reader that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">As a result, the reader is encouraged to…<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+        <div class="phrase-category" style="border:none;">
+          <div class="phrase-cat-label">Conclusion</div>
+          <div class="phrase-list" style="border:none;">
+            <span class="phrase-chip" onclick="copyPhrase(this)">In conclusion, [author]'s analysis demonstrates that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Taken together, these findings reveal that [author]'s overarching strategy is to…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Ultimately, the text is most effective in its use of … because…<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">The borderline operator: assess / evaluate</p>
+      <div class="def-box">
+        <div class="def-label">AFB II → III — Borderline operator</div>
+        <p><strong>Assess</strong> (or <em>evaluate</em>) asks you to consider a view, claim, or argument in a <em>balanced</em> way — weighing points for and against — and then reach a reasoned judgement. It sits at the boundary between AFB II and III: the analysis of evidence is AFB II; the final evaluative judgement is AFB III.</p>
+        <br>
+        <p><em>Example task: "Assess the author's view of the present impact of the American Dream."</em></p>
+        <br>
+        <p>What this requires: examine what the author claims → consider evidence that supports it → consider evidence or arguments that qualify or challenge it → reach an overall evaluative judgement. Do not simply summarise both sides — that stays in AFB I/II. The assessment is your concluded position, substantiated by the evidence you have weighed.</p>
+      </div>
+      <div class="info-box">
+        <strong>Assess vs. Analyse:</strong> <em>Analyse</em> asks how something works. <em>Assess</em> asks how valid, effective, or convincing it is. An analysis explains; an assessment judges. In practice, a strong <em>assess</em> response contains analysis as its foundation — but the conclusion must be explicitly evaluative.
+      </div>
+    </div>
+
+
+      <div id="cl-analysis" class="checklist">
+        <div class="checklist-head">Analysis checklist</div>
+        <div class="checklist-progress">
+          <span id="cl-analysis-count">0 / 10</span>
+          <div class="progress-bar-wrap"><div class="progress-bar" id="cl-analysis-bar"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /analysis -->
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- CHARACTERISATION -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="panel-characterisation" class="panel">
+
+    <div class="section-block">
+      <p class="sec-head">What is it?</p>
+      <div class="def-box">
+        <div class="def-label">AFB II — Requirement Level 2</div>
+        <p>A <strong>characterisation</strong> analyses a fictional character systematically using textual evidence. You describe who the character is, what they do, how they relate to others, and what their character traits are — and you support every claim with a quote or line reference from the text. This is not a retelling. Every statement must be provable from the text.</p>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Structure</p>
+      <div class="structure">
+        <div class="struct-row s-intro">
+          <div class="struct-label">Introduction</div>
+          <div class="struct-content">
+            <strong>Who + focus statement.</strong>
+            <span>Name the character, give basic context (text, author, situation), and state the focus of your characterisation. What is the most important thing about this character that your analysis will demonstrate?</span>
+          </div>
+        </div>
+        <div class="struct-row s-main">
+          <div class="struct-label">Main Part</div>
+          <div class="struct-content">
+            <strong>Organised by aspect — not retelling.</strong>
+            <span>Group your findings by category: outward appearance → background/life → behaviour → relationships → character traits → mood/feelings. Each paragraph = one aspect. Every claim = one piece of evidence from the text (quote + line number).</span>
+          </div>
+        </div>
+        <div class="struct-row s-conc">
+          <div class="struct-label">Conclusion</div>
+          <div class="struct-content">
+            <strong>Essence — not summary.</strong>
+            <span>What is the character's fundamental significance in the text? How does the characterisation you have outlined contribute to the text's themes or effect on the reader?</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">What to include</p>
+      <div class="do-dont">
+        <div class="do-card">
+          <div class="card-head">Content aspects to cover</div>
+          <ul>
+            <li>Outward appearance (if described)</li>
+            <li>Background and life situation</li>
+            <li>Family and social context</li>
+            <li>Behaviour (what they do, how they react)</li>
+            <li>Relationships with other characters</li>
+            <li>At least two character traits — named and evidenced</li>
+            <li>Mood and feelings in the current situation</li>
+          </ul>
+        </div>
+        <div class="dont-card">
+          <div class="card-head">✗ Common mistakes</div>
+          <ul>
+            <li>Retelling the plot instead of characterising</li>
+            <li>Stating character traits without textual evidence</li>
+            <li>Claiming things the text does not support</li>
+            <li>Forgetting line numbers on quotes</li>
+            <li>Mixing up characterisation and analysis of narrative perspective</li>
+            <li>Writing in the past tense</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Phrase bank — characterisation language</p>
+      <div class="phrase-bank">
+        <div class="phrase-bank-head">👤 Characterisation phrases</div>
+        <div class="phrase-category">
+          <div class="phrase-cat-label">Introducing the character</div>
+          <div class="phrase-list">
+            <span class="phrase-chip" onclick="copyPhrase(this)">[Character] is the [protagonist / narrator / antagonist] of the extract from "[Title]" by [Author].<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">The focus of this characterisation is [character]'s [trait / role / relationship with X].<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+        <div class="phrase-category">
+          <div class="phrase-cat-label">Describing traits with evidence</div>
+          <div class="phrase-list">
+            <span class="phrase-chip" onclick="copyPhrase(this)">[Character] appears to be [adjective], as [he/she] [action], suggesting that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">This is illustrated by the fact that [character] [action] (l. X).<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">When [character] says "…" (l. X), it becomes clear that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">[Character]'s behaviour towards [other character] reveals [his/her] [trait].<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">The description of [character] as "…" (l. X) suggests that…<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+        <div class="phrase-category" style="border:none;">
+          <div class="phrase-cat-label">Mood / feelings / relationships</div>
+          <div class="phrase-list" style="border:none;">
+            <span class="phrase-chip" onclick="copyPhrase(this)">At this point in the text, [character] feels [emotion], which is evident from…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">The relationship between [character] and [other] is characterised by [tension / warmth / conflict]…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">[Character]'s reaction to [event] demonstrates [his/her] [trait].<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Self-check — before you submit (KV6)</p>
+      <div id="cl-characterisation" class="checklist">
+        <div class="checklist-head">Characterisation checklist</div>
+        <div class="checklist-progress">
+          <span id="cl-characterisation-count">0 / 10</span>
+          <div class="progress-bar-wrap"><div class="progress-bar" id="cl-characterisation-bar"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /characterisation -->
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- COMMENT -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="panel-comment" class="panel">
+
+    <div class="section-block">
+      <p class="sec-head">What is it?</p>
+      <div class="def-box afb3">
+        <div class="def-label">AFB III — Linear argumentation</div>
+        <p>A <strong>comment</strong> is a linear, one-directional argument: you state a clear position and defend it with <strong>at least three strong arguments</strong>, each supported by evidence. Counter-arguments are acknowledged and refuted — but your position does not waver. The reader should finish knowing exactly where you stand and why.</p>
+      </div>
+      <div class="info-box">
+        <strong>Comment vs. Discussion — the essential difference:</strong> A <em>comment</em> argues <em>one position</em> from start to finish (linear). A <em>discussion</em> deliberately weighs opposing sides (dialectical: 2 PRO, 2 CONTRA). They are never combined in one exam task — it is always either/or. Reading the operator carefully is non-negotiable.
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Structure</p>
+      <div class="structure">
+        <div class="struct-row s-intro">
+          <div class="struct-label">Introduction</div>
+          <div class="struct-content">
+            <strong>Problem + thesis statement.</strong>
+            <span>Present the issue. The last sentence must state your position clearly and specifically: not "This is a complex issue" but "I argue that…" or "It is my contention that…"</span>
+          </div>
+        </div>
+        <div class="struct-row s-arg">
+          <div class="struct-label">Argument 1</div>
+          <div class="struct-content">
+            <strong>Weakest → strongest (build up).</strong>
+            <span>State your first argument. Support it with evidence (facts, statistics, quotes, examples). If a counter-argument exists, address and refute it here.</span>
+          </div>
+        </div>
+        <div class="struct-row s-arg">
+          <div class="struct-label">Argument 2</div>
+          <div class="struct-content">
+            <strong>Develop your case further.</strong>
+            <span>Each paragraph = one line of argument. Transition explicitly. Build towards your most compelling point.</span>
+          </div>
+        </div>
+        <div class="struct-row s-arg">
+          <div class="struct-label">Argument 3<br><em style="font-size:10px;font-weight:400;">(minimum)</em></div>
+          <div class="struct-content">
+            <strong>Your strongest argument — save it for here.</strong>
+            <span>The most persuasive, best-evidenced argument lands last. This is what the reader remembers when they reach your conclusion.</span>
+          </div>
+        </div>
+        <div class="struct-row s-conc">
+          <div class="struct-label">Conclusion</div>
+          <div class="struct-content">
+            <strong>Restate thesis + broader significance.</strong>
+            <span>Do not just summarise. Restate your position in different words and point to broader implications: What does this mean for society, for the future, for the reader?</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Strong vs. weak arguments — know the difference</p>
+      <div class="do-dont">
+        <div class="do-card">
+          <div class="card-head">✓ Strong arguments have…</div>
+          <ul>
+            <li><strong>A clear claim</strong> — one idea per paragraph, stated in the first sentence</li>
+            <li><strong>Concrete evidence</strong> — statistics, real examples, quotes, or established facts (not "many people think…")</li>
+            <li><strong>Explanation</strong> — you connect the evidence to your claim explicitly</li>
+            <li><strong>Relevance</strong> — the argument directly supports your thesis, not a related topic</li>
+            <li><strong>Counter-argument awareness</strong> — you anticipate the objection and address it</li>
+          </ul>
+        </div>
+        <div class="dont-card">
+          <div class="card-head">✗ Weak arguments…</div>
+          <ul>
+            <li>Make a claim without any evidence ("It is obvious that…")</li>
+            <li>Use vague generalisations ("Everyone knows…", "Most people feel…")</li>
+            <li>Repeat the thesis in different words without adding substance</li>
+            <li>Rely on personal anecdote as if it were universal truth</li>
+            <li>Are logically circular ("X is bad because X has bad effects")</li>
+            <li>Ignore or dismiss counter-arguments without engaging them</li>
+          </ul>
+        </div>
+      </div>
+      <div class="info-box">
+        <strong>The evidence test:</strong> For every argument, ask: <em>"What would someone say against this — and how do I know my evidence is stronger than theirs?"</em> If you cannot answer that, the argument needs more work before it belongs in a comment.
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Defining terms — the technique</p>
+      <div class="def-box afb3">
+        <div class="def-label">When and how to define</div>
+        <p>Define a term when it is central to your argument and its meaning is contestable. Use this formula: <strong>[Term] refers to [category] + [distinguishing features].</strong></p>
+        <br>
+        <p><em>Example: "The term 'American Dream' refers to the belief — central to American national identity — that individual effort and merit guarantee upward social and economic mobility, regardless of one's origins."</em></p>
+        <br>
+        <p>Do not define terms that are obvious or uncontested. One well-placed definition per text is usually sufficient.</p>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Phrase bank — comment language</p>
+      <div class="phrase-bank pb3">
+        <div class="phrase-bank-head">💬 Comment phrases</div>
+        <div class="phrase-category">
+          <div class="phrase-cat-label">Thesis / stating a position</div>
+          <div class="phrase-list">
+            <span class="phrase-chip" onclick="copyPhrase(this)">I would argue that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">It is my contention that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">This comment will argue that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">I am firmly convinced that…<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+        <div class="phrase-category">
+          <div class="phrase-cat-label">Introducing arguments (linear build)</div>
+          <div class="phrase-list">
+            <span class="phrase-chip" onclick="copyPhrase(this)">First and foremost,…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">A further argument in support of this view is that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Perhaps the most compelling evidence for this is…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">This is illustrated by the fact that…<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+        <div class="phrase-category">
+          <div class="phrase-cat-label">Acknowledging &amp; refuting counter-arguments</div>
+          <div class="phrase-list">
+            <span class="phrase-chip" onclick="copyPhrase(this)">Admittedly, one could argue that… However,…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">While it is true that… this does not mean that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Critics might object that… Nevertheless,…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Some would argue that… Yet this overlooks the fact that…<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+        <div class="phrase-category">
+          <div class="phrase-cat-label">Defining terms</div>
+          <div class="phrase-list">
+            <span class="phrase-chip" onclick="copyPhrase(this)">The term "[X]" refers to [category] + [distinguishing features].<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">For the purposes of this argument, "[X]" is understood as…<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+        <div class="phrase-category" style="border:none;">
+          <div class="phrase-cat-label">Conclusion</div>
+          <div class="phrase-list" style="border:none;">
+            <span class="phrase-chip" onclick="copyPhrase(this)">In conclusion, the evidence strongly suggests that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Taken together, these arguments demonstrate that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">This matters because, in the long run,…<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Self-check — before you submit (KV5)</p>
+      <div id="cl-comment" class="checklist">
+        <div class="checklist-head">Comment checklist</div>
+        <div class="checklist-progress">
+          <span id="cl-comment-count">0 / 10</span>
+          <div class="progress-bar-wrap"><div class="progress-bar" id="cl-comment-bar"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /comment -->
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- DISCUSSION -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="panel-discussion" class="panel">
+
+    <div class="section-block">
+      <p class="sec-head">What is it?</p>
+      <div class="def-box afb3">
+        <div class="def-label">AFB III — Dialectical argumentation</div>
+        <p>A <strong>discussion</strong> is a dialectical text: you deliberately present and weigh both sides of a question — exactly <strong>2 PRO and 2 CONTRA arguments</strong> — before arriving at a reasoned conclusion. Unlike a comment, you do not take sides until the conclusion. The structure mirrors a genuine intellectual debate: you give the strongest possible case for both positions.</p>
+      </div>
+      <div class="info-box">
+        <strong>The either/or principle:</strong> An exam task will say either <em>comment on</em> or <em>discuss</em> — never both. If the operator is <em>discuss</em>, presenting only one side is a structural error, regardless of how strong your arguments are. If the operator is <em>comment on</em>, writing a balanced discussion misses the task entirely.
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Structure</p>
+      <div class="structure">
+        <div class="struct-row s-intro">
+          <div class="struct-label">Introduction</div>
+          <div class="struct-content">
+            <strong>Present the question — do not take sides yet.</strong>
+            <span>Introduce the topic and the central question or statement to be discussed. Explain why this question is relevant or contested. End with a neutral framing sentence that signals you will weigh both sides.</span>
+          </div>
+        </div>
+        <div class="struct-row s-arg">
+          <div class="struct-label">PRO 1</div>
+          <div class="struct-content">
+            <strong>First argument in favour.</strong>
+            <span>State clearly. Support with concrete evidence. Present this argument fairly — as if you believe it.</span>
+          </div>
+        </div>
+        <div class="struct-row s-arg">
+          <div class="struct-label">PRO 2</div>
+          <div class="struct-content">
+            <strong>Second argument in favour.</strong>
+            <span>A different line of argument from PRO 1 — not a repetition. Each PRO paragraph = one distinct argument.</span>
+          </div>
+        </div>
+        <div class="struct-row s-arg">
+          <div class="struct-label">CONTRA 1</div>
+          <div class="struct-content">
+            <strong>First argument against.</strong>
+            <span>Transition explicitly: "On the other hand, …" / "However, critics argue that…". Support with evidence. Give this argument its full weight.</span>
+          </div>
+        </div>
+        <div class="struct-row s-arg">
+          <div class="struct-label">CONTRA 2</div>
+          <div class="struct-content">
+            <strong>Second argument against.</strong>
+            <span>A distinct argument from CONTRA 1. By the end of this paragraph, both sides have been genuinely represented.</span>
+          </div>
+        </div>
+        <div class="struct-row s-conc">
+          <div class="struct-label">Conclusion</div>
+          <div class="struct-content">
+            <strong>Your reasoned judgement — now take sides.</strong>
+            <span>Having weighed both sides, state which you find more convincing and why. This is the only place in a discussion where your own position is required. Justify it with reference to the strongest argument from your analysis.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Strong vs. weak arguments — know the difference</p>
+      <div class="do-dont">
+        <div class="do-card">
+          <div class="card-head">✓ Strong arguments have…</div>
+          <ul>
+            <li><strong>A clear claim</strong> — one idea per paragraph, stated in the first sentence</li>
+            <li><strong>Concrete evidence</strong> — statistics, real examples, quotes, or established facts (not "many people think…")</li>
+            <li><strong>Explanation</strong> — you connect evidence to claim explicitly</li>
+            <li><strong>Relevance</strong> — directly addresses the discussion question</li>
+            <li><strong>Specificity</strong> — names figures, places, policies, texts where possible</li>
+          </ul>
+        </div>
+        <div class="dont-card">
+          <div class="card-head">✗ Weak arguments…</div>
+          <ul>
+            <li>Make claims without evidence ("It is obvious that…")</li>
+            <li>Use vague generalisations ("Most people feel…", "Everyone agrees…")</li>
+            <li>Are one-sided in a task that requires balance</li>
+            <li>Mirror each other across PRO/CONTRA without real distinction</li>
+            <li>Rely on personal anecdote as universal evidence</li>
+            <li>Are logically circular ("X is bad because X causes bad outcomes")</li>
+          </ul>
+        </div>
+      </div>
+      <div class="info-box">
+        <strong>Symmetry test:</strong> If you replaced your CONTRA arguments with your PRO arguments, would anyone notice? If yes — your PRO and CONTRA are too similar. Each of the four arguments must be genuinely distinct in its claim, evidence, and line of reasoning.
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Phrase bank — discussion language</p>
+      <div class="phrase-bank pb3">
+        <div class="phrase-bank-head">⚖ Discussion phrases</div>
+        <div class="phrase-category">
+          <div class="phrase-cat-label">Introducing the question (neutral)</div>
+          <div class="phrase-list">
+            <span class="phrase-chip" onclick="copyPhrase(this)">The question of whether [X] is one of the most contested issues in…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">There are compelling arguments both for and against the view that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">The following discussion will examine the main arguments on both sides of…<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+        <div class="phrase-category">
+          <div class="phrase-cat-label">PRO arguments</div>
+          <div class="phrase-list">
+            <span class="phrase-chip" onclick="copyPhrase(this)">One of the strongest arguments in favour of [X] is that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">A further point supporting this view is that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Proponents of [X] point out that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">This is supported by [evidence/statistic], which shows that…<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+        <div class="phrase-category">
+          <div class="phrase-cat-label">CONTRA arguments (explicit transition)</div>
+          <div class="phrase-list">
+            <span class="phrase-chip" onclick="copyPhrase(this)">On the other hand, critics argue that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">However, there are also strong arguments against [X]. First,…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Opponents of this view maintain that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">A significant counter-argument is that…<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+        <div class="phrase-category" style="border:none;">
+          <div class="phrase-cat-label">Conclusion — take sides at last</div>
+          <div class="phrase-list" style="border:none;">
+            <span class="phrase-chip" onclick="copyPhrase(this)">Having weighed both sides, I conclude that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">While both positions have merit, the [PRO/CONTRA] arguments are ultimately more convincing because…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">On balance, the evidence suggests that…<span class="copy-hint">click to copy</span></span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Ultimately, the strongest case is made by those who argue that… because…<span class="copy-hint">click to copy</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <p class="sec-head">Self-check — before you submit</p>
+      <div id="cl-discussion" class="checklist">
+        <div class="checklist-head">Discussion checklist</div>
+        <div class="checklist-progress">
+          <span id="cl-discussion-count">0 / 10</span>
+          <div class="progress-bar-wrap"><div class="progress-bar" id="cl-discussion-bar"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /discussion -->
+
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- SELF-CHECK QUIZ -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="panel-quiz" class="panel">
+    <div class="section-block">
+      <p class="sec-head">Test yourself</p>
+      <p style="margin-bottom:20px; font-size:14px; color:var(--ink-soft);">11 questions covering all genres, all three AFB levels, and the Comment/Discussion distinction. Select your answer and click <em>Check</em>.</p>
+      <div class="quiz" id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score"></div>
+      <button class="quiz-reset" id="quiz-reset-btn" onclick="resetQuiz()" style="display:none;">Try again</button>
+    </div>
+  </div>
+
+</div><!-- /shell -->
+
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+// ── TAB SWITCHING ─────────────────────────────────────────
+function showTab(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  const btns = document.querySelectorAll('.tab-btn');
+  btns.forEach(b => { if (b.getAttribute('onclick') === `showTab('${id}')`) b.classList.add('active'); });
+}
+
+// ── TOAST ─────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+// ── PHRASE COPY ───────────────────────────────────────────
+function copyPhrase(el) {
+  const text = el.childNodes[0].textContent.trim();
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard!'));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('Copied!');
+  }
+}
+
+// ── CHECKLISTS ────────────────────────────────────────────
+const checklistData = {
+  summary: {
+    items: [
+      "There is an introductory sentence naming author, title, text type, place/date of publication, and main idea.",
+      "The summary focuses on essential main points only.",
+      "The summary is written in the present tense throughout.",
+      "I have used my own words — no copying from the text.",
+      "I have worked through the text in chronological order.",
+      "I have left out irrelevant details and examples.",
+      "I do not quote directly from the text.",
+      "I do not analyse the text's style or language.",
+      "I do not give my personal opinion.",
+      "I have used connectives to link sentences, and formal language throughout."
+    ]
+  },
+  analysis: {
+    items: [
+      "My analysis has a clear introduction, main part, and conclusion.",
+      "My introduction ends with a central claim (thesis) about the text.",
+      "The main part is divided into paragraphs — one aspect per paragraph.",
+      "I identify and quote specific stylistic/rhetorical devices.",
+      "For each device, I explain its function and effect on the reader.",
+      "I analyse word choice and its connotations.",
+      "I explain the structure of the text and its function.",
+      "My conclusion refers back to the task and makes an abstract statement.",
+      "I use selective evidence (quotes + line numbers) throughout.",
+      "I have used phrases typical of a non-fictional text analysis."
+    ]
+  },
+  characterisation: {
+    groups: [
+      { label: "Content", items: [
+        "I clearly state who I am writing about and the focus of my analysis.",
+        "I describe the character's outward appearance (if given in the text).",
+        "I explain the character's background, life, and social context.",
+        "I describe the character's behaviour and relationships with others.",
+        "I name and evidence at least two character traits.",
+        "I describe the character's mood and feelings in the current situation."
+      ]},
+      { label: "Structure & Evidence", items: [
+        "There is an introduction that introduces the character with a focus statement.",
+        "The main part is divided into paragraphs by aspect (not by plot).",
+        "I support every claim with evidence from the text (quotes + line numbers).",
+        "There is a conclusion that sums up the essence of the characterisation."
+      ]}
+    ]
+  },
+  comment: {
+    groups: [
+      { label: "Introduction", items: [
+        "My introduction presents the issue clearly.",
+        "The last sentence of the introduction states my position (thesis) specifically."
+      ]},
+      { label: "Arguments (minimum 3)", items: [
+        "I have at least 3 distinct arguments — each in its own paragraph.",
+        "Every argument starts with a clear claim statement.",
+        "Every argument is supported by concrete evidence (facts, statistics, examples, quotes).",
+        "I address and refute at least one counter-argument.",
+        "My arguments build up — the strongest argument comes last."
+      ]},
+      { label: "Conclusion & Language", items: [
+        "My conclusion restates my thesis (in different words) and points to broader significance.",
+        "I have defined key terms where necessary.",
+        "I have used formal language and explicit paragraph transitions."
+      ]}
+    ]
+  },
+  discussion: {
+    groups: [
+      { label: "Introduction", items: [
+        "My introduction presents the question neutrally — I do not take sides yet.",
+        "The introduction explains why this question is relevant or contested."
+      ]},
+      { label: "PRO arguments (exactly 2)", items: [
+        "PRO argument 1 is stated clearly and supported with concrete evidence.",
+        "PRO argument 2 is a distinct line of argument — not a repetition of PRO 1."
+      ]},
+      { label: "CONTRA arguments (exactly 2)", items: [
+        "I transition explicitly to the CONTRA side (e.g. 'On the other hand…').",
+        "CONTRA argument 1 is stated clearly and supported with concrete evidence.",
+        "CONTRA argument 2 is a distinct line of argument — not a repetition of CONTRA 1."
+      ]},
+      { label: "Conclusion & Language", items: [
+        "My conclusion states MY position for the first time and justifies it.",
+        "I refer to the strongest argument from my discussion to support my conclusion.",
+        "I have used formal language and explicit transitions throughout."
+      ]}
+    ]
+  }
+};
+
+function buildChecklist(id) {
+  const data = checklistData[id];
+  const container = document.getElementById('cl-' + id);
+  let itemsAll = [];
+
+  if (data.groups) {
+    data.groups.forEach(g => {
+      const gl = document.createElement('div');
+      gl.className = 'checklist-group-label';
+      gl.textContent = g.label;
+      container.appendChild(gl);
+      g.items.forEach((text, i) => {
+        const key = id + '_' + itemsAll.length;
+        itemsAll.push(key);
+        container.appendChild(makeItem(key, text, id));
+      });
+    });
+  } else {
+    data.items.forEach((text, i) => {
+      const key = id + '_' + i;
+      itemsAll.push(key);
+      container.appendChild(makeItem(key, text, id));
+    });
+  }
+
+  updateProgress(id);
+}
+
+function makeItem(key, text, listId) {
+  const div = document.createElement('div');
+  div.className = 'checklist-item';
+  div.id = 'ci-' + key;
+  const cb = document.createElement('input');
+  cb.type = 'checkbox';
+  cb.id = 'cb-' + key;
+  cb.onchange = () => {
+    div.classList.toggle('checked', cb.checked);
+    updateProgress(listId);
+  };
+  const lbl = document.createElement('label');
+  lbl.htmlFor = 'cb-' + key;
+  lbl.textContent = text;
+  div.appendChild(cb);
+  div.appendChild(lbl);
+  div.addEventListener('click', e => { if (e.target !== cb) cb.click(); });
+  return div;
+}
+
+function updateProgress(id) {
+  const container = document.getElementById('cl-' + id);
+  const boxes = container.querySelectorAll('input[type="checkbox"]');
+  const total = boxes.length;
+  const checked = Array.from(boxes).filter(b => b.checked).length;
+  document.getElementById('cl-' + id + '-count').textContent = checked + ' / ' + total;
+  const pct = total ? (checked / total * 100) : 0;
+  document.getElementById('cl-' + id + '-bar').style.width = pct + '%';
+}
+
+['summary','analysis','characterisation','comment','discussion'].forEach(buildChecklist);
+
+// ── QUIZ ──────────────────────────────────────────────────
+const quizData = [
+  {
+    q: "Which genre requires you to give your personal opinion?",
+    opts: ["Summary", "Analysis of a non-fictional text", "Characterisation", "Comment"],
+    correct: 3,
+    fb: { correct: "Correct. A comment (AFB III) requires a defended personal position. All other genres listed are either AFB I or AFB II and exclude personal opinion.", wrong: "Not quite. Only a Comment (AFB III) requires your own reasoned opinion. Summary, Analysis, and Characterisation are all text-based and exclude personal opinion." }
+  },
+  {
+    q: "An exam task says: 'Outline the author's main argument.' What do you do?",
+    opts: [
+      "Write a detailed analysis of the rhetorical devices used.",
+      "Give a structured, concise reproduction of the main points — in your own words.",
+      "Write a comment on whether you agree with the author.",
+      "Characterise the narrator's attitude."
+    ],
+    correct: 1,
+    fb: { correct: "Exactly. 'Outline' is AFB I — your job is concise, accurate reproduction of main ideas. No analysis, no opinion.", wrong: "'Outline' is an AFB I operator. It requires a structured reproduction of the main points in your own words — not analysis, not opinion, not characterisation." }
+  },
+  {
+    q: "In a characterisation, you claim a character is 'ambitious'. What must you do?",
+    opts: [
+      "Nothing — it is your interpretation, which is always valid.",
+      "Support the claim with a quote and line number from the text.",
+      "Compare the character to a historical figure.",
+      "Write this claim only in the conclusion."
+    ],
+    correct: 1,
+    fb: { correct: "Correct. Every character trait in a characterisation must be supported by textual evidence — a quote and line number.", wrong: "In a characterisation, every claim about a character must be backed up with a quote and line number from the text. Unsupported claims have no value in this genre." }
+  },
+  {
+    q: "What is the AFB level of the operator 'analyse'?",
+    opts: ["AFB I", "AFB II", "AFB III", "It depends on the text type."],
+    correct: 1,
+    fb: { correct: "Correct. 'Analyse' is AFB II — it requires systematic examination and explanation, not just reproduction (AFB I) or evaluation/judgement (AFB III).", wrong: "'Analyse' is AFB II. It requires you to examine how something works and explain its effect — more than reproduction, less than evaluation." }
+  },
+  {
+    q: "A comment on 'Should the voting age be lowered to 16?' requires a minimum of how many strong arguments?",
+    opts: [
+      "1 — one clear, well-evidenced position is enough.",
+      "2 — one PRO and one CONTRA argument.",
+      "3 — a comment requires at least three distinct, evidenced arguments for one position.",
+      "4 — two PRO and two CONTRA arguments."
+    ],
+    correct: 2,
+    fb: { correct: "Correct. A comment is a linear argumentation with a minimum of three strong, evidenced arguments all supporting one position. Two PRO + two CONTRA is the structure of a discussion, not a comment.", wrong: "A comment requires at least 3 strong arguments for one position (linear). Two PRO + two CONTRA is the structure of a discussion. Make sure you do not confuse the two genres." }
+  },
+  {
+    q: "Which of the following does NOT belong in a summary?",
+    opts: [
+      "An introductory sentence naming the author and text type.",
+      "Connectives linking paragraphs.",
+      "A sentence about whether you agree with the author's thesis.",
+      "A paraphrase of the text's main claim."
+    ],
+    correct: 2,
+    fb: { correct: "Correct. Personal opinion is strictly forbidden in a summary. That belongs in a Comment (AFB III).", wrong: "Personal opinion ('I agree / I disagree') has no place in a summary. Summaries reproduce — they do not evaluate." }
+  },
+  {
+    q: "What is the 'P → E → E' technique in analysis?",
+    opts: [
+      "Paraphrase → Evaluate → Expand",
+      "Point → Evidence → Effect",
+      "Paragraph → Example → Elaboration",
+      "Proof → Explanation → Extension"
+    ],
+    correct: 1,
+    fb: { correct: "Correct. Point (what you observe) → Evidence (selective quote + line number) → Effect (what it does to the reader and why). Missing the Effect step is the most common weakness in analysis.", wrong: "P → E → E stands for Point → Evidence → Effect. You identify a device or strategy, quote it, and then explain what effect it creates on the reader. The Effect step is what separates analysis from description." }
+  },
+  {
+    q: "When is it appropriate to define a term in a comment?",
+    opts: [
+      "Always — every term used must be defined.",
+      "Never — definitions make a comment sound like a summary.",
+      "When the term is central to your argument and its meaning is contestable.",
+      "Only when the teacher specifically asks for it."
+    ],
+    correct: 2,
+    fb: { correct: "Correct. Define a term only when it is central to your argument AND its meaning could be misunderstood or contested. One definition per text is usually enough.", wrong: "You define terms when they are central to your argument and their meaning is contestable — not always, and not never. Over-defining makes your text sound like a dictionary; under-defining leaves your argument unclear." }
+  },
+  {
+    q: "Which tense do you use in a characterisation?",
+    opts: ["Past tense — because the events described are in the past.",
+           "Present tense — because we discuss the text as if it is happening now.",
+           "Future tense — because we predict what the character will do.",
+           "Mixed — past for narrated events, present for analysis."],
+    correct: 1,
+    fb: { correct: "Correct. Like all text genres in English Leistungskurs, characterisation uses the present tense throughout. We discuss texts as if they are happening now.", wrong: "Characterisation uses the present tense throughout. This applies to all genres in this module — we always write about texts in the present." }
+  },
+  {
+    q: "What is the structural requirement that distinguishes a 'discuss' task from a 'comment' task?",
+    opts: [
+      "A discussion is always longer and more formal than a comment.",
+      "A comment requires AFB II; a discussion requires AFB III.",
+      "A discussion requires exactly 2 PRO and 2 CONTRA arguments before concluding; a comment argues one position linearly with at least 3 arguments.",
+      "There is no structural difference — both use the same paragraph format."
+    ],
+    correct: 2,
+    fb: { correct: "Exactly. This is the core structural distinction: discuss = dialectical (2 PRO + 2 CONTRA), comment = linear (min. 3 arguments for one position). Both are AFB III. Confusing the two is a structural error in the exam.", wrong: "Both are AFB III. The key difference is structural: discuss = dialectical (2 PRO + 2 CONTRA, then conclusion), comment = linear (at least 3 arguments defending one position throughout). The operator tells you which structure to use." }
+  },
+  {
+    q: "An exam task says: 'Assess the author's view of the American Dream.' What does this require?",
+    opts: [
+      "A summary of the author's main argument.",
+      "An analysis of rhetorical devices only.",
+      "A balanced examination of the author's view — weighing its strengths and limitations — followed by a reasoned evaluative judgement.",
+      "A comment arguing whether the American Dream still exists."
+    ],
+    correct: 2,
+    fb: { correct: "Correct. 'Assess' sits at the AFB II/III boundary: you analyse the evidence on both sides (AFB II) and then reach an evaluative judgement on the validity or effectiveness of the view (AFB III). It is not a summary, and not a free-standing comment.", wrong: "'Assess' requires a balanced weighing of the evidence for and against a view, concluded with your reasoned judgement. It is not a summary, not a pure analysis, and not a comment — it combines elements of AFB II analysis with AFB III evaluation." }
+  }
+];
+
+let quizState = quizData.map(() => ({ selected: null, submitted: false }));
+
+function buildQuiz() {
+  const c = document.getElementById('quiz-container');
+  c.innerHTML = '';
+  quizData.forEach((q, qi) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'quiz-question';
+    wrap.id = 'qq-' + qi;
+
+    const head = document.createElement('div');
+    head.className = 'quiz-q-head';
+    head.innerHTML = '<div class="q-num">Question ' + (qi+1) + ' of ' + quizData.length + '</div>' + q.q;
+    wrap.appendChild(head);
+
+    const opts = document.createElement('div');
+    opts.className = 'quiz-options';
+    q.opts.forEach((o, oi) => {
+      const opt = document.createElement('div');
+      opt.className = 'quiz-opt';
+      opt.id = 'qo-' + qi + '-' + oi;
+      opt.innerHTML = '<input type="radio" name="q' + qi + '" value="' + oi + '" id="qr-' + qi + '-' + oi + '"><label for="qr-' + qi + '-' + oi + '">' + o + '</label>';
+      opt.querySelector('input').addEventListener('change', () => {
+        quizState[qi].selected = oi;
+        document.getElementById('qsubmit-' + qi).disabled = false;
+      });
+      opts.appendChild(opt);
+    });
+    wrap.appendChild(opts);
+
+    const fb = document.createElement('div');
+    fb.className = 'quiz-feedback';
+    fb.id = 'qfb-' + qi;
+    wrap.appendChild(fb);
+
+    const submitRow = document.createElement('div');
+    submitRow.style.padding = '0 18px 14px';
+    const sub = document.createElement('button');
+    sub.className = 'quiz-submit';
+    sub.id = 'qsubmit-' + qi;
+    sub.textContent = 'Check answer';
+    sub.disabled = true;
+    sub.addEventListener('click', () => submitQuestion(qi));
+    submitRow.appendChild(sub);
+    wrap.appendChild(submitRow);
+
+    c.appendChild(wrap);
+  });
+}
+
+function submitQuestion(qi) {
+  const q = quizData[qi];
+  const sel = quizState[qi].selected;
+  if (sel === null) return;
+  quizState[qi].submitted = true;
+
+  const isCorrect = sel === q.correct;
+  const fb = document.getElementById('qfb-' + qi);
+  fb.textContent = (isCorrect ? '✓ ' : '✗ ') + (isCorrect ? q.fb.correct : q.fb.wrong);
+  fb.className = 'quiz-feedback show ' + (isCorrect ? 'correct' : 'wrong');
+
+  // Highlight correct/wrong options
+  q.opts.forEach((_, oi) => {
+    const opt = document.getElementById('qo-' + qi + '-' + oi);
+    if (oi === q.correct) opt.style.background = '#f0faf6';
+    else if (oi === sel && !isCorrect) opt.style.background = '#fdf4f4';
+    opt.querySelector('input').disabled = true;
+  });
+  document.getElementById('qsubmit-' + qi).disabled = true;
+  document.getElementById('qsubmit-' + qi).textContent = isCorrect ? '✓ Correct!' : '✗ See feedback';
+
+  checkAllSubmitted();
+}
+
+function checkAllSubmitted() {
+  if (!quizState.every(s => s.submitted)) return;
+  const correct = quizState.filter((s, i) => s.selected === quizData[i].correct).length;
+  const total = quizData.length;
+  const score = document.getElementById('quiz-score');
+  const pct = Math.round(correct / total * 100);
+  let cls = pct >= 80 ? 'good' : pct >= 60 ? 'meh' : 'bad';
+  let msg = pct >= 80
+    ? `🎯 ${correct} / ${total} — Strong work. You have a solid grasp of the genre system.`
+    : pct >= 60
+    ? `${correct} / ${total} — Decent. Review the genres where you slipped and check the checklists.`
+    : `${correct} / ${total} — Worth reviewing. Go back through the genre tabs and retry.`;
+  score.textContent = msg;
+  score.className = 'quiz-score show ' + cls;
+  document.getElementById('quiz-reset-btn').style.display = 'inline-block';
+}
+
+function resetQuiz() {
+  quizState = quizData.map(() => ({ selected: null, submitted: false }));
+  buildQuiz();
+  document.getElementById('quiz-score').className = 'quiz-score';
+  document.getElementById('quiz-reset-btn').style.display = 'none';
+}
+
+buildQuiz();
+</script>
+</body>
+</html>

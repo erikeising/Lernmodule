@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulary Trainer — Adolescence</title>
+<style>
+:root{
+  --paper:#f4efe6;
+  --paper-deep:#ece4d6;
+  --ink:#23201b;
+  --ink-soft:#6b6353;
+  --line:#d8cdb8;
+  --blue:#2d5a7b;
+  --blue-bg:#e4edf3;
+  --rust:#a84e2c;
+  --rust-bg:#f6e7df;
+  --gold:#c08a2d;
+  --green:#3f7a52;
+  --green-bg:#e3f0e7;
+  --red:#b3402e;
+  --red-bg:#f7e3df;
+  --shadow:0 4px 24px rgba(45,35,20,.10);
+  --shadow-sm:0 2px 10px rgba(45,35,20,.08);
+  --display:"Georgia","Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  --mono:"SF Mono","Courier New",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+/* subtle paper texture */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(circle at 1px 1px,rgba(45,35,20,.025) 1px,transparent 0);
+  background-size:22px 22px;
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 24px 120px}
+
+/* ===== HERO ===== */
+.hero{padding:56px 0 36px;border-bottom:2px solid var(--ink)}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--rust);margin-bottom:20px;font-weight:600}
+.hero h1{font-family:var(--display);font-size:clamp(2.6rem,7vw,4.4rem);font-weight:700;line-height:.98;letter-spacing:-.02em;margin-bottom:8px}
+.hero h1 em{font-style:italic;color:var(--rust)}
+.hero .sub{font-size:1.05rem;color:var(--ink-soft);max-width:520px;margin-top:14px}
+.hero-meta{display:flex;gap:28px;margin-top:28px;flex-wrap:wrap}
+.hero-meta .stat{display:flex;flex-direction:column}
+.hero-meta .num{font-family:var(--display);font-size:1.8rem;font-weight:700;line-height:1}
+.hero-meta .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px}
+
+/* ===== MODE NAV ===== */
+.modes{position:sticky;top:0;z-index:20;display:flex;gap:4px;padding:14px 0;margin-bottom:8px;background:linear-gradient(var(--paper) 78%,transparent);flex-wrap:wrap}
+.mode-btn{font-family:var(--sans);font-size:13.5px;font-weight:600;padding:9px 16px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink-soft);border-radius:2px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:7px}
+.mode-btn:hover{border-color:var(--ink);color:var(--ink)}
+.mode-btn.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.mode-btn .ic{font-size:15px;line-height:1}
+
+/* ===== FILTERS ===== */
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:28px;padding:16px;background:var(--paper-deep);border-radius:3px;border:1px solid var(--line)}
+.filters .flabel{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-right:4px}
+.chip{font-size:12.5px;font-weight:600;padding:5px 12px;border-radius:20px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink-soft);cursor:pointer;transition:all .15s}
+.chip:hover{border-color:var(--ink)}
+.chip.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.chip.on.rust{background:var(--rust);border-color:var(--rust)}
+
+/* ===== PANELS ===== */
+.panel{display:none;animation:fade .3s ease}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== BROWSE / FLASHCARDS ===== */
+.section-head{font-family:var(--display);font-size:1.5rem;font-weight:700;margin:36px 0 4px;display:flex;align-items:baseline;gap:12px}
+.section-head .tag{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;padding:3px 9px;border-radius:3px;text-transform:uppercase;position:relative;top:-3px}
+.tag.blue{background:var(--blue-bg);color:var(--blue)}
+.tag.rust{background:var(--rust-bg);color:var(--rust)}
+.section-sub{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.vcard{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:0;cursor:pointer;transition:all .2s;perspective:1000px;height:150px;position:relative}
+.vcard:hover{box-shadow:var(--shadow-sm);border-color:var(--ink)}
+.vcard-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.vcard.flipped .vcard-inner{transform:rotateY(180deg)}
+.vcard-face{position:absolute;inset:0;backface-visibility:hidden;padding:18px;display:flex;flex-direction:column;justify-content:space-between;border-radius:4px}
+.vcard-back{transform:rotateY(180deg);background:var(--paper-deep)}
+.vc-en{font-family:var(--display);font-size:1.25rem;font-weight:700;line-height:1.15}
+.vc-ipa{font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin-top:5px}
+.vc-de{font-family:var(--display);font-size:1.15rem;font-weight:700;color:var(--rust);line-height:1.2}
+.vc-ex{font-size:12.5px;color:var(--ink-soft);font-style:italic;line-height:1.4}
+.vc-corner{position:absolute;top:12px;right:14px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--line);text-transform:uppercase}
+.vc-speak{position:absolute;bottom:12px;right:12px;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);background:var(--paper);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;transition:all .15s;z-index:3}
+.vc-speak:hover{border-color:var(--blue);background:var(--blue-bg)}
+.flip-hint{font-family:var(--mono);font-size:9px;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase}
+
+/* ===== QUIZ ===== */
+.quiz-stage{max-width:600px;margin:0 auto}
+.quiz-setup{text-align:center;padding:40px 0}
+.quiz-setup h2{font-family:var(--display);font-size:2rem;font-weight:700;margin-bottom:10px}
+.quiz-setup p{color:var(--ink-soft);margin-bottom:28px}
+.dir-toggle{display:inline-flex;border:1.5px solid var(--ink);border-radius:3px;overflow:hidden;margin-bottom:28px}
+.dir-toggle button{font-family:var(--sans);font-size:13.5px;font-weight:600;padding:11px 22px;background:var(--paper);color:var(--ink-soft);border:none;cursor:pointer;transition:all .15s}
+.dir-toggle button.on{background:var(--ink);color:var(--paper)}
+.btn-primary{font-family:var(--sans);font-size:15px;font-weight:600;padding:14px 36px;background:var(--rust);color:#fff;border:none;border-radius:3px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow-sm)}
+.btn-primary:hover{background:#933f22;transform:translateY(-1px)}
+.btn-ghost{font-family:var(--sans);font-size:13px;font-weight:600;padding:9px 20px;background:transparent;border:1.5px solid var(--line);color:var(--ink-soft);border-radius:3px;cursor:pointer;transition:all .15s}
+.btn-ghost:hover{border-color:var(--ink);color:var(--ink)}
+
+.quiz-progress{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.qbar{flex:1;height:5px;background:var(--line);border-radius:3px;overflow:hidden}
+.qbar-fill{height:100%;background:var(--green);transition:width .4s;border-radius:3px}
+.qcount{font-family:var(--mono);font-size:12px;color:var(--ink-soft);white-space:nowrap}
+
+.qcard{background:var(--paper);border:2px solid var(--ink);border-radius:6px;padding:36px 28px;text-align:center;box-shadow:var(--shadow);margin-bottom:20px}
+.q-prompt-label{font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:14px}
+.q-prompt{font-family:var(--display);font-size:2.2rem;font-weight:700;line-height:1.1;margin-bottom:8px}
+.q-ipa{font-family:var(--mono);font-size:13px;color:var(--ink-soft)}
+.q-speak-big{margin-top:14px;width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);background:var(--paper);cursor:pointer;font-size:18px;transition:all .15s}
+.q-speak-big:hover{border-color:var(--blue);background:var(--blue-bg)}
+.q-options{display:grid;gap:10px}
+.q-opt{font-family:var(--sans);font-size:15px;text-align:left;padding:15px 20px;background:var(--paper);border:1.5px solid var(--line);border-radius:4px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:12px}
+.q-opt:hover:not(:disabled){border-color:var(--ink);background:var(--paper-deep)}
+.q-opt:disabled{cursor:default}
+.q-opt .opt-key{font-family:var(--mono);font-size:11px;width:22px;height:22px;border-radius:3px;background:var(--paper-deep);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ink-soft)}
+.q-opt.correct{background:var(--green-bg);border-color:var(--green);color:#2a5638}
+.q-opt.correct .opt-key{background:var(--green);color:#fff}
+.q-opt.wrong{background:var(--red-bg);border-color:var(--red);color:#8a2818}
+.q-opt.wrong .opt-key{background:var(--red);color:#fff}
+.q-feedback{text-align:center;min-height:32px;margin-top:18px;font-size:14px;font-weight:600}
+.q-feedback .ex{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:13px;margin-top:6px}
+.q-next{text-align:center;margin-top:8px}
+
+/* score screen */
+.score-screen{text-align:center;padding:30px 0}
+.score-ring{font-family:var(--display);font-size:4rem;font-weight:700;line-height:1}
+.score-pct{font-family:var(--mono);font-size:13px;color:var(--ink-soft);letter-spacing:.1em;margin-top:8px}
+.score-msg{font-size:1.1rem;margin:20px 0 28px;color:var(--ink)}
+.score-breakdown{display:flex;justify-content:center;gap:32px;margin-bottom:32px}
+.score-breakdown .sb{display:flex;flex-direction:column}
+.score-breakdown .sb-n{font-family:var(--display);font-size:1.8rem;font-weight:700}
+.score-breakdown .sb-l{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft)}
+.missed-list{text-align:left;max-width:460px;margin:0 auto 28px;border-top:1px solid var(--line)}
+.missed-list h4{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--rust);padding:16px 0 10px}
+.missed-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.missed-item .me{font-weight:600}
+.missed-item .md{color:var(--rust);font-style:italic}
+
+/* ===== MATCH GAME ===== */
+.match-stage{max-width:720px;margin:0 auto}
+.match-setup{text-align:center;padding:40px 0}
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.match-col-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-soft);padding-bottom:8px;text-align:center}
+.match-tile{padding:14px 16px;background:var(--paper);border:1.5px solid var(--line);border-radius:4px;cursor:pointer;transition:all .15s;font-size:14.5px;font-weight:600;min-height:52px;display:flex;align-items:center;justify-content:center;text-align:center}
+.match-tile.en{font-family:var(--display);font-size:1.05rem}
+.match-tile.de{color:var(--rust)}
+.match-tile:hover:not(.matched){border-color:var(--ink)}
+.match-tile.selected{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.match-tile.matched{opacity:.25;cursor:default;border-style:dashed}
+.match-tile.flash-ok{background:var(--green-bg);border-color:var(--green)}
+.match-tile.flash-no{background:var(--red-bg);border-color:var(--red);animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.match-stats{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.match-timer{font-family:var(--mono);font-size:1.4rem;font-weight:600}
+.match-moves{font-family:var(--mono);font-size:13px;color:var(--ink-soft)}
+
+/* ===== PROGRESS BADGE ===== */
+.progress-note{font-family:var(--mono);font-size:11px;color:var(--ink-soft);text-align:center;margin-top:30px;padding:14px;background:var(--paper-deep);border-radius:3px;letter-spacing:.03em}
+
+/* toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);padding:11px 22px;border-radius:4px;font-size:13.5px;font-weight:600;opacity:0;transition:all .25s;z-index:99;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* empty state */
+.empty{text-align:center;padding:60px 20px;color:var(--ink-soft)}
+.empty .big{font-family:var(--display);font-size:1.4rem;margin-bottom:8px;color:var(--ink)}
+
+@media(max-width:560px){
+  .hero{padding:40px 0 28px}
+  .card-grid{grid-template-columns:1fr}
+  .match-grid{gap:6px}
+  .match-tile{font-size:13px;padding:10px;min-height:46px}
+  .q-prompt{font-size:1.7rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="kicker">Camden Town Oberstufe · Theme 1 · SB 18–43</div>
+    <h1>Finding<br>your <em>words</em></h1>
+    <p class="sub">The vocabulary of ambition, identity, and growing up — from <em>Dear Martin</em> to <em>The Idiot</em>. Learn it, test it, master it.</p>
+    <div class="hero-meta">
+      <div class="stat"><span class="num" id="stat-total">114</span><span class="lbl">words</span></div>
+      <div class="stat"><span class="num">8</span><span class="lbl">sections</span></div>
+      <div class="stat"><span class="num" id="stat-mastered">0</span><span class="lbl">mastered</span></div>
+    </div>
+  </header>
+
+  <!-- MODE NAV -->
+  <nav class="modes">
+    <button class="mode-btn active" data-mode="browse"><span class="ic">▦</span> Browse</button>
+    <button class="mode-btn" data-mode="quiz"><span class="ic">✎</span> Quiz</button>
+    <button class="mode-btn" data-mode="match"><span class="ic">⇄</span> Match</button>
+  </nav>
+
+  <!-- FILTERS (browse + quiz scope) -->
+  <div class="filters" id="filters">
+    <span class="flabel">Sections</span>
+    <button class="chip on" data-part="all" id="chip-all">All</button>
+    <button class="chip on" data-part="A">Part A</button>
+    <button class="chip on rust" data-part="B">Part B</button>
+  </div>
+
+  <!-- BROWSE PANEL -->
+  <section class="panel active" id="panel-browse"></section>
+
+  <!-- QUIZ PANEL -->
+  <section class="panel" id="panel-quiz">
+    <div class="quiz-stage" id="quiz-stage"></div>
+  </section>
+
+  <!-- MATCH PANEL -->
+  <section class="panel" id="panel-match">
+    <div class="match-stage" id="match-stage"></div>
+  </section>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const DATA = {"title": "Theme 1 — Adolescence: Finding your path", "subtitle": "Vocabulary Trainer · LK English Jg. 11", "sections": [{"id": "a-step", "part": "A", "label": "Part A — Step by step", "color": "blue", "words": [{"en": "aspiring", "ipa": "/əˈspaɪərɪŋ/", "de": "ehrgeizig, aufstrebend", "ex": "She's an aspiring teacher."}, {"en": "encounter", "ipa": "/ɪnˈkaʊntə/", "de": "Begegnung", "ex": "I had a frightening encounter last night."}, {"en": "to submit", "ipa": "/səbˈmɪt/", "de": "einreichen, abgeben", "ex": "I finally submitted my essay."}, {"en": "parental", "ipa": "/pəˈrent(ə)l/", "de": "elterlich", "ex": "She takes six months parental leave."}, {"en": "womb", "ipa": "/wuːm/", "de": "Gebärmutter", "ex": "She will have the baby for us because I don't have a womb."}, {"en": "sacred", "ipa": "/ˈseɪkrɪd/", "de": "heilig, ehrwürdig", "ex": "Please be quiet, this is a sacred place."}, {"en": "to make a name for oneself", "ipa": "/ˌmeɪk ə ˈneɪm fɔː wʌnˌself/", "de": "hervortreten, sich einen Namen machen", "ex": "The new mayor has already made a name for himself."}, {"en": "to confirm", "ipa": "/kənˈfɜːm/", "de": "bestätigen, bekräftigen", "ex": "The results of the test confirmed the doctor's diagnosis."}, {"en": "imaginary", "ipa": "/ɪˈmædʒɪnəri/", "de": "imaginär, eingebildet", "ex": "Many children have imaginary friends."}, {"en": "to jump-start", "ipa": "/ˈdʒʌmp stɑːt/", "de": "in Gang bringen, auf Touren bringen", "ex": "I want to jump-start a new project."}, {"en": "to get sth straight", "ipa": "/ˌɡet ˌsʌmθɪŋ ˈstreɪt/", "de": "etw recht verstehen, etw klarstellen", "ex": "If you get something straight, you understand it properly."}, {"en": "drastic", "ipa": "/ˈdræstɪk/", "de": "drastisch, einschneidend", "ex": "Drastic measures were necessary to ensure the company's survival."}, {"en": "admission", "ipa": "/ədˈmɪʃ(ə)n/", "de": "Eintritt, Zutritt, Zulassung", "ex": "He wasn't granted admission to the bar because he was too young."}, {"en": "to keep up", "ipa": "/ˌkiːp ˈʌp/", "de": "weiterhin tun", "ex": "Keep up the good work!"}, {"en": "decent", "ipa": "/ˈdiːs(ə)nt/", "de": "anständig, ordentlich", "ex": "Don't you have anything decent to eat?"}, {"en": "minimum wage", "ipa": "/ˌmɪnɪməm ˈweɪdʒ/", "de": "Mindestlohn", "ex": "His company pays more than just the minimum wage."}]}, {"id": "a-practice", "part": "A", "label": "Part A — Practice", "color": "blue", "words": [{"en": "to mean no disrespect", "ipa": "/miːn nəʊ ˌdɪsrɪsˈpɛkt/", "de": "nicht respektlos erscheinen wollen", "ex": "I would like to make clear that I mean no disrespect."}, {"en": "to be ranked …", "ipa": "/biː ræŋkt/", "de": "an … Stelle sein, auf dem … Platz sein", "ex": "She was ranked fourth in the race."}, {"en": "graduating class", "ipa": "/ˈgrædjʊeɪtɪŋ klɑːs/", "de": "Abschlussklasse", "ex": "They meet every five years with their graduating class."}, {"en": "debate team", "ipa": "/dɪˈbeɪt tiːm/", "de": "Debattier-Club", "ex": "He is captain of the debate team."}, {"en": "to have sth ahead of yourself", "ipa": "/həv ˈsʌmθɪŋ əˈhɛd əv jɔːˈsɛlf/", "de": "etw vor sich haben", "ex": "I still have my whole life ahead of myself."}, {"en": "Ivy League", "ipa": "/ˈaɪvi liːg/", "de": "Eliteuniversitäten im Nordosten der USA", "ex": "My goal is to graduate from an Ivy League university."}, {"en": "law", "ipa": "/lɔː/", "de": "hier: Jura", "ex": "Law is one of the most respected courses to study at university."}, {"en": "deed", "ipa": "/diːd/", "de": "Tat", "ex": "I'm trying to do a good deed every day."}, {"en": "to wind up", "ipa": "/waɪnd ʌp/", "de": "enden in", "ex": "We always end up at the same restaurant."}, {"en": "to cuff sb", "ipa": "/kʌf/", "de": "jdm Handschellen anlegen", "ex": "The police cuffed the burglar."}, {"en": "attorney", "ipa": "/əˈtɜːni/", "de": "Anwalt", "ex": "She acted as an attorney for me."}, {"en": "hazy", "ipa": "/ˈheɪzi/", "de": "vage, unklar", "ex": "My memories of the accident are hazy."}, {"en": "self-defense", "ipa": "/sɛlf dɪˈfɛns/", "de": "Notwehr", "ex": "He claims he was acting in self-defense."}, {"en": "to sag", "ipa": "/sæɡ/", "de": "durchhängen", "ex": "I have so many books, my shelves begin to sag."}, {"en": "upstanding", "ipa": "/ʌpˈstændɪŋ/", "de": "ehrlich, aufrecht", "ex": "He's an upstanding young man."}, {"en": "to be exempt from sth", "ipa": "/bi ɪgˈzɛmpt frɒm/", "de": "von etw befreit sein", "ex": "The students were exempt from taking their final exams."}, {"en": "to swallow", "ipa": "/ˈswɒləʊ/", "de": "schlucken", "ex": "You should chew your food thoroughly before you swallow it."}, {"en": "initially", "ipa": "/ɪˈnɪʃ(ə)li/", "de": "zunächst, zuerst", "ex": "Initially, he wanted to become a doctor."}, {"en": "concrete", "ipa": "/ˈkɒŋkriːt/", "de": "Beton, Asphalt", "ex": "Careful, the concrete can be slippery when it's wet."}, {"en": "to stick to one's guns", "ipa": "/tə stɪk tə wʌnz gʌnz/", "de": "nicht nachgeben, seiner Sache treu bleiben", "ex": "My mother didn't want me to become a dancer, but I stuck to my guns."}, {"en": "wrist", "ipa": "/rɪst/", "de": "Handgelenk", "ex": "She grabbed his wrist."}]}, {"id": "a-songs", "part": "A", "label": "Part A — Texts: Song lyrics", "color": "blue", "words": [{"en": "to grind", "ipa": "/ɡraɪnd/", "de": "sich anstrengen, hart arbeiten", "ex": "You really have to grind to get this job."}, {"en": "to unfold", "ipa": "/ʌnˈfəʊld/", "de": "sich entfalten", "ex": "I watched the drama unfold."}]}, {"id": "a-time", "part": "A", "label": "Part A — Texts: TIME's most influential teens", "color": "blue", "words": [{"en": "to be reflected", "ipa": "/biː rɪˈflɛktɪd/", "de": "sich widerspiegeln", "ex": "His emotions are reflected in the letters he writes."}, {"en": "to distribute", "ipa": "/dɪˈstrɪbjuːt/", "de": "verteilen, verbreiten", "ex": "Please distribute these leaflets before the meeting."}, {"en": "treatment", "ipa": "/ˈtriːtmənt/", "de": "Behandlung", "ex": "Unfortunately, the medical treatment is not working."}, {"en": "to launch sth", "ipa": "/lɔːntʃ/", "de": "etw in Bewegung setzen, etw gründen", "ex": "They launched a movement against bullying at the workplace."}, {"en": "ton", "ipa": "/tʌn/", "de": "Tonne (Maßeinheit)", "ex": "These bricks weigh a ton."}, {"en": "disposable", "ipa": "/dɪˈspəʊzəb(ə)l/", "de": "Einweg-", "ex": "Disposable packaging is not good for the environment."}, {"en": "cherry on top", "ipa": "/ˈʧɛri ɒn tɒp/", "de": "die Krönung (ugs.)", "ex": "This week has been amazing and the cherry on top is that I also won a new car!"}, {"en": "power", "ipa": "/ˈpaʊə(r)/", "de": "hier: Strom, Elektrizität", "ex": "After the storm, the power went out in the entire village."}, {"en": "solar", "ipa": "/ˈsəʊlə(r)/", "de": "Sonne, Solar-", "ex": "Their car runs on solar power."}, {"en": "hand-operated", "ipa": "/ˈhændˈɒpəreɪtɪd/", "de": "handbetrieben", "ex": "These machines are still hand-operated."}, {"en": "appliance", "ipa": "/əˈplaɪəns/", "de": "Gerät", "ex": "You have to buy a new kitchen appliance, this one is broken."}]}, {"id": "a-advanced", "part": "A", "label": "Part A — Advanced texts: Independence Day", "color": "blue", "words": [{"en": "limitation", "ipa": "/ˌlɪmɪˈteɪʃ(ə)n/", "de": "Einschränkung, Begrenzung", "ex": "Working under time limitation can be very stressful."}, {"en": "coarse", "ipa": "/kɔː(r)s/", "de": "rau", "ex": "I don't like this shirt, the fabric feels coarse."}, {"en": "marginally", "ipa": "/ˈmɑː(r)dʒɪnəli/", "de": "geringfügig, unwesentlich", "ex": "Her grades have improved marginally since last year."}, {"en": "resentment", "ipa": "/rɪˈzentmənt/", "de": "Ärger, Unmut", "ex": "She felt resentment against her mother."}, {"en": "to bury", "ipa": "/ˈberi/", "de": "begraben", "ex": "They buried their cat in the garden."}, {"en": "to be riddled with sth", "ipa": "/biː ˈrɪdld wɪð/", "de": "voll mit/von etw sein", "ex": "This book is riddled with mistakes."}, {"en": "at the prospect of", "ipa": "/ət ðə ˈprɒspɛkt ɒv/", "de": "bei der Aussicht auf", "ex": "He felt nervous at the prospect of speaking in front of so many people."}, {"en": "to approve of sth", "ipa": "/əˈpruːv ɒv/", "de": "etw gutheißen, mit etw einverstanden sein", "ex": "I don't approve of his methods."}, {"en": "to be swept away", "ipa": "/biː swɛpt əˈweɪ/", "de": "hinweggefegt werden", "ex": "Our tent was swept away in the storm."}, {"en": "to bother to do sth", "ipa": "/ˌbɒðə tə ˈduː/", "de": "sich die Mühe machen, etw zu tun", "ex": "He didn't even bother to make a good impression."}, {"en": "to secure", "ipa": "/sɪˈkjʊə(r)/", "de": "sichern", "ex": "They secured him with thick ropes."}, {"en": "malice", "ipa": "/ˈmælɪs/", "de": "Bosheit, Böswilligkeit", "ex": "There was no malice in her comments."}, {"en": "passing", "ipa": "/ˈpɑːsɪŋ/", "de": "Lauf", "ex": "The changing of the weather marks the passing of time."}, {"en": "to drive sb insane", "ipa": "/draɪv ˌsʌmbədi ɪnˈseɪn/", "de": "jdn in den Wahnsinn treiben", "ex": "The noise outside is driving me insane."}]}, {"id": "b-step", "part": "B", "label": "Part B — Step by step", "color": "rust", "words": [{"en": "to consult", "ipa": "/kənˈsʌlt/", "de": "befragen, um Rat fragen", "ex": "I need to consult my doctor, I'm feeling really unwell."}, {"en": "multitude", "ipa": "/ˈmʌltɪˌtjuːd/", "de": "Vielzahl", "ex": "We have a multitude of products in our store."}, {"en": "to estimate", "ipa": "/ˈestɪmeɪt/", "de": "schätzen", "ex": "They estimate it will take three weeks to deliver the package."}, {"en": "remotely", "ipa": "/rɪˈməʊtli/", "de": "vage, kaum", "ex": "She's remotely interested in physics."}, {"en": "conscious", "ipa": "/ˈkɒnʃəs/", "de": "bewusst", "ex": "That wasn't a conscious decision."}, {"en": "to salute", "ipa": "/səˈluːt/", "de": "grüßen, salutieren", "ex": "You must salute whenever you see an officer."}, {"en": "shore", "ipa": "/ʃɔː(r)/", "de": "Küste, Ufer", "ex": "We took a walk along the shore."}, {"en": "to nod", "ipa": "/nɒd/", "de": "nicken", "ex": "I didn't know what to say, I just nodded."}, {"en": "army base", "ipa": "/ˈɑːmi beɪs/", "de": "militärischer Stützpunkt", "ex": "They are hiding refugees at the army base."}, {"en": "sketchbook", "ipa": "/ˈsketʃˌbʊk/", "de": "Skizzenbuch", "ex": "I took a look at her sketchbook, she is so good at drawing!"}, {"en": "tin", "ipa": "/tɪn/", "de": "Dose", "ex": "Can you buy me a tin of soup, please?"}, {"en": "exhibit", "ipa": "/ɪɡˈzɪbɪt/", "de": "Ausstellungsstück", "ex": "One of the exhibits was stolen from the museum."}, {"en": "to tip", "ipa": "/tɪp/", "de": "kippen, umkippen", "ex": "You have to tip the table or it won't fit through the door."}, {"en": "to elaborate on sth", "ipa": "/ɪˈlæbəreɪt ɒn/", "de": "etw näher ausführen", "ex": "Please elaborate on yesterday's statement."}, {"en": "consistent", "ipa": "/kənˈsɪstənt/", "de": "übereinstimmend, stimmig", "ex": "Your actions are not consistent with your words."}, {"en": "to flip sth", "ipa": "/flɪp/", "de": "etw wenden", "ex": "Don't forget to flip the pancake or it will burn!"}, {"en": "to kid", "ipa": "/kɪd/", "de": "scherzen, Witze machen", "ex": "You must be kidding!"}, {"en": "kindergarten teacher", "ipa": "/ˈkɪndəˌgɑːtn ˈtiːʧə/", "de": "Vorschullehrer/in", "ex": "She loves children and wants to become a kindergarten teacher."}, {"en": "to rule out sth", "ipa": "/ruːl aʊt/", "de": "etw verwerfen, etw ausschließen", "ex": "I wouldn't rule out that possibility."}, {"en": "pitcher", "ipa": "/ˈpɪtʃə(r)/", "de": "Werfer/in (beim Baseball)", "ex": "Ben is a better pitcher than William."}, {"en": "librarian", "ipa": "/laɪˈbreəriən/", "de": "Bibliothekar/in", "ex": "The librarian placed the books on the shelves."}, {"en": "bartender", "ipa": "/ˈbɑː(r)ˌtendə(r)/", "de": "Barkeeper/in", "ex": "If you don't want to work on weekends, you shouldn't become a bartender."}]}, {"id": "b-practice", "part": "B", "label": "Part B — Practice", "color": "rust", "words": [{"en": "linguistics", "ipa": "/lɪŋˈɡwɪstɪks/", "de": "Linguistik, Sprachwissenschaft", "ex": "My brother has a degree in linguistics."}, {"en": "prestigious", "ipa": "/preˈstɪdʒəs/", "de": "renommiert, angesehen", "ex": "This is a very prestigious university."}, {"en": "to run low on sth", "ipa": "/rʌn ləʊ ɒn/", "de": "kaum etw haben", "ex": "Is there a service station nearby? We're running low on gas."}, {"en": "to devote oneself to sth", "ipa": "/dɪˈvəʊt wʌnˈsɛlf tʊ/", "de": "sich etw widmen", "ex": "I'm completely devoting myself to my studies."}, {"en": "check", "ipa": "/tʃek/", "de": "Scheck", "ex": "I don't have any money with me; I'm going to write you a check."}, {"en": "community service", "ipa": "/kəˈmjuːnɪti ˈsɜːvɪs/", "de": "gemeinnützige Arbeit", "ex": "They sentenced him to 50 hours of community service."}, {"en": "acquisition", "ipa": "/ˌækwɪˈzɪʃ(ə)n/", "de": "Aneignung, Erwerb", "ex": "The acquisition of language skills is very important for your future career."}, {"en": "equivalency", "ipa": "/ɪˈkwɪvələnsi/", "de": "Gleichwertigkeit", "ex": "I need to get my high-school equivalency diploma, otherwise I won't find a job."}, {"en": "to cobble together", "ipa": "/ˈkɒbl təˈgɛðə/", "de": "zusammenflicken", "ex": "I don't want to live in that house, it looks like it's cobbled together."}, {"en": "solidity", "ipa": "/səˈlɪdəti/", "de": "Festigkeit, Stabilität", "ex": "I need solidity in my life."}, {"en": "stove", "ipa": "/stəʊv/", "de": "Herd, Ofen", "ex": "She put a pot of water on the stove."}, {"en": "chart", "ipa": "/tʃɑː(r)t/", "de": "Tabelle, Diagramm", "ex": "That chart confuses me, I don't understand it at all."}, {"en": "numerator", "ipa": "/ˈnjuːməˌreɪtə(r)/", "de": "Zähler", "ex": "The numerator is the top number in a fraction."}, {"en": "denominator", "ipa": "/dɪˈnɒmɪˌneɪtə(r)/", "de": "Nenner", "ex": "The denominator is the bottom number in a fraction."}, {"en": "underprivileged", "ipa": "/ˌʌndə(r)ˈprɪvəlɪdʒd/", "de": "benachteiligt", "ex": "He helps children from underprivileged families."}, {"en": "composition book", "ipa": "/ˌkɒmpəˈzɪʃən bʊk/", "de": "Notizbuch", "ex": "Wait, I wrote that down in my composition book."}, {"en": "quarter", "ipa": "/ˈkwɔː(r)tə(r)/", "de": "hier: 25-Cent-Stück der amerikanischen Währung", "ex": "Four quarters are a $1."}]}, {"id": "b-creative", "part": "B", "label": "Part B — Texts: Creative writing", "color": "rust", "words": [{"en": "to stretch", "ipa": "/stretʃ/", "de": "sich ausdehnen, sich erstrecken", "ex": "The beach stretches along the coast."}, {"en": "quantitative reasoning", "ipa": "/ˈkwɒntɪtətɪv ˈriːznɪŋ/", "de": "quantitatives Denken", "ex": "You have to take a test in quantitative reasoning to attend this class."}, {"en": "broiler chicken", "ipa": "/ˈbrɔɪlə ˈʧɪkɪn/", "de": "Masthähnchen", "ex": "Broiler chickens are too cheap, they should be more expensive."}, {"en": "sphere of activity", "ipa": "/sfɪər əv ækˈtɪvɪti/", "de": "Handlungsfeld, Tätigkeitsbereich", "ex": "This sphere of activity has a bright future."}, {"en": "skylight", "ipa": "/ˈskaɪˌlaɪt/", "de": "Dachfenster", "ex": "I can hear the sound of the rain on my skylights."}, {"en": "to extend", "ipa": "/ɪkˈstend/", "de": "ausstrecken", "ex": "He extended his hand towards me."}, {"en": "to dwarf sth", "ipa": "/dwɔː(r)f/", "de": "etw klein erscheinen lassen", "ex": "This crisis is going to dwarf every other crisis we experienced before."}, {"en": "overcoat", "ipa": "/ˈəʊvə(r)ˌkəʊt/", "de": "Mantel", "ex": "You should wear your overcoat, it's really cold outside."}, {"en": "to sneeze", "ipa": "/sniːz/", "de": "niesen", "ex": "I think I have a cold, I'm sneezing the whole time."}, {"en": "drugstore", "ipa": "/ˈdrʌɡˌstɔː(r)/", "de": "Drogerie", "ex": "She tried stealing perfume at the drugstore."}, {"en": "to enroll", "ipa": "/ɪnˈrəʊl/", "de": "anmelden, sich einschreiben", "ex": "You have to enroll in your classes until the end of the week."}]}]};
+
+// ---- flatten with section refs ----
+let ALL = [];
+DATA.sections.forEach(s=>{
+  s.words.forEach(w=>ALL.push({...w, sectionId:s.id, sectionLabel:s.label, part:s.part, color:s.color}));
+});
+
+// ---- state ----
+let activeParts = new Set(['A','B']);
+let mastered = {}; // en -> true (session only)
+
+// ---- speech ----
+let voices=[];
+function loadVoices(){ voices = speechSynthesis.getVoices(); }
+loadVoices();
+if(speechSynthesis.onvoiceschanged!==undefined) speechSynthesis.onvoiceschanged=loadVoices;
+function speak(text){
+  if(!('speechSynthesis' in window)){ toast('Audio not supported on this device'); return; }
+  speechSynthesis.cancel();
+  const clean = text.replace(/\bsth\b/g,'something').replace(/\bsb\b/g,'somebody').replace(/…/g,'').replace(/^to /,'');
+  const u = new SpeechSynthesisUtterance(clean);
+  u.lang='en-GB'; u.rate=.9;
+  const gb = voices.find(v=>v.lang==='en-GB') || voices.find(v=>v.lang && v.lang.startsWith('en'));
+  if(gb) u.voice=gb;
+  speechSynthesis.speak(u);
+}
+
+// ---- toast ----
+let toastT;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),1900);
+}
+
+// ---- filtered set ----
+function scope(){ return ALL.filter(w=>activeParts.has(w.part)); }
+function updateMasteredStat(){
+  document.getElementById('stat-mastered').textContent = Object.keys(mastered).length;
+}
+
+// ===== MODE SWITCHING =====
+document.querySelectorAll('.mode-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const m=b.dataset.mode;
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById('panel-'+m).classList.add('active');
+    // filters only relevant for browse + quiz
+    document.getElementById('filters').style.display = (m==='match') ? 'none':'flex';
+    if(m==='browse') renderBrowse();
+    if(m==='quiz') renderQuizSetup();
+    if(m==='match') renderMatchSetup();
+  });
+});
+
+// ===== FILTERS =====
+document.querySelectorAll('#filters .chip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    const part=c.dataset.part;
+    if(part==='all'){
+      const turnOn = !(activeParts.has('A')&&activeParts.has('B'));
+      activeParts = turnOn ? new Set(['A','B']) : new Set();
+      syncChips();
+    } else {
+      if(activeParts.has(part)) activeParts.delete(part); else activeParts.add(part);
+      syncChips();
+    }
+    const active=document.querySelector('.mode-btn.active').dataset.mode;
+    if(active==='browse') renderBrowse();
+    if(active==='quiz') renderQuizSetup();
+  });
+});
+function syncChips(){
+  document.querySelectorAll('#filters .chip[data-part="A"],#filters .chip[data-part="B"]').forEach(c=>{
+    c.classList.toggle('on', activeParts.has(c.dataset.part));
+  });
+  document.getElementById('chip-all').classList.toggle('on', activeParts.has('A')&&activeParts.has('B'));
+}
+
+// ===== BROWSE =====
+function renderBrowse(){
+  const host=document.getElementById('panel-browse');
+  const secs=DATA.sections.filter(s=>activeParts.has(s.part));
+  if(secs.length===0){ host.innerHTML='<div class="empty"><div class="big">No sections selected</div><div>Turn on Part A or Part B above to see words.</div></div>'; return; }
+  let html='';
+  secs.forEach(s=>{
+    html+=`<h2 class="section-head"><span>${s.label.split('—')[1]?.trim()||s.label}</span><span class="tag ${s.color}">Part ${s.part}</span></h2>`;
+    html+=`<div class="section-sub">${s.words.length} words · tap a card to flip · tap ◔ to hear it</div>`;
+    html+='<div class="card-grid">';
+    s.words.forEach((w,i)=>{
+      const safe = w.en.replace(/"/g,'&quot;');
+      const isMaster = mastered[w.en] ? ' style="border-left:3px solid var(--green)"':'';
+      html+=`<div class="vcard" data-en="${safe}"${isMaster}>
+        <div class="vcard-inner">
+          <div class="vcard-face">
+            <div>
+              <div class="vc-en">${w.en}</div>
+              <div class="vc-ipa">${w.ipa}</div>
+            </div>
+            <span class="flip-hint">tap to flip</span>
+            <button class="vc-speak" data-speak="${safe}" title="Hear pronunciation">◔</button>
+          </div>
+          <div class="vcard-face vcard-back">
+            <div>
+              <div class="vc-de">${w.de}</div>
+            </div>
+            <div class="vc-ex">"${w.ex}"</div>
+          </div>
+        </div>
+      </div>`;
+    });
+    html+='</div>';
+  });
+  host.innerHTML=html;
+  // flip handlers
+  host.querySelectorAll('.vcard').forEach(card=>{
+    card.addEventListener('click',e=>{
+      if(e.target.closest('.vc-speak')) return;
+      card.classList.toggle('flipped');
+    });
+  });
+  host.querySelectorAll('.vc-speak').forEach(btn=>{
+    btn.addEventListener('click',e=>{ e.stopPropagation(); speak(btn.dataset.speak); });
+  });
+}
+
+// ===== QUIZ =====
+let quizDir='en2de'; // or de2en
+let quizQueue=[], quizIdx=0, quizCorrect=0, quizMissed=[];
+
+function renderQuizSetup(){
+  const pool=scope();
+  const stage=document.getElementById('quiz-stage');
+  if(pool.length<4){ stage.innerHTML='<div class="empty"><div class="big">Not enough words</div><div>Select at least one part with 4+ words to start a quiz.</div></div>'; return; }
+  stage.innerHTML=`
+    <div class="quiz-setup">
+      <h2>Test yourself</h2>
+      <p>${pool.length} words in scope · multiple choice · pick a direction</p>
+      <div class="dir-toggle">
+        <button id="dir-en2de" class="${quizDir==='en2de'?'on':''}">English → Deutsch</button>
+        <button id="dir-de2en" class="${quizDir==='de2en'?'on':''}">Deutsch → English</button>
+      </div>
+      <div><button class="btn-primary" id="start-quiz">Start quiz →</button></div>
+      <p style="margin-top:24px;font-size:13px">Questions are drawn in randomized order. Words you miss come back at the end.</p>
+    </div>`;
+  document.getElementById('dir-en2de').onclick=()=>{quizDir='en2de';renderQuizSetup();};
+  document.getElementById('dir-de2en').onclick=()=>{quizDir='de2en';renderQuizSetup();};
+  document.getElementById('start-quiz').onclick=startQuiz;
+}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function startQuiz(){
+  quizQueue=shuffle(scope());
+  quizIdx=0; quizCorrect=0; quizMissed=[];
+  showQuizQ();
+}
+function showQuizQ(){
+  const stage=document.getElementById('quiz-stage');
+  if(quizIdx>=quizQueue.length){ showQuizScore(); return; }
+  const w=quizQueue[quizIdx];
+  const pool=scope();
+  // build distractors
+  const promptText = quizDir==='en2de' ? w.en : w.de;
+  const answerText = quizDir==='en2de' ? w.de : w.en;
+  const distractors = shuffle(pool.filter(x=>x.en!==w.en))
+    .filter((x,i,arr)=>{ const t=quizDir==='en2de'?x.de:x.en; return arr.findIndex(y=>(quizDir==='en2de'?y.de:y.en)===t)===i; })
+    .slice(0,3)
+    .map(x=>quizDir==='en2de'?x.de:x.en);
+  const opts=shuffle([answerText,...distractors]);
+  const keys=['A','B','C','D'];
+  const pct=Math.round(quizIdx/quizQueue.length*100);
+  stage.innerHTML=`
+    <div class="quiz-progress">
+      <div class="qbar"><div class="qbar-fill" style="width:${pct}%"></div></div>
+      <span class="qcount">${quizIdx+1} / ${quizQueue.length}</span>
+    </div>
+    <div class="qcard">
+      <div class="q-prompt-label">${quizDir==='en2de'?'Translate to German':'Translate to English'}</div>
+      <div class="q-prompt">${promptText}</div>
+      ${quizDir==='en2de'?`<div class="q-ipa">${w.ipa}</div><button class="q-speak-big" id="qspeak">◔</button>`:''}
+    </div>
+    <div class="q-options" id="qopts">
+      ${opts.map((o,i)=>`<button class="q-opt" data-val="${o.replace(/"/g,'&quot;')}"><span class="opt-key">${keys[i]}</span><span>${o}</span></button>`).join('')}
+    </div>
+    <div class="q-feedback" id="qfb"></div>
+    <div class="q-next" id="qnext"></div>`;
+  if(quizDir==='en2de'){ const sp=document.getElementById('qspeak'); if(sp) sp.onclick=()=>speak(w.en); }
+  const correctVal=answerText;
+  stage.querySelectorAll('.q-opt').forEach(btn=>{
+    btn.onclick=()=>{
+      const chosen=btn.dataset.val;
+      stage.querySelectorAll('.q-opt').forEach(b=>{
+        b.disabled=true;
+        if(b.dataset.val===correctVal) b.classList.add('correct');
+        else if(b===btn) b.classList.add('wrong');
+      });
+      const fb=document.getElementById('qfb');
+      if(chosen===correctVal){
+        quizCorrect++; mastered[w.en]=true; updateMasteredStat();
+        fb.innerHTML=`<span style="color:var(--green)">✓ Correct</span><span class="ex">"${w.ex}"</span>`;
+      } else {
+        quizMissed.push(w);
+        fb.innerHTML=`<span style="color:var(--red)">✗ ${w.en} = ${w.de}</span><span class="ex">"${w.ex}"</span>`;
+      }
+      document.getElementById('qnext').innerHTML=`<button class="btn-primary" id="nextq">${quizIdx+1>=quizQueue.length?'See results →':'Next →'}</button>`;
+      document.getElementById('nextq').onclick=()=>{ quizIdx++; showQuizQ(); };
+    };
+  });
+}
+function showQuizScore(){
+  const stage=document.getElementById('quiz-stage');
+  const total=quizQueue.length;
+  const pct=Math.round(quizCorrect/total*100);
+  let msg, emoji;
+  if(pct>=90){msg='Outstanding. This vocabulary is yours.';emoji='★';}
+  else if(pct>=70){msg='Strong work. A few to revisit.';emoji='◆';}
+  else if(pct>=50){msg='Getting there. Run the missed words again.';emoji='◑';}
+  else {msg='Worth another round. Browse first, then retry.';emoji='○';}
+  // dedupe missed
+  const seen=new Set(); const missed=quizMissed.filter(w=>{if(seen.has(w.en))return false;seen.add(w.en);return true;});
+  stage.innerHTML=`
+    <div class="score-screen">
+      <div class="score-ring">${emoji}</div>
+      <div class="score-pct">${quizCorrect} / ${total} correct · ${pct}%</div>
+      <div class="score-msg">${msg}</div>
+      <div class="score-breakdown">
+        <div class="sb"><span class="sb-n" style="color:var(--green)">${quizCorrect}</span><span class="sb-l">correct</span></div>
+        <div class="sb"><span class="sb-n" style="color:var(--red)">${total-quizCorrect}</span><span class="sb-l">missed</span></div>
+      </div>
+      ${missed.length?`<div class="missed-list"><h4>Words to revisit</h4>${missed.map(w=>`<div class="missed-item"><span class="me">${w.en}</span><span class="md">${w.de}</span></div>`).join('')}</div>`:''}
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        ${missed.length?`<button class="btn-primary" id="retry-missed">Retry ${missed.length} missed →</button>`:''}
+        <button class="btn-ghost" id="retry-all">New quiz</button>
+      </div>
+    </div>`;
+  if(missed.length){ document.getElementById('retry-missed').onclick=()=>{ quizQueue=shuffle(missed);quizIdx=0;quizCorrect=0;quizMissed=[];showQuizQ(); }; }
+  document.getElementById('retry-all').onclick=renderQuizSetup;
+}
+
+// ===== MATCH GAME =====
+let matchPairs=10, matchSel=null, matchDone=0, matchMoves=0, matchTimer=0, matchInt=null, matchSet=[];
+function renderMatchSetup(){
+  const pool=scope();
+  const stage=document.getElementById('match-stage');
+  const maxPairs=Math.min(10, ALL.length);
+  stage.innerHTML=`
+    <div class="match-setup">
+      <h2 style="font-family:var(--display);font-size:2rem;font-weight:700;margin-bottom:10px">Match it</h2>
+      <p style="color:var(--ink-soft);margin-bottom:28px">Pair each English word with its German meaning, against the clock. Drawn from all ${ALL.length} words.</p>
+      <div><button class="btn-primary" id="start-match">Deal ${maxPairs} pairs →</button></div>
+      <p style="margin-top:24px;font-size:13px">Tap an English word, then its match. Wrong pairs shake and reset.</p>
+    </div>`;
+  document.getElementById('start-match').onclick=()=>startMatch(maxPairs);
+}
+function startMatch(n){
+  matchSet=shuffle(ALL).slice(0,n);
+  matchSel=null; matchDone=0; matchMoves=0; matchTimer=0;
+  const stage=document.getElementById('match-stage');
+  const ens=shuffle(matchSet.map((w,i)=>({...w,idx:i})));
+  const des=shuffle(matchSet.map((w,i)=>({...w,idx:i})));
+  stage.innerHTML=`
+    <div class="match-stats">
+      <span class="match-timer" id="mtimer">0.0s</span>
+      <span class="match-moves" id="mmoves">0 moves</span>
+    </div>
+    <div class="match-grid">
+      <div class="match-col-label">English</div>
+      <div class="match-col-label">Deutsch</div>
+    </div>
+    <div class="match-grid" id="mgrid"></div>`;
+  const grid=document.getElementById('mgrid');
+  // interleave columns row by row for grid layout: we need two columns; build all en then all de won't align. Use two sub-columns.
+  let html='<div style="display:flex;flex-direction:column;gap:10px">';
+  ens.forEach(w=>{ html+=`<div class="match-tile en" data-idx="${w.idx}" data-side="en">${w.en}</div>`; });
+  html+='</div><div style="display:flex;flex-direction:column;gap:10px">';
+  des.forEach(w=>{ html+=`<div class="match-tile de" data-idx="${w.idx}" data-side="de">${w.de}</div>`; });
+  html+='</div>';
+  grid.style.display='grid'; grid.style.gridTemplateColumns='1fr 1fr'; grid.style.gap='10px';
+  grid.innerHTML=html;
+  grid.querySelectorAll('.match-tile').forEach(t=>t.addEventListener('click',()=>matchClick(t)));
+  clearInterval(matchInt);
+  matchInt=setInterval(()=>{matchTimer+=0.1;document.getElementById('mtimer').textContent=matchTimer.toFixed(1)+'s';},100);
+}
+function matchClick(tile){
+  if(tile.classList.contains('matched')) return;
+  if(matchSel===null){
+    matchSel=tile; tile.classList.add('selected'); return;
+  }
+  if(tile===matchSel){ tile.classList.remove('selected'); matchSel=null; return; }
+  if(tile.dataset.side===matchSel.dataset.side){
+    matchSel.classList.remove('selected'); matchSel=tile; tile.classList.add('selected'); return;
+  }
+  // attempt match
+  matchMoves++; document.getElementById('mmoves').textContent=matchMoves+' move'+(matchMoves>1?'s':'');
+  const a=matchSel, b=tile;
+  if(a.dataset.idx===b.dataset.idx){
+    a.classList.add('flash-ok'); b.classList.add('flash-ok');
+    const enWord=matchSet[+a.dataset.idx].en; mastered[enWord]=true; updateMasteredStat();
+    setTimeout(()=>{
+      a.classList.add('matched'); b.classList.add('matched');
+      a.classList.remove('flash-ok','selected'); b.classList.remove('flash-ok','selected');
+    },350);
+    matchDone++;
+    if(matchDone===matchSet.length) finishMatch();
+  } else {
+    a.classList.add('flash-no'); b.classList.add('flash-no');
+    setTimeout(()=>{a.classList.remove('flash-no','selected');b.classList.remove('flash-no','selected');},350);
+  }
+  matchSel=null;
+}
+function finishMatch(){
+  clearInterval(matchInt);
+  const stage=document.getElementById('match-stage');
+  const t=matchTimer.toFixed(1);
+  const perfect=matchMoves===matchSet.length;
+  setTimeout(()=>{
+    stage.innerHTML=`
+      <div class="score-screen">
+        <div class="score-ring">${perfect?'★':'◆'}</div>
+        <div class="score-pct">${t}s · ${matchMoves} moves</div>
+        <div class="score-msg">${perfect?'Flawless — no wrong pairs!':'All matched. Try for zero mistakes next time.'}</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button class="btn-primary" id="match-again">Play again →</button>
+        </div>
+      </div>`;
+    document.getElementById('match-again').onclick=renderMatchSetup;
+  },500);
+}
+
+// ===== INIT =====
+renderBrowse();
+</script>
+</body>
+</html>
