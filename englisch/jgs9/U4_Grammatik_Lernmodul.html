@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grammar — Job Applications &amp; Interviews (Camden Town 9, Theme 4)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ocean:#0d4f5c;--ocean-2:#0a3e49;--sand:#f3e7d0;--sand-line:#e6d4b4;--coral:#ff6b4a;--gold:#f2b134;--leaf:#2f9e7d;--red:#c0392b;--ink:#10262b;--paper:#fbf7ef;--muted:#5b6f73;--work:#3a5a8c;--work-2:#2c466e;--shadow:0 10px 30px rgba(13,79,92,.14);--radius:16px;--display:'Space Grotesk',system-ui,sans-serif;--body:'Inter',system-ui,-apple-system,sans-serif;}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{font-family:var(--body);color:var(--ink);min-height:100vh;line-height:1.55;-webkit-font-smoothing:antialiased;background:radial-gradient(1200px 500px at 110% -10%, rgba(242,177,52,.16), transparent 60%),radial-gradient(900px 500px at -10% 110%, rgba(47,158,125,.14), transparent 55%),var(--paper);}
+  body.t-conditional{background:radial-gradient(1200px 500px at 110% -10%, rgba(58,90,140,.16), transparent 60%),radial-gradient(900px 500px at -10% 110%, rgba(13,79,92,.12), transparent 55%),var(--paper);}
+  .wrap{max-width:720px;margin:0 auto;padding:22px 16px 70px}
+  .eyebrow{font-family:var(--display);font-weight:500;letter-spacing:.14em;text-transform:uppercase;font-size:.68rem;color:var(--ocean);display:inline-flex;align-items:center;gap:.5em}
+  .eyebrow::before{content:"";width:24px;height:2px;background:var(--coral);display:inline-block}
+  body.t-conditional .eyebrow{color:var(--work)}
+  h1{font-family:var(--display);font-weight:700;line-height:1.05;font-size:clamp(1.5rem,5.5vw,2.2rem);margin:.18em 0 .1em;color:var(--ocean)}
+  body.t-conditional h1{color:var(--work)}
+  .tagline{color:var(--muted);font-size:.92rem;margin:0}
+  .acc{color:var(--ocean)}body.t-conditional .acc{color:var(--work)}
+
+  .topics{display:flex;gap:10px;margin:16px 0 4px;flex-wrap:wrap}
+  .topic{flex:1 1 240px;text-align:left;border:1px solid var(--sand-line);background:#fff;border-radius:14px;padding:13px 16px;cursor:pointer;transition:transform .12s,box-shadow .18s,border-color .18s}
+  .topic:hover{transform:translateY(-1px)}
+  .topic[aria-pressed="true"]{box-shadow:var(--shadow);border-color:var(--ocean)}
+  body.t-conditional .topic.conditional[aria-pressed="true"]{border-color:var(--work)}
+  .topic .tk{font-family:var(--display);font-weight:700;font-size:1.02rem;color:var(--ocean)}
+  .topic.conditional .tk{color:var(--work)}
+  .topic .ts{font-size:.8rem;color:var(--muted)}
+
+  .steps{display:flex;gap:6px;margin:18px 0 6px;flex-wrap:wrap}
+  .step{flex:1 1 0;min-width:120px;font-family:var(--display);font-weight:600;font-size:.82rem;border:1px solid var(--sand-line);background:#fff;color:var(--muted);padding:9px 10px;border-radius:11px;cursor:pointer;text-align:center;transition:background .18s,color .18s,border-color .18s}
+  .step .n{display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--sand);color:var(--ocean);align-items:center;justify-content:center;font-size:.75rem;margin-right:5px}
+  .step[aria-current="true"]{background:var(--ocean);color:#fff;border-color:var(--ocean)}
+  body.t-conditional .step[aria-current="true"]{background:var(--work);border-color:var(--work)}
+  .step[aria-current="true"] .n{background:rgba(255,255,255,.25);color:#fff}
+  .step.done .n{background:var(--leaf);color:#fff}
+
+  .card{background:#fff;border:1px solid var(--sand-line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-top:14px}
+  .phase{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:4px}
+  body.t-conditional .phase{color:var(--work)}
+  .card h2{font-family:var(--display);font-weight:700;color:var(--ocean);font-size:1.25rem;margin:.1em 0 .5em}
+  body.t-conditional .card h2{color:var(--work)}
+  .card p{margin:.4em 0}
+  .lead{color:var(--muted)}
+
+  .ex{background:var(--sand);border-radius:12px;padding:14px 16px;margin:10px 0;font-size:1.05rem;border:1px solid var(--sand-line)}
+  .ex + .ex{margin-top:8px}
+  .hl{background:rgba(242,177,52,.4);border-bottom:2px solid var(--gold);font-weight:600;padding:0 2px;border-radius:3px}
+  .hl2{background:rgba(47,158,125,.22);border-bottom:2px solid var(--leaf);font-weight:600;padding:0 2px;border-radius:3px}
+  .notice{background:rgba(255,107,74,.1);border-left:3px solid var(--coral);padding:11px 14px;border-radius:8px;margin-top:12px;font-size:.95rem}
+  body.t-conditional .notice{background:rgba(58,90,140,.1);border-left-color:var(--work)}
+  .notice b{font-family:var(--display)}
+
+  .formula{font-family:var(--display);font-weight:600;text-align:center;background:linear-gradient(160deg,var(--ocean),var(--ocean-2));color:#fff;border-radius:12px;padding:16px;margin:12px 0;font-size:1.05rem;line-height:1.7}
+  body.t-conditional .formula{background:linear-gradient(160deg,var(--work),var(--work-2))}
+  .formula .g{color:var(--gold)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92rem}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--sand-line);vertical-align:top}
+  th{font-family:var(--display);color:var(--ocean);font-size:.8rem;text-transform:uppercase;letter-spacing:.05em}
+  body.t-conditional th{color:var(--work)}
+  td code{background:var(--sand);padding:1px 6px;border-radius:5px;font-family:var(--display);font-weight:600}
+  ul.clean{margin:.4em 0;padding-left:1.2em}ul.clean li{margin:4px 0}
+
+  .qprompt{font-size:1.08rem;margin-bottom:12px}
+  .qprompt .gap{color:var(--coral);font-weight:700}
+  body.t-conditional .qprompt .gap{color:var(--work)}
+  .qprompt .sub{display:block;font-size:.85rem;color:var(--muted);font-style:italic;margin-top:4px}
+  .options{display:grid;gap:9px}
+  .opt{font-family:var(--display);font-weight:600;font-size:1rem;border:1px solid var(--sand-line);background:#fff;color:var(--ink);padding:12px 14px;border-radius:11px;cursor:pointer;text-align:left;transition:transform .1s,border-color .18s}
+  .opt:hover{transform:translateY(-1px);border-color:var(--ocean)}
+  .opt.correct{background:var(--leaf);color:#fff;border-color:var(--leaf)}
+  .opt.miss{background:#fff;border-color:var(--coral);color:var(--coral)}
+  .fb{margin-top:10px;font-weight:600;font-family:var(--display);min-height:1.3em}
+  .fb.ok{color:var(--leaf)}.fb.no{color:var(--coral)}
+  .fb small{display:block;color:var(--muted);font-weight:500;font-family:var(--body);margin-top:3px}
+  .qnav{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-family:var(--display);font-size:.85rem;color:var(--muted)}
+
+  .typer textarea{width:100%;font-family:var(--body);font-size:1rem;padding:12px 14px;border:1px solid var(--sand-line);border-radius:11px;background:#fff;color:var(--ink);resize:vertical;min-height:60px}
+  .typer textarea:focus{outline:3px solid rgba(13,79,92,.25);border-color:var(--ocean)}
+  .model{background:rgba(47,158,125,.1);border:1px solid var(--leaf);border-radius:11px;padding:12px 14px;margin-top:10px;display:none}
+  .model.show{display:block}
+  .model .ml{font-family:var(--display);font-weight:700;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--leaf);margin-bottom:3px}
+  .selfmark{display:flex;gap:8px;margin-top:10px}
+
+  .btn{font-family:var(--display);font-weight:700;font-size:.95rem;cursor:pointer;border:1px solid var(--ocean);background:var(--ocean);color:#fff;padding:11px 18px;border-radius:11px;transition:transform .12s,opacity .18s}
+  body.t-conditional .btn{background:var(--work);border-color:var(--work)}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.ghost{background:transparent;color:var(--ocean);border-color:var(--sand-line)}
+  body.t-conditional .btn.ghost{color:var(--work)}
+  .navrow{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
+
+  footer{margin-top:24px;text-align:center;color:var(--muted);font-size:.76rem}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:8px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="t-causative">
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Camden Town 9 · Theme 4 · Grammar</span>
+    <h1 id="title">let / make / have</h1>
+    <p class="tagline">Learn the rule step by step, then try it yourself. Nothing is saved — practise as often as you like.</p>
+  </header>
+
+  <div class="topics" role="group" aria-label="Choose a grammar topic">
+    <button class="topic causative" id="topCausative" aria-pressed="true">
+      <span class="tk">1 · let / make / have</span><br><span class="ts">Let me know · They made me wait · I had my CV printed</span>
+    </button>
+    <button class="topic conditional" id="topConditional" aria-pressed="false">
+      <span class="tk">2 · Conditional type 3</span><br><span class="ts">If I had practised, I would have done better.</span>
+    </button>
+  </div>
+
+  <div class="steps" id="stepNav"></div>
+  <div id="content"></div>
+
+  <div class="navrow">
+    <button class="btn ghost" id="backBtn">← Back</button>
+    <button class="btn" id="nextBtn">Next step →</button>
+  </div>
+
+  <footer>Grammar learning module · discover → rule → practice → apply · Camden Town 9, Theme 4 (Job applications &amp; interviews)</footer>
+</div>
+
+<script>
+var STEP_NAMES = ["Discover","The rule","Practice","Apply"];
+
+var TOPICS = {
+  causative: {
+    title: "let / make / have",
+    discover: {
+      phase: "Step 1 · Discover",
+      h: "Look at these sentences",
+      examples: [
+        '<span class="hl">Let</span> me know if you need any help preparing for your interview.',
+        'I didn\u2019t want to, but my dad <span class="hl">made me go</span> through some typical interview questions.',
+        'I <span class="hl">had my CV printed</span> out on nice paper for the interview.'
+      ],
+      notice: "<b>Notice:</b> in none of these sentences does the subject do the action alone. Someone <b>allows</b> it (let), someone is <b>forced/caused</b> to do it (make), or you <b>arrange for someone else</b> to do it for you (have sth done). Three ideas — three structures."
+    },
+    rule: {
+      phase: "Step 2 · The rule",
+      h: "How let / make / have work",
+      html:
+        '<p class="lead">Use these structures when the subject does <b>not</b> do the action alone — another person is involved.</p>'+
+        '<div class="formula"><span class="g">let</span> / <span class="g">make</span> + sb + <span class="g">bare infinitive</span> (do)<br><span class="g">have</span> + sth + <span class="g">past participle</span> (done)</div>'+
+        '<table><tr><th>Structure</th><th>Meaning</th><th>Example</th></tr>'+
+        '<tr><td><code>let sb do sth</code></td><td>allow / permit</td><td><b>Let</b> me <b>know</b> if you need help.</td></tr>'+
+        '<tr><td><code>make sb do sth</code></td><td>force / cause</td><td>They <b>made</b> me <b>turn</b> the computer off.</td></tr>'+
+        '<tr><td><code>have sb do sth</code></td><td>get sb to do sth</td><td>My dad <b>had</b> me <b>go</b> through the questions.</td></tr>'+
+        '<tr><td><code>have sth done</code></td><td>arrange for sb else to do it</td><td>I <b>had</b> my CV <b>printed</b>.</td></tr></table>'+
+        '<div class="notice"><b>Watch out:</b> after <i>let/make/have + a person</i>, use the <b>bare infinitive</b> — no <i>to</i> (<i>made me go</i>, not <i>made me to go</i>). For <b>have sth done</b>, the <b>thing</b> comes first, then a <b>past participle</b> (<i>had my CV printed</i>). &nbsp;<span style="opacity:.75">Grammar file &#8227; G11</span></div>'
+    },
+    recog: {
+      phase: "Step 3 · Practice (a) — what does it mean?",
+      h: "Allow, force, or get it done?",
+      lbl: "Read the sentence and decide what the structure expresses.",
+      items: [
+        {s:'Casandra <b>let</b> me drive her to the interview.', a:"allow (let)"},
+        {s:'They <b>made</b> me turn my computer on and off.', a:"force (make)"},
+        {s:'I <b>had</b> my CV printed on nice paper.', a:"get sth done (have)"},
+        {s:'<b>Let</b> me know if you need any help.', a:"allow (let)"},
+        {s:'My dad <b>made</b> me go through the questions.', a:"force (make)"},
+        {s:'I <b>had</b> my suit cleaned before the big day.', a:"get sth done (have)"}
+      ],
+      opts:["allow (let)","force (make)","get sth done (have)"]
+    },
+    gap: {
+      phase: "Step 3 · Practice (b) — build the form",
+      h: "Choose the correct form",
+      items: [
+        {s:"Let me {} if you need any help.", sub:"allow me to do this", a:"know", opts:["know","to know","knowing"], why:"After 'let sb', use the bare infinitive — no 'to'."},
+        {s:"My dad made me {} through the interview questions.", sub:"he forced/caused me to do it", a:"go", opts:["go","to go","went"], why:"After 'make sb', use the bare infinitive — no 'to'."},
+        {s:"I had my CV {} on nice paper.", sub:"someone else did it for me", a:"printed", opts:["printed","print","to print"], why:"'have sth done' = have + object + past participle."},
+        {s:"Casandra let me {} her to the interview.", sub:"she allowed me to do it", a:"drive", opts:["drive","to drive","driving"], why:"After 'let sb', use the bare infinitive."},
+        {s:"I had my suit {} before the big day.", sub:"the dry cleaner did it for me", a:"cleaned", opts:["cleaned","clean","cleaning"], why:"'have sth done' needs the past participle (done for you)."}
+      ]
+    },
+    apply: {
+      phase: "Step 4 · Apply — produce it",
+      h: "Write one sentence for each situation",
+      hint: "Use let, make, or have sth done. There is often more than one correct solution — check the meaning and the form.",
+      items: [
+        {prompt:"You want a friend to check your CV for mistakes. <span class=\"lead\">(have sth done)</span>", model:"I\u2019ll have my CV checked by a friend. &nbsp;<span style=\"opacity:.7\">(also possible: I had a friend check my CV.)</span>"},
+        {prompt:"Your teacher allowed you to leave class early to prepare. <span class=\"lead\">(let)</span>", model:"My teacher let me leave class early to prepare."},
+        {prompt:"During the interview, the panel forced you to repeat your answer. <span class=\"lead\">(make)</span>", model:"The panel made me repeat my answer. &nbsp;<span style=\"opacity:.7\">(also possible: They had me repeat my answer.)</span>"}
+      ]
+    }
+  },
+
+  conditional: {
+    title: "Conditional type 3",
+    discover: {
+      phase: "Step 1 · Discover",
+      h: "Look at these sentences",
+      examples: [
+        'If I <span class="hl">had practised</span> my answers, I <span class="hl">would have done</span> better in my interview.',
+        'I <span class="hl">would have made</span> a better impression if I <span class="hl">had dressed</span> more appropriately.',
+        'The interviewer <span class="hl">would have liked</span> me better if I <span class="hl">had been</span> more enthusiastic.'
+      ],
+      notice: "<b>Notice:</b> every sentence is about the <b>past</b> — and about things that did <b>not</b> happen. (I <i>didn\u2019t</i> practise, so I <i>didn\u2019t</i> do better.) We imagine a different past and its different result. This is often used to talk about <b>regret</b>."
+    },
+    rule: {
+      phase: "Step 2 · The rule",
+      h: "How the type 3 conditional works",
+      html:
+        '<p class="lead">Use the type 3 conditional to imagine a past that was different from what really happened — and the result it would have had.</p>'+
+        '<div class="formula">if + <span class="g">past perfect</span> (had + past participle),<br>\u2026 <span class="g">would have</span> + <span class="g">past participle</span></div>'+
+        '<table><tr><th>What really happened</th><th>Type 3 (imagined past)</th></tr>'+
+        '<tr><td>I didn\u2019t practise. I did badly.</td><td>If I <b>had practised</b>, I <b>would have done</b> better.</td></tr>'+
+        '<tr><td>I dressed casually. I made a poor impression.</td><td>I <b>would have made</b> a better impression if I <b>had dressed</b> smartly.</td></tr>'+
+        '<tr><td>I didn\u2019t use a filter. My background looked messy.</td><td>My background <b>would have looked</b> better if I <b>had used</b> a filter.</td></tr></table>'+
+        '<div class="notice"><b>Watch out:</b> the result clause is <b>would have + past participle</b> — never <i>would practised</i> or <i>would have practise</i>. The if-clause can come first or second; put a comma only when the if-clause comes first. Short forms: <i>I&#8217;d practised</i> = I had practised; <i>I&#8217;d have done</i> = I would have done. &nbsp;<span style="opacity:.75">Grammar file &#8227; G5R</span></div>'
+    },
+    recog: {
+      phase: "Step 3 · Practice (a) — spot the type",
+      h: "Type 3, or not?",
+      lbl: "Decide whether the sentence is a type 3 conditional (unreal past).",
+      items: [
+        {s:'If I had practised, I would have done better.', a:"Type 3"},
+        {s:'If I practise tonight, I will do better tomorrow.', a:"Not type 3"},
+        {s:'The interviewer would have liked me if I had been more enthusiastic.', a:"Type 3"},
+        {s:'If I were you, I would practise before the interview.', a:"Not type 3"},
+        {s:'My background would have looked professional if I had used a filter.', a:"Type 3"},
+        {s:'If I had sent a thank-you message, they would have called me back.', a:"Type 3"}
+      ],
+      opts:["Type 3","Not type 3"]
+    },
+    gap: {
+      phase: "Step 3 · Practice (b) — build the form",
+      h: "Choose the correct verb form",
+      items: [
+        {s:"If I {} my answers, I would have done better.", sub:"if-clause · verb: practise", a:"had practised", opts:["had practised","practised","would practise","have practised"], why:"The if-clause of a type 3 conditional uses the past perfect (had + past participle)."},
+        {s:"I would have made a better impression if I {} more appropriately.", sub:"if-clause · verb: dress", a:"had dressed", opts:["had dressed","dressed","would dress","have dressed"], why:"The if-clause uses the past perfect (had dressed)."},
+        {s:"My background {} more professional if I had used a filter.", sub:"result clause · verb: look", a:"would have looked", opts:["would have looked","would look","had looked","looked"], why:"The result clause uses would have + past participle."},
+        {s:"The interviewer would have liked me better if I {} more enthusiastic.", sub:"if-clause · verb: be", a:"had been", opts:["had been","was","would be","had be"], why:"Past perfect of 'be' = had been."},
+        {s:"If I had asked for feedback, I {} what to improve.", sub:"result clause · verb: learn", a:"would have learnt", opts:["would have learnt","would learn","had learnt","learnt"], why:"The result clause uses would have + past participle (learnt / learned)."}
+      ]
+    },
+    apply: {
+      phase: "Step 4 · Apply — produce it",
+      h: "Write a type 3 conditional for each situation",
+      hint: "Imagine a different past and its result. Use: if + past perfect, … would have + past participle.",
+      items: [
+        {prompt:"You didn\u2019t research the company, so you couldn\u2019t answer a key question.", model:"If I had researched the company, I would have answered the key question."},
+        {prompt:"You arrived late, so the interviewer was annoyed.", model:"If I had arrived on time, the interviewer wouldn\u2019t have been annoyed. &nbsp;<span style=\"opacity:.7\">(if-clause may also come second.)</span>"},
+        {prompt:"You didn\u2019t send a thank-you message, so they didn\u2019t call you back.", model:"If I had sent a thank-you message, they would have called me back."}
+      ]
+    }
+  }
+};
+
+var state = { topic: "causative", step: 0 };
+var $ = function(id){ return document.getElementById(id); };
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+function renderStepNav(){
+  var nav = $("stepNav"); nav.innerHTML = "";
+  STEP_NAMES.forEach(function(name, i){
+    var b = document.createElement("button");
+    b.className = "step" + (i < state.step ? " done" : "");
+    if (i === state.step) b.setAttribute("aria-current","true");
+    b.innerHTML = '<span class="n">' + (i+1) + '</span>' + name;
+    b.addEventListener("click", function(){ state.step = i; render(); });
+    nav.appendChild(b);
+  });
+}
+
+function render(){
+  var T = TOPICS[state.topic];
+  $("title").textContent = T.title;
+  document.body.className = state.topic === "causative" ? "t-causative" : "t-conditional";
+  $("topCausative").setAttribute("aria-pressed", state.topic==="causative"?"true":"false");
+  $("topConditional").setAttribute("aria-pressed", state.topic==="conditional"?"true":"false");
+  renderStepNav();
+  var c = $("content");
+  if (state.step === 0) c.innerHTML = renderDiscover(T.discover);
+  else if (state.step === 1) c.innerHTML = renderRule(T.rule);
+  else if (state.step === 2) renderPractice(c, T);
+  else renderApply(c, T);
+  $("backBtn").style.visibility = state.step === 0 ? "hidden" : "visible";
+  $("nextBtn").textContent = state.step === 3 ? "Finish ✓" : "Next step →";
+}
+
+function renderDiscover(d){
+  var ex = d.examples.map(function(e){ return '<div class="ex">' + e + '</div>'; }).join("");
+  return '<div class="card"><div class="phase">'+d.phase+'</div><h2>'+d.h+'</h2>'+ex+'<div class="notice">'+d.notice+'</div></div>';
+}
+function renderRule(r){
+  return '<div class="card"><div class="phase">'+r.phase+'</div><h2>'+r.h+'</h2>'+r.html+'</div>';
+}
+
+/* ---- Step 3: recognition + gap-fill ---- */
+function renderPractice(c, T){
+  c.innerHTML =
+    '<div class="card"><div class="phase">'+T.recog.phase+'</div><h2>'+T.recog.h+'</h2>'+
+      '<p class="lead">'+T.recog.lbl+'</p>'+
+      '<div id="recogBox"></div><div class="fb" id="recogFb"></div>'+
+      '<div class="qnav"><span id="recogProg"></span><span></span></div>'+
+    '</div>'+
+    '<div class="card" id="gapCard" style="opacity:.5;pointer-events:none"><div class="phase">'+T.gap.phase+'</div><h2>'+T.gap.h+'</h2>'+
+      '<div class="qprompt" id="gapPrompt"></div><div class="options" id="gapOpts"></div><div class="fb" id="gapFb"></div>'+
+      '<div class="qnav"><span id="gapProg"></span><span></span></div>'+
+    '</div>';
+  startRecog(T);
+}
+function startRecog(T){
+  var items = shuffle(T.recog.items), i = 0;
+  function draw(){
+    $("recogProg").textContent = "Sentence " + (i+1) + " / " + items.length;
+    var box = $("recogBox"); box.innerHTML = '<div class="qprompt">'+items[i].s+'</div><div class="options"></div>';
+    var opts = box.querySelector(".options");
+    T.recog.opts.forEach(function(o){
+      var b = document.createElement("button"); b.className="opt"; b.textContent=o;
+      b.addEventListener("click", function(){ choose(b,o); });
+      opts.appendChild(b);
+    });
+    $("recogFb").textContent=""; $("recogFb").className="fb";
+  }
+  function choose(btn, o){
+    var box=$("recogBox"); box.querySelectorAll(".opt").forEach(function(b){b.disabled=true;});
+    var fb=$("recogFb");
+    if(o===items[i].a){btn.classList.add("correct");fb.className="fb ok";fb.textContent="Correct!";}
+    else{btn.classList.add("miss");box.querySelectorAll(".opt").forEach(function(b){if(b.textContent===items[i].a)b.classList.add("correct");});fb.className="fb no";fb.textContent="It's "+items[i].a+".";}
+    setTimeout(function(){ i++; if(i>=items.length){ $("recogBox").innerHTML='<p class="lead">Nice — you can spot it. Now build the form below. ↓</p>'; $("recogProg").textContent="Done ✓"; var g=$("gapCard"); g.style.opacity="1"; g.style.pointerEvents="auto"; startGap(T); } else draw(); }, 900);
+  }
+  draw();
+}
+function startGap(T){
+  var items = shuffle(T.gap.items), i = 0;
+  function draw(){
+    $("gapProg").textContent = "Gap " + (i+1) + " / " + items.length;
+    var it = items[i];
+    var sentence = it.s.replace("{}", '<span class="gap">______</span>');
+    var sub = it.sub || "";
+    $("gapPrompt").innerHTML = sentence + (sub ? '<span class="sub">'+sub+'</span>' : "");
+    var box = $("gapOpts"); box.innerHTML = "";
+    shuffle(it.opts).forEach(function(o){
+      var b=document.createElement("button"); b.className="opt"; b.textContent=o;
+      b.addEventListener("click", function(){ choose(b,o,it); });
+      box.appendChild(b);
+    });
+    $("gapFb").textContent=""; $("gapFb").className="fb";
+  }
+  function choose(btn,o,it){
+    $("gapOpts").querySelectorAll(".opt").forEach(function(b){b.disabled=true;});
+    var fb=$("gapFb");
+    if(o===it.a){btn.classList.add("correct");fb.className="fb ok";fb.innerHTML="Correct!<small>"+it.why+"</small>";}
+    else{btn.classList.add("miss");$("gapOpts").querySelectorAll(".opt").forEach(function(b){if(b.textContent===it.a)b.classList.add("correct");});fb.className="fb no";fb.innerHTML="Correct: "+it.a+"<small>"+it.why+"</small>";}
+    setTimeout(function(){ i++; if(i>=items.length){ $("gapPrompt").innerHTML='<p class="lead">That\u2019s the controlled practice done. Ready to produce it yourself? Go to <b>Apply</b>. →</p>'; $("gapOpts").innerHTML=""; $("gapProg").textContent="Done ✓"; } else draw(); }, 1300);
+  }
+  draw();
+}
+
+/* ---- Step 4: production with model answer ---- */
+function renderApply(c, T){
+  var a = T.apply;
+  var html = '<div class="card"><div class="phase">'+a.phase+'</div><h2>'+a.h+'</h2><p class="lead">'+a.hint+'</p>';
+  a.items.forEach(function(it, idx){
+    html +=
+      '<div style="margin-top:16px;border-top:1px solid var(--sand-line);padding-top:14px">'+
+        '<p style="margin:.2em 0"><b>'+(idx+1)+'.</b> '+it.prompt+'</p>'+
+        '<div class="typer"><textarea id="ta'+idx+'" placeholder="Write your sentence here…"></textarea></div>'+
+        '<div class="selfmark"><button class="btn ghost" data-model="'+idx+'">Show model answer</button></div>'+
+        '<div class="model" id="model'+idx+'"><div class="ml">Model answer</div>'+it.model+'</div>'+
+      '</div>';
+  });
+  html += '<p class="lead" style="margin-top:16px;font-size:.86rem">Tip: there is often more than one correct version. Compare the meaning and the structure, not every word.</p></div>';
+  c.innerHTML = html;
+  c.querySelectorAll("[data-model]").forEach(function(b){
+    b.addEventListener("click", function(){ $("model"+b.getAttribute("data-model")).classList.add("show"); b.textContent="Model shown ✓"; b.disabled=true; });
+  });
+}
+
+$("topCausative").addEventListener("click", function(){ state.topic="causative"; state.step=0; render(); });
+$("topConditional").addEventListener("click", function(){ state.topic="conditional"; state.step=0; render(); });
+$("nextBtn").addEventListener("click", function(){ if(state.step<3){ state.step++; render(); } else { state.step=0; render(); } });
+$("backBtn").addEventListener("click", function(){ if(state.step>0){ state.step--; render(); } });
+
+render();
+</script>
+</body>
+</html>

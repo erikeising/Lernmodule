@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homework Certificate — Camden Town 9, Round 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ocean:#0d4f5c;--ocean-2:#0a3e49;--sand:#f3e7d0;--sand-line:#e6d4b4;
+    --coral:#ff6b4a;--gold:#f2b134;--leaf:#2f9e7d;--red:#c0392b;--ink:#10262b;--paper:#fbf7ef;--muted:#5b6f73;
+    --shadow:0 10px 30px rgba(13,79,92,.14);--radius:16px;
+    --display:'Space Grotesk',system-ui,sans-serif;--body:'Inter',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box}html,body{margin:0}
+  body{font-family:var(--body);color:var(--ink);min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased;
+    background:radial-gradient(1200px 500px at 110% -10%, rgba(242,177,52,.16), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(47,158,125,.14), transparent 55%),var(--paper);}
+  .wrap{max-width:680px;margin:0 auto;padding:24px 16px 70px}
+  .eyebrow{font-family:var(--display);font-weight:500;letter-spacing:.14em;text-transform:uppercase;font-size:.68rem;color:var(--ocean);display:inline-flex;align-items:center;gap:.5em}
+  .eyebrow::before{content:"";width:24px;height:2px;background:var(--coral);display:inline-block}
+  h1{font-family:var(--display);font-weight:700;line-height:1.04;font-size:clamp(1.6rem,6vw,2.3rem);margin:.18em 0 .1em;color:var(--ocean)}
+  .tagline{color:var(--muted);font-size:.95rem;margin:0}
+  .card{background:#fff;border:1px solid var(--sand-line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+  .roundbadge{display:inline-block;font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:.06em;background:var(--ocean);color:#fff;padding:5px 12px;border-radius:999px}
+  label{font-family:var(--display);font-weight:600;font-size:.85rem;color:var(--ocean);display:block;margin:14px 0 6px}
+  input[type=text]{width:100%;font-family:var(--body);font-size:1.05rem;padding:13px 15px;border:1px solid var(--sand-line);border-radius:11px;background:#fff;color:var(--ink)}
+  input[type=text]:focus{outline:3px solid rgba(13,79,92,.25);border-color:var(--ocean)}
+  .rules{font-size:.9rem;color:var(--muted);margin:14px 0 0;padding-left:1.1em}
+  .rules li{margin:4px 0}
+  .btn{font-family:var(--display);font-weight:700;font-size:1rem;cursor:pointer;border:1px solid var(--ocean);background:var(--ocean);color:#fff;padding:13px 20px;border-radius:12px;transition:transform .12s,opacity .18s;width:100%;margin-top:18px}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.ghost{background:transparent;color:var(--ocean);border-color:var(--sand-line)}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .err{color:var(--red);font-weight:600;font-size:.85rem;margin-top:8px;min-height:1em}
+
+  .screen{display:none}.screen.active{display:block}
+
+  .qhead{display:flex;justify-content:space-between;align-items:center;font-family:var(--display);font-weight:600;color:var(--muted);font-size:.85rem;margin-bottom:4px}
+  .qbar{height:8px;background:var(--sand);border-radius:999px;overflow:hidden;margin-bottom:16px}
+  .qbar > i{display:block;height:100%;background:var(--coral);width:0;transition:width .3s}
+  .prompt{background:linear-gradient(160deg,var(--ocean),var(--ocean-2));color:#fff;border-radius:var(--radius);padding:22px 18px;text-align:center;box-shadow:var(--shadow);margin-bottom:14px}
+  .prompt .lbl{font-family:var(--display);text-transform:uppercase;letter-spacing:.12em;font-size:.7rem;opacity:.85}
+  .prompt .word{font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,6vw,2.6rem);color:var(--gold)}
+  .options{display:grid;gap:10px}
+  .opt{font-family:var(--display);font-weight:600;font-size:1.02rem;border:1px solid var(--sand-line);background:#fff;color:var(--ink);padding:14px;border-radius:11px;cursor:pointer;text-align:left;transition:transform .1s,border-color .18s}
+  .opt:hover{transform:translateY(-1px);border-color:var(--ocean)}
+
+  .result-score{font-family:var(--display);font-weight:700;font-size:clamp(2.6rem,12vw,4rem);text-align:center;line-height:1}
+  .result-score.pass{color:var(--leaf)}.result-score.fail{color:var(--coral)}
+  .result-msg{text-align:center;color:var(--muted);margin:.3em 0 6px}
+  .review{margin-top:14px;border-top:1px solid var(--sand-line);padding-top:12px}
+  .review h3{font-family:var(--display);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 8px}
+  .review .row{font-size:.9rem;padding:4px 0;display:flex;gap:8px}
+  .review .row .x{color:var(--coral);font-weight:700}.review .row .v{color:var(--leaf);font-weight:700}
+
+  /* certificate */
+  .cert{background:#fff;border:2px solid var(--ocean);border-radius:18px;padding:26px 22px;position:relative;box-shadow:var(--shadow);text-align:center;overflow:hidden}
+  .cert::before{content:"";position:absolute;inset:8px;border:1px solid var(--sand-line);border-radius:12px;pointer-events:none}
+  .cert .cap{font-family:var(--display);text-transform:uppercase;letter-spacing:.18em;font-size:.7rem;color:var(--coral);font-weight:700}
+  .cert h2{font-family:var(--display);font-weight:700;color:var(--ocean);font-size:1.5rem;margin:.2em 0 .1em}
+  .cert .sub{color:var(--muted);font-size:.9rem;margin:0 0 14px}
+  .cert .name{font-family:var(--display);font-weight:700;font-size:1.7rem;color:var(--ink);margin:10px 0 2px;border-bottom:2px solid var(--gold);display:inline-block;padding:0 14px 4px}
+  .cert .meta{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;margin:16px 0 6px}
+  .cert .meta div{font-size:.9rem;color:var(--muted)}
+  .cert .meta b{display:block;font-family:var(--display);font-size:1.25rem;color:var(--ocean)}
+  .seal{margin:14px auto 4px;display:inline-flex;flex-direction:column;align-items:center;gap:2px;background:var(--sand);border:1px dashed var(--ocean);border-radius:12px;padding:10px 16px}
+  .seal .sl{font-family:var(--display);text-transform:uppercase;letter-spacing:.12em;font-size:.62rem;color:var(--muted)}
+  .seal .code{font-family:var(--display);font-weight:700;font-size:1.05rem;color:var(--ocean);letter-spacing:.04em}
+  .upload{background:rgba(242,177,52,.16);border:1px solid var(--gold);border-radius:12px;padding:12px 14px;margin-top:16px;font-size:.9rem}
+  .upload b{font-family:var(--display)}
+
+  details.teacher{margin-top:26px;border:1px solid var(--sand-line);border-radius:12px;background:#fff;padding:0 14px}
+  details.teacher summary{cursor:pointer;font-family:var(--display);font-weight:600;color:var(--ocean);padding:13px 0;list-style:none}
+  details.teacher summary::-webkit-details-marker{display:none}
+  details.teacher summary::before{content:"▸ ";color:var(--coral)}
+  details.teacher[open] summary::before{content:"▾ "}
+  .tbody{padding:0 0 16px}
+  .verdict{font-family:var(--display);font-weight:700;margin-top:12px;padding:12px 14px;border-radius:11px}
+  .verdict.ok{background:rgba(47,158,125,.14);color:var(--leaf)}
+  .verdict.bad{background:rgba(192,57,43,.1);color:var(--red)}
+  .verdict small{display:block;font-weight:500;color:var(--ink);font-family:var(--body);margin-top:4px}
+
+  footer{margin-top:26px;text-align:center;color:var(--muted);font-size:.76rem}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:8px}
+  @media print{body{background:#fff}.wrap{max-width:none}.noprint{display:none!important}details.teacher{display:none}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="noprint">
+    <span class="eyebrow">Camden Town 9 · Theme 1 · Homework</span>
+    <h1>Homework Certificate</h1>
+    <p class="tagline">Round 1 — Australian &amp; British English</p>
+  </header>
+
+  <!-- START -->
+  <section class="screen active" id="screen-start">
+    <div class="card">
+      <span class="roundbadge">Round 1 · AU ↔ UK English</span>
+      <label for="name">Your full name</label>
+      <input type="text" id="name" autocomplete="name" placeholder="e.g. Alex Müller">
+      <div class="err" id="nameErr"></div>
+      <ul class="rules">
+        <li><b>10 questions</b>, drawn at random — each attempt is different.</li>
+        <li>You need <b>at least 8 / 10 (80%)</b> to earn your certificate.</li>
+        <li>Do this <b>on your own</b>. When you pass, take a <b>screenshot</b> of the certificate and upload it to <b>TEAMS</b>.</li>
+        <li>Didn't reach 80%? Just start again — practise with the vocabulary trainer first.</li>
+      </ul>
+      <button class="btn" id="startBtn">Start homework</button>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="screen" id="screen-quiz">
+    <div class="card">
+      <div class="qhead"><span>Question <span id="qPos">1</span> / 10</span><span id="qName"></span></div>
+      <div class="qbar"><i id="qFill"></i></div>
+      <div class="prompt"><span class="lbl" id="qLbl">Australian English</span><div class="word" id="qWord"></div></div>
+      <div class="options" id="qOptions"></div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="screen" id="screen-result">
+    <div class="card">
+      <div class="result-score" id="resScore"></div>
+      <p class="result-msg" id="resMsg"></p>
+      <button class="btn" id="getCert" style="display:none">Get my certificate →</button>
+      <button class="btn ghost" id="retry">Try again</button>
+      <div class="review" id="review"></div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATE -->
+  <section class="screen" id="screen-cert">
+    <div class="cert" id="certBox">
+      <div class="cap">Camden Town 9 · Homework Certificate</div>
+      <h2>Round 1 — Australian &amp; British English</h2>
+      <p class="sub">This certifies that the homework was completed and passed.</p>
+      <div class="name" id="cName"></div>
+      <div class="meta">
+        <div>Date<b id="cDate"></b></div>
+        <div>Score<b id="cScore"></b></div>
+        <div>Result<b style="color:var(--leaf)">PASSED</b></div>
+      </div>
+      <div class="seal"><span class="sl">Verification code</span><span class="code" id="cCode"></span></div>
+      <div class="upload">📸 <b>Screenshot this certificate</b> and upload it to TEAMS to hand in your homework.</div>
+    </div>
+    <button class="btn ghost noprint" id="printBtn" style="margin-top:14px">Print / Save as PDF</button>
+    <button class="btn ghost noprint" id="again">New attempt</button>
+  </section>
+
+  <!-- TEACHER VERIFIER -->
+  <details class="teacher noprint">
+    <summary>For the teacher — verify a certificate code</summary>
+    <div class="tbody">
+      <label for="vName">Student name (as written on the certificate)</label>
+      <input type="text" id="vName" placeholder="e.g. Alex Müller">
+      <label for="vCode">Verification code</label>
+      <input type="text" id="vCode" placeholder="CT9-R1-260629-0810-XXXX-XXXXX">
+      <button class="btn" id="verifyBtn" style="margin-top:14px">Verify</button>
+      <div id="verdict"></div>
+      <p class="tagline" style="margin-top:12px;font-size:.8rem">The code embeds round, date and score, and a checksum tied to the student's name. A reused, mistyped, or score-edited screenshot will not verify. (Client-side check — robust against casual tampering, not a cryptographic guarantee.)</p>
+    </div>
+  </details>
+
+  <footer>Homework module · Camden Town 9, Theme 1 (Round 1) · ≥ 80% to pass</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  // R1 pool: the 8 Australian/British English pairs from the Intro Words exercise (TB 4)
+  var POOL=[
+    {au:"avo",uk:"avocado"},{au:"biccy",uk:"biscuit"},{au:"Chrissie",uk:"Christmas"},
+    {au:"crook",uk:"criminal"},{au:"defo",uk:"definitely"},{au:"runners",uk:"trainers"},
+    {au:"Straya",uk:"Australia"},{au:"sunnies",uk:"sunglasses"}
+  ];
+  var ROUND="R1", TOTAL=10, PASS=8;
+  var $=function(id){return document.getElementById(id);};
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function show(id){document.querySelectorAll(".screen").forEach(function(s){s.classList.remove("active");});$(id).classList.add("active");window.scrollTo(0,0);}
+  function fnv(str){var x=2166136261>>>0;for(var i=0;i<str.length;i++){x^=str.charCodeAt(i);x=Math.imul(x,16777619)>>>0;}return (x>>>0).toString(36).toUpperCase();}
+  function pad(n,l){n=""+n;while(n.length<l)n="0"+n;return n;}
+  function normName(s){return (s||"").trim().toLowerCase().replace(/\s+/g," ");}
+  function todayParts(){var d=new Date();return {yy:pad(d.getFullYear()%100,2),mm:pad(d.getMonth()+1,2),dd:pad(d.getDate(),2),iso:d.getFullYear()+"-"+pad(d.getMonth()+1,2)+"-"+pad(d.getDate(),2)};}
+
+  function makeCheck(name,iso,score,total,salt){return fnv(normName(name)+"|"+iso+"|"+score+"|"+total+"|"+ROUND+"|"+salt).slice(0,5);}
+  function makeCode(name,score){var t=todayParts();var salt=fnv(""+Math.random()+Date.now()).slice(0,4);
+    var check=makeCheck(name,t.iso,score,TOTAL,salt);
+    return "CT9-"+ROUND+"-"+t.yy+t.mm+t.dd+"-"+pad(score,2)+pad(TOTAL,2)+"-"+salt+"-"+check;}
+
+  // build a run: 10 distinct (word, direction) items
+  function buildRun(){
+    var combos=[];POOL.forEach(function(w,i){combos.push({i:i,dir:"au"});combos.push({i:i,dir:"uk"});});
+    combos=shuffle(combos).slice(0,TOTAL);
+    return combos.map(function(c){
+      var w=POOL[c.i];
+      var prompt = c.dir==="au"? w.au : w.uk;
+      var answer = c.dir==="au"? w.uk : w.au;
+      var lbl = c.dir==="au"? "Australian English → British" : "British English → Australian";
+      var distractPool = POOL.filter(function(_,j){return j!==c.i;}).map(function(x){return c.dir==="au"?x.uk:x.au;});
+      var opts=shuffle(distractPool).slice(0,3).concat([answer]);
+      return {prompt:prompt,answer:answer,lbl:lbl,options:shuffle(opts)};
+    });
+  }
+
+  var run=[],pos=0,score=0,studentName="",answers=[];
+  $("startBtn").addEventListener("click",function(){
+    var n=$("name").value.trim();
+    if(n.length<2){$("nameErr").textContent="Please enter your name first.";return;}
+    studentName=n;$("qName").textContent=n;
+    run=buildRun();pos=0;score=0;answers=[];
+    show("screen-quiz");renderQ();
+  });
+  function renderQ(){
+    var q=run[pos];$("qPos").textContent=pos+1;$("qFill").style.width=((pos)/TOTAL*100)+"%";
+    $("qLbl").textContent=q.lbl;$("qWord").textContent=q.prompt;
+    var box=$("qOptions");box.innerHTML="";
+    q.options.forEach(function(o){var b=document.createElement("button");b.className="opt";b.textContent=o;
+      b.addEventListener("click",function(){pick(o);});box.appendChild(b);});
+  }
+  function pick(choice){
+    var q=run[pos];var correct=choice===q.answer;if(correct)score++;
+    answers.push({prompt:q.prompt,answer:q.answer,chosen:choice,ok:correct,lbl:q.lbl});
+    pos++;
+    if(pos>=TOTAL)showResult();else renderQ();
+  }
+  function showResult(){
+    $("qFill").style.width="100%";
+    var passed=score>=PASS;var pct=Math.round(score/TOTAL*100);
+    var rs=$("resScore");rs.textContent=score+" / "+TOTAL;rs.className="result-score "+(passed?"pass":"fail");
+    $("resMsg").textContent = passed ? ("Passed — "+pct+"%. Beauty! Get your certificate below.")
+                                     : ("Not yet — "+pct+"%. You need 8 / 10. Practise and try again.");
+    $("getCert").style.display=passed?"block":"none";
+    // review of wrong ones
+    var wrong=answers.filter(function(a){return !a.ok;});
+    var rev=$("review");
+    if(wrong.length){var html='<h3>Review</h3>';wrong.forEach(function(a){
+      html+='<div class="row"><span class="x">✗</span><span><b>'+a.prompt+'</b> → '+a.answer+' <span style="color:var(--muted)">(you chose '+a.chosen+')</span></span></div>';});
+      rev.innerHTML=html;}
+    else rev.innerHTML='<h3>Review</h3><div class="row"><span class="v">✓</span><span>All correct — spot on!</span></div>';
+    show("screen-result");
+  }
+  $("retry").addEventListener("click",function(){run=buildRun();pos=0;score=0;answers=[];show("screen-quiz");renderQ();});
+  $("getCert").addEventListener("click",function(){
+    var t=todayParts();
+    $("cName").textContent=studentName;
+    $("cDate").textContent=t.dd+"."+t.mm+".20"+t.yy;
+    $("cScore").textContent=score+" / "+TOTAL+" ("+Math.round(score/TOTAL*100)+"%)";
+    $("cCode").textContent=makeCode(studentName,score);
+    show("screen-cert");
+  });
+  $("again").addEventListener("click",function(){show("screen-start");});
+  $("printBtn").addEventListener("click",function(){window.print();});
+
+  // teacher verifier
+  $("verifyBtn").addEventListener("click",function(){
+    var name=$("vName").value, code=($("vCode").value||"").trim().toUpperCase();
+    var v=$("verdict");
+    var p=code.split("-");
+    if(p.length!==6||p[0]!=="CT9"){v.className="verdict bad";v.innerHTML="Invalid code format.";return;}
+    var round=p[1], dt=p[2], sc=p[3], salt=p[4], check=p[5];
+    if(!/^\d{6}$/.test(dt)||!/^\d{4}$/.test(sc)){v.className="verdict bad";v.innerHTML="Invalid code format.";return;}
+    var iso="20"+dt.slice(0,2)+"-"+dt.slice(2,4)+"-"+dt.slice(4,6);
+    var score=parseInt(sc.slice(0,2),10), total=parseInt(sc.slice(2,4),10);
+    var expect=fnv(normName(name)+"|"+iso+"|"+score+"|"+total+"|"+round+"|"+salt).slice(0,5);
+    if(expect===check){
+      v.className="verdict ok";
+      v.innerHTML="✓ Valid certificate"+
+        "<small>Round "+round.replace("R","")+" · Date "+iso+" · Score "+score+" / "+total+" ("+Math.round(score/total*100)+"%) · name matches</small>";
+    }else{
+      v.className="verdict bad";
+      v.innerHTML="✗ Does not verify"+
+        "<small>Wrong name, mistyped code, or an edited screenshot. Code claims: Round "+round.replace("R","")+", date "+iso+", score "+score+"/"+total+" — but the checksum does not match this name.</small>";
+    }
+  });
+})();
+</script>
+</body>
+</html>

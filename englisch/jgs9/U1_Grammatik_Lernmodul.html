@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grammar — The Passive &amp; Reported Speech (Camden Town 9, Theme 1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ocean:#0d4f5c;--ocean-2:#0a3e49;--sand:#f3e7d0;--sand-line:#e6d4b4;--coral:#ff6b4a;--gold:#f2b134;--leaf:#2f9e7d;--red:#c0392b;--ink:#10262b;--paper:#fbf7ef;--muted:#5b6f73;--work:#3a5a8c;--work-2:#2c466e;--shadow:0 10px 30px rgba(13,79,92,.14);--radius:16px;--display:'Space Grotesk',system-ui,sans-serif;--body:'Inter',system-ui,-apple-system,sans-serif;}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{font-family:var(--body);color:var(--ink);min-height:100vh;line-height:1.55;-webkit-font-smoothing:antialiased;background:radial-gradient(1200px 500px at 110% -10%, rgba(242,177,52,.16), transparent 60%),radial-gradient(900px 500px at -10% 110%, rgba(47,158,125,.14), transparent 55%),var(--paper);}
+  body.t-reported{background:radial-gradient(1200px 500px at 110% -10%, rgba(58,90,140,.16), transparent 60%),radial-gradient(900px 500px at -10% 110%, rgba(13,79,92,.12), transparent 55%),var(--paper);}
+  .wrap{max-width:720px;margin:0 auto;padding:22px 16px 70px}
+  .eyebrow{font-family:var(--display);font-weight:500;letter-spacing:.14em;text-transform:uppercase;font-size:.68rem;color:var(--ocean);display:inline-flex;align-items:center;gap:.5em}
+  .eyebrow::before{content:"";width:24px;height:2px;background:var(--coral);display:inline-block}
+  body.t-reported .eyebrow{color:var(--work)}
+  h1{font-family:var(--display);font-weight:700;line-height:1.05;font-size:clamp(1.5rem,5.5vw,2.2rem);margin:.18em 0 .1em;color:var(--ocean)}
+  body.t-reported h1{color:var(--work)}
+  .tagline{color:var(--muted);font-size:.92rem;margin:0}
+  .acc{color:var(--ocean)}body.t-reported .acc{color:var(--work)}
+
+  .topics{display:flex;gap:10px;margin:16px 0 4px;flex-wrap:wrap}
+  .topic{flex:1 1 240px;text-align:left;border:1px solid var(--sand-line);background:#fff;border-radius:14px;padding:13px 16px;cursor:pointer;transition:transform .12s,box-shadow .18s,border-color .18s}
+  .topic:hover{transform:translateY(-1px)}
+  .topic[aria-pressed="true"]{box-shadow:var(--shadow);border-color:var(--ocean)}
+  body.t-reported .topic.reported[aria-pressed="true"]{border-color:var(--work)}
+  .topic .tk{font-family:var(--display);font-weight:700;font-size:1.02rem;color:var(--ocean)}
+  .topic.reported .tk{color:var(--work)}
+  .topic .ts{font-size:.8rem;color:var(--muted)}
+
+  .steps{display:flex;gap:6px;margin:18px 0 6px;flex-wrap:wrap}
+  .step{flex:1 1 0;min-width:120px;font-family:var(--display);font-weight:600;font-size:.82rem;border:1px solid var(--sand-line);background:#fff;color:var(--muted);padding:9px 10px;border-radius:11px;cursor:pointer;text-align:center;transition:background .18s,color .18s,border-color .18s}
+  .step .n{display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--sand);color:var(--ocean);align-items:center;justify-content:center;font-size:.75rem;margin-right:5px}
+  .step[aria-current="true"]{background:var(--ocean);color:#fff;border-color:var(--ocean)}
+  body.t-reported .step[aria-current="true"]{background:var(--work);border-color:var(--work)}
+  .step[aria-current="true"] .n{background:rgba(255,255,255,.25);color:#fff}
+  .step.done .n{background:var(--leaf);color:#fff}
+
+  .card{background:#fff;border:1px solid var(--sand-line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-top:14px}
+  .phase{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:4px}
+  .card h2{font-family:var(--display);font-weight:700;color:var(--ocean);font-size:1.25rem;margin:.1em 0 .5em}
+  body.t-reported .card h2{color:var(--work)}
+  .card p{margin:.4em 0}
+  .lead{color:var(--muted)}
+
+  .ex{background:var(--sand);border-radius:12px;padding:14px 16px;margin:10px 0;font-size:1.05rem;border:1px solid var(--sand-line)}
+  .ex + .ex{margin-top:8px}
+  .hl{background:rgba(242,177,52,.4);border-bottom:2px solid var(--gold);font-weight:600;padding:0 2px;border-radius:3px}
+  .hl2{background:rgba(47,158,125,.22);border-bottom:2px solid var(--leaf);font-weight:600;padding:0 2px;border-radius:3px}
+  .notice{background:rgba(255,107,74,.1);border-left:3px solid var(--coral);padding:11px 14px;border-radius:8px;margin-top:12px;font-size:.95rem}
+  .notice b{font-family:var(--display)}
+
+  .formula{font-family:var(--display);font-weight:600;text-align:center;background:linear-gradient(160deg,var(--ocean),var(--ocean-2));color:#fff;border-radius:12px;padding:16px;margin:12px 0;font-size:1.05rem;line-height:1.7}
+  body.t-reported .formula{background:linear-gradient(160deg,var(--work),var(--work-2))}
+  .formula .g{color:var(--gold)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92rem}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--sand-line)}
+  th{font-family:var(--display);color:var(--ocean);font-size:.8rem;text-transform:uppercase;letter-spacing:.05em}
+  body.t-reported th{color:var(--work)}
+  td code{background:var(--sand);padding:1px 6px;border-radius:5px;font-family:var(--display);font-weight:600}
+  ul.clean{margin:.4em 0;padding-left:1.2em}ul.clean li{margin:4px 0}
+
+  .qprompt{font-size:1.08rem;margin-bottom:12px}
+  .qprompt .gap{color:var(--coral);font-weight:700}
+  .qprompt .sub{display:block;font-size:.85rem;color:var(--muted);font-style:italic;margin-top:4px}
+  .options{display:grid;gap:9px}
+  .opt{font-family:var(--display);font-weight:600;font-size:1rem;border:1px solid var(--sand-line);background:#fff;color:var(--ink);padding:12px 14px;border-radius:11px;cursor:pointer;text-align:left;transition:transform .1s,border-color .18s}
+  .opt:hover{transform:translateY(-1px);border-color:var(--ocean)}
+  .opt.correct{background:var(--leaf);color:#fff;border-color:var(--leaf)}
+  .opt.miss{background:#fff;border-color:var(--coral);color:var(--coral)}
+  .fb{margin-top:10px;font-weight:600;font-family:var(--display);min-height:1.3em}
+  .fb.ok{color:var(--leaf)}.fb.no{color:var(--coral)}
+  .fb small{display:block;color:var(--muted);font-weight:500;font-family:var(--body);margin-top:3px}
+  .qnav{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-family:var(--display);font-size:.85rem;color:var(--muted)}
+
+  .typer textarea{width:100%;font-family:var(--body);font-size:1rem;padding:12px 14px;border:1px solid var(--sand-line);border-radius:11px;background:#fff;color:var(--ink);resize:vertical;min-height:60px}
+  .typer textarea:focus{outline:3px solid rgba(13,79,92,.25);border-color:var(--ocean)}
+  .model{background:rgba(47,158,125,.1);border:1px solid var(--leaf);border-radius:11px;padding:12px 14px;margin-top:10px;display:none}
+  .model.show{display:block}
+  .model .ml{font-family:var(--display);font-weight:700;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--leaf);margin-bottom:3px}
+  .selfmark{display:flex;gap:8px;margin-top:10px}
+
+  .btn{font-family:var(--display);font-weight:700;font-size:.95rem;cursor:pointer;border:1px solid var(--ocean);background:var(--ocean);color:#fff;padding:11px 18px;border-radius:11px;transition:transform .12s,opacity .18s}
+  body.t-reported .btn{background:var(--work);border-color:var(--work)}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.ghost{background:transparent;color:var(--ocean);border-color:var(--sand-line)}
+  body.t-reported .btn.ghost{color:var(--work)}
+  .navrow{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
+
+  footer{margin-top:24px;text-align:center;color:var(--muted);font-size:.76rem}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:8px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="t-passive">
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Camden Town 9 · Theme 1 · Grammar</span>
+    <h1 id="title">The Passive</h1>
+    <p class="tagline">Learn the rule step by step, then try it yourself. Nothing is saved — practise as often as you like.</p>
+  </header>
+
+  <div class="topics" role="group" aria-label="Choose a grammar topic">
+    <button class="topic passive" id="topPassive" aria-pressed="true">
+      <span class="tk">1 · The Passive</span><br><span class="ts">are provided · was founded · can be climbed</span>
+    </button>
+    <button class="topic reported" id="topReported" aria-pressed="false">
+      <span class="tk">2 · Reported Speech</span><br><span class="ts">She said that she had done it the day before.</span>
+    </button>
+  </div>
+
+  <div class="steps" id="stepNav"></div>
+  <div id="content"></div>
+
+  <div class="navrow">
+    <button class="btn ghost" id="backBtn">← Back</button>
+    <button class="btn" id="nextBtn">Next step →</button>
+  </div>
+
+  <footer>Grammar learning module · discover → rule → practice → apply · Camden Town 9, Theme 1 (Part A)</footer>
+</div>
+
+<script>
+var STEP_NAMES = ["Discover","The rule","Practice","Apply"];
+
+var TOPICS = {
+  passive: {
+    title: "The Passive",
+    discover: {
+      phase: "Step 1 · Discover",
+      h: "Look at these sentences",
+      examples: [
+        'Adelaide <span class="hl">was founded</span> in 1836.',
+        'During the climb, visitors <span class="hl">are provided</span> with safety equipment.',
+        'The Sydney Harbour Bridge <span class="hl">can be climbed</span> by people looking for adventure.'
+      ],
+      notice: "<b>Notice:</b> in each sentence the important thing is the <b>action</b> — not who does it. We don't even know (or care) <i>who</i> founded Adelaide or provides the equipment. The highlighted verbs are all in the <b>passive</b>."
+    },
+    rule: {
+      phase: "Step 2 · The rule",
+      h: "How the passive works",
+      html:
+        '<p class="lead">Use the passive when the action or result matters more than the person doing it — or when the doer is unknown, obvious, or unimportant.</p>'+
+        '<div class="formula">form: <span class="g">be</span> (in the right tense) + <span class="g">past participle</span> (3rd form)<br>(+ <span class="g">by</span> + doer, only if you want to name them)</div>'+
+        '<table><tr><th>Tense</th><th>Passive form</th><th>Example</th></tr>'+
+        '<tr><td>present simple</td><td><code>am/is/are</code> + pp</td><td>The climbers <b>are given</b> a harness.</td></tr>'+
+        '<tr><td>past simple</td><td><code>was/were</code> + pp</td><td>Adelaide <b>was founded</b> in 1836.</td></tr>'+
+        '<tr><td>modal</td><td><code>modal + be</code> + pp</td><td>The bridge <b>can be climbed</b>.</td></tr>'+
+        '<tr><td>future</td><td><code>will be</code> + pp</td><td>The work <b>will be finished</b> soon.</td></tr>'+
+        '<tr><td>present perfect</td><td><code>has/have been</code> + pp</td><td>The book <b>has been published</b>.</td></tr></table>'+
+        '<div class="notice"><b>Watch out:</b> the form of <i>be</i> tells you the tense; the main verb stays as a past participle (3rd form) and never changes.</div>'
+    },
+    recog: {
+      phase: "Step 3 · Practice (a) — spot it",
+      h: "Active or passive?",
+      lbl: "Read the sentence and decide.",
+      items: [
+        {s:"The AFL apologized to Adam Goodes.", a:"Active"},
+        {s:"Adelaide was founded in 1836.", a:"Passive"},
+        {s:"Britain sent convicts to Australia.", a:"Active"},
+        {s:"Plastic straws are banned on the island.", a:"Passive"},
+        {s:"Visitors are given a harness.", a:"Passive"},
+        {s:"Millions of tourists visit the reef.", a:"Active"}
+      ],
+      opts:["Active","Passive"]
+    },
+    gap: {
+      phase: "Step 3 · Practice (b) — build it",
+      h: "Put in the correct passive form",
+      items: [
+        {s:"Adelaide {} in 1836.", inf:"found", a:"was founded", opts:["was founded","founded","was finding","is founded"], why:"Past simple passive = was/were + past participle."},
+        {s:"The climbers {} a harness.", inf:"give", a:"are given", opts:["are given","give","are giving","gave"], why:"Present simple passive = am/is/are + past participle."},
+        {s:"The Sydney Harbour Bridge {} by visitors.", inf:"climb", a:"can be climbed", opts:["can be climbed","climbs","is climbing","climbed"], why:"Modal passive = modal + be + past participle."},
+        {s:"Uluru {} a World Heritage site in 1987.", inf:"make", a:"was made", opts:["was made","made","was making","is made"], why:"Past simple passive = was + past participle (make → made)."},
+        {s:"Plastic plates and straws {} on the island.", inf:"ban", a:"are banned", opts:["are banned","ban","are banning","banned"], why:"Plural subject + present passive = are + past participle."}
+      ]
+    },
+    apply: {
+      phase: "Step 4 · Apply — make it passive",
+      h: "Rewrite each sentence in the passive",
+      hint: "Start with the object of the active sentence. Add 'by …' only if it adds information.",
+      items: [
+        {prompt:"Britain founded Adelaide in 1836.", model:"Adelaide was founded (by Britain) in 1836."},
+        {prompt:"Guides help the climbers every step of the way.", model:"The climbers are helped (by guides) every step of the way."},
+        {prompt:"People can climb the Sydney Harbour Bridge.", model:"The Sydney Harbour Bridge can be climbed."}
+      ]
+    }
+  },
+
+  reported: {
+    title: "Reported Speech",
+    discover: {
+      phase: "Step 1 · Discover",
+      h: "Compare what was said and what was reported",
+      examples: [
+        'Liv: <span class="hl2">"I did</span> the Bridge Climb <span class="hl2">yesterday</span>!"',
+        '→ Liv said that <span class="hl">she had done</span> the Bridge Climb <span class="hl">the day before</span>.',
+        'Sandra: <span class="hl2">"How much does it cost?"</span>',
+        '→ Sandra <span class="hl">asked</span> how much it <span class="hl">cost</span>.'
+      ],
+      notice: "<b>Notice:</b> when we report what someone said, three things often change — the <b>pronoun</b> (I → she), the <b>verb</b> moves one tense back (did → had done; does → cost), and <b>time words</b> shift (yesterday → the day before)."
+    },
+    rule: {
+      phase: "Step 2 · The rule",
+      h: "How reported speech works",
+      html:
+        '<p class="lead">When you report what someone said earlier, move the verb one step back in time (backshift), change the pronouns, and adjust time and place words.</p>'+
+        '<div class="formula"><span class="g">say (that)</span> for statements · <span class="g">ask (if / wh-)</span> for questions</div>'+
+        '<table><tr><th>Direct speech</th><th>→ Reported speech</th></tr>'+
+        '<tr><td>present simple (<code>cost</code>)</td><td>past simple (<code>cost</code>)</td></tr>'+
+        '<tr><td>past simple (<code>did</code>)</td><td>past perfect (<code>had done</code>)</td></tr>'+
+        '<tr><td>present perfect (<code>have seen</code>)</td><td>past perfect (<code>had seen</code>)</td></tr>'+
+        '<tr><td><code>will</code></td><td><code>would</code></td></tr>'+
+        '<tr><td><code>can</code></td><td><code>could</code></td></tr></table>'+
+        '<p><b>Time &amp; place words:</b></p>'+
+        '<ul class="clean"><li>yesterday → <b>the day before</b></li><li>today → <b>that day</b> · now → <b>then</b></li><li>tomorrow → <b>the next day</b> · here → <b>there</b></li></ul>'+
+        '<div class="notice"><b>Questions:</b> use <b>ask</b> (not say). Keep normal word order — <b>no</b> <i>do/does/did</i> and <b>no</b> question mark: <i>"Do you know …?" → She asked if I knew …</i></div>'
+    },
+    recog: {
+      phase: "Step 3 · Practice (a) — say or ask?",
+      h: "Statement or question?",
+      lbl: "Decide which reporting verb you would use.",
+      items: [
+        {s:'Dan: "There are great views from the bridge."', a:"say"},
+        {s:'Sandra: "How much does it cost?"', a:"ask"},
+        {s:'Akash: "This is the biggest bridge I have ever seen!"', a:"say"},
+        {s:'Niko: "Do you want to do the climb too?"', a:"ask"},
+        {s:'Liv: "I did the Bridge Climb yesterday."', a:"say"},
+        {s:'Mia: "Where can I buy a ticket?"', a:"ask"}
+      ],
+      opts:["say","ask"]
+    },
+    gap: {
+      phase: "Step 3 · Practice (b) — backshift it",
+      h: "Choose the correct reported form",
+      items: [
+        {s:'Liv said that she {} the Bridge Climb the day before.', sub:'Direct: "I did the Bridge Climb yesterday!"', a:"had done", opts:["had done","did","has done","was doing"], why:"Past simple → past perfect (backshift)."},
+        {s:'Dan said that there {} great views from the bridge.', sub:'Direct: "There are great views from the bridge."', a:"were", opts:["were","are","had been","would be"], why:"Present → past simple."},
+        {s:'Sandra {} if someone knew how much it cost.', sub:'Direct: "Do you know how much it costs?"', a:"asked", opts:["asked","said","told","says"], why:"Questions are reported with 'ask (if/whether)'."},
+        {s:'Sandra asked how much it {}.', sub:'Direct: "How much does it cost?"', a:"cost", opts:["cost","costs","had cost","would cost"], why:"Present → past; and no do/does in reported questions."},
+        {s:'Akash said this {} the biggest bridge he had ever seen.', sub:'Direct: "This is the biggest bridge I\u2019ve ever seen!"', a:"was", opts:["was","is","has been","would be"], why:"Present → past simple."}
+      ]
+    },
+    apply: {
+      phase: "Step 4 · Apply — report it",
+      h: "Put each sentence into reported speech",
+      hint: "Use 'said (that)' or 'asked'. Backshift the verb, change pronouns, and adjust time words.",
+      items: [
+        {prompt:'Liv: "I did the Bridge Climb yesterday!"', model:"Liv said (that) she had done the Bridge Climb the day before."},
+        {prompt:'Dan: "There are great views from the bridge."', model:"Dan said (that) there were great views from the bridge."},
+        {prompt:'Sandra: "How much does it cost?"', model:"Sandra asked how much it cost."}
+      ]
+    }
+  }
+};
+
+var state = { topic: "passive", step: 0 };
+var $ = function(id){ return document.getElementById(id); };
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+function renderStepNav(){
+  var nav = $("stepNav"); nav.innerHTML = "";
+  STEP_NAMES.forEach(function(name, i){
+    var b = document.createElement("button");
+    b.className = "step" + (i < state.step ? " done" : "");
+    if (i === state.step) b.setAttribute("aria-current","true");
+    b.innerHTML = '<span class="n">' + (i+1) + '</span>' + name;
+    b.addEventListener("click", function(){ state.step = i; render(); });
+    nav.appendChild(b);
+  });
+}
+
+function render(){
+  var T = TOPICS[state.topic];
+  $("title").textContent = T.title;
+  document.body.className = state.topic === "passive" ? "t-passive" : "t-reported";
+  $("topPassive").setAttribute("aria-pressed", state.topic==="passive"?"true":"false");
+  $("topReported").setAttribute("aria-pressed", state.topic==="reported"?"true":"false");
+  renderStepNav();
+  var c = $("content");
+  if (state.step === 0) c.innerHTML = renderDiscover(T.discover);
+  else if (state.step === 1) c.innerHTML = renderRule(T.rule);
+  else if (state.step === 2) renderPractice(c, T);
+  else renderApply(c, T);
+  $("backBtn").style.visibility = state.step === 0 ? "hidden" : "visible";
+  $("nextBtn").textContent = state.step === 3 ? "Finish ✓" : "Next step →";
+}
+
+function renderDiscover(d){
+  var ex = d.examples.map(function(e){ return '<div class="ex">' + e + '</div>'; }).join("");
+  return '<div class="card"><div class="phase">'+d.phase+'</div><h2>'+d.h+'</h2>'+ex+'<div class="notice">'+d.notice+'</div></div>';
+}
+function renderRule(r){
+  return '<div class="card"><div class="phase">'+r.phase+'</div><h2>'+r.h+'</h2>'+r.html+'</div>';
+}
+
+/* ---- Step 3: recognition + gap-fill ---- */
+function renderPractice(c, T){
+  c.innerHTML =
+    '<div class="card"><div class="phase">'+T.recog.phase+'</div><h2>'+T.recog.h+'</h2>'+
+      '<p class="lead">'+T.recog.lbl+'</p>'+
+      '<div id="recogBox"></div><div class="fb" id="recogFb"></div>'+
+      '<div class="qnav"><span id="recogProg"></span><span></span></div>'+
+    '</div>'+
+    '<div class="card" id="gapCard" style="opacity:.5;pointer-events:none"><div class="phase">'+T.gap.phase+'</div><h2>'+T.gap.h+'</h2>'+
+      '<div class="qprompt" id="gapPrompt"></div><div class="options" id="gapOpts"></div><div class="fb" id="gapFb"></div>'+
+      '<div class="qnav"><span id="gapProg"></span><span></span></div>'+
+    '</div>';
+  startRecog(T); 
+}
+function startRecog(T){
+  var items = shuffle(T.recog.items), i = 0;
+  function draw(){
+    $("recogProg").textContent = "Sentence " + (i+1) + " / " + items.length;
+    var box = $("recogBox"); box.innerHTML = '<div class="qprompt">'+items[i].s+'</div><div class="options"></div>';
+    var opts = box.querySelector(".options");
+    T.recog.opts.forEach(function(o){
+      var b = document.createElement("button"); b.className="opt"; b.textContent=o;
+      b.addEventListener("click", function(){ choose(b,o); });
+      opts.appendChild(b);
+    });
+    $("recogFb").textContent=""; $("recogFb").className="fb";
+  }
+  function choose(btn, o){
+    var box=$("recogBox"); box.querySelectorAll(".opt").forEach(function(b){b.disabled=true;});
+    var fb=$("recogFb");
+    if(o===items[i].a){btn.classList.add("correct");fb.className="fb ok";fb.textContent="Correct!";}
+    else{btn.classList.add("miss");box.querySelectorAll(".opt").forEach(function(b){if(b.textContent===items[i].a)b.classList.add("correct");});fb.className="fb no";fb.textContent="It's "+items[i].a.toLowerCase()+".";}
+    setTimeout(function(){ i++; if(i>=items.length){ $("recogBox").innerHTML='<p class="lead">Nice — you can spot it. Now build the form below. ↓</p>'; $("recogProg").textContent="Done ✓"; var g=$("gapCard"); g.style.opacity="1"; g.style.pointerEvents="auto"; startGap(T); } else draw(); }, 900);
+  }
+  draw();
+}
+function startGap(T){
+  var items = shuffle(T.gap.items), i = 0;
+  function draw(){
+    $("gapProg").textContent = "Gap " + (i+1) + " / " + items.length;
+    var it = items[i];
+    var sentence = it.s.replace("{}", '<span class="gap">______</span>');
+    var sub = it.inf ? ('infinitive: ' + it.inf) : (it.sub || "");
+    $("gapPrompt").innerHTML = sentence + (sub ? '<span class="sub">'+sub+'</span>' : "");
+    var box = $("gapOpts"); box.innerHTML = "";
+    shuffle(it.opts).forEach(function(o){
+      var b=document.createElement("button"); b.className="opt"; b.textContent=o;
+      b.addEventListener("click", function(){ choose(b,o,it); });
+      box.appendChild(b);
+    });
+    $("gapFb").textContent=""; $("gapFb").className="fb";
+  }
+  function choose(btn,o,it){
+    $("gapOpts").querySelectorAll(".opt").forEach(function(b){b.disabled=true;});
+    var fb=$("gapFb");
+    if(o===it.a){btn.classList.add("correct");fb.className="fb ok";fb.innerHTML="Correct!<small>"+it.why+"</small>";}
+    else{btn.classList.add("miss");$("gapOpts").querySelectorAll(".opt").forEach(function(b){if(b.textContent===it.a)b.classList.add("correct");});fb.className="fb no";fb.innerHTML="Correct: "+it.a+"<small>"+it.why+"</small>";}
+    setTimeout(function(){ i++; if(i>=items.length){ $("gapPrompt").innerHTML='<p class="lead">That\u2019s the controlled practice done. Ready to produce it yourself? Go to <b>Apply</b>. →</p>'; $("gapOpts").innerHTML=""; $("gapProg").textContent="Done ✓"; } else draw(); }, 1300);
+  }
+  draw();
+}
+
+/* ---- Step 4: transformation with model answer ---- */
+function renderApply(c, T){
+  var a = T.apply;
+  var html = '<div class="card"><div class="phase">'+a.phase+'</div><h2>'+a.h+'</h2><p class="lead">'+a.hint+'</p>';
+  a.items.forEach(function(it, idx){
+    html +=
+      '<div style="margin-top:16px;border-top:1px solid var(--sand-line);padding-top:14px">'+
+        '<p style="margin:.2em 0"><b>'+(idx+1)+'.</b> '+it.prompt+'</p>'+
+        '<div class="typer"><textarea id="ta'+idx+'" placeholder="Write your version here…"></textarea></div>'+
+        '<div class="selfmark"><button class="btn ghost" data-model="'+idx+'">Show model answer</button></div>'+
+        '<div class="model" id="model'+idx+'"><div class="ml">Model answer</div>'+it.model+'</div>'+
+      '</div>';
+  });
+  html += '<p class="lead" style="margin-top:16px;font-size:.86rem">Tip: there is often more than one correct version. Compare the meaning and the structure, not every word.</p></div>';
+  c.innerHTML = html;
+  c.querySelectorAll("[data-model]").forEach(function(b){
+    b.addEventListener("click", function(){ $("model"+b.getAttribute("data-model")).classList.add("show"); b.textContent="Model shown ✓"; b.disabled=true; });
+  });
+}
+
+$("topPassive").addEventListener("click", function(){ state.topic="passive"; state.step=0; render(); });
+$("topReported").addEventListener("click", function(){ state.topic="reported"; state.step=0; render(); });
+$("nextBtn").addEventListener("click", function(){ if(state.step<3){ state.step++; render(); } else { state.step=0; render(); } });
+$("backBtn").addEventListener("click", function(){ if(state.step>0){ state.step--; render(); } });
+
+render();
+</script>
+</body>
+</html>
