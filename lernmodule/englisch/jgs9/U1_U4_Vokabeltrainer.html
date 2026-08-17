@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulary Trainer — Camden Town 9 (Theme 1 &amp; Theme 4)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ocean:#0d4f5c;--ocean-2:#0a3e49;--sand:#f3e7d0;--sand-line:#e6d4b4;
+    --coral:#ff6b4a;--gold:#f2b134;--leaf:#2f9e7d;--ink:#10262b;--paper:#fbf7ef;--muted:#5b6f73;
+    --work:#3a5a8c;--work-2:#2c466e; /* Theme 4 accent */
+    --shadow:0 10px 30px rgba(13,79,92,.14);--radius:16px;
+    --display:'Space Grotesk',system-ui,sans-serif;--body:'Inter',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:var(--body);color:var(--ink);min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased;
+    background:radial-gradient(1200px 500px at 110% -10%, rgba(242,177,52,.16), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(47,158,125,.14), transparent 55%),var(--paper);}
+  body.unit-t4{background:radial-gradient(1200px 500px at 110% -10%, rgba(58,90,140,.16), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(13,79,92,.12), transparent 55%),var(--paper);}
+  .wrap{max-width:820px;margin:0 auto;padding:20px 16px 70px}
+
+  .eyebrow{font-family:var(--display);font-weight:500;letter-spacing:.14em;text-transform:uppercase;font-size:.68rem;color:var(--ocean);display:inline-flex;align-items:center;gap:.5em}
+  .eyebrow::before{content:"";width:24px;height:2px;background:var(--coral);display:inline-block}
+  body.unit-t4 .eyebrow{color:var(--work)}
+  body.unit-t4 .eyebrow::before{background:var(--work)}
+  h1{font-family:var(--display);font-weight:700;line-height:1.04;font-size:clamp(1.6rem,6vw,2.5rem);margin:.18em 0 .1em;color:var(--ocean)}
+  body.unit-t4 h1{color:var(--work)}
+  .tagline{color:var(--muted);font-size:.95rem;margin:0 0 4px}
+
+  .units{display:flex;gap:10px;margin:16px 0 6px;flex-wrap:wrap}
+  .unit-btn{flex:1 1 240px;text-align:left;border:1px solid var(--sand-line);background:#fff;border-radius:14px;padding:12px 16px;cursor:pointer;transition:transform .12s,box-shadow .18s,border-color .18s}
+  .unit-btn:hover{transform:translateY(-1px)}
+  .unit-btn[aria-pressed="true"]{box-shadow:var(--shadow);border-color:var(--ocean)}
+  body.unit-t4 .unit-btn.t4[aria-pressed="true"]{border-color:var(--work)}
+  .unit-btn .u-k{font-family:var(--display);font-weight:700;font-size:1.02rem;color:var(--ocean)}
+  .unit-btn.t4 .u-k{color:var(--work)}
+  .unit-btn .u-sub{font-size:.8rem;color:var(--muted)}
+  .unit-btn .u-n{font-size:.72rem;color:var(--muted);font-family:var(--display)}
+
+  .bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0}
+  .seg{display:inline-flex;background:#fff;border:1px solid var(--sand-line);border-radius:999px;padding:3px;box-shadow:var(--shadow)}
+  .seg button{font-family:var(--display);font-weight:500;font-size:.8rem;border:0;background:transparent;color:var(--muted);padding:7px 13px;border-radius:999px;cursor:pointer;white-space:nowrap;transition:background .18s,color .18s}
+  .seg button[aria-pressed="true"]{background:var(--ocean);color:#fff}
+  body.unit-t4 .seg button[aria-pressed="true"]{background:var(--work)}
+  .spacer{flex:1 1 auto}
+
+  .tabs{display:flex;gap:8px;margin:6px 0 16px;flex-wrap:wrap}
+  .tab{font-family:var(--display);font-weight:600;font-size:.9rem;border:1px solid var(--sand-line);background:#fff;color:var(--ocean);padding:10px 16px;border-radius:13px;cursor:pointer;flex:1 1 110px;transition:transform .12s,background .18s,color .18s,border-color .18s}
+  body.unit-t4 .tab{color:var(--work)}
+  .tab[aria-selected="true"]{background:var(--coral);border-color:var(--coral);color:#fff;box-shadow:var(--shadow)}
+  body.unit-t4 .tab[aria-selected="true"]{background:var(--work);border-color:var(--work)}
+  .tab:hover{transform:translateY(-1px)}
+
+  .panel{display:none;animation:fade .25s ease}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  .progress{font-family:var(--display);font-weight:500;color:var(--muted);font-size:.84rem;margin:0 0 10px;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center}
+  .progress b{color:var(--ocean)}
+  body.unit-t4 .progress b{color:var(--work)}
+
+  .btn{font-family:var(--display);font-weight:600;font-size:.9rem;cursor:pointer;border:1px solid var(--sand-line);background:#fff;color:var(--ocean);padding:10px 15px;border-radius:11px;transition:transform .12s,background .18s,color .18s,border-color .18s}
+  body.unit-t4 .btn{color:var(--work)}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.primary{background:var(--ocean);color:#fff;border-color:var(--ocean)}
+  body.unit-t4 .btn.primary{background:var(--work);border-color:var(--work)}
+  .btn.ghost{background:transparent}
+  .btn.known[aria-pressed="true"]{background:var(--leaf);color:#fff;border-color:var(--leaf)}
+  .controls{display:flex;gap:9px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:14px}
+
+  /* flashcards */
+  .card-stage{perspective:1200px;margin:4px 0 6px}
+  .flashcard{position:relative;width:100%;aspect-ratio:16/8;min-height:200px;cursor:pointer;border:0;background:transparent;padding:0;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+  .flashcard.flipped{transform:rotateY(180deg)}
+  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35em;box-shadow:var(--shadow);padding:20px;text-align:center}
+  .face .lbl{font-family:var(--display);text-transform:uppercase;letter-spacing:.12em;font-size:.7rem;opacity:.85}
+  .face .word{font-family:var(--display);font-weight:700;font-size:clamp(1.5rem,6vw,2.6rem);line-height:1.08}
+  .face .ex{font-size:.84rem;opacity:.9;max-width:34ch;font-style:italic}
+  .face .hint{font-size:.72rem;opacity:.7}
+  .face.front{background:linear-gradient(160deg,var(--ocean),var(--ocean-2));color:#fff}
+  body.unit-t4 .face.front{background:linear-gradient(160deg,var(--work),var(--work-2))}
+  .face.front .word{color:var(--gold)}
+  .face.back{background:var(--sand);color:var(--ocean);transform:rotateY(180deg);border:1px solid var(--sand-line)}
+
+  /* match */
+  .match-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .col h3{font-family:var(--display);font-size:.74rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 8px}
+  .chip{display:block;width:100%;text-align:left;margin:0 0 8px;font-family:var(--display);font-weight:600;font-size:.95rem;border:1px solid var(--sand-line);background:#fff;color:var(--ink);padding:11px 13px;border-radius:11px;cursor:pointer;transition:transform .1s,background .18s,border-color .18s,color .18s,opacity .25s}
+  .chip:hover{transform:translateY(-1px)}
+  .chip.sel{background:var(--ocean);color:#fff;border-color:var(--ocean)}
+  body.unit-t4 .chip.sel{background:var(--work);border-color:var(--work)}
+  .chip.done{background:rgba(47,158,125,.14);border-color:var(--leaf);color:var(--leaf);cursor:default;pointer-events:none}
+  .chip.wrong{animation:shake .35s}
+  @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+  /* quiz + verbs */
+  .prompt{background:linear-gradient(160deg,var(--ocean),var(--ocean-2));color:#fff;border-radius:var(--radius);padding:22px 18px;text-align:center;box-shadow:var(--shadow);margin-bottom:14px}
+  body.unit-t4 .prompt{background:linear-gradient(160deg,var(--work),var(--work-2))}
+  .prompt .lbl{font-family:var(--display);text-transform:uppercase;letter-spacing:.12em;font-size:.7rem;opacity:.85}
+  .prompt .word{font-family:var(--display);font-weight:700;font-size:clamp(1.5rem,6vw,2.5rem);color:var(--gold)}
+  .prompt .cloze{font-size:clamp(1.05rem,3.4vw,1.4rem);line-height:1.5;font-weight:500}
+  .prompt .cloze .gap{color:var(--gold);font-weight:700;letter-spacing:.05em}
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .opt{font-family:var(--display);font-weight:600;font-size:.95rem;border:1px solid var(--sand-line);background:#fff;color:var(--ink);padding:13px;border-radius:11px;cursor:pointer;transition:transform .1s,background .18s,color .18s,border-color .18s;text-align:left}
+  .opt:hover{transform:translateY(-1px)}
+  .opt.correct{background:var(--leaf);color:#fff;border-color:var(--leaf)}
+  .opt.miss{background:#fff;border-color:var(--coral);color:var(--coral)}
+  .typer{display:flex;gap:10px;flex-wrap:wrap}
+  .typer input{flex:1 1 200px;font-family:var(--body);font-size:1.05rem;padding:13px 15px;border:1px solid var(--sand-line);border-radius:11px;background:#fff;color:var(--ink)}
+  .typer input:focus{outline:3px solid rgba(13,79,92,.25);border-color:var(--ocean)}
+  .feedback{min-height:1.4em;margin:12px 2px 0;font-weight:600;font-family:var(--display)}
+  .feedback.ok{color:var(--leaf)}
+  .feedback.no{color:var(--coral)}
+  .feedback small{display:block;color:var(--muted);font-weight:500;font-family:var(--body)}
+  .result{text-align:center;padding:22px 12px}
+  .result .big{font-family:var(--display);font-weight:700;font-size:clamp(2.2rem,10vw,3.6rem);color:var(--ocean)}
+  body.unit-t4 .result .big{color:var(--work)}
+  .result p{color:var(--muted);margin:.2em 0 16px}
+
+  .note{font-size:.78rem;color:var(--muted);margin:10px 2px 0}
+  footer{margin-top:28px;text-align:center;color:var(--muted);font-size:.76rem}
+  footer .dot{color:var(--coral)}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:8px}
+  @media (max-width:440px){.options{grid-template-columns:1fr}.match-grid{gap:8px}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="unit-t1">
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Camden Town 9 · Vocabulary Trainer</span>
+    <h1 id="unitTitle">Theme 1 · Australia</h1>
+    <p class="tagline" id="unitTag">Every word from the word list. Practise on your own — nothing is saved.</p>
+  </header>
+
+  <div class="units" role="group" aria-label="Choose unit">
+    <button class="unit-btn t1" id="uT1" aria-pressed="true">
+      <span class="u-k">Theme 1 · Australia</span><br>
+      <span class="u-sub">history, nature, school exchange</span> · <span class="u-n" id="nT1"></span>
+    </button>
+    <button class="unit-btn t4" id="uT4" aria-pressed="false">
+      <span class="u-k">Theme 4 · Chances and opportunities</span><br>
+      <span class="u-sub">skills, applications, the world of work</span> · <span class="u-n" id="nT4"></span>
+    </button>
+  </div>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Prompt language" id="dirGroup">
+      <button id="dirEN" aria-pressed="true">EN → DE</button>
+      <button id="dirDE" aria-pressed="false">DE → EN</button>
+    </div>
+    <div class="spacer"></div>
+    <span class="note" id="dirNote">Flashcards &amp; Quiz show the prompt in this language.</span>
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="Practice mode">
+    <button class="tab" role="tab" aria-selected="true" data-mode="cards">Flashcards</button>
+    <button class="tab" role="tab" aria-selected="false" data-mode="match">Match-up</button>
+    <button class="tab" role="tab" aria-selected="false" data-mode="quiz">Quiz</button>
+    <button class="tab" role="tab" aria-selected="false" data-mode="verbs">Verbs</button>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <section class="panel active" id="panel-cards" role="tabpanel">
+    <p class="progress">Card <b id="cardPos">1</b> / <b id="cardTotal">0</b> · <span id="knownCount">0</span> marked known · covers every word</p>
+    <div class="card-stage">
+      <button class="flashcard" id="flashcard" aria-label="Flip card">
+        <div class="face front"><span class="lbl" id="cFrontLbl">English</span><span class="word" id="cFront"></span><span class="hint">tap to flip</span></div>
+        <div class="face back"><span class="lbl" id="cBackLbl">Deutsch</span><span class="word" id="cBack"></span><span class="ex" id="cEx"></span></div>
+      </button>
+    </div>
+    <div class="controls">
+      <button class="btn ghost" id="cardPrev">← Back</button>
+      <button class="btn known" id="cardKnown" aria-pressed="false">I know this</button>
+      <button class="btn ghost" id="cardShuffle">Shuffle</button>
+      <button class="btn primary" id="cardNext">Next →</button>
+    </div>
+  </section>
+
+  <!-- MATCH -->
+  <section class="panel" id="panel-match" role="tabpanel">
+    <p class="progress">Round <b id="mRound">1</b> / <b id="mRounds">1</b> · matched <b id="mDone">0</b> / <b id="mTotal">0</b> <span id="mAll"></span></p>
+    <div class="match-grid">
+      <div class="col"><h3>English</h3><div id="matchL"></div></div>
+      <div class="col"><h3>Deutsch</h3><div id="matchR"></div></div>
+    </div>
+    <p class="feedback" id="mFeedback" aria-live="polite"></p>
+    <div class="controls">
+      <button class="btn ghost" id="mReset">Restart round</button>
+      <button class="btn primary" id="mNext">Next round →</button>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="panel" id="panel-quiz" role="tabpanel">
+    <div class="bar" style="margin-top:0">
+      <div class="seg" role="group" aria-label="Quiz type">
+        <button id="qChoose" aria-pressed="true">Choose</button>
+        <button id="qType" aria-pressed="false">Type it</button>
+      </div>
+      <span class="note">“Type it” feels harder — that is exactly why it sticks.</span>
+    </div>
+    <div id="quizPlay">
+      <p class="progress">Round <b id="qRound">1</b> / <b id="qRounds">1</b> · Question <b id="qPos">1</b> / <b id="qLen">0</b> · Score <b id="qScore">0</b></p>
+      <div class="prompt"><span class="lbl" id="qLbl">English</span><div class="word" id="qWord"></div></div>
+      <div class="options" id="qOptions"></div>
+      <div class="typer" id="qTyper" style="display:none">
+        <input id="qInput" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Type the translation…">
+        <button class="btn ghost" id="qHint">Hint</button>
+        <button class="btn primary" id="qCheck">Check</button>
+      </div>
+      <p class="feedback" id="qFeedback" aria-live="polite"></p>
+    </div>
+    <div id="quizResult" class="result" style="display:none">
+      <div class="big" id="qResScore"></div>
+      <p id="qResMsg"></p>
+      <div class="controls">
+        <button class="btn ghost" id="qReviewWrong">Review the ones you missed</button>
+        <button class="btn primary" id="qNextRound">Next round →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERBS -->
+  <section class="panel" id="panel-verbs" role="tabpanel">
+    <p class="note">Verbs in context: fill the gap with the missing verb (from the word-list example sentences). This is retrieval practice — recall beats re-reading.</p>
+    <div id="verbPlay">
+      <p class="progress">Round <b id="vRound">1</b> / <b id="vRounds">1</b> · Verb <b id="vPos">1</b> / <b id="vLen">0</b> · Score <b id="vScore">0</b></p>
+      <div class="prompt"><span class="lbl" id="vLbl">Fill the gap</span><div class="cloze" id="vSentence"></div></div>
+      <div class="typer">
+        <input id="vInput" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Type the missing verb…">
+        <button class="btn ghost" id="vHint">Hint</button>
+        <button class="btn primary" id="vCheck">Check</button>
+      </div>
+      <p class="feedback" id="vFeedback" aria-live="polite"></p>
+    </div>
+    <div id="verbResult" class="result" style="display:none">
+      <div class="big" id="vResScore"></div>
+      <p id="vResMsg"></p>
+      <div class="controls">
+        <button class="btn ghost" id="vReviewWrong">Review the ones you missed</button>
+        <button class="btn primary" id="vNextRound">Next round →</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>Self-study tool <span class="dot">·</span> nothing is saved <span class="dot">·</span> close any time <span class="dot">·</span> Camden Town 9 word lists, Theme 1 &amp; Theme 4</footer>
+</div>
+
+<script>
+const DATA = {"t1": [{"en": "Australia", "de": "Australien", "sec": "Intro"}, {"en": "the Outback", "de": "der Busch Australiens", "sec": "Intro"}, {"en": "separate", "de": "getrennt, separat, einzeln", "sec": "Intro"}, {"en": "as", "de": "als, während", "sec": "Intro"}, {"en": "Australian", "de": "Australier/in, australisch", "sec": "Intro"}, {"en": "to benefit", "de": "profitieren, Nutzen ziehen", "v": 1, "ex": "I benefit from this decision.", "bl": "benefit", "sec": "A1"}, {"en": "to profit (from/by)", "de": "profitieren (von), Nutzen ziehen (aus)", "v": 1, "ex": "Jo does the hard work but Henry profits the most!", "bl": "profits", "sec": "A1"}, {"en": "convict", "de": "Strafgefangene/r", "sec": "A1"}, {"en": "guilty", "de": "schuldig", "sec": "A1"}, {"en": "colony", "de": "Kolonie", "sec": "A1"}, {"en": "control", "de": "Kontrolle, Gewalt, Herrschaft", "sec": "A1"}, {"en": "to expire", "de": "ablaufen, enden, auslaufen", "v": 1, "sec": "A1"}, {"en": "to found", "de": "gründen", "v": 1, "ex": "Adelaide was founded in 1836.", "bl": "founded", "sec": "A1"}, {"en": "indigenous", "de": "(ein)heimisch", "sec": "A1"}, {"en": "overcrowded", "de": "überfüllt, überlaufen", "sec": "A1"}, {"en": "to be related to", "de": "verwandt sein (mit), in Beziehung stehen (zu)", "v": 1, "ex": "We are related to each other. He is my uncle.", "bl": "related", "sec": "A1"}, {"en": "colonization", "de": "Kolonisation, Kolonisierung", "sec": "A1"}, {"en": "official", "de": "offiziell", "sec": "A2"}, {"en": "Aboriginal", "de": "Aborigine, der Aborigines, Aborigine-", "sec": "A2"}, {"en": "to represent sb/sth", "de": "jdn/etw repräsentieren, vertreten", "v": 1, "ex": "They represented their country at the Olympics.", "bl": "represented", "sec": "A2"}, {"en": "stripe", "de": "Streifen", "sec": "A2"}, {"en": "to impact", "de": "beeinflussen, Auswirkungen haben auf", "v": 1, "sec": "A3"}, {"en": "unsure", "de": "unsicher, ungewiss", "sec": "A3"}, {"en": "to be based on", "de": "basieren auf, beruhen auf", "v": 1, "ex": "This is based on a true story.", "bl": "based", "sec": "A3"}, {"en": "the Dreaming", "de": "zentraler Begriff der Aborigine-Mythologie", "sec": "A3"}, {"en": "foundation", "de": "Fundament, Basis, Grundlage, Gründung", "sec": "A3"}, {"en": "religion", "de": "Religion, Glaube", "sec": "A3"}, {"en": "creation", "de": "(Er)schaffung, Produkt, Werk", "sec": "A3"}, {"en": "sacred", "de": "heilig, geheiligt", "sec": "A3"}, {"en": "belief", "de": "Glaube, Überzeugung, Ansicht", "sec": "A3"}, {"en": "connection", "de": "Verbindung, Beziehung, Zusammenhang", "sec": "A3"}, {"en": "to pass down", "de": "weitergeben, überliefern", "v": 1, "sec": "A3"}, {"en": "knowledge", "de": "Kenntnis(se), Wissen", "sec": "A3"}, {"en": "to communicate", "de": "kommunizieren, Kontakt haben", "v": 1, "ex": "In a team it is important to communicate.", "bl": "communicate", "sec": "A3"}, {"en": "starvation", "de": "Hungertod, Verhungern, Unterernährung", "sec": "A3"}, {"en": "to abandon", "de": "verlassen, zurücklassen, aufgeben", "v": 1, "sec": "A3"}, {"en": "will", "de": "Wille", "sec": "A3"}, {"en": "to raise", "de": "heben, großziehen", "v": 1, "ex": "Shadeene Evans was raised in an isolated community.", "bl": "raised", "sec": "A3"}, {"en": "foster", "de": "Pflege-", "sec": "A3"}, {"en": "to protest", "de": "protestieren", "v": 1, "ex": "They protested about their working conditions.", "bl": "protested", "sec": "A3"}, {"en": "mistreatment", "de": "Misshandlung, schlechte Behandlung", "sec": "A3"}, {"en": "not until ...", "de": "erst ...", "sec": "A3"}, {"en": "widely", "de": "weithin", "sec": "A3"}, {"en": "society", "de": "Gesellschaft", "sec": "A3"}, {"en": "to acknowledge", "de": "zugeben, anerkennen, bestätigen", "v": 1, "ex": "They should acknowledge their mistakes.", "bl": "acknowledge", "sec": "A3"}, {"en": "to suffer (from)", "de": "erleiden, ertragen, leiden (an/unter)", "v": 1, "ex": "Many people suffer from a disease.", "bl": "suffer", "sec": "A3"}, {"en": "reconciliation", "de": "Aussöhnung, Versöhnung, Beilegung", "sec": "A3"}, {"en": "prime minister", "de": "Premierminister/in, Ministerpräsident/in", "sec": "A3"}, {"en": "past", "de": "vergangen, frühere(r,s)", "sec": "A3"}, {"en": "rate", "de": "Maß, Menge, Rate, Quote", "sec": "A3"}, {"en": "abuse", "de": "Missbrauch, Verletzung, Beschimpfung(en)", "sec": "A4"}, {"en": "mentoring", "de": "Beratung und Unterstützung durch erfahrene Fach- oder Führungskräfte", "sec": "A4"}, {"en": "according to", "de": "nach, laut, gemäß", "sec": "A4"}, {"en": "capable", "de": "fähig", "sec": "A4"}, {"en": "worth", "de": "Wert", "sec": "A4"}, {"en": "cycle", "de": "Kreislauf, Zyklus", "sec": "A4"}, {"en": "tiny", "de": "winzig", "sec": "A4"}, {"en": "isolated", "de": "abgelegen, isoliert", "sec": "A4"}, {"en": "to hunt", "de": "jagen", "v": 1, "sec": "A4"}, {"en": "to adjust (to)", "de": "einstellen, anpassen (an)", "v": 1, "sec": "A4"}, {"en": "currently", "de": "zurzeit, gegenwärtig, momentan", "sec": "A4"}, {"en": "musician", "de": "Musiker/in", "sec": "A4"}, {"en": "pride", "de": "Stolz", "sec": "A4"}, {"en": "identity", "de": "Identität", "sec": "A4"}, {"en": "anger", "de": "Ärger, Wut", "sec": "A4"}, {"en": "on a daily basis", "de": "täglich, jeden Tag", "sec": "A4"}, {"en": "forearm", "de": "Unterarm", "sec": "A4"}, {"en": "heritage", "de": "(Kultur)erbe", "sec": "A4"}, {"en": "award", "de": "Preis, Auszeichnung", "sec": "A4"}, {"en": "creative", "de": "kreativ, schöpferisch", "sec": "A4"}, {"en": "to analyse", "de": "analysieren, untersuchen", "v": 1, "sec": "A4"}, {"en": "to overcome", "de": "bewältigen, meistern", "v": 1, "sec": "A4"}, {"en": "Australia Day", "de": "Australiens offizieller Nationalfeiertag", "sec": "A5"}, {"en": "protester", "de": "Protestierende/r, Demonstrant/in", "sec": "A5"}, {"en": "across", "de": "über, querdurch, über ... hinweg", "sec": "A5"}, {"en": "supporter", "de": "Unterstützer/in, Anhänger/in, Verfechter/in", "sec": "A5"}, {"en": "despite", "de": "trotz", "sec": "A5"}, {"en": "march", "de": "Marsch", "sec": "A5"}, {"en": "central", "de": "zentral, Haupt-", "sec": "A5"}, {"en": "native", "de": "einheimisch, eingeboren", "sec": "A5"}, {"en": "speech", "de": "Rede", "sec": "A5"}, {"en": "meanwhile", "de": "inzwischen, unterdessen, mittlerweile", "sec": "A5"}, {"en": "naval officer", "de": "Marineoffizier/in", "sec": "A5"}, {"en": "paint", "de": "Farbe, Lack", "sec": "A5"}, {"en": "to assess", "de": "(ein)schätzen, beurteilen", "v": 1, "sec": "A5"}, {"en": "to abolish", "de": "abschaffen, aufheben", "v": 1, "sec": "A5"}, {"en": "suspect", "de": "Verdächtige/r", "sec": "A5"}, {"en": "heated", "de": "hitzig, beheizt", "sec": "A5"}, {"en": "arrival", "de": "Ankunft", "sec": "A5"}, {"en": "forcefully", "de": "gewaltsam", "sec": "A5"}, {"en": "possibly", "de": "möglicherweise, gegebenenfalls", "sec": "A5"}, {"en": "elder", "de": "Ältere/r, ältere(r,s)", "sec": "A5"}, {"en": "to reflect", "de": "spiegeln, zeigen, reflektieren", "v": 1, "ex": "Ivy reflected for a moment and then made a suggestion.", "bl": "reflected", "sec": "A5"}, {"en": "to mark", "de": "markieren, kennzeichnen", "v": 1, "ex": "Today marks our tenth anniversary.", "bl": "marks", "sec": "A5"}, {"en": "ceremony", "de": "Zeremonie, Feier, Feierlichkeiten", "sec": "A5"}, {"en": "citizenship", "de": "Staatsangehörigkeit", "sec": "A5"}, {"en": "multicultural", "de": "multikulturell", "sec": "A5"}, {"en": "faith", "de": "Vertrauen, Glaube", "sec": "A5"}, {"en": "to proclaim", "de": "verkünden, erklären", "v": 1, "sec": "A5"}, {"en": "deep", "de": "tief", "sec": "A5"}, {"en": "sense", "de": "Verstand, Sinn, Gefühl", "sec": "A5"}, {"en": "gratitude", "de": "Dankbarkeit", "sec": "A5"}, {"en": "to span", "de": "umfassen, umspannen", "v": 1, "sec": "A5"}, {"en": "unmatched", "de": "unerreicht, unübertroffen", "sec": "A5"}, {"en": "beauty", "de": "Schönheit", "sec": "A5"}, {"en": "wonder", "de": "Wunder", "sec": "A5"}, {"en": "wrong", "de": "Unrecht", "sec": "A5"}, {"en": "acknowledg(e)ment", "de": "Eingeständnis, Anerkennung, Würdigung", "sec": "A5"}, {"en": "hardship", "de": "Not, Elend, Härte", "sec": "A5"}, {"en": "to strive", "de": "sich bemühen, (an)streben", "v": 1, "sec": "A5"}, {"en": "just", "de": "gerecht", "sec": "A5"}, {"en": "no matter ...", "de": "egal(,) ...", "sec": "A5"}, {"en": "First Nations", "de": "Ureinwohner-, die einheimische Bevölkerung betreffend", "sec": "A6"}, {"en": "to publish", "de": "veröffentlichen, herausgeben", "v": 1, "ex": "The book was published in 2023.", "bl": "published", "sec": "A8"}, {"en": "to vary", "de": "variieren", "v": 1, "ex": "My mood varies from day to day, sometimes I am happy but sometimes I am sad.", "bl": "varies", "sec": "A8"}, {"en": "down under", "de": "Australien, Neuseeland", "sec": "B1"}, {"en": "abroad", "de": "im/ins Ausland", "sec": "B1"}, {"en": "to gain", "de": "bekommen, erreichen, gewinnen", "v": 1, "ex": "Australia gained independence from Britain.", "bl": "gained", "sec": "B1"}, {"en": "loads of", "de": "jede Menge, massenhaft", "sec": "B2"}, {"en": "personally", "de": "persönlich, ich für meinen Teil", "sec": "B2"}, {"en": "cableway", "de": "Seilbahn", "sec": "B2"}, {"en": "to run", "de": "rennen, laufen, verlaufen", "v": 1, "ex": "The Amazon river runs through the middle of the rainforest.", "bl": "runs", "sec": "B2"}, {"en": "tropical", "de": "Tropen-, tropisch", "sec": "B2"}, {"en": "rainforest", "de": "Regenwald", "sec": "B2"}, {"en": "exception", "de": "Ausnahme", "sec": "B2"}, {"en": "to sign up", "de": "sich einschreiben, sich anmelden", "v": 1, "ex": "Rory signed up for hockey club.", "bl": "signed up", "sec": "B2"}, {"en": "practical", "de": "praktisch, auf die Praxis bezogen", "sec": "B2"}, {"en": "foreign", "de": "ausländisch, fremd, Fremd-", "sec": "B2"}, {"en": "range", "de": "Reichweite, Bereich, Angebot", "sec": "B2"}, {"en": "elective", "de": "Wahlfach", "sec": "B2"}, {"en": "engineering", "de": "Technik, Ingenieurwissenschaft, Maschinenbau", "sec": "B2"}, {"en": "aviation", "de": "Fliegerei, Fliegen, Luftfahrt", "sec": "B2"}, {"en": "psychology", "de": "Psychologie", "sec": "B2"}, {"en": "aquatic practices", "de": "Schulfach, das Gewässer unter ökologischen, kulturellen, wirtschaftlichen und Freizeitaspekten thematisiert", "sec": "B2"}, {"en": "marine science", "de": "Meereskunde", "sec": "B2"}, {"en": "snorkelling", "de": "Schnorcheln", "sec": "B2"}, {"en": "licence", "de": "Genehmigung, Erlaubnis, Führerschein", "sec": "B2"}, {"en": "coral reef", "de": "Korallenriff", "sec": "B2"}, {"en": "coral", "de": "Koralle(n-)", "sec": "B2"}, {"en": "rowing", "de": "Rudern", "sec": "B2"}, {"en": "just as ... (as)", "de": "genauso ... (wie)", "sec": "B5"}, {"en": "to claim", "de": "behaupten, Anspruch erheben auf", "v": 1, "ex": "Lucy claimed she didn't know about the homework.", "bl": "claimed", "sec": "B6"}, {"en": "to get back", "de": "zurückkommen", "v": 1, "ex": "Marc got back from his holiday yesterday.", "bl": "got back", "sec": "B7"}, {"en": "turtle", "de": "Schildkröte", "sec": "B7"}, {"en": "rehabilitation", "de": "Rehabilitation(s-), Wiedereingliederung", "sec": "B7"}, {"en": "dry season", "de": "Trockenzeit", "sec": "B7"}, {"en": "wet season", "de": "Regenzeit", "sec": "B7"}, {"en": "stinger", "de": "stechendes Insekt, brennende Pflanze", "sec": "B7"}, {"en": "to take a risk", "de": "ein Risiko eingehen, etw riskieren", "v": 1, "ex": "Lizzy took the risk and dived into the sea.", "bl": "took the risk", "sec": "B7"}, {"en": "to nurse", "de": "pflegen, fördern", "v": 1, "sec": "B7"}, {"en": "to get to do sth", "de": "die Möglichkeit haben, etw zu tun", "v": 1, "ex": "After a busy day, Oscar finally got to bake a cake.", "bl": "got to", "sec": "B7"}, {"en": "jellyfish", "de": "Qualle", "sec": "B7"}, {"en": "to float", "de": "schwimmen, treiben, ziehen", "v": 1, "ex": "Apples float in water.", "bl": "float", "sec": "B7"}, {"en": "to attach", "de": "anhängen, befestigen, anbringen", "v": 1, "ex": "Sarah attached her keys to her rucksack so that she didn't lose them.", "bl": "attached", "sec": "B7"}, {"en": "shell", "de": "Schale, Muschel, Panzer", "sec": "B7"}, {"en": "calcium carbonate", "de": "kohlensaures Kalzium (z. B. Kalkstein)", "sec": "B7"}, {"en": "limestone", "de": "Kalkstein", "sec": "B7"}, {"en": "zooxanthellae", "de": "Algenart", "sec": "B7"}, {"en": "to contain", "de": "enthalten", "v": 1, "ex": "This letter contains all the important information.", "bl": "contains", "sec": "B7"}, {"en": "collection", "de": "(An)sammlung, Auswahl", "sec": "B7"}, {"en": "harm", "de": "Schaden, Verletzung", "sec": "B7"}, {"en": "threat", "de": "(Be)drohung, Gefahr", "sec": "B7"}, {"en": "stressed", "de": "gestresst", "sec": "B7"}, {"en": "as a result (of sth)", "de": "als Folge (einer Sache)", "sec": "B7"}, {"en": "coral bleaching", "de": "Korallenbleiche", "sec": "B7"}, {"en": "tragedy", "de": "Tragödie, Trauerspiel", "sec": "B7"}, {"en": "precious", "de": "wertvoll, kostbar", "sec": "B7"}, {"en": "restoration", "de": "Restaurierung(s-), Wiederherstellung", "sec": "B7"}, {"en": "to specialize (in)", "de": "sich spezialisieren (auf)", "v": 1, "ex": "Clara's company specializes in finding volunteers for environmental projects.", "bl": "specializes", "sec": "B7"}, {"en": "pollution", "de": "Verschmutzung", "sec": "B7"}, {"en": "pest", "de": "Schädling, Plage", "sec": "B7"}, {"en": "plate", "de": "Teller", "sec": "B7"}, {"en": "straw", "de": "Stroh(-), Strohhalm", "sec": "B7"}, {"en": "to ban", "de": "verbieten", "v": 1, "ex": "Plastic plates and straws are banned on the island.", "bl": "banned", "sec": "B7"}, {"en": "reader", "de": "Leser/in", "sec": "B7"}], "t4": [{"en": "knowledge", "de": "Kenntnis(se), Wissen", "ex": "Anna doesn't know much about animals, but she has lots of knowledge about flowers."}, {"en": "benefit", "de": "Nutzen, Vorteil"}, {"en": "spare time", "de": "Freizeit", "ex": "Fred reads a lot in his spare time."}, {"en": "to repair", "de": "reparieren, (wieder) in Ordnung bringen", "v": 1, "ex": "I repaired my bike instead of buying a new one.", "bl": "repaired"}, {"en": "to restyle", "de": "umgestalten, neu gestalten", "v": 1}, {"en": "crafty", "de": "schlau, gerissen, handwerklich begabt"}, {"en": "creative", "de": "kreativ, schöpferisch", "ex": "Mark is creative: he loves making music and writing his own songs."}, {"en": "salesperson", "de": "Verkäufer/in"}, {"en": "DIY (do-it-yourself)", "de": "Heimwerken"}, {"en": "to get to do sth", "de": "die Möglichkeit haben, etw zu tun", "v": 1, "ex": "After a busy day, Oscar finally got to bake a cake.", "bl": "got to"}, {"en": "to invest", "de": "investieren, anlegen", "v": 1, "ex": "Gina invests a lot of time in her education.", "bl": "invests"}, {"en": "furniture", "de": "Möbel"}, {"en": "to store", "de": "(auf)speichern, lagern, aufbewahren", "v": 1, "ex": "Tara stores all her things in the wardrobe.", "bl": "stores"}, {"en": "garage", "de": "Garage, Tankstelle, (Kfz-)Werkstatt"}, {"en": "also", "de": "auch, darüber hinaus"}, {"en": "rude", "de": "unhöflich"}, {"en": "to collect", "de": "(ein)sammeln, abholen", "v": 1, "ex": "Cara's mum collects her from school every day.", "bl": "collects"}, {"en": "impolite", "de": "unhöflich, frech, unverschämt"}, {"en": "elderly", "de": "ältere(r,s)"}, {"en": "device", "de": "Gerät, Vorrichtung, Apparat"}, {"en": "to assist (in/with)", "de": "(mit)helfen (bei)", "v": 1, "ex": "The lady needed help, so Leah assisted her.", "bl": "assisted"}, {"en": "everyday", "de": "alltäglich"}, {"en": "patience", "de": "Geduld"}, {"en": "trustworthy", "de": "vertrauenswürdig, zuverlässig"}, {"en": "discreet", "de": "diskret, dezent, taktvoll"}, {"en": "to set up", "de": "errichten, einrichten", "v": 1, "ex": "Polly set up a youth club in her hometown.", "bl": "set up"}, {"en": "tech-savvy", "de": "technikaffin"}, {"en": "at times", "de": "manchmal"}, {"en": "impatient", "de": "ungeduldig"}, {"en": "mascot", "de": "Maskottchen"}, {"en": "to entertain", "de": "unterhalten", "v": 1, "ex": "Will entertained his sister by dancing.", "bl": "entertained"}, {"en": "spectator", "de": "Zuschauer/in"}, {"en": "field", "de": "Wiese, Feld, (AE) Spielfeld", "ex": "The field was empty before the players arrived."}, {"en": "to fall over", "de": "hinfallen, stürzen", "v": 1, "ex": "Ivo fell over and hurt his foot.", "bl": "fell over"}, {"en": "stairs", "de": "Treppe", "ex": "Bill walks up the stairs to get to his English class."}, {"en": "disgusting", "de": "empörend, widerlich, widerwärtig"}, {"en": "revolting", "de": "abstoßend, widerlich"}, {"en": "to gain", "de": "bekommen, erreichen, gewinnen", "v": 1, "ex": "Ryan gained a lot of experience when he worked with his dad.", "bl": "gained"}, {"en": "to mention", "de": "erwähnen", "v": 1, "ex": "It is a secret: don't mention it to anyone else.", "bl": "mention"}, {"en": "to involve", "de": "beinhalten, umfassen, betreffen, beteiligen", "v": 1, "ex": "Which activities should your future job involve?", "bl": "involve"}, {"en": "job advertisement", "de": "Stellenanzeige", "ex": "Jess saw the job advertisement online."}, {"en": "internship", "de": "Praktikum", "ex": "Internships are a good way of getting work experience."}, {"en": "up-and-coming", "de": "aufstrebend"}, {"en": "across", "de": "über, querdurch, über ... hinweg", "ex": "Lizzy ran across the whole school to find her classroom."}, {"en": "intern", "de": "Praktikant/in", "ex": "Interns help other people at work."}, {"en": "fabulous", "de": "fabelhaft, sagenhaft"}, {"en": "office space", "de": "Büroräume, Bürofläche(n)"}, {"en": "essential", "de": "unverzichtbar, wesentlich"}, {"en": "potential", "de": "Potenzial, potenziell, möglich"}, {"en": "applicant", "de": "Bewerber/in"}, {"en": "currently", "de": "zurzeit, gegenwärtig, momentan"}, {"en": "feature", "de": "Merkmal, Kennzeichen, Besonderheit, Feature"}, {"en": "editing", "de": "Bearbeiten, Redigieren"}, {"en": "the right fit", "de": "etwas Passendes, die richtige Person"}, {"en": "to add one's mark to sth", "de": "etw prägen, etw seinen Stempel aufdrücken", "v": 1}, {"en": "whatever", "de": "was auch immer, egal was"}, {"en": "involvement", "de": "Beteiligung"}, {"en": "daily", "de": "täglich, jeden Tag"}, {"en": "to act", "de": "handeln, vorgehen, fungieren, tätig sein", "v": 1, "ex": "Roger was acting as school principal for the week.", "bl": "acting"}, {"en": "representative", "de": "(Stell)vertreter/in, repräsentativ"}, {"en": "to hike", "de": "wandern", "v": 1, "ex": "Dani hikes through the mountains on weekends.", "bl": "hikes"}, {"en": "comprehensive", "de": "umfassend"}, {"en": "training", "de": "Training, Ausbildung, Schulung", "ex": "You need training to become a teacher."}, {"en": "shift", "de": "Schicht"}, {"en": "candidate", "de": "Kandidat/in, Bewerber/in", "ex": "There are many good candidates for this job."}, {"en": "ability", "de": "Fähigkeit, Talent, Begabung", "ex": "Tom has the ability to understand many languages."}, {"en": "willing", "de": "bereit, gewillt, willig", "ex": "Sean is willing to work very hard to get good grades."}, {"en": "regardless of sth", "de": "trotz etw, ungeachtet etw"}, {"en": "ever-changing", "de": "ständig wechselnd"}, {"en": "unpredictable", "de": "unvorhersehbar, unberechenbar", "ex": "English weather is so unpredictable. Sometimes it is sunny then rainy again."}, {"en": "energetic", "de": "voller Energie"}, {"en": "capable", "de": "fähig", "ex": "Everyone is capable of good grades if they work hard."}, {"en": "animal rescue shelter", "de": "Tierauffangstation, Tierheim"}, {"en": "wounded", "de": "verletzt, verwundet"}, {"en": "the wild", "de": "die Wildnis"}, {"en": "to care for", "de": "sich kümmern um", "v": 1, "ex": "Poppy cared for Alia's cat while she was on holiday.", "bl": "cared for"}, {"en": "to feed", "de": "(zu) essen geben, füttern", "v": 1, "ex": "Elias feeds the dog every day.", "bl": "feeds"}, {"en": "motivated", "de": "motiviert", "ex": "Sarah was very motivated to practise tennis because she really wanted to win."}, {"en": "conservation", "de": "Schutz, Erhaltung", "ex": "Bees help with the conservation of biodiversity."}, {"en": "reliable", "de": "verlässlich, zuverlässig", "ex": "Peter is very reliable: you can trust him."}, {"en": "to run", "de": "rennen, laufen, durchführen", "v": 1, "ex": "The school runs a computing class every year.", "bl": "runs"}, {"en": "to spread", "de": "(sich) ausbreiten, (sich) verbreiten, verteilen", "v": 1, "ex": "Aarav spread his homework tasks across the weekend, so he still had time for football practice.", "bl": "spread"}, {"en": "to suit sb/sth", "de": "zu jdm/etw passen", "v": 1, "ex": "This shirt doesn't suit me; I need to find a new one.", "bl": "suit"}, {"en": "CV (curriculum vitae)", "de": "Lebenslauf", "ex": "A clear and correct CV shows the employer that you are serious about your application."}, {"en": "employer", "de": "Arbeitgeber/in"}, {"en": "profile", "de": "Profil, Porträt", "ex": "Thanks to James's volunteer work, he has an impressive profile."}, {"en": "hard-working", "de": "fleißig, hart arbeitend", "ex": "Luke has done all his homework and cleaned the house; he is so hard-working."}, {"en": "reference", "de": "(Arbeits)zeugnis, Referenz", "ex": "Mia needs a reference from her employer."}, {"en": "on request", "de": "auf Anfrage, auf Wunsch"}, {"en": "present", "de": "Gegenwart, jetzt, heute", "ex": "Forget the past and focus on the present."}, {"en": "to volunteer", "de": "sich freiwillig melden, ehrenamtlich tätig sein", "v": 1, "ex": "Diana volunteers at an animal shelter on weekends.", "bl": "volunteers"}, {"en": "responsible", "de": "verantwortlich, zuständig", "ex": "Ola is responsible for getting her mum's birthday present."}, {"en": "data entry", "de": "Dateneingabe"}, {"en": "database", "de": "Datenbank(-)"}, {"en": "word processing", "de": "Textverarbeitung"}, {"en": "spreadsheet", "de": "Tabellenkalkulation, Arbeitsblatt"}, {"en": "native speaker", "de": "Muttersprachler/in", "ex": "Maria is from Spain: she is a native speaker of Spanish."}, {"en": "application", "de": "Bewerbung, Antrag, Anwendung", "ex": "I checked my job application for mistakes before I sent it."}, {"en": "formal", "de": "formell, förmlich, offiziell", "ex": "I use formal language in a job application but informal language when chatting with my friends."}, {"en": "marital status", "de": "Familienstand"}, {"en": "cover letter", "de": "Anschreiben", "ex": "In a cover letter you can tell the employer more about yourself."}, {"en": "average", "de": "(im) Durchschnitt, durchschnittlich", "ex": "It is 25 degrees here on an average summer day."}, {"en": "suited (to)", "de": "geeignet (für)", "ex": "This job is suited to someone who loves being outside."}, {"en": "to lack", "de": "nicht haben, fehlen", "v": 1, "ex": "Unfortunately, Tim lacks the skills for the job.", "bl": "lacks"}, {"en": "attention", "de": "Aufmerksamkeit, Achtung", "ex": "Yasmine's application attracted the employer's attention."}, {"en": "to approve of", "de": "genehmigen, billigen, für gut halten", "v": 1, "ex": "My mum approves of my new friend; she says he is nice and polite.", "bl": "approves of"}, {"en": "rainforest", "de": "Regenwald", "ex": "The Amazon is the world's largest rainforest."}, {"en": "to count on sb/sth", "de": "auf jdn/etw zählen", "v": 1, "ex": "I can always count on Heather to be on time: she is never late.", "bl": "count on"}, {"en": "to get back to sb", "de": "sich (wieder) bei jdm melden", "v": 1, "ex": "Will never got back to Lucy about her party. She doesn't know if he's coming.", "bl": "got back to"}, {"en": "to the point", "de": "griffig, prägnant, auf das Thema bezogen"}, {"en": "subject", "de": "(Schul)fach, Betreff", "ex": "The subject line of an email should be short and relevant."}, {"en": "Dear Sir/Madam", "de": "Sehr geehrte Damen und Herren"}, {"en": "in response to", "de": "in Erwiderung auf, als Antwort auf"}, {"en": "closing", "de": "End-, Schluss-, abschließend"}, {"en": "Yours faithfully", "de": "Schlussformel in einem nicht an eine bestimmte Person gerichteten formellen Brief"}, {"en": "characteristic", "de": "(charakteristisches) Merkmal, typisch, charakteristisch", "ex": "Think about which of your characteristics could match the skills that are needed."}, {"en": "qualification", "de": "Qualifikation, Ausbildung, Abschluss", "ex": "To become a teacher, you need a teaching qualification."}, {"en": "anonymous", "de": "anonym, ungenannt", "ex": "The author is anonymous: no one knows who wrote the book."}, {"en": "to vary", "de": "variieren", "v": 1, "ex": "My mood varies from day to day: sometimes I am happy but sometimes I am sad.", "bl": "varies"}, {"en": "to research", "de": "erforschen, recherchieren", "v": 1, "ex": "Lily researched bears for her science homework.", "bl": "researched"}, {"en": "common", "de": "üblich, weit verbreitet, gemeinsam", "ex": "It is common to feel nervous before an exam."}, {"en": "to work", "de": "arbeiten, funktionieren", "v": 1, "ex": "Awiti's robot works! He doesn't need to work on it anymore.", "bl": "works"}, {"en": "tidy", "de": "ordentlich, sauber", "ex": "Ada is very organised and her room is very tidy."}, {"en": "up straight", "de": "aufrecht"}, {"en": "enthusiastic", "de": "enthusiastisch, begeistert", "ex": "Callie wants to work in an animal shelter because she is enthusiastic about helping animals."}, {"en": "relaxed", "de": "entspannt, locker", "ex": "My parents are quite relaxed; I don't have a bed time."}, {"en": "to gesture", "de": "deuten", "v": 1}, {"en": "to fidget", "de": "(herum)zappeln, herumspielen", "v": 1}, {"en": "to touch", "de": "berühren", "v": 1, "ex": "A hot potato is something nobody wants to touch.", "bl": "touch"}, {"en": "to panic", "de": "in Panik geraten", "v": 1, "ex": "Owen panicked when he couldn't find his phone.", "bl": "panicked"}, {"en": "to reject", "de": "ablehnen, zurückweisen, abweisen", "v": 1, "ex": "Unfortunately, my application was rejected.", "bl": "rejected"}, {"en": "to go wrong", "de": "schiefgehen", "v": 1, "ex": "Something went wrong with Li's computer and she lost all her work.", "bl": "went wrong"}, {"en": "to flow", "de": "fließen", "v": 1, "ex": "The river flows through the park.", "bl": "flows"}, {"en": "to sort", "de": "sortieren", "v": 1, "ex": "Copy the grid and sort the phrases.", "bl": "sort"}, {"en": "opener", "de": "Öffner, Anfang"}, {"en": "to keep sth going", "de": "etw in Gang halten", "v": 1}, {"en": "to buy time", "de": "Zeit gewinnen/schinden", "v": 1}, {"en": "to get started", "de": "beginnen", "v": 1, "ex": "James got started on cooking dinner as soon as he got home.", "bl": "got started"}, {"en": "challenging", "de": "(heraus)fordernd", "ex": "This task is challenging, but it will help you to learn."}, {"en": "shall", "de": "sollen, werden", "ex": "I'm bored. Shall we leave?"}, {"en": "likewise", "de": "ebenfalls, gleichfalls, ebenso"}, {"en": "to require", "de": "brauchen, verlangen, benötigen", "v": 1, "ex": "Thomas required help with his homework.", "bl": "required"}, {"en": "to respond (to)", "de": "reagieren (auf), antworten", "v": 1, "ex": "Jake never responded to Will's email.", "bl": "responded to"}, {"en": "to cope with", "de": "zurechtkommen mit, bewältigen", "v": 1, "ex": "David has lots of homework to do, but he is coping with the stress well.", "bl": "coping with"}, {"en": "to repeat", "de": "wiederholen", "v": 1, "ex": "After the teacher repeated the question, Paul finally understood.", "bl": "repeated"}]};
+(function(){
+  "use strict";
+  var MATCH_SIZE=8, QUIZ_SIZE=12, VERB_SIZE=8;
+  var state={unit:"t1",mode:"cards",dir:"en2de",quizType:"choose"};
+  function words(){ return DATA[state.unit]; }
+  function verbsWithEx(){ return words().filter(function(w){return w.v&&w.ex&&w.bl;}); }
+  function $(id){return document.getElementById(id);}
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function chunk(a,n){var r=[];for(var i=0;i<a.length;i+=n)r.push(a.slice(i,i+n));return r;}
+  function promptKey(){return state.dir==="en2de"?"en":"de";}
+  function answerKey(){return state.dir==="en2de"?"de":"en";}
+  function fromLbl(){return state.dir==="en2de"?"English":"Deutsch";}
+  function toLbl(){return state.dir==="en2de"?"Deutsch":"English";}
+
+  function clean(s){return (s||"").toLowerCase().replace(/[’]/g,"'").replace(/\([^)]*\)/g," ").replace(/[.,;:!?"]/g," ").replace(/\s+/g," ").trim();}
+  function enForms(en){var c=clean(en).replace(/\bsb\b|\bsth\b/g," ").replace(/\s+/g," ").trim();var base=c.replace(/^to\s+/,"");return [c,base,base.replace(/\s.*/,"")];}
+  function deForms(de){return clean(de).split(",").map(function(x){return x.trim();}).filter(Boolean).concat([clean(de)]);}
+  function answerAccepts(word){ if(answerKey()==="de") return deForms(word.de); else return enForms(word.en); }
+  function isCorrect(input,word){var n=clean(input);if(!n)return false;return answerAccepts(word).some(function(a){return a&&a===n;});}
+  function showAnswer(word){return answerKey()==="de"?word.de:word.en;}
+
+  /* ---- flashcards ---- */
+  var cOrder=[],cIdx=0,known={};
+  function cardsInit(){cOrder=shuffle(words());cIdx=0;known={};$("cardTotal").textContent=cOrder.length;renderCard();}
+  function renderCard(){var w=cOrder[cIdx];$("flashcard").classList.remove("flipped");
+    $("cFrontLbl").textContent=fromLbl();$("cBackLbl").textContent=toLbl();
+    $("cFront").textContent=w[promptKey()];$("cBack").textContent=w[answerKey()];
+    $("cEx").textContent=w.ex?("“"+w.ex+"”"):"";
+    $("cardPos").textContent=cIdx+1;
+    var kb=$("cardKnown"),isK=!!known[w.en];kb.setAttribute("aria-pressed",isK?"true":"false");kb.textContent=isK?"Known ✓":"I know this";
+    $("knownCount").textContent=Object.keys(known).length;}
+  $("flashcard").addEventListener("click",function(){this.classList.toggle("flipped");});
+  $("cardNext").addEventListener("click",function(){cIdx=(cIdx+1)%cOrder.length;renderCard();});
+  $("cardPrev").addEventListener("click",function(){cIdx=(cIdx-1+cOrder.length)%cOrder.length;renderCard();});
+  $("cardShuffle").addEventListener("click",function(){cOrder=shuffle(cOrder);cIdx=0;renderCard();});
+  $("cardKnown").addEventListener("click",function(){var w=cOrder[cIdx];if(known[w.en])delete known[w.en];else known[w.en]=true;renderCard();});
+
+  /* ---- match ---- */
+  var mRounds=[],mRi=0,mSel=null,mMatched=0;
+  function matchInit(){mRounds=chunk(shuffle(words()),MATCH_SIZE);mRi=0;$("mRounds").textContent=mRounds.length;renderMatchRound();}
+  function renderMatchRound(){var set=mRounds[mRi];mMatched=0;mSel=null;
+    $("mRound").textContent=mRi+1;$("mTotal").textContent=set.length;$("mDone").textContent=0;$("mAll").textContent="";
+    $("mFeedback").textContent="";$("mFeedback").className="feedback";$("mNext").style.display="none";
+    var L=$("matchL"),R=$("matchR");L.innerHTML="";R.innerHTML="";
+    shuffle(set).forEach(function(w){var b=document.createElement("button");b.className="chip";b.textContent=w.en;b.dataset.k=w.en;b.addEventListener("click",function(){mPickL(b);});L.appendChild(b);});
+    shuffle(set).forEach(function(w){var b=document.createElement("button");b.className="chip";b.textContent=w.de;b.dataset.k=w.en;b.addEventListener("click",function(){mPickR(b);});R.appendChild(b);});}
+  function mPickL(b){if(b.classList.contains("done"))return;if(mSel)mSel.classList.remove("sel");mSel=b;b.classList.add("sel");}
+  function mPickR(b){if(b.classList.contains("done"))return;if(!mSel){mFlash("Pick an English word first.","no");return;}
+    if(mSel.dataset.k===b.dataset.k){mSel.classList.add("done");b.classList.add("done");mSel.classList.remove("sel");mSel=null;mMatched++;$("mDone").textContent=mMatched;
+      if(mMatched===mRounds[mRi].length){mFlash("Round complete — good on ya!","ok");$("mAll").textContent="✓";if(mRi<mRounds.length-1)$("mNext").style.display="inline-block";else mFlash("All rounds done — every word matched!","ok");}}
+    else{b.classList.add("wrong");setTimeout(function(){b.classList.remove("wrong");},360);mFlash("Not a match — try again.","no");}}
+  function mFlash(m,k){var f=$("mFeedback");f.textContent=m;f.className="feedback "+(k==="ok"?"ok":"no");}
+  $("mReset").addEventListener("click",renderMatchRound);
+  $("mNext").addEventListener("click",function(){if(mRi<mRounds.length-1){mRi++;renderMatchRound();}});
+
+  /* ---- quiz ---- */
+  var qRounds=[],qRi=0,qList=[],qIdx=0,qScore=0,qWrong=[];
+  function quizInit(){qRounds=chunk(shuffle(words()),QUIZ_SIZE);qRi=0;$("qRounds").textContent=qRounds.length;startQuizRound(qRounds[0]);}
+  function startQuizRound(list){qList=list.slice();qIdx=0;qScore=0;qWrong=[];$("quizResult").style.display="none";$("quizPlay").style.display="block";$("qRound").textContent=qRi+1;$("qLen").textContent=qList.length;renderQ();}
+  function renderQ(){var w=qList[qIdx];$("qPos").textContent=qIdx+1;$("qScore").textContent=qScore;$("qLbl").textContent=fromLbl();$("qWord").textContent=w[promptKey()];
+    $("qFeedback").textContent="";$("qFeedback").className="feedback";
+    var opts=$("qOptions"),typer=$("qTyper");
+    if(state.quizType==="choose"){typer.style.display="none";opts.style.display="grid";opts.innerHTML="";
+      var correct=w[answerKey()];var pool=words().filter(function(x){return x[answerKey()]!==correct;});
+      var ch=shuffle(pool).slice(0,3).map(function(x){return x[answerKey()];});ch.push(correct);ch=shuffle(ch);
+      ch.forEach(function(c){var b=document.createElement("button");b.className="opt";b.textContent=c;b.addEventListener("click",function(){answerChoose(b,correct);});opts.appendChild(b);});}
+    else{opts.style.display="none";typer.style.display="flex";var inp=$("qInput");inp.value="";inp.disabled=false;$("qCheck").disabled=false;inp.focus();}}
+  function answerChoose(btn,correct){var all=$("qOptions").querySelectorAll(".opt");all.forEach(function(b){b.disabled=true;});
+    if(btn.textContent===correct){btn.classList.add("correct");qScore++;qSay("Spot on!","ok");}
+    else{btn.classList.add("miss");all.forEach(function(b){if(b.textContent===correct)b.classList.add("correct");});qWrong.push(qList[qIdx]);qSay("Correct: "+correct,"no");}
+    qAdvance();}
+  function qCheckTyped(){var w=qList[qIdx],val=$("qInput").value;if(!val.trim())return;$("qInput").disabled=true;$("qCheck").disabled=true;
+    if(isCorrect(val,w)){qScore++;qSay("Spot on!","ok");}else{qWrong.push(w);qSay("Correct: "+showAnswer(w),"no");}qAdvance();}
+  function qSay(m,k){var f=$("qFeedback");f.textContent=m;f.className="feedback "+(k==="ok"?"ok":"no");}
+  function qAdvance(){$("qScore").textContent=qScore;setTimeout(function(){qIdx++;if(qIdx>=qList.length)qShowResult();else renderQ();},820);}
+  function qShowResult(){$("quizPlay").style.display="none";var r=$("quizResult");r.style.display="block";$("qResScore").textContent=qScore+" / "+qList.length;
+    var p=qScore/qList.length;$("qResMsg").textContent=p===1?"Beauty! You nailed the lot.":p>=.6?"Good on ya — nearly there.":"Keep at it — flip through the cards again.";
+    $("qReviewWrong").style.display=qWrong.length?"inline-block":"none";
+    $("qNextRound").style.display=qRi<qRounds.length-1?"inline-block":"none";
+    if(qRi>=qRounds.length-1&&!qWrong.length){$("qResMsg").textContent+=" That was the last round — every word covered.";}}
+  $("qCheck").addEventListener("click",qCheckTyped);
+  $("qInput").addEventListener("keydown",function(e){if(e.key==="Enter")qCheckTyped();});
+  $("qHint").addEventListener("click",function(){var w=qList[qIdx];var a=showAnswer(w);$("qInput").value=a.charAt(0);$("qInput").focus();qSay("First letter given — your turn.","no");});
+  $("qReviewWrong").addEventListener("click",function(){startQuizRound(qWrong);});
+  $("qNextRound").addEventListener("click",function(){if(qRi<qRounds.length-1){qRi++;startQuizRound(qRounds[qRi]);}});
+  function setQuizType(t){state.quizType=t;$("qChoose").setAttribute("aria-pressed",t==="choose"?"true":"false");$("qType").setAttribute("aria-pressed",t==="type"?"true":"false");quizInit();}
+  $("qChoose").addEventListener("click",function(){setQuizType("choose");});
+  $("qType").addEventListener("click",function(){setQuizType("type");});
+
+  /* ---- verbs (cloze) ---- */
+  var vRounds=[],vRi=0,vList=[],vIdx=0,vScore=0,vWrong=[];
+  function gapped(w){var re=new RegExp(w.bl.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"i");return w.ex.replace(re,'<span class="gap">______</span>');}
+  function verbsInit(){var pool=verbsWithEx();vRounds=chunk(shuffle(pool),VERB_SIZE);vRi=0;$("vRounds").textContent=vRounds.length;startVerbRound(vRounds[0]);}
+  function startVerbRound(list){vList=list.slice();vIdx=0;vScore=0;vWrong=[];$("verbResult").style.display="none";$("verbPlay").style.display="block";$("vRound").textContent=vRi+1;$("vLen").textContent=vList.length;renderV();}
+  function renderV(){var w=vList[vIdx];$("vPos").textContent=vIdx+1;$("vScore").textContent=vScore;$("vSentence").innerHTML=gapped(w);
+    var inp=$("vInput");inp.value="";inp.disabled=false;$("vCheck").disabled=false;$("vFeedback").textContent="";$("vFeedback").className="feedback";inp.focus();}
+  function vCheck(){var w=vList[vIdx],val=$("vInput").value;if(!val.trim())return;$("vInput").disabled=true;$("vCheck").disabled=true;
+    var ok=clean(val)===clean(w.bl)||clean(val)===clean(w.en.replace(/^to\s+/,""));
+    if(ok){vScore++;vSay("Spot on! "+w.en+" — "+w.de,"ok");}
+    else{vWrong.push(w);vSay("Correct: "+w.bl,"no",w.en+" — "+w.de);}vAdvance();}
+  function vSay(m,k,sub){var f=$("vFeedback");f.className="feedback "+(k==="ok"?"ok":"no");f.innerHTML=m+(sub?'<small>'+sub+'</small>':'');}
+  function vAdvance(){$("vScore").textContent=vScore;setTimeout(function(){vIdx++;if(vIdx>=vList.length)vShowResult();else renderV();},1100);}
+  function vShowResult(){$("verbPlay").style.display="none";var r=$("verbResult");r.style.display="block";$("vResScore").textContent=vScore+" / "+vList.length;
+    var p=vScore/vList.length;$("vResMsg").textContent=p===1?"Beauty! Every verb in place.":p>=.6?"Solid — a few to revisit.":"Tricky ones — try the flashcards too.";
+    $("vReviewWrong").style.display=vWrong.length?"inline-block":"none";$("vNextRound").style.display=vRi<vRounds.length-1?"inline-block":"none";}
+  $("vCheck").addEventListener("click",vCheck);
+  $("vInput").addEventListener("keydown",function(e){if(e.key==="Enter")vCheck();});
+  $("vHint").addEventListener("click",function(){var w=vList[vIdx];$("vInput").value=w.bl.charAt(0);$("vInput").focus();vSay("First letter given.","no");});
+  $("vReviewWrong").addEventListener("click",function(){startVerbRound(vWrong);});
+  $("vNextRound").addEventListener("click",function(){if(vRi<vRounds.length-1){vRi++;startVerbRound(vRounds[vRi]);}});
+
+  /* ---- mode + unit + dir ---- */
+  function rebuild(){if(state.mode==="cards")cardsInit();else if(state.mode==="match")matchInit();else if(state.mode==="quiz")quizInit();else verbsInit();}
+  function setMode(m){state.mode=m;document.querySelectorAll(".tab").forEach(function(t){t.setAttribute("aria-selected",t.dataset.mode===m?"true":"false");});
+    document.querySelectorAll(".panel").forEach(function(p){p.classList.remove("active");});$("panel-"+m).classList.add("active");rebuild();}
+  document.querySelectorAll(".tab").forEach(function(t){t.addEventListener("click",function(){setMode(t.dataset.mode);});});
+
+  function setUnit(u){state.unit=u;
+    $("uT1").setAttribute("aria-pressed",u==="t1"?"true":"false");$("uT4").setAttribute("aria-pressed",u==="t4"?"true":"false");
+    document.body.classList.toggle("unit-t1",u==="t1");document.body.classList.toggle("unit-t4",u==="t4");
+    $("unitTitle").textContent=u==="t1"?"Theme 1 · Australia":"Theme 4 · Chances and opportunities";
+    rebuild();}
+  $("uT1").addEventListener("click",function(){setUnit("t1");});
+  $("uT4").addEventListener("click",function(){setUnit("t4");});
+
+  function setDir(d){state.dir=d;$("dirEN").setAttribute("aria-pressed",d==="en2de"?"true":"false");$("dirDE").setAttribute("aria-pressed",d==="de2en"?"true":"false");
+    if(state.mode==="cards")cardsInit();else if(state.mode==="quiz")quizInit();}
+  $("dirEN").addEventListener("click",function(){setDir("en2de");});
+  $("dirDE").addEventListener("click",function(){setDir("de2en");});
+
+  $("nT1").textContent=DATA.t1.length+" words";
+  $("nT4").textContent=DATA.t4.length+" words";
+  cardsInit();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homework — Camden Town 9, Rounds 3–5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ocean:#0d4f5c;--ocean-2:#0a3e49;--sand:#f3e7d0;--sand-line:#e6d4b4;--coral:#ff6b4a;--gold:#f2b134;--leaf:#2f9e7d;--red:#c0392b;--ink:#10262b;--paper:#fbf7ef;--muted:#5b6f73;--shadow:0 10px 30px rgba(13,79,92,.14);--radius:16px;--display:'Space Grotesk',system-ui,sans-serif;--body:'Inter',system-ui,-apple-system,sans-serif;}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{font-family:var(--body);color:var(--ink);min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased;background:radial-gradient(1200px 500px at 110% -10%, rgba(242,177,52,.16), transparent 60%),radial-gradient(900px 500px at -10% 110%, rgba(47,158,125,.14), transparent 55%),var(--paper);}
+  .wrap{max-width:680px;margin:0 auto;padding:24px 16px 70px}
+  .eyebrow{font-family:var(--display);font-weight:500;letter-spacing:.14em;text-transform:uppercase;font-size:.68rem;color:var(--ocean);display:inline-flex;align-items:center;gap:.5em}
+  .eyebrow::before{content:"";width:24px;height:2px;background:var(--coral);display:inline-block}
+  h1{font-family:var(--display);font-weight:700;line-height:1.04;font-size:clamp(1.6rem,6vw,2.3rem);margin:.18em 0 .1em;color:var(--ocean)}
+  .tagline{color:var(--muted);font-size:.95rem;margin:0}
+  .card{background:#fff;border:1px solid var(--sand-line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+  label{font-family:var(--display);font-weight:600;font-size:.85rem;color:var(--ocean);display:block;margin:0 0 6px}
+  input[type=text]{width:100%;font-family:var(--body);font-size:1.05rem;padding:13px 15px;border:1px solid var(--sand-line);border-radius:11px;background:#fff;color:var(--ink)}
+  input[type=text]:focus{outline:3px solid rgba(13,79,92,.25);border-color:var(--ocean)}
+  .err{color:var(--red);font-weight:600;font-size:.85rem;margin-top:8px;min-height:1em}
+  .rounds{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+  .roundbtn{text-align:left;border:1px solid var(--sand-line);background:#fff;border-radius:13px;padding:15px 18px;cursor:pointer;transition:transform .12s,box-shadow .18s,border-color .18s}
+  .roundbtn:hover{transform:translateY(-1px);box-shadow:var(--shadow);border-color:var(--ocean)}
+  .roundbtn .rk{font-family:var(--display);font-weight:700;font-size:1.05rem;color:var(--ocean)}
+  .roundbtn .rd{font-size:.88rem;color:var(--muted);margin-top:2px}
+  .roundbtn .rmeta{font-family:var(--display);font-size:.75rem;color:var(--coral);font-weight:600;margin-top:6px;letter-spacing:.03em}
+  .btn{font-family:var(--display);font-weight:700;font-size:1rem;cursor:pointer;border:1px solid var(--ocean);background:var(--ocean);color:#fff;padding:13px 20px;border-radius:12px;transition:transform .12s,opacity .18s;width:100%;margin-top:18px}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.ghost{background:transparent;color:var(--ocean);border-color:var(--sand-line)}
+  .screen{display:none}.screen.active{display:block}
+  .qhead{display:flex;justify-content:space-between;align-items:center;font-family:var(--display);font-weight:600;color:var(--muted);font-size:.85rem;margin-bottom:4px}
+  .qbar{height:8px;background:var(--sand);border-radius:999px;overflow:hidden;margin-bottom:14px}
+  .qbar > i{display:block;height:100%;background:var(--coral);width:0;transition:width .3s}
+  .sectiontag{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);margin-bottom:8px}
+  .prompt{background:linear-gradient(160deg,var(--ocean),var(--ocean-2));color:#fff;border-radius:var(--radius);padding:22px 18px;text-align:center;box-shadow:var(--shadow);margin-bottom:14px}
+  .prompt .lbl{font-family:var(--display);text-transform:uppercase;letter-spacing:.12em;font-size:.7rem;opacity:.85}
+  .prompt .word{font-family:var(--display);font-weight:700;font-size:clamp(1.5rem,6vw,2.5rem);color:var(--gold)}
+  .prompt .cloze{font-size:clamp(1.05rem,3.6vw,1.45rem);line-height:1.5;font-weight:500;text-align:left}
+  .prompt .cloze .gap{color:var(--gold);font-weight:700;letter-spacing:.04em}
+  .prompt .inf{display:block;margin-top:8px;font-size:.85rem;opacity:.85;font-style:italic}
+  .options{display:grid;gap:10px}
+  .opt{font-family:var(--display);font-weight:600;font-size:1.02rem;border:1px solid var(--sand-line);background:#fff;color:var(--ink);padding:14px;border-radius:11px;cursor:pointer;text-align:left;transition:transform .1s,border-color .18s}
+  .opt:hover{transform:translateY(-1px);border-color:var(--ocean)}
+  .result-score{font-family:var(--display);font-weight:700;font-size:clamp(2.6rem,12vw,4rem);text-align:center;line-height:1}
+  .result-score.pass{color:var(--leaf)}.result-score.fail{color:var(--coral)}
+  .result-msg{text-align:center;color:var(--muted);margin:.3em 0 6px}
+  .rcard{background:#fff;border:2px solid var(--ocean);border-radius:16px;padding:20px;text-align:center;margin-top:8px}
+  .rcard .cap{font-family:var(--display);text-transform:uppercase;letter-spacing:.16em;font-size:.66rem;color:var(--coral);font-weight:700}
+  .rcard h2{font-family:var(--display);font-weight:700;color:var(--ocean);font-size:1.1rem;margin:.2em 0 .1em}
+  .rcard .name{font-family:var(--display);font-weight:700;font-size:1.4rem;color:var(--ink);margin:8px 0 2px;border-bottom:2px solid var(--gold);display:inline-block;padding:0 12px 3px}
+  .rcard .meta{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin:12px 0 4px}
+  .rcard .meta div{font-size:.85rem;color:var(--muted)}
+  .rcard .meta b{display:block;font-family:var(--display);font-size:1.1rem;color:var(--ocean)}
+  .upload{background:rgba(242,177,52,.16);border:1px solid var(--gold);border-radius:12px;padding:11px 14px;margin-top:14px;font-size:.88rem}
+  .review{margin-top:14px;border-top:1px solid var(--sand-line);padding-top:12px}
+  .review h3{font-family:var(--display);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 8px}
+  .review .row{font-size:.9rem;padding:4px 0;display:flex;gap:8px}
+  .review .row .x{color:var(--coral);font-weight:700}.review .row .v{color:var(--leaf);font-weight:700}
+  footer{margin-top:26px;text-align:center;color:var(--muted);font-size:.76rem}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:8px}
+  @media print{body{background:#fff}.wrap{max-width:none}.noprint{display:none!important}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="noprint">
+    <span class="eyebrow">Camden Town 9 · Theme 1 · Homework</span>
+    <h1>Homework — Rounds 3 to 5</h1>
+    <p class="tagline">Part A: vocabulary, the passive &amp; reported speech. Self-check — aim for 80%.</p>
+  </header>
+
+  <section class="screen active" id="screen-start">
+    <div class="card">
+      <label for="name">Your full name</label>
+      <input type="text" id="name" autocomplete="name" placeholder="e.g. Alex Müller">
+      <div class="err" id="nameErr"></div>
+      <div class="rounds" id="roundList"></div>
+    </div>
+    <p class="tagline" style="margin-top:14px;font-size:.85rem">Need ≥ 80% to pass. When you pass, take a screenshot of the result and upload it to TEAMS.</p>
+  </section>
+
+  <section class="screen" id="screen-quiz">
+    <div class="card">
+      <div class="qhead"><span><span id="qRoundName"></span> · Question <span id="qPos">1</span> / <span id="qTot">0</span></span><span id="qName"></span></div>
+      <div class="qbar"><i id="qFill"></i></div>
+      <div class="sectiontag" id="qSection"></div>
+      <div class="prompt"><span class="lbl" id="qLbl"></span><div class="word" id="qWord"></div></div>
+      <div class="options" id="qOptions"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-result">
+    <div class="card">
+      <div class="result-score" id="resScore"></div>
+      <p class="result-msg" id="resMsg"></p>
+      <div class="rcard" id="rcard">
+        <div class="cap">Camden Town 9 · Homework result</div>
+        <h2 id="rTitle"></h2>
+        <div class="name" id="rName"></div>
+        <div class="meta">
+          <div>Date<b id="rDate"></b></div>
+          <div>Score<b id="rScore"></b></div>
+          <div>Result<b id="rVerdict"></b></div>
+        </div>
+        <div class="upload">📸 <b>Screenshot this</b> and upload it to TEAMS to hand in your homework.</div>
+      </div>
+      <div class="review" id="review"></div>
+      <button class="btn ghost" id="retry">Try this round again</button>
+      <button class="btn ghost" id="another">Choose another round</button>
+    </div>
+  </section>
+
+  <footer>Homework module · Camden Town 9, Theme 1 · Rounds 3–5 · self-check (no code) · ≥ 80% to pass</footer>
+</div>
+
+<script>
+const POOLS={vA5:[{"en": "Australia Day", "de": "Australiens offizieller Nationalfeiertag"}, {"en": "protester", "de": "Protestierende/r, Demonstrant/in"}, {"en": "across", "de": "über, querdurch, über ... hinweg"}, {"en": "supporter", "de": "Unterstützer/in, Anhänger/in, Verfechter/in"}, {"en": "despite", "de": "trotz"}, {"en": "march", "de": "Marsch"}, {"en": "central", "de": "zentral, Haupt-"}, {"en": "native", "de": "einheimisch, eingeboren"}, {"en": "speech", "de": "Rede"}, {"en": "meanwhile", "de": "inzwischen, unterdessen, mittlerweile"}, {"en": "naval officer", "de": "Marineoffizier/in"}, {"en": "paint", "de": "Farbe, Lack"}, {"en": "to assess", "de": "(ein)schätzen, beurteilen"}, {"en": "to abolish", "de": "abschaffen, aufheben"}, {"en": "suspect", "de": "Verdächtige/r"}, {"en": "heated", "de": "hitzig, beheizt"}, {"en": "arrival", "de": "Ankunft"}, {"en": "forcefully", "de": "gewaltsam"}, {"en": "possibly", "de": "möglicherweise, gegebenenfalls"}, {"en": "elder", "de": "Ältere/r, ältere(r,s)"}, {"en": "to reflect", "de": "spiegeln, zeigen, reflektieren"}, {"en": "to mark", "de": "markieren, kennzeichnen"}, {"en": "ceremony", "de": "Zeremonie, Feier, Feierlichkeiten"}, {"en": "citizenship", "de": "Staatsangehörigkeit"}, {"en": "multicultural", "de": "multikulturell"}, {"en": "faith", "de": "Vertrauen, Glaube"}, {"en": "to proclaim", "de": "verkünden, erklären"}, {"en": "deep", "de": "tief"}, {"en": "sense", "de": "Verstand, Sinn, Gefühl"}, {"en": "gratitude", "de": "Dankbarkeit"}, {"en": "to span", "de": "umfassen, umspannen"}, {"en": "unmatched", "de": "unerreicht, unübertroffen"}, {"en": "beauty", "de": "Schönheit"}, {"en": "wonder", "de": "Wunder"}, {"en": "wrong", "de": "Unrecht"}, {"en": "acknowledg(e)ment", "de": "Eingeständnis, Anerkennung, Würdigung"}, {"en": "hardship", "de": "Not, Elend, Härte"}, {"en": "to strive", "de": "sich bemühen, (an)streben"}, {"en": "just", "de": "gerecht"}, {"en": "no matter ...", "de": "egal(,) ..."}, {"en": "First Nations", "de": "Ureinwohner-, die einheimische Bevölkerung betreffend"}, {"en": "to publish", "de": "veröffentlichen, herausgeben"}, {"en": "to vary", "de": "variieren"}],vAll:[{"en": "to benefit", "de": "profitieren, Nutzen ziehen"}, {"en": "to profit (from/by)", "de": "profitieren (von), Nutzen ziehen (aus)"}, {"en": "convict", "de": "Strafgefangene/r"}, {"en": "guilty", "de": "schuldig"}, {"en": "colony", "de": "Kolonie"}, {"en": "control", "de": "Kontrolle, Gewalt, Herrschaft"}, {"en": "to expire", "de": "ablaufen, enden, auslaufen"}, {"en": "to found", "de": "gründen"}, {"en": "indigenous", "de": "(ein)heimisch"}, {"en": "overcrowded", "de": "überfüllt, überlaufen"}, {"en": "to be related to", "de": "verwandt sein (mit), in Beziehung stehen (zu)"}, {"en": "colonization", "de": "Kolonisation, Kolonisierung"}, {"en": "official", "de": "offiziell"}, {"en": "Aboriginal", "de": "Aborigine, der Aborigines, Aborigine-"}, {"en": "to represent sb/sth", "de": "jdn/etw repräsentieren, vertreten"}, {"en": "stripe", "de": "Streifen"}, {"en": "to impact", "de": "beeinflussen, Auswirkungen haben auf"}, {"en": "unsure", "de": "unsicher, ungewiss"}, {"en": "to be based on", "de": "basieren auf, beruhen auf"}, {"en": "the Dreaming", "de": "zentraler Begriff der Aborigine-Mythologie"}, {"en": "foundation", "de": "Fundament, Basis, Grundlage, Gründung"}, {"en": "religion", "de": "Religion, Glaube"}, {"en": "creation", "de": "(Er)schaffung, Produkt, Werk"}, {"en": "sacred", "de": "heilig, geheiligt"}, {"en": "belief", "de": "Glaube, Überzeugung, Ansicht"}, {"en": "connection", "de": "Verbindung, Beziehung, Zusammenhang"}, {"en": "to pass down", "de": "weitergeben, überliefern"}, {"en": "knowledge", "de": "Kenntnis(se), Wissen"}, {"en": "to communicate", "de": "kommunizieren, Kontakt haben"}, {"en": "starvation", "de": "Hungertod, Verhungern, Unterernährung"}, {"en": "to abandon", "de": "verlassen, zurücklassen, aufgeben"}, {"en": "will", "de": "Wille"}, {"en": "to raise", "de": "heben, großziehen"}, {"en": "foster", "de": "Pflege-"}, {"en": "to protest", "de": "protestieren"}, {"en": "mistreatment", "de": "Misshandlung, schlechte Behandlung"}, {"en": "not until ...", "de": "erst ..."}, {"en": "widely", "de": "weithin"}, {"en": "society", "de": "Gesellschaft"}, {"en": "to acknowledge", "de": "zugeben, anerkennen, bestätigen"}, {"en": "to suffer (from)", "de": "erleiden, ertragen, leiden (an/unter)"}, {"en": "reconciliation", "de": "Aussöhnung, Versöhnung, Beilegung"}, {"en": "prime minister", "de": "Premierminister/in, Ministerpräsident/in"}, {"en": "past", "de": "vergangen, frühere(r,s)"}, {"en": "rate", "de": "Maß, Menge, Rate, Quote"}, {"en": "abuse", "de": "Missbrauch, Verletzung, Beschimpfung(en)"}, {"en": "mentoring", "de": "Beratung und Unterstützung durch erfahrene Fach- oder Führungskräfte"}, {"en": "according to", "de": "nach, laut, gemäß"}, {"en": "capable", "de": "fähig"}, {"en": "worth", "de": "Wert"}, {"en": "cycle", "de": "Kreislauf, Zyklus"}, {"en": "tiny", "de": "winzig"}, {"en": "isolated", "de": "abgelegen, isoliert"}, {"en": "to hunt", "de": "jagen"}, {"en": "to adjust (to)", "de": "einstellen, anpassen (an)"}, {"en": "currently", "de": "zurzeit, gegenwärtig, momentan"}, {"en": "musician", "de": "Musiker/in"}, {"en": "pride", "de": "Stolz"}, {"en": "identity", "de": "Identität"}, {"en": "anger", "de": "Ärger, Wut"}, {"en": "on a daily basis", "de": "täglich, jeden Tag"}, {"en": "forearm", "de": "Unterarm"}, {"en": "heritage", "de": "(Kultur)erbe"}, {"en": "award", "de": "Preis, Auszeichnung"}, {"en": "creative", "de": "kreativ, schöpferisch"}, {"en": "to analyse", "de": "analysieren, untersuchen"}, {"en": "to overcome", "de": "bewältigen, meistern"}, {"en": "Australia Day", "de": "Australiens offizieller Nationalfeiertag"}, {"en": "protester", "de": "Protestierende/r, Demonstrant/in"}, {"en": "across", "de": "über, querdurch, über ... hinweg"}, {"en": "supporter", "de": "Unterstützer/in, Anhänger/in, Verfechter/in"}, {"en": "despite", "de": "trotz"}, {"en": "march", "de": "Marsch"}, {"en": "central", "de": "zentral, Haupt-"}, {"en": "native", "de": "einheimisch, eingeboren"}, {"en": "speech", "de": "Rede"}, {"en": "meanwhile", "de": "inzwischen, unterdessen, mittlerweile"}, {"en": "naval officer", "de": "Marineoffizier/in"}, {"en": "paint", "de": "Farbe, Lack"}, {"en": "to assess", "de": "(ein)schätzen, beurteilen"}, {"en": "to abolish", "de": "abschaffen, aufheben"}, {"en": "suspect", "de": "Verdächtige/r"}, {"en": "heated", "de": "hitzig, beheizt"}, {"en": "arrival", "de": "Ankunft"}, {"en": "forcefully", "de": "gewaltsam"}, {"en": "possibly", "de": "möglicherweise, gegebenenfalls"}, {"en": "elder", "de": "Ältere/r, ältere(r,s)"}, {"en": "to reflect", "de": "spiegeln, zeigen, reflektieren"}, {"en": "to mark", "de": "markieren, kennzeichnen"}, {"en": "ceremony", "de": "Zeremonie, Feier, Feierlichkeiten"}, {"en": "citizenship", "de": "Staatsangehörigkeit"}, {"en": "multicultural", "de": "multikulturell"}, {"en": "faith", "de": "Vertrauen, Glaube"}, {"en": "to proclaim", "de": "verkünden, erklären"}, {"en": "deep", "de": "tief"}, {"en": "sense", "de": "Verstand, Sinn, Gefühl"}, {"en": "gratitude", "de": "Dankbarkeit"}, {"en": "to span", "de": "umfassen, umspannen"}, {"en": "unmatched", "de": "unerreicht, unübertroffen"}, {"en": "beauty", "de": "Schönheit"}, {"en": "wonder", "de": "Wunder"}, {"en": "wrong", "de": "Unrecht"}, {"en": "acknowledg(e)ment", "de": "Eingeständnis, Anerkennung, Würdigung"}, {"en": "hardship", "de": "Not, Elend, Härte"}, {"en": "to strive", "de": "sich bemühen, (an)streben"}, {"en": "just", "de": "gerecht"}, {"en": "no matter ...", "de": "egal(,) ..."}, {"en": "First Nations", "de": "Ureinwohner-, die einheimische Bevölkerung betreffend"}, {"en": "to publish", "de": "veröffentlichen, herausgeben"}, {"en": "to vary", "de": "variieren"}]};
+const PASS=[{"s": "The Sydney Harbour Bridge {} by people looking for adventure.", "inf": "climb", "ans": "can be climbed", "opts": ["can be climbed", "climbs", "is climbing", "climbed"]}, {"s": "During the climb, visitors {} with safety equipment.", "inf": "provide", "ans": "are provided", "opts": ["are provided", "provide", "are providing", "provided"]}, {"s": "The climbers {} by trained professionals.", "inf": "look after", "ans": "are looked after", "opts": ["are looked after", "look after", "are looking after", "looked after"]}, {"s": "At the start, climbers {} about the safety procedures.", "inf": "tell", "ans": "are told", "opts": ["are told", "tell", "are telling", "told"]}, {"s": "The climbers {} a harness.", "inf": "give", "ans": "are given", "opts": ["are given", "give", "are giving", "gave"]}, {"s": "Then, they {} up a series of stairs to the top.", "inf": "lead", "ans": "are led", "opts": ["are led", "lead", "are leading", "led"]}, {"s": "The climb down {} in the same way.", "inf": "do", "ans": "is done", "opts": ["is done", "does", "is doing", "did"]}, {"s": "The climbers {} by the guides every step of the way.", "inf": "help", "ans": "are helped", "opts": ["are helped", "help", "are helping", "helped"]}, {"s": "Adelaide {} in 1836.", "inf": "found", "ans": "was founded", "opts": ["was founded", "founded", "was finding", "is founded"]}, {"s": "Uluru {} over millions of years.", "inf": "form", "ans": "was formed", "opts": ["was formed", "formed", "was forming", "is formed"]}, {"s": "Uluru {} a World Heritage site in 1987.", "inf": "make", "ans": "was made", "opts": ["was made", "made", "was making", "is made"]}, {"s": "Stage 2 of the light rail {} in 2017.", "inf": "finish", "ans": "was finished", "opts": ["was finished", "finished", "was finishing", "is finished"]}, {"s": "Plastic plates and straws {} on the island.", "inf": "ban", "ans": "are banned", "opts": ["are banned", "ban", "are banning", "banned"]}, {"s": "Shadeene Evans {} in an isolated community.", "inf": "raise", "ans": "was raised", "opts": ["was raised", "raised", "was raising", "is raised"]}];
+const RS=[{"d": "Liv: “I did the Bridge Climb yesterday!”", "s": "Liv said that she {} the Bridge Climb the day before.", "ans": "had done", "opts": ["had done", "did", "has done", "was doing"]}, {"d": "Dan: “There are such good views from the bridge!”", "s": "Dan said that there {} such good views from the bridge.", "ans": "were", "opts": ["were", "are", "had been", "would be"]}, {"d": "Sandra: “Do you know how much it costs?”", "s": "Sandra {} if someone knew how much it cost.", "ans": "asked", "opts": ["asked", "said", "told", "says"]}, {"d": "Sandra: “How much does it cost?”", "s": "Sandra asked how much it {}.", "ans": "cost", "opts": ["cost", "costs", "had cost", "would cost"]}, {"d": "Akash: “This is the biggest bridge I’ve ever seen!”", "s": "Akash said this {} the biggest bridge he had ever seen.", "ans": "was", "opts": ["was", "is", "has been", "would be"]}, {"d": "Niko: “I think it’s too expensive.”", "s": "Niko said he {} it was too expensive.", "ans": "thought", "opts": ["thought", "thinks", "had thought", "would think"]}];
+const SUMMARY=[{"s": "Rosalind Cresswell’s article “…”, {} in The Guardian on 3 May 2024, deals with rising travel costs.", "ans": "published", "opts": ["published", "publishes", "publish", "was publish"], "hint": "opening the summary: naming the article"}, {"s": "In her article, which was published in The Guardian, Rosalind Cresswell {} the effects of climate change on tourism.", "ans": "describes", "opts": ["describes", "will describe", "has described", "was describing"], "hint": "summaries use the present tense — G1R"}, {"s": "The author {} the article by pointing out that ticket prices have doubled.", "ans": "opens", "opts": ["opens", "open", "opened", "will open"], "hint": "structuring the main part"}, {"s": "The author {} on to explain why airlines have raised their prices.", "ans": "moves", "opts": ["moves", "moved", "move", "will move"], "hint": "structuring the main part"}, {"s": "{} the author, the main problem is a lack of affordable flights.", "ans": "According to", "opts": ["According to", "Said by", "In the opinion of me", "As told by"], "hint": "reporting the author's view"}, {"s": "At the end, the author {} hope that prices will fall again.", "ans": "expresses", "opts": ["expresses", "expressed", "will express", "is expressing"], "hint": "present tense throughout"}, {"s": "The author concludes the article {} a call for cheaper public transport.", "ans": "with", "opts": ["with", "by", "through", "for"], "hint": "closing the summary"}, {"s": "A good summary uses your {} words, not direct quotes from the text.", "ans": "own", "opts": ["own", "personal", "favourite", "new"], "hint": "Tip from the checklist: don't use direct speech"}];
+(function(){
+  "use strict";
+  var ROUNDS={
+    R3:{title:"Round 3 — In the news, reported speech & summary phrases",pool:"vA5",nVocab:10,
+        groups:[{kind:"rs",set:RS,n:5,section:"Part B \u00b7 Grammar: reported speech",lbl:"Choose the correct reported form"},
+                {kind:"summary",set:SUMMARY,n:5,section:"Part C \u00b7 Writing: summary phrases",lbl:"Choose the phrase that fits the checklist"}],
+        total:20,pass:16},
+    R4:{title:"Round 4 — cumulative review",pool:"vAll",nVocab:8,
+        groups:[{kind:"pass",set:PASS,n:4,section:"Part B \u00b7 Grammar: the passive",lbl:"Choose the correct passive form"},
+                {kind:"rs",set:RS,n:4,section:"Part C \u00b7 Grammar: reported speech",lbl:"Choose the correct reported form"},
+                {kind:"summary",set:SUMMARY,n:3,section:"Part D \u00b7 Writing: summary phrases",lbl:"Choose the phrase that fits the checklist"}],
+        total:19,pass:16},
+    R5:{title:"Round 5 — full Part A review",pool:"vAll",nVocab:10,
+        groups:[{kind:"pass",set:PASS,n:4,section:"Part B \u00b7 Grammar: the passive",lbl:"Choose the correct passive form"},
+                {kind:"rs",set:RS,n:4,section:"Part C \u00b7 Grammar: reported speech",lbl:"Choose the correct reported form"},
+                {kind:"summary",set:SUMMARY,n:4,section:"Part D \u00b7 Writing: summary phrases",lbl:"Choose the phrase that fits the checklist"}],
+        total:22,pass:18}
+  };
+  var ROUND_INFO={
+    R3:{desc:"\u201cIn the news\u201d vocabulary, reported speech (WB ex. 14) &amp; summary-writing phrases (checklist, p. 19).",meta:"20 questions \u00b7 need 16"},
+    R4:{desc:"Mixed: Part A vocabulary + the passive + reported speech + summary phrases.",meta:"19 questions \u00b7 need 16"},
+    R5:{desc:"Everything from Part A \u2014 vocabulary, passive, reported speech &amp; summary phrases.",meta:"22 questions \u00b7 need 18"}
+  };
+
+  var $=function(id){return document.getElementById(id);};
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function show(id){document.querySelectorAll(".screen").forEach(function(s){s.classList.remove("active");});$(id).classList.add("active");window.scrollTo(0,0);}
+  function pad(n){n=""+n;return n.length<2?"0"+n:n;}
+  function today(){var d=new Date();return pad(d.getDate())+"."+pad(d.getMonth()+1)+"."+d.getFullYear();}
+
+  // build the round list buttons
+  (function(){
+    var list=$("roundList");
+    Object.keys(ROUNDS).forEach(function(key){
+      var b=document.createElement("button");b.className="roundbtn";
+      b.innerHTML='<div class="rk">'+key+'</div><div class="rd">'+ROUND_INFO[key].desc+'</div><div class="rmeta">'+ROUND_INFO[key].meta+'</div>';
+      b.addEventListener("click",function(){startRound(key);});
+      list.appendChild(b);
+    });
+  })();
+
+  function vocabItem(pool){
+    var i=Math.floor(Math.random()*pool.length),w=pool[i],en2de=Math.random()<0.5;
+    var prompt=en2de?w.en:w.de,answer=en2de?w.de:w.en,key=en2de?"de":"en";
+    var lbl=en2de?"Vocabulary \u00b7 English \u2192 Deutsch":"Vocabulary \u00b7 Deutsch \u2192 English";
+    var dis=pool.filter(function(x){return x[key]!==answer;}).map(function(x){return x[key];});
+    var opts=shuffle(dis).slice(0,3).concat([answer]);
+    return {section:"Part A \u00b7 Vocabulary",lbl:lbl,isWord:true,html:prompt,answer:answer,options:shuffle(opts)};
+  }
+  function grammarItem(g,item){
+    var html=item.s.replace("{}",'<span class="gap">______</span>');
+    var sub;
+    if(g.kind==="pass") sub="infinitive: "+item.inf;
+    else if(g.kind==="rs") sub="Direct: "+item.d;
+    else sub=item.hint||"";
+    return {section:g.section,lbl:g.lbl,isWord:false,html:html,sub:sub,answer:item.ans,options:shuffle(item.opts)};
+  }
+
+  var cfg,run=[],pos=0,score=0,studentName="",roundKey="",answers=[];
+  function startRound(key){
+    var n=$("name").value.trim();
+    if(n.length<2){$("nameErr").textContent="Please enter your name first.";return;}
+    studentName=n;roundKey=key;cfg=ROUNDS[key];
+    var pool=POOLS[cfg.pool],used={},v=[];
+    while(v.length<cfg.nVocab){var it=vocabItem(pool),k=it.html+"|"+it.answer;if(used[k])continue;used[k]=1;v.push(it);}
+    var g=[];cfg.groups.forEach(function(grp){shuffle(grp.set).slice(0,grp.n).forEach(function(item){g.push(grammarItem(grp,item));});});
+    run=v.concat(g);pos=0;score=0;answers=[];
+    $("qName").textContent=n;$("qRoundName").textContent=key;$("qTot").textContent=run.length;
+    show("screen-quiz");renderQ();
+  }
+  function renderQ(){
+    var q=run[pos];$("qPos").textContent=pos+1;$("qFill").style.width=(pos/run.length*100)+"%";
+    $("qSection").textContent=q.section;$("qLbl").textContent=q.lbl;
+    var word=$("qWord");
+    if(q.isWord){word.className="word";word.textContent=q.html;}
+    else{word.className="cloze";word.innerHTML=q.html+'<span class="inf">'+q.sub+'</span>';}
+    var box=$("qOptions");box.innerHTML="";
+    q.options.forEach(function(o){var b=document.createElement("button");b.className="opt";b.textContent=o;b.addEventListener("click",function(){pick(o);});box.appendChild(b);});
+  }
+  function pick(choice){
+    var q=run[pos],correct=choice===q.answer;if(correct)score++;
+    answers.push({prompt:q.isWord?q.html:q.html.replace(/<[^>]+>/g,"____"),answer:q.answer,chosen:choice,ok:correct});
+    pos++;if(pos>=run.length)showResult();else renderQ();
+  }
+  function showResult(){
+    $("qFill").style.width="100%";
+    var passed=score>=cfg.pass,pct=Math.round(score/run.length*100);
+    var rs=$("resScore");rs.textContent=score+" / "+run.length;rs.className="result-score "+(passed?"pass":"fail");
+    $("resMsg").textContent=passed?("Passed \u2014 "+pct+"%. Beauty! Screenshot your result below."):("Not yet \u2014 "+pct+"%. You need "+cfg.pass+" / "+run.length+". Practise and try again.");
+    $("rTitle").textContent=cfg.title;$("rName").textContent=studentName;$("rDate").textContent=today();
+    $("rScore").textContent=score+" / "+run.length+" ("+pct+"%)";
+    var v=$("rVerdict");v.textContent=passed?"PASSED":"NOT YET";v.style.color=passed?"var(--leaf)":"var(--coral)";
+    $("rcard").style.display=passed?"block":"none";
+    var wrong=answers.filter(function(a){return !a.ok;}),rev=$("review");
+    if(wrong.length){var h='<h3>Review</h3>';wrong.forEach(function(a){h+='<div class="row"><span class="x">\u2717</span><span><b>'+a.prompt+'</b> \u2192 '+a.answer+' <span style="color:var(--muted)">(you chose '+a.chosen+')</span></span></div>';});rev.innerHTML=h;}
+    else rev.innerHTML='<h3>Review</h3><div class="row"><span class="v">\u2713</span><span>All correct \u2014 spot on!</span></div>';
+    show("screen-result");
+  }
+  $("retry").addEventListener("click",function(){startRound(roundKey);});
+  $("another").addEventListener("click",function(){show("screen-start");});
+})();
+</script>
+</body>
+</html>
