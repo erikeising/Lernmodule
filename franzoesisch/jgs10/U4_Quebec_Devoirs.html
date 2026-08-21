@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Devoirs — Unité 4 « Bienvenue au Québec ! »</title>
+<style>
+  :root{
+    --plum:#4A2545; --cream:#FDF6EC; --ink:#2B1B2E; --brick:#8C1D18;
+    --teal:#1F5F52; --gold:#F2B705; --card:#FFFFFF; --tint:#F6EDE2;
+    --ok:#1F5F52; --no:#8C1D18; --muted:#6B5B66;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--cream); color:var(--ink);
+    font-family:"Segoe UI",Calibri,system-ui,-apple-system,sans-serif;
+    line-height:1.5; -webkit-text-size-adjust:100%;}
+  .wrap{max-width:780px; margin:0 auto; padding:16px 16px 60px;}
+  header.top{background:var(--plum); color:var(--cream); padding:22px 16px;}
+  header.top .wrap{padding-bottom:0;}
+  header.top h1{margin:0 0 4px; font-size:1.45rem; letter-spacing:.2px;}
+  header.top p{margin:0; color:#E8DCCF; font-size:.95rem;}
+  .card{background:var(--card); border-radius:12px; padding:20px;
+        box-shadow:0 2px 10px rgba(0,0,0,.10); margin-bottom:18px;}
+  h2{font-size:1.2rem; margin:0 0 12px;}
+  h3{font-size:1.02rem; margin:22px 0 8px; color:var(--plum);}
+  label{display:block; font-weight:600; margin-bottom:6px;}
+  input[type=text]{width:100%; padding:11px 12px; font-size:1rem; border:2px solid #D8CBBE;
+    border-radius:8px; background:#fff; color:var(--ink); font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--teal);}
+  input[type=text].ok{border-color:var(--ok); background:#EAF3F0;}
+  input[type=text].no{border-color:var(--no); background:#F7E4E2;}
+  button{font-family:inherit; font-size:1rem; cursor:pointer; border:none; border-radius:8px;}
+  .btn{background:var(--brick); color:#fff; padding:12px 20px; font-weight:600;}
+  .btn:hover{filter:brightness(1.12);}
+  .btn:disabled{background:#C4B5AE; cursor:not-allowed;}
+  .btn-alt{background:var(--plum); color:var(--cream); padding:12px 20px; font-weight:600;}
+  .btn-gh{background:var(--tint); color:var(--plum); padding:9px 14px; font-weight:600;}
+  .modlist{display:grid; gap:10px;}
+  .modbtn{text-align:left; background:var(--tint); color:var(--ink); padding:14px 16px;
+          border:2px solid transparent;}
+  .modbtn:hover{border-color:var(--teal);}
+  .modbtn b{display:block; font-size:1.05rem; color:var(--plum);}
+  .modbtn span{font-size:.9rem; color:var(--muted);}
+  .lvl{display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;}
+  .lvl button{flex:1 1 30%; padding:12px 8px; background:var(--tint); color:var(--plum);
+              font-weight:600; border:2px solid transparent;}
+  .lvl button[aria-pressed=true]{border-color:var(--teal); background:#fff;}
+  .opt{display:block; width:100%; text-align:left; background:#fff; border:2px solid #D8CBBE;
+       padding:12px 14px; margin-bottom:9px; color:var(--ink);}
+  .opt:hover{border-color:var(--teal);}
+  .opt[aria-pressed=true]{border-color:var(--plum); background:var(--tint);}
+  .opt.ok{border-color:var(--ok); background:#EAF3F0;}
+  .opt.no{border-color:var(--no); background:#F7E4E2;}
+  .prog{height:8px; background:#E4D8CB; border-radius:99px; overflow:hidden; margin-bottom:14px;}
+  .prog i{display:block; height:100%; background:var(--teal); transition:width .25s;}
+  .meta{font-size:.88rem; color:var(--muted); margin-bottom:6px;}
+  .consigne{font-weight:600; color:var(--plum); margin-bottom:8px;}
+  .promptx{font-size:1.12rem; margin:0 0 16px;}
+  .fb{border-radius:10px; padding:13px 15px; margin-top:14px; font-size:.98rem;}
+  .fb b{display:block; margin-bottom:3px;}
+  .fb.ok{background:#EAF3F0; border:2px solid var(--ok);}
+  .fb.no{background:#F7E4E2; border:2px solid var(--no);}
+  .aide{background:#FFF6DC; border:2px solid var(--gold); border-radius:10px;
+        padding:12px 14px; margin-top:12px; font-size:.95rem;}
+  .regle{background:var(--tint); border-left:5px solid var(--plum); border-radius:8px;
+         padding:12px 14px; margin:12px 0; font-size:.95rem;}
+  .matchrow{display:grid; grid-template-columns:1fr 1fr; gap:9px; align-items:center; margin-bottom:9px;}
+  .matchrow span{font-weight:600;}
+  .words{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px;}
+  .words button{background:var(--tint); color:var(--plum); padding:9px 13px; font-weight:600;}
+  .zone{min-height:52px; border:2px dashed #D8CBBE; border-radius:8px; padding:10px;
+        margin-bottom:12px; background:#fff;}
+  .zone button{background:var(--plum); color:var(--cream); padding:7px 11px; margin:0 6px 6px 0;}
+  .note{background:var(--tint); border-radius:8px; padding:12px 14px; font-size:.9rem; color:var(--muted);}
+  .cert{background:var(--plum); color:var(--cream); border-radius:14px; padding:26px; text-align:center;}
+  .cert .seal{width:74px; height:74px; border-radius:50%; background:var(--gold); color:var(--plum);
+    font-size:2.05rem; font-weight:700; display:flex; align-items:center; justify-content:center;
+    margin:0 auto 14px;}
+  .cert h2{color:var(--gold); font-size:1.5rem; margin:0 0 4px; letter-spacing:.5px;}
+  .cert .sub{color:#E8DCCF; font-size:.95rem; margin-bottom:20px;}
+  .cert .name{font-size:1.85rem; font-weight:700; margin:8px 0 4px; word-break:break-word;}
+  .cert .line{height:2px; background:var(--gold); opacity:.55; margin:16px auto; max-width:280px;}
+  .cert .score{font-size:2.5rem; font-weight:700; color:var(--gold); line-height:1.1;}
+  .cert .scorelab{color:#E8DCCF; font-size:.95rem; margin-bottom:12px;}
+  .cert .date{color:#E8DCCF; font-size:.9rem;}
+  .cert .code{margin-top:10px; font-size:.85rem; color:#E8DCCF; letter-spacing:1px;}
+  .todo{background:var(--gold); color:var(--plum); border-radius:10px; padding:14px 16px;
+        font-weight:600; margin-top:18px; text-align:left;}
+  .fail{background:#F7E4E2; border:2px solid var(--no); border-radius:12px; padding:22px;}
+  .fail h2{color:var(--brick); margin-top:0;}
+  .rev{border-top:1px solid #E4D8CB; padding:10px 0; font-size:.93rem;}
+  .rev .q{font-weight:600;}
+  .rev .a{color:var(--muted);}
+  footer.src{font-size:.8rem; color:var(--muted); text-align:center; padding:0 16px 30px;}
+  .hide{display:none;}
+  @media (max-width:520px){
+    .matchrow{grid-template-columns:1fr;}
+    .cert .name{font-size:1.45rem;}
+    .cert .score{font-size:2.1rem;}
+  }
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><h1>Devoirs — Unité 4 « Bienvenue au Québec ! »</h1><p>Français · Classe 10 · un module par semaine · 80 % → certificat</p></div></header>
+<div class="wrap">
+
+  <section id="screen-start">
+    <div class="card">
+      <h2>Avant de commencer</h2>
+      <label for="nom">Écris ton prénom et ton nom :</label>
+      <input type="text" id="nom" placeholder="Prénom Nom" autocomplete="name">
+      <div class="note" style="margin-top:12px;">
+        Ton nom apparaît sur le certificat à la fin. Sans nom, pas de certificat.
+      </div>
+    </div>
+    <div class="card">
+      <h2>Choisis ton module</h2>
+      <div class="modlist" id="modlist"></div>
+    </div>
+    <div class="card">
+      <h2>Comment ça marche</h2>
+      <ol style="margin:0; padding-left:20px;">
+        <li>Écris ton nom, puis choisis le module de la semaine.</li>
+        <li>Réponds aux 12 questions. Tu as la correction tout de suite.</li>
+        <li>À partir de <b>80 %</b> de bonnes réponses, tu reçois ton certificat.</li>
+        <li>Fais une capture d'écran du certificat et charge-la dans la tâche MS Teams.</li>
+      </ol>
+      <div class="note" style="margin-top:12px;">
+        Moins de 80 % ? Pas de problème — tu peux recommencer autant de fois que tu veux.
+        Le bouton <b>💡 Aide</b> ne coûte aucun point : sers-t'en !
+      </div>
+    </div>
+  </section>
+  <section id="screen-quiz" class="hide"><div class="card" id="quiz-body"></div></section>
+  <section id="screen-end" class="hide"><div class="card" id="end-body"></div>
+    <div class="card"><button class="btn-alt" onclick="location.reload()">↺ Recommencer</button></div>
+  </section>
+
+</div>
+<footer class="src">Vocabulaire : liste officielle À plus ! 1–3 (Cornelsen) — utilisation autorisée pour la classe. Exercices de grammaire : rédigés pour ce cours.</footer>
+<script>
+
+function el(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function norm(s){return String(s).toLowerCase().normalize('NFD')
+  .replace(/[̀-ͯ]/g,'').replace(/[’']/g,"'").replace(/\s+/g,' ')
+  .replace(/[.!?]+$/,'').trim();}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));
+  var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+var state={items:[],idx:0,score:0,checked:false,nom:'',mod:null,log:[],order:[]};
+
+function startQuiz(mod, items){
+  state.mod=mod; state.items=shuffle(items); state.idx=0; state.score=0;
+  state.checked=false; state.log=[];
+  el('screen-start').classList.add('hide');
+  el('screen-end').classList.add('hide');
+  el('screen-quiz').classList.remove('hide');
+  renderQuestion(); window.scrollTo(0,0);
+}
+
+function renderQuestion(){
+  var q=state.items[state.idx], n=state.items.length;
+  state.checked=false; state.order=[];
+  var h='';
+  h+='<div class="prog"><i style="width:'+Math.round(state.idx/n*100)+'%"></i></div>';
+  h+='<div class="meta">Question '+(state.idx+1)+' / '+n+'</div>';
+  h+='<div class="consigne">'+esc(q.consigne)+'</div>';
+  if(q.prompt) h+='<p class="promptx">'+esc(q.prompt)+'</p>';
+  if(q.type==='qcm'){
+    h+='<div id="opts">';
+    for(var i=0;i<q.options.length;i++)
+      h+='<button class="opt" data-i="'+i+'" aria-pressed="false" onclick="pickOpt('+i+')">'+esc(q.options[i])+'</button>';
+    h+='</div>';
+  } else if(q.type==='text'){
+    h+='<input type="text" id="rep" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Ta réponse…">';
+  } else if(q.type==='match'){
+    for(var j=0;j<q.pairs.length;j++)
+      h+='<div class="matchrow"><span>'+esc(q.pairs[j][0])+'</span>'+
+         '<input type="text" id="m'+j+'" autocomplete="off" placeholder="en allemand…"></div>';
+  } else if(q.type==='order'){
+    h+='<div class="zone" id="zone"></div><div class="words" id="words">';
+    var sw=shuffle(q.words);
+    for(var k=0;k<sw.length;k++)
+      h+='<button onclick="addWord(this)">'+esc(sw[k])+'</button>';
+    h+='</div><button class="btn-gh" onclick="resetWords()">↺ Recommencer la phrase</button>';
+  }
+  h+='<div id="q-fb"></div>';
+  h+='<div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">';
+  h+='<button class="btn" id="btn-check" onclick="check()">Vérifier</button>';
+  h+='<button class="btn" id="btn-next" onclick="onNext()" style="display:none">Question suivante</button>';
+  if(q.aide) h+='<button class="btn-gh" onclick="showAide()">💡 Aide</button>';
+  h+='</div><div id="aide-box"></div>';
+  el('quiz-body').innerHTML=h;
+  var r=el('rep');
+  if(r) r.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();
+    if(state.checked){onNext();}else{check();}}});
+}
+
+function pickOpt(i){
+  if(state.checked) return;
+  var b=document.querySelectorAll('#opts .opt');
+  for(var k=0;k<b.length;k++) b[k].setAttribute('aria-pressed', k===i?'true':'false');
+}
+function addWord(b){ if(state.checked) return; state.order.push(b.textContent);
+  b.style.display='none'; drawZone(); }
+function drawZone(){ el('zone').innerHTML=state.order.map(function(w,i){
+  return '<button onclick="delWord('+i+')">'+esc(w)+' ×</button>';}).join(''); }
+function delWord(i){ if(state.checked) return; var w=state.order.splice(i,1)[0];
+  var bs=document.querySelectorAll('#words button');
+  for(var k=0;k<bs.length;k++){ if(bs[k].textContent===w && bs[k].style.display==='none'){
+    bs[k].style.display=''; break; } }
+  drawZone(); }
+function resetWords(){ if(state.checked) return; state.order=[];
+  var bs=document.querySelectorAll('#words button');
+  for(var k=0;k<bs.length;k++) bs[k].style.display='';
+  drawZone(); }
+function showAide(){ var q=state.items[state.idx];
+  el('aide-box').innerHTML='<div class="aide">💡 '+q.aide+'</div>'; }
+
+function check(){
+  if(state.checked) return;
+  var q=state.items[state.idx], ok=false, corrige='', donne='';
+  if(q.type==='qcm'){
+    var sel=-1, bs=document.querySelectorAll('#opts .opt');
+    for(var k=0;k<bs.length;k++) if(bs[k].getAttribute('aria-pressed')==='true') sel=k;
+    if(sel<0){ el('q-fb').innerHTML='<div class="fb no">Choisis une réponse.</div>'; return; }
+    ok = (sel===q.answer); donne=q.options[sel]; corrige=q.options[q.answer];
+    for(var k=0;k<bs.length;k++){ bs[k].disabled=true;
+      if(k===q.answer) bs[k].classList.add('ok');
+      else if(k===sel) bs[k].classList.add('no'); }
+  } else if(q.type==='text'){
+    var v=el('rep').value; donne=v;
+    if(!v.trim()){ el('q-fb').innerHTML='<div class="fb no">Écris ta réponse.</div>'; return; }
+    for(var k=0;k<q.answers.length;k++) if(norm(v)===norm(q.answers[k])) ok=true;
+    corrige=q.answers[0];
+    el('rep').classList.add(ok?'ok':'no'); el('rep').disabled=true;
+  } else if(q.type==='match'){
+    var good=0, vals=[];
+    for(var j=0;j<q.pairs.length;j++){
+      var s=el('m'+j); vals.push(s.value);
+      var right = norm(s.value)===norm(q.pairs[j][1]);
+      s.classList.add(right?'ok':'no'); s.disabled=true; if(right) good++;
+    }
+    if(vals.join('').trim()===''){ el('q-fb').innerHTML='<div class="fb no">Complète les cases.</div>'; return; }
+    ok = (good===q.pairs.length); donne=vals.join(' · ');
+    corrige=q.pairs.map(function(p){return p[0]+' → '+p[1];}).join(' · ');
+  } else if(q.type==='order'){
+    if(!state.order.length){ el('q-fb').innerHTML='<div class="fb no">Construis la phrase.</div>'; return; }
+    donne=state.order.join(' '); ok = norm(donne)===norm(q.answer); corrige=q.answer;
+  }
+  if(ok) state.score++;
+  state.checked=true;
+  state.log.push({q:(q.prompt||q.consigne), ok:ok, donne:donne, corrige:corrige});
+  el('q-fb').innerHTML = ok
+    ? '<div class="fb ok"><b>✅ Bravo !</b>'+(q.type==='qcm'?"C'est la bonne réponse.":'Réponse : '+esc(corrige))+'</div>'
+    : '<div class="fb no"><b>❌ Pas encore.</b>La bonne réponse : <b style="display:inline">'+esc(corrige)+'</b></div>';
+  el('btn-check').style.display='none';
+  var nx=el('btn-next'); nx.style.display='';
+  nx.textContent = (state.idx===state.items.length-1) ? 'Voir mon résultat' : 'Question suivante';
+}
+
+function onNext(){
+  if(state.idx===state.items.length-1){ showEnd(); return; }
+  state.idx++; renderQuestion(); window.scrollTo(0,0);
+}
+
+function reviewHtml(){
+  var h='<h3>Tes réponses</h3>';
+  for(var i=0;i<state.log.length;i++){
+    var r=state.log[i];
+    h+='<div class="rev"><div class="q">'+(r.ok?'✅':'❌')+' '+esc(r.q)+'</div>';
+    if(!r.ok) h+='<div class="a">Ta réponse : '+esc(r.donne)+' · Correct : <b>'+esc(r.corrige)+'</b></div>';
+    h+='</div>';
+  }
+  return h;
+}
+var MODULES = [{"id": 1, "semaine": "Semaine 1", "titre": "Bienvenue au Québec !", "sous": "Les mots de la page d'ouverture + les pays", "questions": [{"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« l'ours / ((!))les ours »", "options": ["die meisten", "der Bär", "das Ende der Welt", "der Motorschlitten, das Schneemobil"], "answer": 1, "aide": "Exemple : Les ours aiment le miel."}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« lepanneau / ((!))les panneaux »", "options": ["der/die Forscher/in", "jdn/etw. beobachten", "der Norden", "das Schild"], "answer": 3, "aide": "Exemple : Sur le panneau, on peut voir le nom de la ville !"}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« leCanada »", "options": ["der Hundeschlitten", "die Altstadt", "Kanada", "der Ozean"], "answer": 2, "aide": "Exemple : Le Canada est un grand pays."}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« peint/peinte »", "options": ["der Bär", "bemalt", "man tut es überall dran/dazu", "etw. herstellen"], "answer": 1, "aide": "Exemple : Nos volets sont peints en vert."}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "Le ______ fait partie du Canada.", "answers": ["Québec", "québec"], "aide": "En allemand : Quebec gehört zu Kanada."}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "Les ______ vivent dans la mer.", "answers": ["baleines", "Baleines"], "aide": "En allemand : Wale leben im Meer."}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "Sur le ______, on peut voir le nom de la ville !", "answers": ["panneau", "Panneau"], "aide": "En allemand : Auf dem Schild kann man den Namen der Stadt sehen!"}, {"type": "qcm", "consigne": "Complète : venir + pays.", "prompt": "Ils viennent ___ États-Unis.", "options": ["de", "du", "des", "d'"], "answer": 2, "aide": "Un pays au pluriel."}, {"type": "qcm", "consigne": "Complète : venir + pays.", "prompt": "Tu viens ___ France ?", "options": ["de", "du", "des", "d'"], "answer": 0, "aide": "« la France » — féminin, pas de voyelle au début."}, {"type": "qcm", "consigne": "Complète : venir + ville.", "prompt": "Mon corres est ___ Montréal.", "options": ["de", "du", "des", "à"], "answer": 0, "aide": "Montréal est une ville, pas un pays."}, {"type": "qcm", "consigne": "Complète : venir + pays.", "prompt": "Nous venons ___ Allemagne.", "options": ["de", "du", "des", "d'"], "answer": 3, "aide": "Le nom du pays commence par une voyelle."}, {"type": "qcm", "consigne": "Où est-ce qu'on habite ?", "prompt": "Ma famille habite ___ Allemagne.", "options": ["en", "au", "aux", "de"], "answer": 0, "aide": "Pays féminin → en."}]}, {"id": 2, "semaine": "Semaine 2", "titre": "La géographie du Québec", "sous": "Vocabulaire thématique + la mise en relief", "questions": [{"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« laneige »", "options": ["der Schnee", "bemalt", "die Provinz", "das Eis, (auch:) das Speiseeis"], "answer": 0, "aide": "Exemple : C'est joli, les maisons sous la neige."}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« laprovince »", "options": ["Prozent", "der Frieden", "die Provinz", "der Quadratkilometer"], "answer": 2, "aide": "Exemple : Le Québec est une province du Canada."}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« lenord »", "options": ["genau so viel", "das Klima", "etw. transportieren, etw. befördern", "der Norden"], "answer": 3, "aide": "Exemple : Dans le nord, il fait froid."}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« leclimat »", "options": ["das Reservat", "das Klima", "der/die Europäer/in", "der Sirup"], "answer": 1, "aide": "Exemple : Dans le nord du Québec, le climat est froid."}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "Le Québec est une ______ du Canada.", "answers": ["province", "Province"], "aide": "En allemand : Quebec ist eine Provinz in Kanada."}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "Les habitants du Québec s'appellent les ______.", "answers": ["Québécois", "québécois"], "aide": "En allemand : Die Einwohner von Quebec heißen Quebecer."}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "C'est joli, les maisons sous la ______.", "answers": ["neige", "Neige"], "aide": "En allemand : Die Häuser unter dem Schnee sind hübsch."}, {"type": "match", "consigne": "Associe chaque mot à sa traduction.", "prompt": "Le vocabulaire de l'unité 4", "pairs": [["lepeuple", "das Volk"], ["l'océan", "der Ozean"], ["autochtone", "einheimisch, indigen"], ["ledegré (Celsius)", "das Grad Celsius"]], "aide": "Commence par les mots que tu connais déjà."}, {"type": "qcm", "consigne": "Qui ou que ?", "prompt": "C'est le sirop d'érable ___ je préfère.", "options": ["qui", "que", "qu'", "où"], "answer": 1, "aide": "Après vient un sujet (« je ») : ce n'est pas le sujet qui est mis en relief."}, {"type": "qcm", "consigne": "Qui ou que ?", "prompt": "C'est au Québec ___ on mange de la poutine.", "options": ["qui", "que", "qu'", "dont"], "answer": 2, "aide": "Après le lieu vient un sujet (« on ») — et « on » commence par une voyelle."}, {"type": "text", "consigne": "Mets en relief le sujet.", "prompt": "Les Québécois parlent français. → ___ les Québécois qui parlent français.", "answers": ["Ce sont"], "aide": "Sujet au pluriel."}, {"type": "order", "consigne": "Remets la phrase dans le bon ordre.", "prompt": "", "words": ["Ce", "sont", "les", "baleines", "qui", "vivent", "dans", "le", "fleuve"], "answer": "Ce sont les baleines qui vivent dans le fleuve", "aide": "Commence par « Ce sont … »."}]}, {"id": 3, "semaine": "Semaine 3", "titre": "Huit endroits qui racontent le Québec", "sous": "Volet 1 + questions et le verbe « vivre » — prépare le test !", "questions": [{"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« par »", "options": ["leben, etw. erleben", "der Süden", "über, durch", "Quebec"], "answer": 2, "aide": "Exemple : Ils regardent par la fenêtre."}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« l'Européen / l'Européenne »", "options": ["jdn/etw. kolonisieren", "der/die Europäer/in", "die Linie (auch bei Verkehrsmittel)", "etw. fahren, etw. lenken"], "answer": 1, "aide": "Exemple : Les Européens parlent des langues différentes."}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« entrer en guerre avec qn »", "options": ["gegen jdn in den Krieg ziehen", "etw. transportieren, etw. befördern", "der/die Forscher/in", "man tut es überall dran/dazu"], "answer": 0, "aide": "Exemple : Quand est-ce que les Français sont entrés en guerre avec les Anglais ?"}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« lachasse »", "options": ["die Jagd", "sich an jdn/etw. erinnern", "Kanada", "mehr"], "answer": 0, "aide": "Exemple : Il ne va plus de la chasse."}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "Au Canada, il y a ______habitants.", "answers": ["peu d'", "Peu d'"], "aide": "En allemand : In Kanada gibt es wenige Einwohner."}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "Qu'est-ce que tu me proposes ______ ?", "answers": ["en échange", "En échange"], "aide": "En allemand : Was bietest du mir dafür an?"}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "Il ne va plus de la ______.", "answers": ["chasse", "Chasse"], "aide": "En allemand : Er geht nicht mehr auf die Jagd."}, {"type": "match", "consigne": "Associe chaque mot à sa traduction.", "prompt": "Le vocabulaire de l'unité 4", "pairs": [["laréserve", "das Reservat"], ["en échange", "dafür, im Gegenzug"], ["letraîneau à chiens", "der Hundeschlitten"], ["peu (de)", "wenig"]], "aide": "Commence par les mots que tu connais déjà."}, {"type": "qcm", "consigne": "Complète la question.", "prompt": "– ___ est-ce qu'elle pense ? – Aux vacances au Québec.", "options": ["De quoi", "À quoi", "À qui", "Avec quoi"], "answer": 1, "aide": "« aux vacances » = à + les vacances : une chose."}, {"type": "qcm", "consigne": "Complète la question.", "prompt": "– ___ est-ce que tu écris ? – À ma corres.", "options": ["De qui", "À qui", "À quoi", "Avec qui"], "answer": 1, "aide": "La réponse commence par « à » et parle d'une personne."}, {"type": "qcm", "consigne": "Complète avec le verbe « vivre ».", "prompt": "Les Québécois ___ dans un très grand territoire.", "options": ["vivons", "vivez", "vivent", "vit"], "answer": 2, "aide": "3e personne du pluriel."}, {"type": "text", "consigne": "Complète avec « vivre » au passé composé.", "prompt": "J'___ deux ans à Montréal.", "answers": ["ai vécu"], "aide": "Participe passé irrégulier."}]}, {"id": 4, "semaine": "Semaine 4", "titre": "Pour moi, le Québec, c'est…", "sous": "Volet 2 + comparer", "questions": [{"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« lerespect »", "options": ["sich an jdn/etw. erinnern", "das Reservat", "der Respekt", "leben, etw. erleben"], "answer": 2, "aide": "Exemple : Si on veut bien vivre ensemble, il faut du respect."}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« lamotoneige »", "options": ["der Motorschlitten, das Schneemobil", "das Eis, (auch:) das Speiseeis", "die Altstadt", "etw. herstellen"], "answer": 0, "aide": "Exemple : On fait un tour en motoneige ?"}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« transporter qc »", "options": ["etw. transportieren, etw. befördern", "der/die Europäer/in", "das Angeln, das Fischen", "die Freiheit"], "answer": 0, "aide": "Exemple : Comment tu vas transporter ça ?"}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« laliberté »", "options": ["die Freiheit", "der Respekt", "der Norden", "der Sirup"], "answer": 0, "aide": "Exemple : Les oiseaux vivent en liberté."}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "Il y a ______habitants au Québec qu'en France.", "answers": ["moins d'", "Moins d'"], "aide": "En allemand : In Quebec gibt es weniger Einwohner als in Frankreich."}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "L'arbre ______ la vie.", "answers": ["symbolise", "Symbolise"], "aide": "En allemand : Der Baum symbolisiert das Leben."}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "L'______ est importante.", "answers": ["amitié", "Amitié"], "aide": "En allemand : Freundschaft ist wichtig."}, {"type": "match", "consigne": "Associe chaque mot à sa traduction.", "prompt": "Le vocabulaire de l'unité 4", "pairs": [["on en met partout", "man tut es überall dran/dazu"], ["fabriquer qc", "etw. herstellen"], ["lapaix", "der Frieden"], ["conduire qc", "etw. fahren, etw. lenken"]], "aide": "Commence par les mots que tu connais déjà."}, {"type": "text", "consigne": "Le superlatif de l'adverbe (souvent, − −).", "prompt": "C'est lui qui vient ___ ___ ___ .", "answers": ["le moins souvent"], "aide": "le + moins + adverbe."}, {"type": "qcm", "consigne": "Le superlatif de l'adverbe.", "prompt": "C'est Marie qui parle français ___ .(bien ++)", "options": ["le mieux", "le plus bien", "la mieux", "le meilleur"], "answer": 0, "aide": "Superlatif de « bien »."}, {"type": "text", "consigne": "Complète (vite, +).", "prompt": "On voyage ___ ___ en avion ___ en bateau.", "answers": ["plus vite que", "plus vite qu'"], "aide": "plus + adverbe + que."}, {"type": "qcm", "consigne": "Le comparatif de l'adverbe.", "prompt": "Au Québec, on parle ___ vite ___ en France. (=)", "options": ["plus … que", "aussi … qu'", "moins … que", "autant … que"], "answer": 1, "aide": "Égalité — et « en » commence par une voyelle."}]}, {"id": 5, "semaine": "Semaine 5", "titre": "Comparer et construire", "sous": "Quantités + « construire » et « conduire »", "questions": [{"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« vivre (qc) »", "options": ["die Eisbahn, die Schlittschuhbahn", "Prozent", "leben, etw. erleben", "der Osten"], "answer": 2, "aide": "Exemple : Ils vivent près de Montréal."}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« conduire qc »", "options": ["das Angeln, das Fischen", "das Volk", "etw. fahren, etw. lenken", "man tut es überall dran/dazu"], "answer": 2, "aide": "Exemple : Est-ce que tu as déjà conduit une voiture ?"}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« fonder qc »", "options": ["etw. gründen", "der Sirup", "die Freiheit", "der Wal"], "answer": 0, "aide": "Exemple : Qui a fondé la ville de Montréal ?"}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "La ______ de Québec est belle.", "answers": ["vieille ville", "Vieille ville"], "aide": "En allemand : Die Altstadt von Quebec ist schön."}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "Je vais à la ______ demain. Ça te dit ?", "answers": ["pêche", "Pêche"], "aide": "En allemand : Ich gehe morgen angeln. Wie wäre es?"}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "Marion a un ami ______.", "answers": ["canadien", "Canadien"], "aide": "En allemand : Marion hat einen kanadischen Freund."}, {"type": "match", "consigne": "Associe chaque mot à sa traduction.", "prompt": "Le vocabulaire de l'unité 4", "pairs": [["lacabane", "die Hütte"], ["plus de", "mehr"], ["lapaix", "der Frieden"], ["lavieille ville", "die Altstadt"]], "aide": "Commence par les mots que tu connais déjà."}, {"type": "qcm", "consigne": "Les quantifiants.", "prompt": "Il y a ___ habitants au Québec qu'en Allemagne. (−)", "options": ["moins de", "moins d'", "moins que", "moins des"], "answer": 1, "aide": "« habitants » commence par une voyelle."}, {"type": "text", "consigne": "Les quantifiants (=).", "prompt": "J'ai ___ ___ photos que toi.", "answers": ["autant de"], "aide": "Égalité de quantité."}, {"type": "qcm", "consigne": "Les quantifiants.", "prompt": "On mange ___ sirop d'érable au Québec qu'ici. (+)", "options": ["plus du", "plus de", "plus des", "plus que"], "answer": 1, "aide": "Quantité + de, sans article."}, {"type": "text", "consigne": "Complète avec « conduire » au passé composé.", "prompt": "Hier, mon oncle ___ sa motoneige.", "answers": ["a conduit"], "aide": "Participe passé en -uit."}, {"type": "text", "consigne": "Complète avec « construire » au présent.", "prompt": "Ils ___ une cabane dans la forêt.", "answers": ["construisent"], "aide": "Comme « conduire » : -isent."}]}, {"id": 6, "semaine": "Semaine 6", "titre": "Révision générale", "sous": "Tout le vocabulaire et toute la grammaire de l'unité 4", "questions": [{"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« lesirop »", "options": ["der Quadratkilometer", "der Sirup", "kanadisch", "etw. transportieren, etw. befördern"], "answer": 1, "aide": "Exemple : J'aime le sirop de fraise avec de l'eau."}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« pour cent »", "options": ["jdn/etw. beobachten", "das Ende der Welt", "Prozent", "der Wal"], "answer": 2, "aide": "Exemple : 56 pour cent des Québécois sont bilingues."}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« fabriquer qc »", "options": ["etw. herstellen", "der/die Forscher/in", "der Quadratkilometer", "Kanada"], "answer": 0, "aide": "Exemple : À Toulouse, on fabrique des avions."}, {"type": "qcm", "consigne": "Choisis la bonne traduction.", "prompt": "« lacabane »", "options": ["die Freiheit", "sich an jdn/etw. erinnern", "die Hütte", "der Sirup"], "answer": 2, "aide": "Exemple : Une cabane, c'est comme une petite maison."}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "Le Québec est une ______ du Canada.", "answers": ["province", "Province"], "aide": "En allemand : Quebec ist eine Provinz in Kanada."}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "Il ne va plus de la ______.", "answers": ["chasse", "Chasse"], "aide": "En allemand : Er geht nicht mehr auf die Jagd."}, {"type": "text", "consigne": "Complète la phrase.", "prompt": "Les habitants du Québec s'appellent les ______.", "answers": ["Québécois", "québécois"], "aide": "En allemand : Die Einwohner von Quebec heißen Quebecer."}, {"type": "match", "consigne": "Associe chaque mot à sa traduction.", "prompt": "Le vocabulaire de l'unité 4", "pairs": [["laplupart (de)", "die meisten"], ["se souvenir de qn/qc", "sich an jdn/etw. erinnern"], ["plus de", "mehr"], ["lekilomètre carré", "der Quadratkilometer"]], "aide": "Commence par les mots que tu connais déjà."}, {"type": "qcm", "consigne": "Complète : venir + ville.", "prompt": "Mon corres est ___ Montréal.", "options": ["de", "du", "des", "à"], "answer": 0, "aide": "Montréal est une ville, pas un pays."}, {"type": "qcm", "consigne": "La mise en relief : quelle forme ?", "prompt": "___ Jacques Cartier ___ a exploré le fleuve Saint-Laurent.", "options": ["C'est … qui", "C'est … que", "Ce sont … qui", "Ce sont … qu'"], "answer": 0, "aide": "Une seule personne, et elle fait l'action."}, {"type": "qcm", "consigne": "Complète la question.", "prompt": "– ___ est-ce que vous voyagez ? – Avec ma famille.", "options": ["Avec quoi", "De qui", "Avec qui", "À qui"], "answer": 2, "aide": "Regarde la préposition dans la réponse."}, {"type": "qcm", "consigne": "Le superlatif de l'adverbe.", "prompt": "C'est Marie qui parle français ___ .(bien ++)", "options": ["le mieux", "le plus bien", "la mieux", "le meilleur"], "answer": 0, "aide": "Superlatif de « bien »."}]}];
+
+var SEUIL = 0.8;
+function drawList(){
+  var h='';
+  for(var i=0;i<MODULES.length;i++){
+    var m=MODULES[i];
+    h+='<button class="modbtn" onclick="go('+i+')"><b>'+m.semaine+' — '+m.titre+'</b>'+
+       '<span>'+m.sous+'</span></button>';
+  }
+  el('modlist').innerHTML=h;
+}
+function go(i){
+  var n=el('nom').value.trim();
+  if(!n){ alert("Écris d'abord ton prénom et ton nom."); el('nom').focus(); return; }
+  state.nom=n;
+  startQuiz(MODULES[i], MODULES[i].questions);
+}
+function code(str){
+  var h=0; for(var i=0;i<str.length;i++){ h=(h*31 + str.charCodeAt(i))>>>0; }
+  return ('QC'+h.toString(36).toUpperCase()).slice(0,8);
+}
+function showEnd(){
+  el('screen-quiz').classList.add('hide');
+  el('screen-end').classList.remove('hide');
+  var total=state.items.length, pct=Math.round(state.score/total*100);
+  var reussi=(state.score/total)>=SEUIL;
+  var d=new Date();
+  var dstr=String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();
+  var box=el('end-body');
+  if(reussi){
+    box.innerHTML=
+      '<div class="cert"><div class="seal">★</div><h2>CERTIFICAT</h2>'+
+      '<div class="sub">Devoirs — Unité 4 « Bienvenue au Québec ! »</div>'+
+      '<div class="line"></div><div style="color:#E8DCCF; font-size:.9rem;">Élève</div>'+
+      '<div class="name">'+esc(state.nom)+'</div>'+
+      '<div style="color:#E8DCCF; font-size:.95rem; margin-top:10px;">'+
+        esc(state.mod.semaine)+' — Module '+state.mod.id+'<br>'+esc(state.mod.titre)+'</div>'+
+      '<div class="line"></div><div class="score">'+pct+' %</div>'+
+      '<div class="scorelab">'+state.score+' / '+total+' bonnes réponses</div>'+
+      '<div class="date">Terminé le '+dstr+'</div>'+
+      '<div class="code">Code : '+code(state.nom+'|'+state.mod.id+'|'+pct+'|'+dstr)+'</div></div>'+
+      '<div class="todo">📸 Fais une capture d\'écran de ce certificat et charge-la dans la tâche MS Teams.</div>'+
+      reviewHtml();
+  } else {
+    var manque=Math.ceil(total*SEUIL)-state.score;
+    box.innerHTML='<div class="fail"><h2>Presque !</h2>'+
+      '<p style="font-size:1.15rem; margin:0 0 8px;"><b>'+state.score+' / '+total+'</b> bonnes réponses ('+pct+' %).</p>'+
+      '<p style="margin:0 0 10px;">Il te faut <b>80 %</b> pour recevoir le certificat — '+
+      'il te manque '+manque+' bonne'+(manque>1?'s':'')+' réponse'+(manque>1?'s':'')+'.</p>'+
+      '<p style="margin:0;">Recommence : les questions changent d\'ordre et tu peux utiliser le bouton '+
+      '<b>💡 Aide</b> à chaque question.</p></div>'+reviewHtml();
+  }
+  window.scrollTo(0,0);
+}
+drawList();
+
+</script>
+</body>
+</html>

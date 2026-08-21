@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entraîneur de grammaire — Unité 4</title>
+<style>
+  :root{
+    --plum:#4A2545; --cream:#FDF6EC; --ink:#2B1B2E; --brick:#8C1D18;
+    --teal:#1F5F52; --gold:#F2B705; --card:#FFFFFF; --tint:#F6EDE2;
+    --ok:#1F5F52; --no:#8C1D18; --muted:#6B5B66;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--cream); color:var(--ink);
+    font-family:"Segoe UI",Calibri,system-ui,-apple-system,sans-serif;
+    line-height:1.5; -webkit-text-size-adjust:100%;}
+  .wrap{max-width:780px; margin:0 auto; padding:16px 16px 60px;}
+  header.top{background:var(--plum); color:var(--cream); padding:22px 16px;}
+  header.top .wrap{padding-bottom:0;}
+  header.top h1{margin:0 0 4px; font-size:1.45rem; letter-spacing:.2px;}
+  header.top p{margin:0; color:#E8DCCF; font-size:.95rem;}
+  .card{background:var(--card); border-radius:12px; padding:20px;
+        box-shadow:0 2px 10px rgba(0,0,0,.10); margin-bottom:18px;}
+  h2{font-size:1.2rem; margin:0 0 12px;}
+  h3{font-size:1.02rem; margin:22px 0 8px; color:var(--plum);}
+  label{display:block; font-weight:600; margin-bottom:6px;}
+  input[type=text]{width:100%; padding:11px 12px; font-size:1rem; border:2px solid #D8CBBE;
+    border-radius:8px; background:#fff; color:var(--ink); font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--teal);}
+  input[type=text].ok{border-color:var(--ok); background:#EAF3F0;}
+  input[type=text].no{border-color:var(--no); background:#F7E4E2;}
+  button{font-family:inherit; font-size:1rem; cursor:pointer; border:none; border-radius:8px;}
+  .btn{background:var(--brick); color:#fff; padding:12px 20px; font-weight:600;}
+  .btn:hover{filter:brightness(1.12);}
+  .btn:disabled{background:#C4B5AE; cursor:not-allowed;}
+  .btn-alt{background:var(--plum); color:var(--cream); padding:12px 20px; font-weight:600;}
+  .btn-gh{background:var(--tint); color:var(--plum); padding:9px 14px; font-weight:600;}
+  .modlist{display:grid; gap:10px;}
+  .modbtn{text-align:left; background:var(--tint); color:var(--ink); padding:14px 16px;
+          border:2px solid transparent;}
+  .modbtn:hover{border-color:var(--teal);}
+  .modbtn b{display:block; font-size:1.05rem; color:var(--plum);}
+  .modbtn span{font-size:.9rem; color:var(--muted);}
+  .lvl{display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;}
+  .lvl button{flex:1 1 30%; padding:12px 8px; background:var(--tint); color:var(--plum);
+              font-weight:600; border:2px solid transparent;}
+  .lvl button[aria-pressed=true]{border-color:var(--teal); background:#fff;}
+  .opt{display:block; width:100%; text-align:left; background:#fff; border:2px solid #D8CBBE;
+       padding:12px 14px; margin-bottom:9px; color:var(--ink);}
+  .opt:hover{border-color:var(--teal);}
+  .opt[aria-pressed=true]{border-color:var(--plum); background:var(--tint);}
+  .opt.ok{border-color:var(--ok); background:#EAF3F0;}
+  .opt.no{border-color:var(--no); background:#F7E4E2;}
+  .prog{height:8px; background:#E4D8CB; border-radius:99px; overflow:hidden; margin-bottom:14px;}
+  .prog i{display:block; height:100%; background:var(--teal); transition:width .25s;}
+  .meta{font-size:.88rem; color:var(--muted); margin-bottom:6px;}
+  .consigne{font-weight:600; color:var(--plum); margin-bottom:8px;}
+  .promptx{font-size:1.12rem; margin:0 0 16px;}
+  .fb{border-radius:10px; padding:13px 15px; margin-top:14px; font-size:.98rem;}
+  .fb b{display:block; margin-bottom:3px;}
+  .fb.ok{background:#EAF3F0; border:2px solid var(--ok);}
+  .fb.no{background:#F7E4E2; border:2px solid var(--no);}
+  .aide{background:#FFF6DC; border:2px solid var(--gold); border-radius:10px;
+        padding:12px 14px; margin-top:12px; font-size:.95rem;}
+  .regle{background:var(--tint); border-left:5px solid var(--plum); border-radius:8px;
+         padding:12px 14px; margin:12px 0; font-size:.95rem;}
+  .matchrow{display:grid; grid-template-columns:1fr 1fr; gap:9px; align-items:center; margin-bottom:9px;}
+  .matchrow span{font-weight:600;}
+  .words{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px;}
+  .words button{background:var(--tint); color:var(--plum); padding:9px 13px; font-weight:600;}
+  .zone{min-height:52px; border:2px dashed #D8CBBE; border-radius:8px; padding:10px;
+        margin-bottom:12px; background:#fff;}
+  .zone button{background:var(--plum); color:var(--cream); padding:7px 11px; margin:0 6px 6px 0;}
+  .note{background:var(--tint); border-radius:8px; padding:12px 14px; font-size:.9rem; color:var(--muted);}
+  .cert{background:var(--plum); color:var(--cream); border-radius:14px; padding:26px; text-align:center;}
+  .cert .seal{width:74px; height:74px; border-radius:50%; background:var(--gold); color:var(--plum);
+    font-size:2.05rem; font-weight:700; display:flex; align-items:center; justify-content:center;
+    margin:0 auto 14px;}
+  .cert h2{color:var(--gold); font-size:1.5rem; margin:0 0 4px; letter-spacing:.5px;}
+  .cert .sub{color:#E8DCCF; font-size:.95rem; margin-bottom:20px;}
+  .cert .name{font-size:1.85rem; font-weight:700; margin:8px 0 4px; word-break:break-word;}
+  .cert .line{height:2px; background:var(--gold); opacity:.55; margin:16px auto; max-width:280px;}
+  .cert .score{font-size:2.5rem; font-weight:700; color:var(--gold); line-height:1.1;}
+  .cert .scorelab{color:#E8DCCF; font-size:.95rem; margin-bottom:12px;}
+  .cert .date{color:#E8DCCF; font-size:.9rem;}
+  .cert .code{margin-top:10px; font-size:.85rem; color:#E8DCCF; letter-spacing:1px;}
+  .todo{background:var(--gold); color:var(--plum); border-radius:10px; padding:14px 16px;
+        font-weight:600; margin-top:18px; text-align:left;}
+  .fail{background:#F7E4E2; border:2px solid var(--no); border-radius:12px; padding:22px;}
+  .fail h2{color:var(--brick); margin-top:0;}
+  .rev{border-top:1px solid #E4D8CB; padding:10px 0; font-size:.93rem;}
+  .rev .q{font-weight:600;}
+  .rev .a{color:var(--muted);}
+  footer.src{font-size:.8rem; color:var(--muted); text-align:center; padding:0 16px 30px;}
+  .hide{display:none;}
+  @media (max-width:520px){
+    .matchrow{grid-template-columns:1fr;}
+    .cert .name{font-size:1.45rem;}
+    .cert .score{font-size:2.1rem;}
+  }
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><h1>Entraîneur de grammaire — Unité 4</h1><p>Français · Classe 10 · « Bienvenue au Québec ! » · sept points de grammaire</p></div></header>
+<div class="wrap">
+
+  <section id="screen-start">
+    <div class="card">
+      <h2>La grammaire de l'unité 4</h2>
+      <p style="margin:0 0 10px;">Choisis un point de grammaire. Tu peux lire la règle avant de commencer —
+      ou essayer d'abord et lire la règle après.</p>
+      <div class="note">Cet entraîneur n'est pas noté. Il n'y a pas de certificat :
+      pour les devoirs, va dans le module <b>Devoirs — Unité 4</b>.</div>
+    </div>
+    <div class="card">
+      <h2>Choisis ton point de grammaire</h2>
+      <div class="modlist" id="modlist"></div>
+    </div>
+  </section>
+  <section id="screen-quiz" class="hide"><div class="card" id="quiz-body"></div></section>
+  <section id="screen-end" class="hide"><div class="card" id="end-body"></div>
+    <div class="card"><button class="btn-alt" onclick="location.reload()">↺ Choisir un autre point</button></div>
+  </section>
+
+</div>
+<footer class="src">Vocabulaire : liste officielle À plus ! 1–3 (Cornelsen) — utilisation autorisée pour la classe. Exercices de grammaire : rédigés pour ce cours.</footer>
+<script>
+
+function el(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function norm(s){return String(s).toLowerCase().normalize('NFD')
+  .replace(/[̀-ͯ]/g,'').replace(/[’']/g,"'").replace(/\s+/g,' ')
+  .replace(/[.!?]+$/,'').trim();}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));
+  var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+var state={items:[],idx:0,score:0,checked:false,nom:'',mod:null,log:[],order:[]};
+
+function startQuiz(mod, items){
+  state.mod=mod; state.items=shuffle(items); state.idx=0; state.score=0;
+  state.checked=false; state.log=[];
+  el('screen-start').classList.add('hide');
+  el('screen-end').classList.add('hide');
+  el('screen-quiz').classList.remove('hide');
+  renderQuestion(); window.scrollTo(0,0);
+}
+
+function renderQuestion(){
+  var q=state.items[state.idx], n=state.items.length;
+  state.checked=false; state.order=[];
+  var h='';
+  h+='<div class="prog"><i style="width:'+Math.round(state.idx/n*100)+'%"></i></div>';
+  h+='<div class="meta">Question '+(state.idx+1)+' / '+n+'</div>';
+  h+='<div class="consigne">'+esc(q.consigne)+'</div>';
+  if(q.prompt) h+='<p class="promptx">'+esc(q.prompt)+'</p>';
+  if(q.type==='qcm'){
+    h+='<div id="opts">';
+    for(var i=0;i<q.options.length;i++)
+      h+='<button class="opt" data-i="'+i+'" aria-pressed="false" onclick="pickOpt('+i+')">'+esc(q.options[i])+'</button>';
+    h+='</div>';
+  } else if(q.type==='text'){
+    h+='<input type="text" id="rep" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Ta réponse…">';
+  } else if(q.type==='match'){
+    for(var j=0;j<q.pairs.length;j++)
+      h+='<div class="matchrow"><span>'+esc(q.pairs[j][0])+'</span>'+
+         '<input type="text" id="m'+j+'" autocomplete="off" placeholder="en allemand…"></div>';
+  } else if(q.type==='order'){
+    h+='<div class="zone" id="zone"></div><div class="words" id="words">';
+    var sw=shuffle(q.words);
+    for(var k=0;k<sw.length;k++)
+      h+='<button onclick="addWord(this)">'+esc(sw[k])+'</button>';
+    h+='</div><button class="btn-gh" onclick="resetWords()">↺ Recommencer la phrase</button>';
+  }
+  h+='<div id="q-fb"></div>';
+  h+='<div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">';
+  h+='<button class="btn" id="btn-check" onclick="check()">Vérifier</button>';
+  h+='<button class="btn" id="btn-next" onclick="onNext()" style="display:none">Question suivante</button>';
+  if(q.aide) h+='<button class="btn-gh" onclick="showAide()">💡 Aide</button>';
+  h+='</div><div id="aide-box"></div>';
+  el('quiz-body').innerHTML=h;
+  var r=el('rep');
+  if(r) r.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();
+    if(state.checked){onNext();}else{check();}}});
+}
+
+function pickOpt(i){
+  if(state.checked) return;
+  var b=document.querySelectorAll('#opts .opt');
+  for(var k=0;k<b.length;k++) b[k].setAttribute('aria-pressed', k===i?'true':'false');
+}
+function addWord(b){ if(state.checked) return; state.order.push(b.textContent);
+  b.style.display='none'; drawZone(); }
+function drawZone(){ el('zone').innerHTML=state.order.map(function(w,i){
+  return '<button onclick="delWord('+i+')">'+esc(w)+' ×</button>';}).join(''); }
+function delWord(i){ if(state.checked) return; var w=state.order.splice(i,1)[0];
+  var bs=document.querySelectorAll('#words button');
+  for(var k=0;k<bs.length;k++){ if(bs[k].textContent===w && bs[k].style.display==='none'){
+    bs[k].style.display=''; break; } }
+  drawZone(); }
+function resetWords(){ if(state.checked) return; state.order=[];
+  var bs=document.querySelectorAll('#words button');
+  for(var k=0;k<bs.length;k++) bs[k].style.display='';
+  drawZone(); }
+function showAide(){ var q=state.items[state.idx];
+  el('aide-box').innerHTML='<div class="aide">💡 '+q.aide+'</div>'; }
+
+function check(){
+  if(state.checked) return;
+  var q=state.items[state.idx], ok=false, corrige='', donne='';
+  if(q.type==='qcm'){
+    var sel=-1, bs=document.querySelectorAll('#opts .opt');
+    for(var k=0;k<bs.length;k++) if(bs[k].getAttribute('aria-pressed')==='true') sel=k;
+    if(sel<0){ el('q-fb').innerHTML='<div class="fb no">Choisis une réponse.</div>'; return; }
+    ok = (sel===q.answer); donne=q.options[sel]; corrige=q.options[q.answer];
+    for(var k=0;k<bs.length;k++){ bs[k].disabled=true;
+      if(k===q.answer) bs[k].classList.add('ok');
+      else if(k===sel) bs[k].classList.add('no'); }
+  } else if(q.type==='text'){
+    var v=el('rep').value; donne=v;
+    if(!v.trim()){ el('q-fb').innerHTML='<div class="fb no">Écris ta réponse.</div>'; return; }
+    for(var k=0;k<q.answers.length;k++) if(norm(v)===norm(q.answers[k])) ok=true;
+    corrige=q.answers[0];
+    el('rep').classList.add(ok?'ok':'no'); el('rep').disabled=true;
+  } else if(q.type==='match'){
+    var good=0, vals=[];
+    for(var j=0;j<q.pairs.length;j++){
+      var s=el('m'+j); vals.push(s.value);
+      var right = norm(s.value)===norm(q.pairs[j][1]);
+      s.classList.add(right?'ok':'no'); s.disabled=true; if(right) good++;
+    }
+    if(vals.join('').trim()===''){ el('q-fb').innerHTML='<div class="fb no">Complète les cases.</div>'; return; }
+    ok = (good===q.pairs.length); donne=vals.join(' · ');
+    corrige=q.pairs.map(function(p){return p[0]+' → '+p[1];}).join(' · ');
+  } else if(q.type==='order'){
+    if(!state.order.length){ el('q-fb').innerHTML='<div class="fb no">Construis la phrase.</div>'; return; }
+    donne=state.order.join(' '); ok = norm(donne)===norm(q.answer); corrige=q.answer;
+  }
+  if(ok) state.score++;
+  state.checked=true;
+  state.log.push({q:(q.prompt||q.consigne), ok:ok, donne:donne, corrige:corrige});
+  el('q-fb').innerHTML = ok
+    ? '<div class="fb ok"><b>✅ Bravo !</b>'+(q.type==='qcm'?"C'est la bonne réponse.":'Réponse : '+esc(corrige))+'</div>'
+    : '<div class="fb no"><b>❌ Pas encore.</b>La bonne réponse : <b style="display:inline">'+esc(corrige)+'</b></div>';
+  el('btn-check').style.display='none';
+  var nx=el('btn-next'); nx.style.display='';
+  nx.textContent = (state.idx===state.items.length-1) ? 'Voir mon résultat' : 'Question suivante';
+}
+
+function onNext(){
+  if(state.idx===state.items.length-1){ showEnd(); return; }
+  state.idx++; renderQuestion(); window.scrollTo(0,0);
+}
+
+function reviewHtml(){
+  var h='<h3>Tes réponses</h3>';
+  for(var i=0;i<state.log.length;i++){
+    var r=state.log[i];
+    h+='<div class="rev"><div class="q">'+(r.ok?'✅':'❌')+' '+esc(r.q)+'</div>';
+    if(!r.ok) h+='<div class="a">Ta réponse : '+esc(r.donne)+' · Correct : <b>'+esc(r.corrige)+'</b></div>';
+    h+='</div>';
+  }
+  return h;
+}
+var GSETS = [{"key": "pays", "label": "Les pays : de, du, des, d'", "sous": "Prépositions et articles devant les noms de pays", "regle": "<b>D'où ?</b> venir <b>de</b> France (fém.) · <b>du</b> Canada (masc.) · <b>des</b> États-Unis (plur.) · <b>d'</b>Allemagne (voyelle) · <b>de</b> Montréal (ville).<br><b>Où ?</b> être/aller <b>en</b> France · <b>au</b> Québec · <b>aux</b> États-Unis.", "items": [{"type": "qcm", "consigne": "Complète : venir + pays.", "prompt": "Elle vient ___ Canada.", "options": ["de", "du", "des", "d'"], "answer": 1, "aide": "« le Canada » — masculin."}, {"type": "qcm", "consigne": "Complète : venir + pays.", "prompt": "Nous venons ___ Allemagne.", "options": ["de", "du", "des", "d'"], "answer": 3, "aide": "Le nom du pays commence par une voyelle."}, {"type": "qcm", "consigne": "Complète : venir + pays.", "prompt": "Ils viennent ___ États-Unis.", "options": ["de", "du", "des", "d'"], "answer": 2, "aide": "Un pays au pluriel."}, {"type": "qcm", "consigne": "Complète : venir + pays.", "prompt": "Tu viens ___ France ?", "options": ["de", "du", "des", "d'"], "answer": 0, "aide": "« la France » — féminin, pas de voyelle au début."}, {"type": "qcm", "consigne": "Complète : venir + ville.", "prompt": "Mon corres est ___ Montréal.", "options": ["de", "du", "des", "à"], "answer": 0, "aide": "Montréal est une ville, pas un pays."}, {"type": "qcm", "consigne": "Où est-ce qu'on va ?", "prompt": "Cet été, on va ___ Québec.", "options": ["en", "au", "aux", "à"], "answer": 1, "aide": "La province « le Québec » est masculine."}, {"type": "qcm", "consigne": "Où est-ce qu'on habite ?", "prompt": "Ma famille habite ___ Allemagne.", "options": ["en", "au", "aux", "de"], "answer": 0, "aide": "Pays féminin → en."}, {"type": "text", "consigne": "Complète avec de, du, des ou d'.", "prompt": "Ce sirop d'érable vient ___ Canada.", "answers": ["du"], "aide": "Masculin : de + le = du."}]}, {"key": "relief", "label": "La mise en relief", "sous": "C'est … qui / C'est … que", "regle": "<b>C'est … qui</b> met en relief le <b>sujet</b> : <i>C'est Cartier qui a exploré le fleuve.</i><br><b>C'est … que</b> met en relief un <b>autre élément</b> : <i>C'est au Québec qu'on mange de la poutine.</i><br>Au pluriel : <b>Ce sont … qui / que</b>.", "items": [{"type": "qcm", "consigne": "La mise en relief : quelle forme ?", "prompt": "___ Jacques Cartier ___ a exploré le fleuve Saint-Laurent.", "options": ["C'est … qui", "C'est … que", "Ce sont … qui", "Ce sont … qu'"], "answer": 0, "aide": "Une seule personne, et elle fait l'action."}, {"type": "qcm", "consigne": "La mise en relief : quelle forme ?", "prompt": "___ les Algonquins ___ vivaient ici autrefois.", "options": ["C'est … qui", "C'est … que", "Ce sont … qui", "Ce sont … que"], "answer": 2, "aide": "Plusieurs personnes → « ce sont »."}, {"type": "qcm", "consigne": "Qui ou que ?", "prompt": "C'est au Québec ___ on mange de la poutine.", "options": ["qui", "que", "qu'", "dont"], "answer": 2, "aide": "Après le lieu vient un sujet (« on ») — et « on » commence par une voyelle."}, {"type": "qcm", "consigne": "Qui ou que ?", "prompt": "C'est le sirop d'érable ___ je préfère.", "options": ["qui", "que", "qu'", "où"], "answer": 1, "aide": "Après vient un sujet (« je ») : ce n'est pas le sujet qui est mis en relief."}, {"type": "order", "consigne": "Remets la phrase dans le bon ordre.", "prompt": "", "words": ["Ce", "sont", "les", "baleines", "qui", "vivent", "dans", "le", "fleuve"], "answer": "Ce sont les baleines qui vivent dans le fleuve", "aide": "Commence par « Ce sont … »."}, {"type": "text", "consigne": "Mets en relief le sujet.", "prompt": "Les Québécois parlent français. → ___ les Québécois qui parlent français.", "answers": ["Ce sont"], "aide": "Sujet au pluriel."}]}, {"key": "quest", "label": "La question avec préposition", "sous": "À qui ? De quoi ? Avec qui ?", "regle": "Préposition + <b>qui</b> (personne) ou <b>quoi</b> (chose) :<br><i>À qui est-ce que tu écris ? – À ma corres.</i><br><i>De quoi est-ce que tu parles ? – De mon voyage.</i>", "items": [{"type": "qcm", "consigne": "Complète la question.", "prompt": "– ___ est-ce que tu parles ? – De mon voyage.", "options": ["De quoi", "À quoi", "De qui", "Avec qui"], "answer": 0, "aide": "La réponse commence par « de » et parle d'une chose."}, {"type": "qcm", "consigne": "Complète la question.", "prompt": "– ___ est-ce que tu écris ? – À ma corres.", "options": ["De qui", "À qui", "À quoi", "Avec qui"], "answer": 1, "aide": "La réponse commence par « à » et parle d'une personne."}, {"type": "qcm", "consigne": "Complète la question.", "prompt": "– ___ est-ce que vous voyagez ? – Avec ma famille.", "options": ["Avec quoi", "De qui", "Avec qui", "À qui"], "answer": 2, "aide": "Regarde la préposition dans la réponse."}, {"type": "qcm", "consigne": "Complète la question.", "prompt": "– ___ est-ce qu'elle pense ? – Aux vacances au Québec.", "options": ["De quoi", "À quoi", "À qui", "Avec quoi"], "answer": 1, "aide": "« aux vacances » = à + les vacances : une chose."}, {"type": "text", "consigne": "Complète la question.", "prompt": "– ___ ___ est-ce qu'ils se souviennent ? – De leur excursion en traîneau.", "answers": ["De quoi"], "aide": "« se souvenir de qc »."}]}, {"key": "vivre", "label": "Le verbe « vivre »", "sous": "présent, imparfait, passé composé", "regle": "<b>vivre</b> : je vis · tu vis · il/elle vit · nous vivons · vous vivez · ils/elles vivent<br>imparfait : je vivais · passé composé : j'ai <b>vécu</b>", "items": [{"type": "qcm", "consigne": "Complète avec le verbe « vivre ».", "prompt": "Les Québécois ___ dans un très grand territoire.", "options": ["vivons", "vivez", "vivent", "vit"], "answer": 2, "aide": "3e personne du pluriel."}, {"type": "text", "consigne": "Complète avec « vivre » au présent.", "prompt": "Nous ___ en Allemagne.", "answers": ["vivons"], "aide": "nous → -ons."}, {"type": "text", "consigne": "Complète avec « vivre » au passé composé.", "prompt": "J'___ deux ans à Montréal.", "answers": ["ai vécu"], "aide": "Participe passé irrégulier."}, {"type": "qcm", "consigne": "Complète avec « vivre » à l'imparfait.", "prompt": "Avant, mon oncle ___ au Canada.", "options": ["vit", "vivait", "a vécu", "vivra"], "answer": 1, "aide": "Une habitude dans le passé."}]}, {"key": "comp", "label": "Le comparatif et le superlatif de l'adverbe", "sous": "plus vite que · le mieux", "regle": "Comparatif : <b>plus / moins / aussi</b> + adverbe + <b>que</b>.<br>Attention : bien → <b>mieux</b>.<br>Superlatif : <b>le plus / le moins</b> + adverbe · bien → <b>le mieux</b>.", "items": [{"type": "qcm", "consigne": "Le comparatif de l'adverbe.", "prompt": "Elle conduit ___ que son frère. (bien +)", "options": ["plus bien", "mieux", "meilleur", "le mieux"], "answer": 1, "aide": "« bien » a une forme spéciale au comparatif."}, {"type": "qcm", "consigne": "Le comparatif de l'adverbe.", "prompt": "Au Québec, on parle ___ vite ___ en France. (=)", "options": ["plus … que", "aussi … qu'", "moins … que", "autant … que"], "answer": 1, "aide": "Égalité — et « en » commence par une voyelle."}, {"type": "text", "consigne": "Complète (vite, +).", "prompt": "On voyage ___ ___ en avion ___ en bateau.", "answers": ["plus vite que", "plus vite qu'"], "aide": "plus + adverbe + que."}, {"type": "qcm", "consigne": "Le superlatif de l'adverbe.", "prompt": "C'est Marie qui parle français ___ .(bien ++)", "options": ["le mieux", "le plus bien", "la mieux", "le meilleur"], "answer": 0, "aide": "Superlatif de « bien »."}, {"type": "text", "consigne": "Le superlatif de l'adverbe (souvent, − −).", "prompt": "C'est lui qui vient ___ ___ ___ .", "answers": ["le moins souvent"], "aide": "le + moins + adverbe."}]}, {"key": "quant", "label": "Les quantifiants", "sous": "plus de · moins de · autant de", "regle": "Après une quantité, toujours <b>de</b> (sans article) :<br><b>plus de</b> lacs · <b>moins d'</b>habitants · <b>autant de</b> photos.", "items": [{"type": "qcm", "consigne": "Les quantifiants.", "prompt": "Au Québec, il y a ___ lacs qu'en France. (+)", "options": ["plus de", "plus que", "plus des", "autant que"], "answer": 0, "aide": "Après une quantité, on met toujours « de »."}, {"type": "qcm", "consigne": "Les quantifiants.", "prompt": "Il y a ___ habitants au Québec qu'en Allemagne. (−)", "options": ["moins de", "moins d'", "moins que", "moins des"], "answer": 1, "aide": "« habitants » commence par une voyelle."}, {"type": "text", "consigne": "Les quantifiants (=).", "prompt": "J'ai ___ ___ photos que toi.", "answers": ["autant de"], "aide": "Égalité de quantité."}, {"type": "qcm", "consigne": "Les quantifiants.", "prompt": "On mange ___ sirop d'érable au Québec qu'ici. (+)", "options": ["plus du", "plus de", "plus des", "plus que"], "answer": 1, "aide": "Quantité + de, sans article."}]}, {"key": "constr", "label": "« construire » et « conduire »", "sous": "deux verbes irréguliers", "regle": "<b>construire / conduire</b> : je constru<b>is</b> · nous constru<b>isons</b> · ils constru<b>isent</b><br>passé composé : j'ai constru<b>it</b> / j'ai condu<b>it</b>.", "items": [{"type": "text", "consigne": "Complète avec « construire » au présent.", "prompt": "Ils ___ une cabane dans la forêt.", "answers": ["construisent"], "aide": "Comme « conduire » : -isent."}, {"type": "qcm", "consigne": "Complète avec « conduire ».", "prompt": "Nous ___ prudemment.", "options": ["conduisons", "conduions", "conduons", "conduisions"], "answer": 0, "aide": "nous → -isons."}, {"type": "text", "consigne": "Complète avec « conduire » au passé composé.", "prompt": "Hier, mon oncle ___ sa motoneige.", "answers": ["a conduit"], "aide": "Participe passé en -uit."}, {"type": "qcm", "consigne": "Complète avec « construire » au passé composé.", "prompt": "Qui ___ ce pont ?", "options": ["a construit", "a construi", "est construit", "a construisé"], "answer": 0, "aide": "Même modèle que « conduit »."}]}, {"key": "melange", "label": "Mélange — toute la grammaire de l'unité 4", "sous": "les sept points ensemble", "regle": "Ouvre chaque fiche de règle si tu hésites — c'est fait pour ça.", "items": [{"type": "qcm", "consigne": "Complète : venir + pays.", "prompt": "Elle vient ___ Canada.", "options": ["de", "du", "des", "d'"], "answer": 1, "aide": "« le Canada » — masculin."}, {"type": "qcm", "consigne": "Complète : venir + pays.", "prompt": "Nous venons ___ Allemagne.", "options": ["de", "du", "des", "d'"], "answer": 3, "aide": "Le nom du pays commence par une voyelle."}, {"type": "qcm", "consigne": "Complète : venir + pays.", "prompt": "Ils viennent ___ États-Unis.", "options": ["de", "du", "des", "d'"], "answer": 2, "aide": "Un pays au pluriel."}, {"type": "qcm", "consigne": "Complète : venir + pays.", "prompt": "Tu viens ___ France ?", "options": ["de", "du", "des", "d'"], "answer": 0, "aide": "« la France » — féminin, pas de voyelle au début."}, {"type": "qcm", "consigne": "Complète : venir + ville.", "prompt": "Mon corres est ___ Montréal.", "options": ["de", "du", "des", "à"], "answer": 0, "aide": "Montréal est une ville, pas un pays."}, {"type": "qcm", "consigne": "Où est-ce qu'on va ?", "prompt": "Cet été, on va ___ Québec.", "options": ["en", "au", "aux", "à"], "answer": 1, "aide": "La province « le Québec » est masculine."}, {"type": "qcm", "consigne": "Où est-ce qu'on habite ?", "prompt": "Ma famille habite ___ Allemagne.", "options": ["en", "au", "aux", "de"], "answer": 0, "aide": "Pays féminin → en."}, {"type": "text", "consigne": "Complète avec de, du, des ou d'.", "prompt": "Ce sirop d'érable vient ___ Canada.", "answers": ["du"], "aide": "Masculin : de + le = du."}, {"type": "qcm", "consigne": "La mise en relief : quelle forme ?", "prompt": "___ Jacques Cartier ___ a exploré le fleuve Saint-Laurent.", "options": ["C'est … qui", "C'est … que", "Ce sont … qui", "Ce sont … qu'"], "answer": 0, "aide": "Une seule personne, et elle fait l'action."}, {"type": "qcm", "consigne": "La mise en relief : quelle forme ?", "prompt": "___ les Algonquins ___ vivaient ici autrefois.", "options": ["C'est … qui", "C'est … que", "Ce sont … qui", "Ce sont … que"], "answer": 2, "aide": "Plusieurs personnes → « ce sont »."}, {"type": "qcm", "consigne": "Qui ou que ?", "prompt": "C'est au Québec ___ on mange de la poutine.", "options": ["qui", "que", "qu'", "dont"], "answer": 2, "aide": "Après le lieu vient un sujet (« on ») — et « on » commence par une voyelle."}, {"type": "qcm", "consigne": "Qui ou que ?", "prompt": "C'est le sirop d'érable ___ je préfère.", "options": ["qui", "que", "qu'", "où"], "answer": 1, "aide": "Après vient un sujet (« je ») : ce n'est pas le sujet qui est mis en relief."}, {"type": "order", "consigne": "Remets la phrase dans le bon ordre.", "prompt": "", "words": ["Ce", "sont", "les", "baleines", "qui", "vivent", "dans", "le", "fleuve"], "answer": "Ce sont les baleines qui vivent dans le fleuve", "aide": "Commence par « Ce sont … »."}, {"type": "text", "consigne": "Mets en relief le sujet.", "prompt": "Les Québécois parlent français. → ___ les Québécois qui parlent français.", "answers": ["Ce sont"], "aide": "Sujet au pluriel."}, {"type": "qcm", "consigne": "Complète la question.", "prompt": "– ___ est-ce que tu parles ? – De mon voyage.", "options": ["De quoi", "À quoi", "De qui", "Avec qui"], "answer": 0, "aide": "La réponse commence par « de » et parle d'une chose."}, {"type": "qcm", "consigne": "Complète la question.", "prompt": "– ___ est-ce que tu écris ? – À ma corres.", "options": ["De qui", "À qui", "À quoi", "Avec qui"], "answer": 1, "aide": "La réponse commence par « à » et parle d'une personne."}, {"type": "qcm", "consigne": "Complète la question.", "prompt": "– ___ est-ce que vous voyagez ? – Avec ma famille.", "options": ["Avec quoi", "De qui", "Avec qui", "À qui"], "answer": 2, "aide": "Regarde la préposition dans la réponse."}, {"type": "qcm", "consigne": "Complète la question.", "prompt": "– ___ est-ce qu'elle pense ? – Aux vacances au Québec.", "options": ["De quoi", "À quoi", "À qui", "Avec quoi"], "answer": 1, "aide": "« aux vacances » = à + les vacances : une chose."}, {"type": "text", "consigne": "Complète la question.", "prompt": "– ___ ___ est-ce qu'ils se souviennent ? – De leur excursion en traîneau.", "answers": ["De quoi"], "aide": "« se souvenir de qc »."}, {"type": "qcm", "consigne": "Complète avec le verbe « vivre ».", "prompt": "Les Québécois ___ dans un très grand territoire.", "options": ["vivons", "vivez", "vivent", "vit"], "answer": 2, "aide": "3e personne du pluriel."}, {"type": "text", "consigne": "Complète avec « vivre » au présent.", "prompt": "Nous ___ en Allemagne.", "answers": ["vivons"], "aide": "nous → -ons."}, {"type": "text", "consigne": "Complète avec « vivre » au passé composé.", "prompt": "J'___ deux ans à Montréal.", "answers": ["ai vécu"], "aide": "Participe passé irrégulier."}, {"type": "qcm", "consigne": "Complète avec « vivre » à l'imparfait.", "prompt": "Avant, mon oncle ___ au Canada.", "options": ["vit", "vivait", "a vécu", "vivra"], "answer": 1, "aide": "Une habitude dans le passé."}, {"type": "qcm", "consigne": "Le comparatif de l'adverbe.", "prompt": "Elle conduit ___ que son frère. (bien +)", "options": ["plus bien", "mieux", "meilleur", "le mieux"], "answer": 1, "aide": "« bien » a une forme spéciale au comparatif."}, {"type": "qcm", "consigne": "Le comparatif de l'adverbe.", "prompt": "Au Québec, on parle ___ vite ___ en France. (=)", "options": ["plus … que", "aussi … qu'", "moins … que", "autant … que"], "answer": 1, "aide": "Égalité — et « en » commence par une voyelle."}, {"type": "text", "consigne": "Complète (vite, +).", "prompt": "On voyage ___ ___ en avion ___ en bateau.", "answers": ["plus vite que", "plus vite qu'"], "aide": "plus + adverbe + que."}, {"type": "qcm", "consigne": "Le superlatif de l'adverbe.", "prompt": "C'est Marie qui parle français ___ .(bien ++)", "options": ["le mieux", "le plus bien", "la mieux", "le meilleur"], "answer": 0, "aide": "Superlatif de « bien »."}, {"type": "text", "consigne": "Le superlatif de l'adverbe (souvent, − −).", "prompt": "C'est lui qui vient ___ ___ ___ .", "answers": ["le moins souvent"], "aide": "le + moins + adverbe."}, {"type": "qcm", "consigne": "Les quantifiants.", "prompt": "Au Québec, il y a ___ lacs qu'en France. (+)", "options": ["plus de", "plus que", "plus des", "autant que"], "answer": 0, "aide": "Après une quantité, on met toujours « de »."}, {"type": "qcm", "consigne": "Les quantifiants.", "prompt": "Il y a ___ habitants au Québec qu'en Allemagne. (−)", "options": ["moins de", "moins d'", "moins que", "moins des"], "answer": 1, "aide": "« habitants » commence par une voyelle."}, {"type": "text", "consigne": "Les quantifiants (=).", "prompt": "J'ai ___ ___ photos que toi.", "answers": ["autant de"], "aide": "Égalité de quantité."}, {"type": "qcm", "consigne": "Les quantifiants.", "prompt": "On mange ___ sirop d'érable au Québec qu'ici. (+)", "options": ["plus du", "plus de", "plus des", "plus que"], "answer": 1, "aide": "Quantité + de, sans article."}, {"type": "text", "consigne": "Complète avec « construire » au présent.", "prompt": "Ils ___ une cabane dans la forêt.", "answers": ["construisent"], "aide": "Comme « conduire » : -isent."}, {"type": "qcm", "consigne": "Complète avec « conduire ».", "prompt": "Nous ___ prudemment.", "options": ["conduisons", "conduions", "conduons", "conduisions"], "answer": 0, "aide": "nous → -isons."}, {"type": "text", "consigne": "Complète avec « conduire » au passé composé.", "prompt": "Hier, mon oncle ___ sa motoneige.", "answers": ["a conduit"], "aide": "Participe passé en -uit."}, {"type": "qcm", "consigne": "Complète avec « construire » au passé composé.", "prompt": "Qui ___ ce pont ?", "options": ["a construit", "a construi", "est construit", "a construisé"], "answer": 0, "aide": "Même modèle que « conduit »."}]}];
+
+function drawList(){
+  var h='';
+  for(var i=0;i<GSETS.length;i++){
+    var s=GSETS[i];
+    h+='<button class="modbtn" onclick="go('+i+')"><b>'+s.label+'</b><span>'+s.sous+
+       ' · '+s.items.length+' questions</span></button>';
+  }
+  el('modlist').innerHTML=h;
+}
+function go(i){
+  var s=GSETS[i];
+  el('screen-start').classList.add('hide');
+  el('screen-quiz').classList.remove('hide');
+  el('quiz-body').innerHTML='<h2>'+esc(s.label)+'</h2><div class="regle">'+s.regle+'</div>'+
+    '<button class="btn" onclick="lance('+i+')">Commencer les exercices</button>';
+  window.scrollTo(0,0);
+}
+function lance(i){ startQuiz(GSETS[i], shuffle(GSETS[i].items)); }
+function showEnd(){
+  el('screen-quiz').classList.add('hide');
+  el('screen-end').classList.remove('hide');
+  var total=state.items.length, pct=Math.round(state.score/total*100);
+  el('end-body').innerHTML='<h2>Résultat</h2><p style="font-size:1.2rem;"><b>'+state.score+' / '+total+
+    '</b> bonnes réponses ('+pct+' %).</p>'+
+    '<div class="regle">'+state.mod.regle+'</div>'+reviewHtml();
+  window.scrollTo(0,0);
+}
+drawList();
+
+</script>
+</body>
+</html>
