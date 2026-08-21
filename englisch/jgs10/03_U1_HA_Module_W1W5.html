@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homework — Camden Town Oberstufe, Theme 1 (Weeks 1–5)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#243b6b;--navy-2:#1b2c50;--sky:#3a5a8c;--paper:#f7f9fc;--card:#ffffff;
+    --line:#d9e1ee;--gold:#e8b23a;--gold-soft:#f6e4b4;--leaf:#2f9e7d;--red:#c0392b;
+    --ink:#16233d;--muted:#5c6b86;--shadow:0 10px 30px rgba(36,59,107,.13);--radius:16px;
+    --display:'Space Grotesk',system-ui,sans-serif;--body:'Inter',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box}html,body{margin:0}
+  body{font-family:var(--body);color:var(--ink);min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased;
+    background:radial-gradient(1200px 500px at 110% -10%,rgba(232,178,58,.16),transparent 60%),
+      radial-gradient(900px 500px at -10% 110%,rgba(58,90,140,.14),transparent 55%),var(--paper);}
+  .wrap{max-width:680px;margin:0 auto;padding:24px 16px 70px}
+  .eyebrow{font-family:var(--display);font-weight:500;letter-spacing:.14em;text-transform:uppercase;font-size:.68rem;color:var(--navy);display:inline-flex;align-items:center;gap:.5em}
+  .eyebrow::before{content:"";width:24px;height:2px;background:var(--gold);display:inline-block}
+  h1{font-family:var(--display);font-weight:700;line-height:1.04;font-size:clamp(1.6rem,6vw,2.3rem);margin:.18em 0 .1em;color:var(--navy)}
+  .tagline{color:var(--muted);font-size:.95rem;margin:0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+  label{font-family:var(--display);font-weight:600;font-size:.85rem;color:var(--navy);display:block;margin:0 0 6px}
+  input[type=text]{width:100%;font-family:var(--body);font-size:1.05rem;padding:13px 15px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink)}
+  input[type=text]:focus{outline:3px solid rgba(36,59,107,.22);border-color:var(--navy)}
+  .err{color:var(--red);font-weight:600;font-size:.85rem;margin-top:8px;min-height:1em}
+  .rules{font-size:.9rem;color:var(--muted);margin:14px 0 0;padding-left:1.1em}
+  .rules li{margin:4px 0}
+  .weeks{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+  .weekbtn{text-align:left;border:1px solid var(--line);background:#fff;border-radius:13px;padding:15px 18px;cursor:pointer;transition:transform .12s,box-shadow .18s,border-color .18s}
+  .weekbtn:hover{transform:translateY(-1px);box-shadow:var(--shadow);border-color:var(--navy)}
+  .weekbtn .wk{font-family:var(--display);font-weight:700;font-size:1.05rem;color:var(--navy)}
+  .weekbtn .wd{font-size:.88rem;color:var(--muted);margin-top:2px}
+  .weekbtn .wmeta{font-family:var(--display);font-size:.75rem;color:var(--sky);font-weight:600;margin-top:6px;letter-spacing:.03em}
+  .btn{font-family:var(--display);font-weight:700;font-size:1rem;cursor:pointer;border:1px solid var(--navy);background:var(--navy);color:#fff;padding:13px 20px;border-radius:12px;transition:transform .12s,opacity .18s;width:100%;margin-top:14px}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.ghost{background:transparent;color:var(--navy);border-color:var(--line)}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .screen{display:none}.screen.active{display:block}
+  .qhead{display:flex;justify-content:space-between;align-items:center;font-family:var(--display);font-weight:600;color:var(--muted);font-size:.85rem;margin-bottom:4px}
+  .qbar{height:8px;background:var(--gold-soft);border-radius:999px;overflow:hidden;margin-bottom:14px}
+  .qbar > i{display:block;height:100%;background:var(--gold);width:0;transition:width .3s}
+  .sectiontag{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sky);margin-bottom:8px}
+  .prompt{background:linear-gradient(160deg,var(--navy),var(--navy-2));color:#fff;border-radius:var(--radius);padding:22px 18px;box-shadow:var(--shadow);margin-bottom:14px}
+  .prompt.center{text-align:center}
+  .prompt .lbl{font-family:var(--display);text-transform:uppercase;letter-spacing:.12em;font-size:.7rem;opacity:.85}
+  .prompt .word{font-family:var(--display);font-weight:700;font-size:clamp(1.5rem,6vw,2.5rem);color:var(--gold)}
+  .prompt .cloze{font-size:clamp(1.05rem,3.6vw,1.4rem);line-height:1.5;font-weight:500;margin-top:6px}
+  .prompt .cloze .gap{color:var(--gold);font-weight:700;letter-spacing:.06em}
+  .prompt .func{font-size:clamp(1.05rem,3.6vw,1.35rem);font-weight:600;margin-top:6px}
+  .prompt .quote{font-size:.95rem;opacity:.9;font-style:italic;margin-top:8px;border-left:2px solid var(--gold);padding-left:10px;text-align:left}
+  .options{display:grid;gap:10px}
+  .opt{font-family:var(--body);font-weight:500;font-size:1.0rem;border:1px solid var(--line);background:#fff;color:var(--ink);padding:13px 15px;border-radius:11px;cursor:pointer;text-align:left;transition:transform .1s,border-color .18s;line-height:1.35}
+  .opt:hover{transform:translateY(-1px);border-color:var(--navy)}
+  .result-score{font-family:var(--display);font-weight:700;font-size:clamp(2.6rem,12vw,4rem);text-align:center;line-height:1}
+  .result-score.pass{color:var(--leaf)}.result-score.fail{color:var(--gold)}
+  .result-msg{text-align:center;color:var(--muted);margin:.3em 0 6px}
+  .review{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+  .review h3{font-family:var(--display);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 8px}
+  .review .row{font-size:.9rem;padding:5px 0;display:flex;gap:8px;align-items:flex-start}
+  .review .row .x{color:var(--red);font-weight:700}.review .row .v{color:var(--leaf);font-weight:700}
+  .cert{background:#fff;border:2px solid var(--navy);border-radius:18px;padding:26px 22px;position:relative;box-shadow:var(--shadow);text-align:center;overflow:hidden}
+  .cert::before{content:"";position:absolute;inset:8px;border:1px solid var(--line);border-radius:12px;pointer-events:none}
+  .cert .cap{font-family:var(--display);text-transform:uppercase;letter-spacing:.18em;font-size:.7rem;color:var(--sky);font-weight:700}
+  .cert h2{font-family:var(--display);font-weight:700;color:var(--navy);font-size:1.4rem;margin:.2em 0 .1em}
+  .cert .sub{color:var(--muted);font-size:.9rem;margin:0 0 14px}
+  .cert .name{font-family:var(--display);font-weight:700;font-size:1.6rem;color:var(--ink);margin:10px 0 2px;border-bottom:2px solid var(--gold);display:inline-block;padding:0 14px 4px}
+  .cert .meta{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin:16px 0 6px}
+  .cert .meta div{font-size:.9rem;color:var(--muted)}
+  .cert .meta b{display:block;font-family:var(--display);font-size:1.2rem;color:var(--navy)}
+  .seal{margin:14px auto 4px;display:inline-flex;flex-direction:column;align-items:center;gap:2px;background:var(--gold-soft);border:1px dashed var(--navy);border-radius:12px;padding:10px 16px}
+  .seal .sl{font-family:var(--display);text-transform:uppercase;letter-spacing:.12em;font-size:.62rem;color:var(--muted)}
+  .seal .code{font-family:var(--display);font-weight:700;font-size:1.05rem;color:var(--navy);letter-spacing:.04em}
+  .upload{background:rgba(232,178,58,.16);border:1px solid var(--gold);border-radius:12px;padding:12px 14px;margin-top:16px;font-size:.9rem}
+  .upload b{font-family:var(--display)}
+  details.teacher{margin-top:26px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:0 14px}
+  details.teacher summary{cursor:pointer;font-family:var(--display);font-weight:600;color:var(--navy);padding:13px 0;list-style:none}
+  details.teacher summary::-webkit-details-marker{display:none}
+  details.teacher summary::before{content:"▸ ";color:var(--gold)}
+  details.teacher[open] summary::before{content:"▾ "}
+  .tbody{padding:0 0 16px}
+  .verdict{font-family:var(--display);font-weight:700;margin-top:12px;padding:12px 14px;border-radius:11px}
+  .verdict.ok{background:rgba(47,158,125,.14);color:var(--leaf)}
+  .verdict.bad{background:rgba(192,57,43,.1);color:var(--red)}
+  .verdict small{display:block;font-weight:500;color:var(--ink);font-family:var(--body);margin-top:4px}
+  footer{margin-top:26px;text-align:center;color:var(--muted);font-size:.76rem}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:8px}
+  @media print{body{background:#fff}.wrap{max-width:none}.noprint{display:none!important}details.teacher{display:none}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="noprint">
+    <span class="eyebrow">Camden Town Oberstufe · Theme 1 · A Society of Screens</span>
+    <h1>Homework Certificates</h1>
+    <p class="tagline">One section for each week — reach 80% to earn your certificate.</p>
+  </header>
+
+  <!-- START -->
+  <section class="screen active" id="screen-start">
+    <div class="card">
+      <label for="name">Your full name</label>
+      <input type="text" id="name" autocomplete="name" placeholder="e.g. Alex Müller">
+      <div class="err" id="nameErr"></div>
+      <ul class="rules">
+        <li>This module <b>is</b> your written homework for the unit — it replaces the workbook tasks.</li>
+        <li>Choose your <b>week</b> below. Each week has <b>15 questions</b> in three parts, drawn at random — every attempt is different.</li>
+        <li>You need <b>at least 12 / 15 (80%)</b> to earn that week's certificate.</li>
+        <li>Do this <b>on your own</b>. When you pass, take a <b>screenshot</b> of the certificate and upload it to the <b>TEAMS</b> task for that week.</li>
+        <li>Didn't reach 80%? Just start again — practise with the vocabulary trainer and the grammar trainer first. Attempts are never marked.</li>
+      </ul>
+      <div class="weeks" id="weekList"></div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="screen" id="screen-quiz">
+    <div class="card">
+      <div class="qhead"><span><span id="qWeek"></span> · Question <span id="qPos">1</span> / <span id="qTot">15</span></span><span id="qName"></span></div>
+      <div class="qbar"><i id="qFill"></i></div>
+      <div class="sectiontag" id="qSection"></div>
+      <div class="prompt" id="qPrompt"></div>
+      <div class="options" id="qOptions"></div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="screen" id="screen-result">
+    <div class="card">
+      <div class="result-score" id="resScore">0 / 15</div>
+      <p class="result-msg" id="resMsg"></p>
+      <div class="review" id="review"></div>
+      <button class="btn" id="getCert" style="display:none">Get my certificate</button>
+      <button class="btn ghost" id="retry">Try this week again</button>
+      <button class="btn ghost" id="another">Choose another week</button>
+    </div>
+  </section>
+
+  <!-- CERTIFICATE -->
+  <section class="screen" id="screen-cert">
+    <div class="cert" id="certCard">
+      <div class="cap">Homework Certificate</div>
+      <h2 id="cWeek"></h2>
+      <p class="sub">Camden Town Oberstufe · Theme 1: A Society of Screens — The Digital Age</p>
+      <div class="name" id="cName"></div>
+      <div class="meta">
+        <div>Score<b id="cScore"></b></div>
+        <div>Date<b id="cDate"></b></div>
+      </div>
+      <div class="seal">
+        <span class="sl">Verification code</span>
+        <span class="code" id="cCode"></span>
+      </div>
+      <div class="upload noprint"><b>Next step:</b> take a screenshot of this certificate and upload it to the <b>TEAMS</b> task for this week.</div>
+    </div>
+    <button class="btn noprint" id="printBtn">Print / Save as PDF</button>
+    <button class="btn ghost noprint" id="again">Back to week list</button>
+  </section>
+
+  <!-- TEACHER VERIFIER -->
+  <details class="teacher noprint">
+    <summary>Lehrkraft: Zertifikat prüfen</summary>
+    <div class="tbody">
+      <p style="color:var(--muted);font-size:.88rem;margin:.2em 0 10px">Name (wie eingegeben) + Code aus dem Screenshot eingeben. Die Prüfsumme bestätigt Name, Datum, Woche und Punktzahl — ein nachträglich bearbeiteter Screenshot fällt durch.</p>
+      <label for="vName">Name</label>
+      <input type="text" id="vName" placeholder="Alex Müller">
+      <label for="vCode" style="margin-top:10px">Code</label>
+      <input type="text" id="vCode" placeholder="CTO-W1-260904-1215-XXXX-XXXXX">
+      <button class="btn" id="verifyBtn">Prüfen</button>
+      <div id="verdict"></div>
+    </div>
+  </details>
+
+  <footer>Homework module · Camden Town Oberstufe, Theme 1 · Weeks 1–5 · name + verifiable code · ≥ 80% to pass · screenshot → TEAMS</footer>
+</div>
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   ITEM BANKS
+   kind "cloze": sentence with ___ · kind "func": a question
+   Vocabulary is always tested IN CONTEXT, never as an EN–DE pair.
+   Sentences marked [SB] come from the publisher's word list examples.
+   ============================================================ */
+var BANKS = {
+
+/* ---------- WEEK 1 ---------- */
+"W1V":[
+ {cloze:"There was ___ coverage of the Royal Wedding.",answer:"mass media",options:["mass media","censorship","circulation","deception"]},
+ {cloze:"The younger generation is a lot more ___ than the older generation.",answer:"tech-savvy",options:["tech-savvy","portable","ubiquitous","inextricable"]},
+ {cloze:"The advice hotline is available ___.",answer:"24/7",options:["24/7","DIY","ubiquitous","portable"]},
+ {cloze:"The practice of taking selfies is ___ amongst young people.",answer:"ubiquitous",options:["ubiquitous","inextricable","portable","tech-savvy"]},
+ {cloze:"___ devices make it easier to access the internet anywhere.",answer:"Portable",options:["Portable","Ubiquitous","Inextricable","Tech-savvy"]},
+ {cloze:"Villains in films and novels are often ___ and vain.",answer:"narcissistic",options:["narcissistic","ubiquitous","tech-savvy","portable"]},
+ {cloze:"It's a good idea to put some money aside in a savings ___.",answer:"account",options:["account","showcase","circulation","infringement"]},
+ {cloze:"The ___ of information about AIDS in Africa took a long time.",answer:"dissemination",options:["dissemination","circulation","censorship","deception"]},
+ {cloze:"The ___ of local newspapers is dwindling as more people read the news online.",answer:"circulation",options:["circulation","dissemination","deception","infringement"]},
+ {cloze:"___ of the press is one way to control the spread of information.",answer:"Censorship",options:["Censorship","Deception","Circulation","Infringement"]},
+ {cloze:"It is illegal to ___ any sources when writing academic essays.",answer:"plagiarize",options:["plagiarize","craft","showcase","disseminate"]},
+ {cloze:"___ of the rules will result in severe punishment.",answer:"Infringement",options:["Infringement","Deception","Dissemination","Censorship"]},
+ {cloze:"The company was fined for wilful ___ in its advertising campaign.",answer:"deception",options:["deception","infringement","circulation","dissemination"]},
+ {cloze:"When it comes to history, legend and truth are often ___.",answer:"inextricable",options:["inextricable","ubiquitous","portable","tech-savvy"]},
+ {cloze:"All of the jewellery in the shop was ___ by hand.",answer:"crafted",options:["crafted","plagiarized","disseminated","censored"]},
+ {cloze:"The museum displayed the dinosaur bones in a glass ___.",answer:"showcase",options:["showcase","account","layer","circulation"]}
+],
+"W1C":[
+ {q:"In the first clip, roughly how many selfies does Charlotte take on a busy day?",answer:"About 1,000",options:["About 1,000","About 100","About 20","About 10,000"]},
+ {q:"Which reason for taking selfies does Charlotte's clip mention?",answer:"A lack of self-confidence",options:["A lack of self-confidence","She wants to become a photographer","Her school asked her to","She is paid for every photo"]},
+ {q:"Which of these is named in the clips as a DANGER of taking a lot of selfies?",answer:"It can damage your relationships with other people.",options:["It can damage your relationships with other people.","It uses up your data allowance.","It makes your phone slower.","It is illegal in most countries."]},
+ {q:"How many selfies a day did Danny take at the worst point?",answer:"Up to about 200",options:["Up to about 200","Up to about 20","Up to about 2,000","Up to about 5"]},
+ {q:"What does Danny say about selfie addiction?",answer:"It can affect anyone.",options:["It can affect anyone.","It only affects girls.","It only affects people over thirty.","It is not a real problem."]},
+ {q:"Which reason appears in DANNY's clip but not in Charlotte's?",answer:"Seeking perfection",options:["Seeking perfection","Being influenced by TV shows","Wanting to be noticed","Building confidence"]},
+ {q:"Which advantage of taking selfies is mentioned in the material?",answer:"It can be a way to build confidence.",options:["It can be a way to build confidence.","It saves money.","It improves your eyesight.","It makes you sleep better."]},
+ {q:"Why is Danny's case described as time-consuming?",answer:"He spent up to ten hours a day on it.",options:["He spent up to ten hours a day on it.","He had to travel to a studio.","He edited each photo for a week.","He printed every photo."]}
+],
+"W1L":[
+ {q:"Which of these words has a clearly NEGATIVE connotation?",answer:"deception",options:["deception","circulation","account","showcase"]},
+ {q:"Which of these words is a NOUN?",answer:"dissemination",options:["dissemination","ubiquitous","portable","tech-savvy"]},
+ {q:"“24/7” means …",answer:"all the time, day and night",options:["all the time, day and night","twenty-four hours once a week","seven days in a row","at 24 minutes past seven"]},
+ {q:"If two things are inextricable, they are …",answer:"impossible to separate",options:["impossible to separate","easy to explain","rarely used","very expensive"]},
+ {q:"Which word describes somebody who is confident with technology?",answer:"tech-savvy",options:["tech-savvy","ubiquitous","portable","narcissistic"]},
+ {q:"“Censorship” is closest in meaning to …",answer:"controlling what information people are allowed to see",options:["controlling what information people are allowed to see","publishing information very quickly","checking a text for spelling mistakes","translating a text into another language"]},
+ {q:"Which word would you expect in a text about copyright?",answer:"infringement",options:["infringement","circulation","account","showcase"]},
+ {q:"“DIY” stands for …",answer:"do it yourself",options:["do it yourself","data in you","digital info year","download it yearly"]},
+ {q:"Which word means “found everywhere at the same time”?",answer:"ubiquitous",options:["ubiquitous","portable","inextricable","narcissistic"]}
+],
+
+/* ---------- WEEK 2 ---------- */
+"W2V":[
+ {cloze:"She broke up with her boyfriend because he was too much of a ___.",answer:"narcissist",options:["narcissist","layer","correlation","affirmation"]},
+ {cloze:"Some people who pay for cosmetic surgery are motivated only by ___.",answer:"vanity",options:["vanity","prevalence","affirmation","self-esteem"]},
+ {cloze:"She was so ___, she didn't bother to ask how her friend was feeling.",answer:"self-absorbed",options:["self-absorbed","tech-savvy","ubiquitous","portable"]},
+ {cloze:"The increasing ___ of mental health problems in the population cannot be denied.",answer:"prevalence",options:["prevalence","correlation","circulation","affirmation"]},
+ {cloze:"The study shows a positive ___ between household income and admission to university.",answer:"correlation",options:["correlation","prevalence","affirmation","deception"]},
+ {cloze:"All members of the committee nodded in ___ at the speech.",answer:"affirmation",options:["affirmation","vanity","correlation","prevalence"]},
+ {cloze:"His ___ improved after he joined the drama club.",answer:"self-esteem",options:["self-esteem","vanity","prevalence","circulation"]},
+ {cloze:"The garden furniture needed an extra ___ of paint to protect it from the rain.",answer:"layer",options:["layer","showcase","account","circulation"]},
+ {cloze:"The computer virus ___ all the data on the laptop.",answer:"erased",options:["erased","crafted","plagiarized","showcased"]},
+ {cloze:"According to the article, everyone has ___ tendencies to some degree.",answer:"narcissistic",options:["narcissistic","ubiquitous","inextricable","portable"]},
+ {cloze:"Social media adds another ___ of pressure to everyday life.",answer:"layer",options:["layer","account","circulation","affirmation"]},
+ {cloze:"People who post constantly are often described as ___.",answer:"self-absorbed",options:["self-absorbed","inextricable","portable","tech-savvy"]}
+],
+"W2G":[
+ {cloze:"The psychologist said that social media ___ people compare themselves.",quote:"“Social media makes people compare themselves,” the psychologist said.",answer:"made",options:["made","makes","has made","would make"]},
+ {cloze:"The minister said that they ___ a new age limit.",quote:"“We are testing a new age limit,” the minister said.",answer:"were testing",options:["were testing","are testing","had tested","would test"]},
+ {cloze:"Tom said that he ___ a selfie.",quote:"“I have never posted a selfie,” Tom said.",answer:"had never posted",options:["had never posted","has never posted","never posted","would never post"]},
+ {cloze:"She asked me ___.",quote:"“Do you use social media every day?” she asked me.",answer:"whether I used social media every day",options:["whether I used social media every day","do I use social media every day","if did I use social media every day","that I used social media every day"]},
+ {cloze:"He asked where I ___ the article.",quote:"“Where did you find this article?” he asked.",answer:"had found",options:["had found","found","did find","have found"]},
+ {cloze:"They said they would publish the results ___.",quote:"“We will publish the results tomorrow,” they said.",answer:"the next day",options:["the next day","tomorrow","yesterday","that day before"]},
+ {cloze:"The teacher told us ___ our password.",quote:"“Don't share your password,” the teacher told us.",answer:"not to share",options:["not to share","don't share","not sharing","to don't share"]},
+ {cloze:"The author admitted that she ___ sure about the correlation.",quote:"“I am not sure about the correlation,” the author admitted.",answer:"was not",options:["was not","is not","had not been","would not be"]},
+ {cloze:"She said that I ___ check the source first.",quote:"“You should check the source first,” she said to me.",answer:"should",options:["should","would should","had should","must have"]},
+ {cloze:"He told her that he ___ his account the week before.",quote:"“I deleted my account last week,” he told her.",answer:"had deleted",options:["had deleted","deleted","has deleted","would delete"]}
+],
+"W2R":[
+ {q:"According to the article, what has happened to diagnoses of narcissistic personality disorder in the US over the past ten years?",answer:"They have risen sharply.",options:["They have risen sharply.","They have fallen sharply.","They have stayed exactly the same.","They were never counted."]},
+ {q:"What does the article say about the link between social media use and narcissism?",answer:"It is not completely clear whether there is a correlation.",options:["It is not completely clear whether there is a correlation.","It has been proved beyond any doubt.","There is definitely no link at all.","Only people over forty are affected."]},
+ {q:"Which argument does the article give AGAINST the idea that social media creates narcissism?",answer:"For social media to have become so popular, narcissism must already have existed.",options:["For social media to have become so popular, narcissism must already have existed.","Social media was invented by psychologists.","Nobody posts photos of themselves any more.","Narcissism cannot be measured at all."]},
+ {q:"According to the article, what can be an ADVANTAGE of social media?",answer:"There is research suggesting it is good for our self-esteem.",options:["There is research suggesting it is good for our self-esteem.","It reduces the time we spend on screens.","It improves handwriting.","It replaces face-to-face contact completely."]},
+ {q:"Which problem does the article name in connection with social media and personality?",answer:"It is virtually impossible to show all sides of your personality online.",options:["It is virtually impossible to show all sides of your personality online.","Profiles may only contain three photos.","Users must give their real address.","Nobody reads long posts."]},
+ {q:"How does the article sum up the relationship in the end?",answer:"Social media encourages and panders to narcissism that already exists.",options:["Social media encourages and panders to narcissism that already exists.","Social media creates narcissism out of nothing.","Social media has no measurable effect whatsoever.","Social media cures narcissism."]},
+ {q:"Which kind of evidence does the author use most?",answer:"Statistics and quotations from professionals",options:["Statistics and quotations from professionals","Her own diary entries","Poems and song lyrics","Photographs only"]},
+ {q:"The article says social media “adds a layer of pressure”. What does this mean?",answer:"It makes people feel they have to share more than they would otherwise.",options:["It makes people feel they have to share more than they would otherwise.","It slows down the internet connection.","It costs extra money each month.","It adds an extra login step."]}
+],
+
+/* ---------- WEEK 3 ---------- */
+"W3F":[
+ {cloze:"The number of users ___ from 12 % to 19 % between 2020 and 2025.",answer:"rose",options:["rose","raised","arose","risen"]},
+ {cloze:"Almost ___ of our class said they check their phone before breakfast.",answer:"a third",options:["a third","third","a thirds","the third of"]},
+ {cloze:"___ to the study, screen time has increased again.",answer:"According",options:["According","Regarding","Concerning","Referring"]},
+ {cloze:"Twice ___ many boys as girls said they watch videos at night.",answer:"as",options:["as","so","than","that"]},
+ {cloze:"Our figure is much higher ___ to the British one.",answer:"compared",options:["compared","comparing","compare","comparison"]},
+ {cloze:"The figure ___ 15-year-olds is significantly higher.",answer:"for",options:["for","of about","to","at"]},
+ {cloze:"Between 2023 and 2025 the number ___ stable.",answer:"remained",options:["remained","remains","remaining","was remained"]},
+ {cloze:"The chart ___ how much time teenagers spend online.",answer:"shows",options:["shows","show","is showing to","shown"]},
+ {cloze:"There was a slight ___ in the number of daily users.",answer:"decrease",options:["decrease","decreased","decreasing","decreasingly"]},
+ {cloze:"The most ___ figure is the one for 13-year-olds.",answer:"striking",options:["striking","stroke","struck","strikingly"]}
+],
+"W3P":[
+ {cloze:"Personal data ___ by almost every app on your phone.",answer:"is collected",options:["is collected","collects","is collecting","has collect"]},
+ {cloze:"The class survey ___ at the beginning of last week.",answer:"was carried out",options:["was carried out","carried out","is carried out","was carrying out"]},
+ {cloze:"Millions of photos ___ every single day.",answer:"are uploaded",options:["are uploaded","is uploaded","are uploading","upload"]},
+ {cloze:"Researchers analysed the results. → The results ___ by researchers.",answer:"were analysed",options:["were analysed","was analysed","are analysed","were analysing"]},
+ {cloze:"Someone has deleted the post. → The post ___.",answer:"has been deleted",options:["has been deleted","has deleted","is deleted","was deleting"]},
+ {cloze:"New rules for under-16s ___ in Australia in December 2025.",answer:"were introduced",options:["were introduced","was introduced","are introduced","were introducing"]},
+ {cloze:"The article ___ by a journalist from The Guardian.",answer:"was written",options:["was written","was wrote","were written","is writing"]},
+ {cloze:"The results ___ to all schools next week.",answer:"will be sent",options:["will be sent","will send","will be sending","will sent"]},
+ {cloze:"Our questionnaires ___ out at the beginning of the lesson.",answer:"were handed",options:["were handed","was handed","are handed","were handing"]},
+ {q:"Why is the passive so common in reports about studies?",answer:"Because the agent is often unknown or unimportant.",options:["Because the agent is often unknown or unimportant.","Because it always makes the sentence shorter.","Because it sounds more polite.","Because it avoids the past tense."]}
+],
+"W3E":[
+ {q:"Which opening fits an e-mail to a partner class you have never met?",answer:"Dear Year 10 students,",options:["Dear Year 10 students,","Hey guys!","To whom it may concern:","Yo!"]},
+ {q:"Where do your own survey results belong in the e-mail?",answer:"In the main part, after you have said why you are writing.",options:["In the main part, after you have said why you are writing.","In the very first line, before the greeting.","In the subject line only.","After the sign-off."]},
+ {q:"Which sentence compares two figures correctly?",answer:"In our class 62 % said yes, whereas the British figure was 48 %.",options:["In our class 62 % said yes, whereas the British figure was 48 %.","In our class 62 % said yes, however the British figure 48 %.","In our class said 62 % yes, whereas 48 % the British figure.","62 % in our class yes, but British 48 % figure."]},
+ {q:"Which closing question is most appropriate for a partner class?",answer:"Could you tell us whether your results are similar?",options:["Could you tell us whether your results are similar?","So what?","Please answer immediately.","Do you even care?"]},
+ {q:"Why would you write “the data is collected by many apps” rather than “many apps collect the data”?",answer:"Because the focus is on the data, not on who collects it.",options:["Because the focus is on the data, not on who collects it.","Because the passive is always more polite.","Because the sentence is then shorter.","Because you may not use the present tense otherwise."]},
+ {q:"Which sign-off fits an e-mail to a partner class?",answer:"Best wishes,",options:["Best wishes,","Love and kisses,","Regards to whom it may concern,","Bye bye!!!"]},
+ {q:"Your e-mail should be 150–180 words. What do you do if you have written 240?",answer:"Cut the details your readers do not need.",options:["Cut the details your readers do not need.","Delete the greeting and the sign-off.","Leave it — length does not matter.","Remove all the figures."]},
+ {q:"Which phrase introduces the source of a figure?",answer:"According to a British study, …",options:["According to a British study, …","In my opinion of the study, …","By the study says that …","On the study, …"]}
+],
+
+/* ---------- WEEK 4 ---------- */
+"W4M":[
+ {q:"Your readers are a partner class in Britain. Which information do they NOT need?",answer:"The exact German name of the institute that ran the study.",options:["The exact German name of the institute that ran the study.","How much time German teenagers spend online.","Which platforms are most popular in Germany.","How the figures have changed over time."]},
+ {q:"What does mediation mean in this context?",answer:"Passing on the information your readers need, in your own words.",options:["Passing on the information your readers need, in your own words.","Translating the text word for word.","Summarising the text in German.","Copying the most important sentences."]},
+ {q:"The German text mentions “Klassenstufe 9”. What is the best solution?",answer:"Explain it briefly, e.g. “Year 9 in Germany”.",options:["Explain it briefly, e.g. “Year 9 in Germany”.","Leave the German word as it is.","Cut the whole sentence.","Translate it literally as “class step 9”."]},
+ {q:"You have to leave something out. Which is the best reason to cut it?",answer:"It does not help your readers answer their question.",options:["It does not help your readers answer their question.","It is the longest sentence in the text.","You do not find the topic interesting.","It contains a number."]},
+ {q:"Which opening fits a mediation for a partner class?",answer:"According to a German study on teenagers and the media, …",options:["According to a German study on teenagers and the media, …","In the German text it is written that …","The text says in German that …","I will now translate the following text: …"]},
+ {q:"In a mediation you should …",answer:"adapt the level of detail to your readers.",options:["adapt the level of detail to your readers.","always keep the original order of the text.","translate every single figure and add nothing.","use only words that appear in the source text."]},
+ {q:"Which of these is a good reason to KEEP a figure from the source text?",answer:"It answers exactly the question your readers asked.",options:["It answers exactly the question your readers asked.","It is the largest number in the text.","It appears in the headline.","It is easy to translate."]}
+],
+"W4G":[
+ {cloze:"Two years ago I ___ my first smartphone.",answer:"got",options:["got","have got","was getting","had got"]},
+ {cloze:"Since then I ___ my screen time only twice.",answer:"have checked",options:["have checked","checked","had checked","am checking"]},
+ {cloze:"While I ___ the article, my phone rang three times.",answer:"was reading",options:["was reading","read","have read","am reading"]},
+ {cloze:"The data ___ by the company since 2019.",answer:"has been collected",options:["has been collected","is collected","was collected","has collected"]},
+ {cloze:"A team of researchers published the study. → The study ___ by a team of researchers.",answer:"was published",options:["was published","were published","is published","has publish"]},
+ {cloze:"They told her that they ___ the survey.",quote:"“We have already finished the survey,” they told her.",answer:"had already finished",options:["had already finished","have already finished","already finished","would already finish"]},
+ {cloze:"He asked ___.",quote:"“Will you be online later?” he asked.",answer:"whether I would be online later",options:["whether I would be online later","will I be online later","that I would be online later","if I will be online later"]},
+ {cloze:"Nobody ___ my message yet.",answer:"has answered",options:["has answered","have answered","answered","is answering"]},
+ {cloze:"At the moment I ___ to use my phone less.",answer:"am trying",options:["am trying","try","have tried","was trying"]},
+ {cloze:"The report said that most teenagers ___ these apps.",quote:"“Most teenagers still use these apps,” the report said.",answer:"still used",options:["still used","still use","still had used","would still use"]}
+],
+"W4V":[
+ {cloze:"The article discusses the growing ___ of mental health problems among young users.",answer:"prevalence",options:["prevalence","circulation","affirmation","deception"]},
+ {cloze:"Some governments still use ___ to keep information away from the public.",answer:"censorship",options:["censorship","dissemination","circulation","vanity"]},
+ {cloze:"Posting a photo of a stranger without asking can be a serious ___ of their rights.",answer:"infringement",options:["infringement","affirmation","circulation","layer"]},
+ {cloze:"Her ___ improved when she stopped comparing herself to others.",answer:"self-esteem",options:["self-esteem","vanity","prevalence","deception"]},
+ {cloze:"Smartphones are ___ — you see them everywhere.",answer:"ubiquitous",options:["ubiquitous","inextricable","portable","tech-savvy"]},
+ {cloze:"The study found a clear ___ between screen time and sleep problems.",answer:"correlation",options:["correlation","prevalence","circulation","infringement"]},
+ {cloze:"It is illegal to ___ other people's texts in a school essay.",answer:"plagiarize",options:["plagiarize","erase","craft","disseminate"]},
+ {cloze:"He is so ___ that he never asks how anyone else is.",answer:"self-absorbed",options:["self-absorbed","tech-savvy","portable","ubiquitous"]},
+ {cloze:"The rapid ___ of false information is a real problem online.",answer:"dissemination",options:["dissemination","circulation","affirmation","vanity"]}
+],
+
+/* ---------- WEEK 5 ---------- */
+"W5C":[
+ {q:"According to the YouTuber video, which of these is a DO?",answer:"Use keywords in the title of your videos.",options:["Use keywords in the title of your videos.","Publish all your videos on the same day.","Pay for views on your channel.","Make your videos as long as possible."]},
+ {q:"Which of these is a DON'T according to the video?",answer:"Don't ignore feedback from viewers.",options:["Don't ignore feedback from viewers.","Don't speak clearly.","Don't be consistent when uploading.","Don't choose a topic."]},
+ {q:"Why should you not promise a new video every day?",answer:"Because you may not be able to deliver what you promise.",options:["Because you may not be able to deliver what you promise.","Because daily videos are not allowed.","Because viewers dislike short videos.","Because it costs money to upload."]},
+ {q:"According to the video, why does the name of your channel matter?",answer:"A confusing name makes people overlook your channel.",options:["A confusing name makes people overlook your channel.","A long name loads more slowly.","The name decides how much you earn.","The name has to be your real name."]},
+ {q:"In the social media experiment, how do the people react FIRST?",answer:"They are amused and laugh.",options:["They are amused and laugh.","They call the police immediately.","They walk away at once.","They start filming the stranger."]},
+ {q:"How do the reactions develop in that clip?",answer:"amused → wary → irritated → threatening",options:["amused → wary → irritated → threatening","threatening → irritated → wary → amused","irritated → amused → threatening → wary","wary → threatening → amused → irritated"]},
+ {q:"Where had the interviewer found all his information?",answer:"On the people's public social media accounts.",options:["On the people's public social media accounts.","From the local police.","From their school office.","He had simply guessed it."]},
+ {q:"What is the main point the experiment makes?",answer:"Anything on a public account can be read by anyone.",options:["Anything on a public account can be read by anyone.","Social media companies sell your address.","Strangers are not allowed to speak to you.","Public accounts are illegal in Britain."]},
+ {q:"According to the video, what should you do about the visual side of a vlog?",answer:"Pay attention to lighting and to what you wear.",options:["Pay attention to lighting and to what you wear.","Always film in black and white.","Never show your face.","Use as many filters as possible."]}
+],
+"W5G":[
+ {cloze:"The video ___ more than a million times.",answer:"has been watched",options:["has been watched","has watched","is watching","was watching"]},
+ {cloze:"He admitted that he ___ the terms and conditions.",quote:"“I have never read the terms and conditions,” he admitted.",answer:"had never read",options:["had never read","has never read","never read","would never read"]},
+ {cloze:"Your data ___ every time you open the app.",answer:"is tracked",options:["is tracked","tracks","is tracking","are tracked"]},
+ {cloze:"This time last year I ___ a completely different platform.",answer:"was using",options:["was using","have used","am using","use"]},
+ {cloze:"She asked how often ___ my phone.",quote:"“How often do you check your phone?” she asked.",answer:"I checked",options:["I checked","did I check","do I check","I check"]},
+ {cloze:"Next week the results ___ to all classes.",answer:"will be sent",options:["will be sent","will send","will be sending","will sent"]},
+ {cloze:"Nobody ___ the privacy poster yet.",answer:"has signed",options:["has signed","have signed","signed","is signing"]},
+ {cloze:"She told us ___ anything we would not show our parents.",quote:"“Don't post anything you would not show your parents,” she told us.",answer:"not to post",options:["not to post","don't post","not posting","to don't post"]},
+ {cloze:"Three years ago the platform ___ by two students.",answer:"was founded",options:["was founded","were founded","is founded","has founded"]},
+ {cloze:"I ___ my account since the beginning of the school year.",answer:"have not used",options:["have not used","did not use","was not using","am not using"]}
+],
+"W5V":[
+ {cloze:"The ___ of printed newspapers is falling, while news spreads online within minutes.",answer:"circulation",options:["circulation","dissemination","prevalence","infringement"]},
+ {cloze:"Villains in films and novels are often ___ and vain.",answer:"narcissistic",options:["narcissistic","ubiquitous","portable","tech-savvy"]},
+ {cloze:"The company was fined for wilful ___ in its advertising campaign.",answer:"deception",options:["deception","infringement","affirmation","circulation"]},
+ {cloze:"Social media adds another ___ of pressure to everyday life.",answer:"layer",options:["layer","account","showcase","correlation"]},
+ {cloze:"The computer virus ___ all the data on the laptop.",answer:"erased",options:["erased","crafted","plagiarized","disseminated"]},
+ {cloze:"The younger generation is a lot more ___ than their parents.",answer:"tech-savvy",options:["tech-savvy","inextricable","narcissistic","portable"]},
+ {cloze:"All members of the committee nodded in ___ at the speech.",answer:"affirmation",options:["affirmation","vanity","prevalence","deception"]},
+ {cloze:"The advice hotline is available ___.",answer:"24/7",options:["24/7","DIY","ubiquitous","portable"]},
+ {cloze:"Some people who pay for cosmetic surgery are motivated only by ___.",answer:"vanity",options:["vanity","affirmation","prevalence","circulation"]},
+ {cloze:"The practice of taking selfies is ___ amongst young people.",answer:"ubiquitous",options:["ubiquitous","inextricable","self-absorbed","portable"]}
+]
+};
+
+/* ============================================================
+   ROUNDS — one homework set per week, 15 questions in 3 parts
+   ============================================================ */
+var ROUNDS = {
+ "W1":{title:"Week 1 — Selfie culture and the WordPool",
+   desc:"Vocabulary from SB p. 12–13 in context, the two selfie clips, and word knowledge.",
+   meta:"15 questions · need 12 (80%)",total:15,pass:12,
+   parts:[
+     {bank:"W1V",n:6,section:"Part A · Vocabulary in context",lbl:"Complete the sentence"},
+     {bank:"W1C",n:4,section:"Part B · The two clips",lbl:"Choose the correct answer"},
+     {bank:"W1L",n:5,section:"Part C · Word knowledge",lbl:"Choose the correct answer"}
+   ]},
+ "W2":{title:"Week 2 — The article and reported speech",
+   desc:"Vocabulary from SB p. 26–28, reported speech, and comprehension of “I, narcissist”.",
+   meta:"15 questions · need 12 (80%)",total:15,pass:12,
+   parts:[
+     {bank:"W2V",n:6,section:"Part A · Vocabulary in context",lbl:"Complete the sentence"},
+     {bank:"W2G",n:5,section:"Part B · Grammar: reported speech",lbl:"Report the sentence correctly"},
+     {bank:"W2R",n:4,section:"Part C · The newspaper article",lbl:"Choose the correct answer"}
+   ]},
+ "W3":{title:"Week 3 — Statistics, the passive and your e-mail",
+   desc:"The language of figures, the passive, and what makes a good e-mail to a partner class.",
+   meta:"15 questions · need 12 (80%)",total:15,pass:12,
+   parts:[
+     {bank:"W3F",n:5,section:"Part A · Talking about figures",lbl:"Complete the sentence"},
+     {bank:"W3P",n:5,section:"Part B · Grammar: the passive",lbl:"Choose the correct form"},
+     {bank:"W3E",n:5,section:"Part C · Writing an e-mail",lbl:"Choose the correct answer"}
+   ]},
+ "W4":{title:"Week 4 — Mediation and mixed grammar",
+   desc:"Mediation strategy, all three grammar structures together, and vocabulary revision.",
+   meta:"15 questions · need 12 (80%)",total:15,pass:12,
+   parts:[
+     {bank:"W4M",n:5,section:"Part A · Mediation strategy",lbl:"Choose the best answer"},
+     {bank:"W4G",n:6,section:"Part B · Grammar: tenses, passive, reported speech",lbl:"Choose the correct form"},
+     {bank:"W4V",n:4,section:"Part C · Vocabulary revision",lbl:"Complete the sentence"}
+   ]},
+ "W5":{title:"Week 5 — Viewing, privacy and full revision",
+   desc:"The two viewing clips, all grammar of the unit, and the complete word list.",
+   meta:"15 questions · need 12 (80%)",total:15,pass:12,
+   parts:[
+     {bank:"W5C",n:5,section:"Part A · The viewing clips",lbl:"Choose the correct answer"},
+     {bank:"W5G",n:5,section:"Part B · Grammar revision",lbl:"Choose the correct form"},
+     {bank:"W5V",n:5,section:"Part C · Vocabulary revision",lbl:"Complete the sentence"}
+   ]}
+};
+
+/* ============================================================ */
+var $=function(id){return document.getElementById(id);};
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function show(id){var ns=document.querySelectorAll(".screen");for(var i=0;i<ns.length;i++){ns[i].classList.remove("active");}$(id).classList.add("active");window.scrollTo(0,0);}
+function fnv(str){var x=2166136261>>>0;for(var i=0;i<str.length;i++){x^=str.charCodeAt(i);x=Math.imul(x,16777619)>>>0;}return (x>>>0).toString(36).toUpperCase();}
+function pad(n,l){n=""+n;while(n.length<l)n="0"+n;return n;}
+function normName(s){return (s||"").trim().toLowerCase().replace(/\s+/g," ");}
+function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function todayParts(){var d=new Date();return {yy:pad(d.getFullYear()%100,2),mm:pad(d.getMonth()+1,2),dd:pad(d.getDate(),2),iso:d.getFullYear()+"-"+pad(d.getMonth()+1,2)+"-"+pad(d.getDate(),2)};}
+function makeCode(wk,name,score,total){var t=todayParts();var salt=fnv(""+Math.random()+Date.now()).slice(0,4);
+  var check=fnv(normName(name)+"|"+t.iso+"|"+score+"|"+total+"|"+wk+"|"+salt).slice(0,5);
+  return "CTO-"+wk+"-"+t.yy+t.mm+t.dd+"-"+pad(score,2)+pad(total,2)+"-"+salt+"-"+check;}
+
+function bankItem(it,section,lbl){
+  if(it.cloze){
+    var html=esc(it.cloze).replace("___","<span class='gap'>———</span>");
+    return {kind:"cloze",section:section,lbl:lbl,html:html,quote:it.quote?esc(it.quote):"",
+            answer:it.answer,options:shuffle(it.options.slice()),plain:it.cloze};
+  }
+  return {kind:"func",section:section,lbl:lbl,html:esc(it.q),quote:it.quote?esc(it.quote):"",
+          answer:it.answer,options:shuffle(it.options.slice()),plain:it.q};
+}
+function buildRun(wk){
+  var R=ROUNDS[wk],run=[];
+  R.parts.forEach(function(p){
+    shuffle(BANKS[p.bank].slice()).slice(0,p.n).forEach(function(it){run.push(bankItem(it,p.section,p.lbl));});
+  });
+  return run;   // parts stay in order A → B → C; items inside a part are random
+}
+
+var curWk="",run=[],pos=0,score=0,studentName="",answers=[];
+
+(function(){
+  var list=$("weekList");
+  Object.keys(ROUNDS).forEach(function(wk){
+    var R=ROUNDS[wk];
+    var b=document.createElement("button");b.className="weekbtn";b.type="button";
+    b.innerHTML='<div class="wk">'+wk.replace("W","Week ")+' — '+esc(R.title.split("—")[1].trim())+'</div>'+
+                '<div class="wd">'+esc(R.desc)+'</div><div class="wmeta">'+esc(R.meta)+'</div>';
+    b.addEventListener("click",function(){startWeek(wk);});
+    list.appendChild(b);
+  });
+})();
+
+function startWeek(wk){
+  var n=$("name").value.trim();
+  if(n.length<2){$("nameErr").textContent="Please enter your name first.";return;}
+  $("nameErr").textContent="";
+  studentName=n;curWk=wk;
+  run=buildRun(wk);pos=0;score=0;answers=[];
+  $("qName").textContent=n;$("qWeek").textContent=wk.replace("W","Week ");
+  show("screen-quiz");renderQ();
+}
+function renderQ(){
+  var R=ROUNDS[curWk],q=run[pos];
+  $("qPos").textContent=pos+1;$("qTot").textContent=R.total;
+  $("qFill").style.width=(pos/R.total*100)+"%";
+  $("qSection").textContent=q.section;
+  var p=$("qPrompt");p.className="prompt";
+  var inner='<div class="lbl">'+esc(q.lbl)+'</div>';
+  if(q.quote) inner+='<div class="quote">'+q.quote+'</div>';
+  inner+='<div class="'+(q.kind==="cloze"?"cloze":"func")+'">'+q.html+'</div>';
+  p.innerHTML=inner;
+  var box=$("qOptions");box.innerHTML="";
+  q.options.forEach(function(o){
+    var b=document.createElement("button");b.className="opt";b.type="button";b.textContent=o;
+    b.addEventListener("click",function(){pick(o);});box.appendChild(b);
+  });
+}
+function pick(choice){
+  var q=run[pos],correct=choice===q.answer;if(correct)score++;
+  answers.push({prompt:q.plain,answer:q.answer,chosen:choice,ok:correct});
+  pos++;
+  if(pos>=ROUNDS[curWk].total)showResult();else renderQ();
+}
+function showResult(){
+  var R=ROUNDS[curWk];$("qFill").style.width="100%";
+  var passed=score>=R.pass,pct=Math.round(score/R.total*100);
+  var rs=$("resScore");rs.textContent=score+" / "+R.total;rs.className="result-score "+(passed?"pass":"fail");
+  $("resMsg").textContent=passed?("Passed — "+pct+"%. Well done! Get your certificate below.")
+    :("Not yet — "+pct+"%. You need "+R.pass+" / "+R.total+". Look at the review, practise with the trainers and try again.");
+  $("getCert").style.display=passed?"block":"none";
+  var wrong=answers.filter(function(a){return !a.ok;});
+  var rev=$("review");
+  if(wrong.length){
+    var h='<h3>Review — '+wrong.length+' to look at again</h3>';
+    wrong.forEach(function(a){
+      h+='<div class="row"><span class="x">✗</span><span><b>'+esc(a.prompt)+'</b><br>Correct: '+esc(a.answer)+
+         ' <span style="color:var(--muted)">(you chose: '+esc(a.chosen)+')</span></span></div>';});
+    rev.innerHTML=h;
+  } else {
+    rev.innerHTML='<h3>Review</h3><div class="row"><span class="v">✓</span><span>All correct — excellent!</span></div>';
+  }
+  show("screen-result");
+}
+$("retry").addEventListener("click",function(){run=buildRun(curWk);pos=0;score=0;answers=[];show("screen-quiz");renderQ();});
+$("another").addEventListener("click",function(){show("screen-start");});
+$("getCert").addEventListener("click",function(){
+  var R=ROUNDS[curWk],t=todayParts();
+  $("cWeek").textContent=curWk.replace("W","Week ")+" — "+R.title.split("—")[1].trim();
+  $("cName").textContent=studentName;
+  $("cDate").textContent=t.dd+"."+t.mm+".20"+t.yy;
+  $("cScore").textContent=score+" / "+R.total+" ("+Math.round(score/R.total*100)+"%)";
+  $("cCode").textContent=makeCode(curWk,studentName,score,R.total);
+  show("screen-cert");
+});
+$("again").addEventListener("click",function(){show("screen-start");});
+$("printBtn").addEventListener("click",function(){window.print();});
+
+$("verifyBtn").addEventListener("click",function(){
+  var name=$("vName").value, code=($("vCode").value||"").trim().toUpperCase();
+  var v=$("verdict");var p=code.split("-");
+  if(p.length!==6||p[0]!=="CTO"){v.className="verdict bad";v.innerHTML="Invalid code format.";return;}
+  var wk=p[1],dt=p[2],sc=p[3],salt=p[4],check=p[5];
+  if(!/^W[1-5]$/.test(wk)||!/^\d{6}$/.test(dt)||!/^\d{4}$/.test(sc)){v.className="verdict bad";v.innerHTML="Invalid code format.";return;}
+  var iso="20"+dt.slice(0,2)+"-"+dt.slice(2,4)+"-"+dt.slice(4,6);
+  var s=parseInt(sc.slice(0,2),10),tot=parseInt(sc.slice(2,4),10);
+  var expect=fnv(normName(name)+"|"+iso+"|"+s+"|"+tot+"|"+wk+"|"+salt).slice(0,5);
+  if(expect===check){v.className="verdict ok";
+    v.innerHTML="✓ Valid certificate<small>"+wk.replace("W","Week ")+" · Date "+iso+" · Score "+s+" / "+tot+" ("+Math.round(s/tot*100)+"%) · name matches</small>";}
+  else{v.className="verdict bad";
+    v.innerHTML="✗ Does not verify<small>Wrong name, mistyped code, or an edited screenshot. The code claims "+wk.replace("W","Week ")+", date "+iso+", score "+s+"/"+tot+" — but the checksum does not match this name.</small>";}
+});
+})();
+</script>
+</body>
+</html>

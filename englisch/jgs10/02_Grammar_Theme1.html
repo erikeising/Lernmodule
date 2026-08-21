@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grammar Trainer — Unit 1: A Society of Screens</title>
+<style>
+  :root{
+    --ink:#1f2d3d; --muted:#5d6b7a; --line:#d8e2ec;
+    --blue:#2E5F8A; --blue-dark:#1F3864; --blue-soft:#EDF3F8; --blue-mid:#BDD7EE;
+    --green:#E2F0D9; --green-ink:#3d6b2a; --yellow:#FFF2CC; --orange:#FBE4D5; --lilac:#E4DFEC;
+    --bad:#b3261e; --bg:#f6f9fc;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Calibri Light","Calibri","Segoe UI",system-ui,sans-serif;font-size:17px;line-height:1.55}
+  .wrap{max-width:900px;margin:0 auto;padding:20px 16px 64px}
+  header.top{background:var(--blue-dark);color:#fff;padding:22px 16px}
+  header.top .wrap{padding:0 16px}
+  header.top h1{margin:0;font-size:26px;font-weight:600}
+  header.top p{margin:4px 0 0;opacity:.85;font-size:15px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;margin:16px 0}
+  .card h2{margin:0 0 10px;font-size:19px;color:var(--blue-dark)}
+  .card h3{margin:18px 0 6px;font-size:16px;color:var(--blue-dark)}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  label{font-size:14px;color:var(--muted);display:block;margin-bottom:4px}
+  input[type=text],select{font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+  input[type=text]{min-width:200px}
+  input[type=text]:focus{outline:2px solid var(--blue-mid);border-color:var(--blue)}
+  button{font:inherit;cursor:pointer;border:1px solid var(--blue);background:var(--blue);color:#fff;padding:9px 16px;border-radius:8px}
+  button:hover{filter:brightness(1.08)}
+  button.ghost{background:#fff;color:var(--blue)}
+  button.soft{background:var(--blue-soft);color:var(--blue-dark);border-color:var(--blue-mid)}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  .tabs{display:flex;gap:8px;margin:18px 0 0;flex-wrap:wrap}
+  .tabs button{background:#fff;color:var(--blue-dark);border:1px solid var(--line);border-radius:999px;padding:8px 18px}
+  .tabs button.active{background:var(--blue-dark);color:#fff;border-color:var(--blue-dark)}
+  .pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13px;background:var(--blue-soft);color:var(--blue-dark);border:1px solid var(--blue-mid)}
+  .stars{letter-spacing:1px;color:#c8912a;font-size:14px}
+  .hint{font-size:14px;color:var(--muted)}
+  .opt{display:block;width:100%;text-align:left;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:11px 14px;margin:8px 0}
+  .opt:hover{background:var(--blue-soft)}
+  .opt.correct{background:var(--green);border-color:#9dc687}
+  .opt.wrong{background:#fbe1df;border-color:#e0a9a4}
+  .fb{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:15px}
+  .fb.ok{background:var(--green);color:var(--green-ink)}
+  .fb.bad{background:#fbe1df;color:var(--bad)}
+  .bar{height:9px;background:var(--line);border-radius:99px;overflow:hidden;margin:10px 0 4px}
+  .bar>span{display:block;height:100%;background:var(--blue);width:0;transition:width .3s}
+  .big{font-size:44px;font-weight:600;color:var(--blue-dark);line-height:1.1}
+  .sent{font-size:19px;line-height:2.1}
+  .sent input{min-width:190px;border:0;border-bottom:2px solid var(--blue);border-radius:0;background:var(--yellow);
+              padding:2px 8px;font:inherit}
+  .sent input:focus{outline:none;background:#fff8dd}
+  .quote{background:var(--blue-soft);border-left:4px solid var(--blue-mid);padding:8px 12px;border-radius:0 8px 8px 0;margin:0 0 12px;font-size:16px}
+  .cue{display:inline-block;background:var(--lilac);border:1px solid #cdc3dd;border-radius:6px;padding:1px 8px;font-size:15px;color:#4a3a63}
+  table{width:100%;border-collapse:collapse;font-size:15px;margin-top:8px}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--blue-soft);color:var(--blue-dark);font-weight:600}
+  .discover{background:linear-gradient(180deg,#fff,var(--green));border:1px solid #b7d5a3;border-radius:10px;padding:14px;margin-bottom:14px}
+  .teacher{background:#fffdf3;border:1px dashed #d9c98a;border-radius:10px;padding:14px;font-size:14px;color:#6b5b1e;margin-top:26px}
+  .hidden{display:none !important}
+  @media (max-width:560px){ .big{font-size:34px} .sent{font-size:17px} .sent input{min-width:140px} }
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <h1>Grammar Trainer</h1>
+  <p>English · Year 10 · Unit 1 — the passive · reported speech · tense revision</p>
+</div></header>
+
+<div class="wrap">
+
+  <div class="card">
+    <div class="row">
+      <div>
+        <label for="sname">Your name</label>
+        <input type="text" id="sname" placeholder="First name, last name" autocomplete="name">
+      </div>
+      <div>
+        <label for="setsel">Grammar set</label>
+        <select id="setsel"></select>
+      </div>
+      <div style="margin-left:auto;align-self:flex-end"><span class="pill" id="savenote">Progress is saved on this device</span></div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button id="tabRules" class="active">1 · Rules</button>
+    <button id="tabTest">2 · Practice</button>
+  </div>
+
+  <!-- ================= RULES ================= -->
+  <section id="viewRules"><div id="rulesBox"></div></section>
+
+  <!-- ================= TEST ================= -->
+  <section id="viewTest" class="hidden">
+    <div class="card" id="testIntro">
+      <h2>Practice</h2>
+      <p>This set has <b id="qCount">0</b> questions: multiple choice and sentences you complete yourself.
+         Type only the missing part — the rest of the sentence is already there.</p>
+      <p>This trainer is <b>practice only</b> — nothing here is marked and there is no certificate. Repeat it as often as you like. Aim for <b>80&nbsp;% or more</b> before you do the homework module for that week: that is where your certificate comes from.</p>
+      <div class="row">
+        <button id="startBtn">Start practice</button>
+        <span class="hint" id="lastResult"></span>
+      </div>
+    </div>
+
+    <div class="card hidden" id="testRun">
+      <div class="row" style="justify-content:space-between">
+        <span class="pill" id="qProgress">Question 1</span>
+        <span class="stars" id="qStars"></span>
+      </div>
+      <div class="bar"><span id="qBar"></span></div>
+      <div id="qPrompt" style="margin:14px 0 8px;font-size:17px;color:var(--blue-dark);font-weight:600"></div>
+      <div id="qBody"></div>
+      <div id="qFeedback"></div>
+      <div class="row" style="margin-top:14px">
+        <button id="checkBtn">Check</button>
+        <button class="ghost hidden" id="nextBtn">Next &#8594;</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="testResult">
+      <h2>Your result</h2>
+      <div class="big" id="rPct">—</div>
+      <p id="rLine"></p>
+      <div class="bar"><span id="rBar"></span></div>
+      <div id="rVerdict" class="fb"></div>
+      <div class="row" style="margin-top:16px">
+        <button class="ghost" id="againBtn">Try again</button>
+        <button class="soft" id="reviewBtn">Show my mistakes</button>
+      </div>
+      <div id="rReview" class="hidden" style="margin-top:16px"></div>
+    </div>
+  </section>
+
+  <div class="card">
+    <h2>Send your work to your teacher</h2>
+    <p class="hint">Exports one file with your name, your best score per set and your last attempt.</p>
+    <button class="ghost" id="exportBtn">Export &amp; send to teacher</button>
+  </div>
+
+  <div class="teacher">
+    <b>Hinweis für die Lehrkraft (nicht SuS-relevant):</b>
+    Die Sets folgen der Hausaufgabenfolge des Sequenzplans: Set&nbsp;C nach T3 (reported speech am Guardian-Artikel),
+    Set&nbsp;B nach T5 (passive an Statistiken), Set&nbsp;D nach T7 als LEK-Vorbereitung; Set&nbsp;A ist reine
+    Zeitenwiederholung laut SchiC. Jede Regelkarte beginnt <i>induktiv</i> („Discover the rule") und gibt die Regel
+    erst nach dem Aufdecken — die Reihenfolge ist bewusst so und sollte beim Einsatz im Unterricht nicht
+    umgedreht werden. Alle Beispielsätze sind thematisch an Unit&nbsp;1 gebunden; sie enthalten keine
+    erfundenen Studienzahlen. Dieser Trainer erzeugt bewusst KEIN Zertifikat — er ist reines Übungsmaterial. Der Leistungsnachweis für die 80-%-Regel entsteht ausschließlich im Hausaufgabenmodul (U1_HA_Module_W1W5).
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   ITEM BANK — contextualised in Unit 1, no invented statistics.
+   type: "mc" (multiple choice) | "gap" (type the missing part)
+   ===================================================================== */
+const ITEMS = [
+
+/* ---------- A · Tense revision ---------- */
+{set:"A",stars:1,type:"gap",prompt:"Present perfect or past simple?",
+ frame:"I ___ my phone three times since this lesson started.",cue:"check",
+ answer:["have checked","'ve checked","i have checked"],why:"<b>since</b> + a point in time → present perfect."},
+{set:"A",stars:1,type:"gap",prompt:"Present perfect or past simple?",
+ frame:"Yesterday evening I ___ two hours scrolling through my feed.",cue:"spend",
+ answer:["spent"],why:"<b>yesterday evening</b> = finished time in the past → past simple."},
+{set:"A",stars:1,type:"mc",prompt:"Choose the correct form.",
+ frame:"Look at her — she ___ a selfie at this very moment.",
+ options:["is taking","takes","has taken","took"],answer:["is taking"],
+ why:"An action happening right now → present progressive."},
+{set:"A",stars:1,type:"gap",prompt:"Word order in questions.",
+ frame:"How long ___ this account?",cue:"you / have",
+ answer:["have you had","have you got"],why:"Present perfect question: <i>have</i> + subject + past participle."},
+{set:"A",stars:1,type:"mc",prompt:"Choose the correct form.",
+ frame:"My alarm ___ me up at seven every morning.",
+ options:["wakes","is waking","woke","has woken"],answer:["wakes"],
+ why:"A routine → present simple."},
+{set:"A",stars:1,type:"gap",prompt:"Negative past simple.",
+ frame:"When I was twelve, I ___ a smartphone.",cue:"not / own",
+ answer:["didn't own","did not own"],why:"Past simple negative: <i>didn't</i> + infinitive."},
+{set:"A",stars:1,type:"mc",prompt:"Talking about the future.",
+ frame:"By the end of the unit we ___ much more about our own media habits.",
+ options:["will know","know","are knowing","knew"],answer:["will know"],
+ why:"A prediction about the future → <i>will</i> + infinitive."},
+{set:"A",stars:2,type:"gap",prompt:"Rewrite with <i>since</i>.",
+ frame:"She started the channel in 2019 and she still runs it. → She ___ the channel since 2019.",cue:"run",
+ answer:["has run","'s run","has been running"],why:"An action that started in the past and still goes on → present perfect."},
+{set:"A",stars:2,type:"mc",prompt:"Choose the correct form.",
+ frame:"While I ___ the article, my phone rang three times.",
+ options:["was reading","read","have read","am reading"],answer:["was reading"],
+ why:"A longer background action interrupted by a shorter one → past progressive."},
+{set:"A",stars:1,type:"gap",prompt:"Present perfect with <i>yet</i>.",
+ frame:"I ___ this app yet — I want to read the reviews first.",cue:"not / install",
+ answer:["haven't installed","have not installed"],why:"<b>yet</b> in a negative sentence → present perfect."},
+
+/* ---------- B · The passive ---------- */
+{set:"B",stars:2,type:"mc",prompt:"Choose the correct passive form.",
+ frame:"Personal data ___ by almost every app on your phone.",
+ options:["is collected","collects","is collecting","has collect"],answer:["is collected"],
+ why:"Present simple passive: <i>am/is/are</i> + past participle."},
+{set:"B",stars:2,type:"gap",prompt:"Past simple passive.",
+ frame:"The class survey ___ at the beginning of last week.",cue:"carry out",
+ answer:["was carried out"],why:"Past simple passive: <i>was/were</i> + past participle."},
+{set:"B",stars:2,type:"gap",prompt:"Present simple passive.",
+ frame:"Millions of photos ___ every single day.",cue:"upload",
+ answer:["are uploaded"],why:"Plural subject → <i>are</i> + past participle."},
+{set:"B",stars:2,type:"gap",prompt:"Turn the sentence into the passive.",
+ frame:"Researchers analysed the results. → The results ___ by researchers.",cue:"analyse",
+ answer:["were analysed","were analyzed"],why:"The object becomes the subject; the agent follows <i>by</i>."},
+{set:"B",stars:2,type:"mc",prompt:"Which sentence is correct?",
+ frame:"",
+ options:["The results were published last month.","The results was published last month.",
+          "The results were publish last month.","The results are published last month by them."],
+ answer:["The results were published last month."],
+ why:"Plural subject → <i>were</i>; the main verb stays in the past participle."},
+{set:"B",stars:3,type:"gap",prompt:"Present perfect passive.",
+ frame:"Someone has deleted the post. → The post ___.",cue:"delete",
+ answer:["has been deleted"],why:"Present perfect passive: <i>has/have been</i> + past participle."},
+{set:"B",stars:2,type:"mc",prompt:"Why is the passive so common in reports about studies?",
+ frame:"",
+ options:["Because the agent is unknown or unimportant.","Because it sounds more polite.",
+          "Because it makes every sentence shorter.","Because it avoids the past tense."],
+ answer:["Because the agent is unknown or unimportant."],
+ why:"The passive puts the focus on what happens, not on who does it."},
+{set:"B",stars:2,type:"gap",prompt:"Past simple passive.",
+ frame:"New rules for under-16s ___ in Australia in December 2025.",cue:"introduce",
+ answer:["were introduced"],why:"Plural subject in the past → <i>were</i> + past participle."},
+{set:"B",stars:2,type:"gap",prompt:"Past simple passive with an agent.",
+ frame:"The article ___ by a journalist from The Guardian.",cue:"write",
+ answer:["was written"],why:"Irregular past participle: write – wrote – <i>written</i>."},
+{set:"B",stars:3,type:"mc",prompt:"Read the sentence: <i>Passengers are asked to switch off their phones.</i> Who asks them?",
+ frame:"",
+ options:["It is not said in the sentence.","The passengers.","The phones.","The reader."],
+ answer:["It is not said in the sentence."],
+ why:"That is exactly the point of the passive — the agent can be left out."},
+
+/* ---------- C · Reported speech ---------- */
+{set:"C",stars:2,type:"gap",prompt:"Report the statement.",
+ quote:"The psychologist said, “Social media makes people compare themselves.”",
+ frame:"The psychologist said that social media ___ people compare themselves.",cue:"make",
+ answer:["made"],why:"<i>said</i> in the past → backshift: present simple becomes past simple."},
+{set:"C",stars:2,type:"gap",prompt:"Report the statement.",
+ quote:"“We are testing a new age limit,” the minister said.",
+ frame:"The minister said that they ___ a new age limit.",cue:"test",
+ answer:["were testing"],why:"Present progressive becomes past progressive."},
+{set:"C",stars:3,type:"gap",prompt:"Report the statement.",
+ quote:"“I have never posted a selfie,” Tom said.",
+ frame:"Tom said that he ___ a selfie.",cue:"never / post",
+ answer:["had never posted"],why:"Present perfect becomes past perfect; <i>never</i> stays before the participle."},
+{set:"C",stars:2,type:"mc",prompt:"Report the question.",
+ quote:"“Do you use social media every day?” she asked me.",
+ frame:"She asked me ___.",
+ options:["whether I used social media every day","do I use social media every day",
+          "if did I use social media every day","that I used social media every day"],
+ answer:["whether I used social media every day"],
+ why:"Yes/no question → <i>if / whether</i> + statement word order, no auxiliary <i>do</i>."},
+{set:"C",stars:3,type:"gap",prompt:"Report the question.",
+ quote:"“Where did you find this article?” he asked.",
+ frame:"He asked where I ___ the article.",cue:"find",
+ answer:["had found"],why:"Past simple becomes past perfect; question word order disappears."},
+{set:"C",stars:2,type:"mc",prompt:"Which time expression is correct?",
+ quote:"“We will publish the results tomorrow,” they said.",
+ frame:"They said they would publish the results ___.",
+ options:["the next day","tomorrow","yesterday","that day before"],
+ answer:["the next day"],why:"Time expressions shift too: <i>tomorrow</i> → <i>the next day / the following day</i>."},
+{set:"C",stars:2,type:"gap",prompt:"Report the request.",
+ quote:"“Don’t share your password,” the teacher told us.",
+ frame:"The teacher told us ___ our password.",cue:"not / share",
+ answer:["not to share"],why:"Negative request: <i>told somebody not to</i> + infinitive."},
+{set:"C",stars:2,type:"gap",prompt:"Report the statement.",
+ quote:"“I am not sure about the correlation,” the author admitted.",
+ frame:"The author admitted that she ___ sure about the correlation.",cue:"not / be",
+ answer:["was not","wasn't"],why:"Present simple <i>am not</i> becomes past simple <i>was not</i>."},
+{set:"C",stars:2,type:"mc",prompt:"Which reporting verb fits best?",
+ frame:"The author ___ that social media only makes existing tendencies visible.",
+ options:["argues","shouts","whispers","repeats"],answer:["argues"],
+ why:"<i>argue</i> introduces a position supported by reasons — the standard verb in text analysis."},
+{set:"C",stars:2,type:"gap",prompt:"Report the advice.",
+ quote:"“You should check the source first,” she said to me.",
+ frame:"She said that I ___ check the source first.",cue:"should",
+ answer:["should"],why:"<i>should</i>, <i>could</i>, <i>would</i> and <i>might</i> do not change."},
+
+/* ---------- D · Mixed revision ---------- */
+{set:"D",stars:2,type:"gap",prompt:"Turn the sentence into the passive.",
+ frame:"A team of researchers published the study last month. → The study ___ last month.",cue:"publish",
+ answer:["was published","was published by a team of researchers"],why:"Past simple passive."},
+{set:"D",stars:2,type:"gap",prompt:"Report the statement.",
+ quote:"“Most teenagers still use these apps,” the report said.",
+ frame:"The report said that most teenagers ___ these apps.",cue:"still / use",
+ answer:["still used"],why:"Backshift to past simple; <i>still</i> keeps its position before the verb."},
+{set:"D",stars:2,type:"gap",prompt:"Future passive.",
+ frame:"Someone will send the results to all schools. → The results ___ to all schools.",cue:"send",
+ answer:["will be sent"],why:"Future passive: <i>will be</i> + past participle."},
+{set:"D",stars:3,type:"gap",prompt:"Report the question.",
+ quote:"“How many hours do you spend online?” the interviewer asked us.",
+ frame:"The interviewer asked us how many hours ___ online.",cue:"we / spend",
+ answer:["we spent"],why:"Reported question: statement word order, backshift to past simple."},
+{set:"D",stars:3,type:"mc",prompt:"Which sentence reports the words correctly?",
+ quote:"“I can’t live without my phone,” she said.",
+ frame:"",
+ options:["She said that she couldn’t live without her phone.","She said that she can’t live without my phone.",
+          "She said she couldn’t live without my phone.","She said that she couldn’t lived without her phone."],
+ answer:["She said that she couldn’t live without her phone.","She said that she couldn't live without her phone."],
+ why:"<i>can</i> → <i>could</i>, and the possessive changes with the speaker: <i>my</i> → <i>her</i>."},
+{set:"D",stars:1,type:"gap",prompt:"Past simple.",
+ frame:"Two hours ago I ___ my screen time for the first time.",cue:"check",
+ answer:["checked"],why:"<b>two hours ago</b> = finished time → past simple."},
+{set:"D",stars:3,type:"gap",prompt:"Present perfect passive.",
+ frame:"The data ___ by the company since 2019.",cue:"collect",
+ answer:["has been collected"],why:"<b>since</b> → present perfect; passive → <i>has been</i> + past participle."},
+{set:"D",stars:2,type:"mc",prompt:"Which sentence is in the passive?",
+ frame:"",
+ options:["The results were compared with a British study.","The results compared well.",
+          "We compared the results.","Comparing the results took an hour."],
+ answer:["The results were compared with a British study."],
+ why:"Only this one has <i>be</i> + past participle with the subject receiving the action."},
+{set:"D",stars:3,type:"gap",prompt:"Report the statement.",
+ quote:"“We have already finished the survey,” they told her.",
+ frame:"They told her that they ___ the survey.",cue:"already / finish",
+ answer:["had already finished"],why:"Present perfect → past perfect; <i>already</i> stays before the participle."},
+{set:"D",stars:2,type:"gap",prompt:"Present perfect, active.",
+ frame:"Nobody ___ my message yet.",cue:"answer",
+ answer:["has answered"],why:"<i>Nobody</i> takes the singular: <i>has</i> + past participle."},
+{set:"D",stars:2,type:"gap",prompt:"Past simple passive.",
+ frame:"Our questionnaires ___ out at the beginning of the lesson.",cue:"hand",
+ answer:["were handed"],why:"Plural subject in the past → <i>were</i> + past participle."},
+{set:"D",stars:2,type:"mc",prompt:"Report the question.",
+ quote:"“Will you be online later?” he asked.",
+ frame:"He asked ___.",
+ options:["whether I would be online later","will I be online later",
+          "that I would be online later","if I will be online later"],
+ answer:["whether I would be online later"],
+ why:"<i>will</i> → <i>would</i>; yes/no question → <i>if / whether</i> + statement word order."}
+];
+
+const SETS = [
+  {id:"C", label:"Set C — Reported speech (homework after lesson T3)"},
+  {id:"B", label:"Set B — The passive (homework after lesson T5)"},
+  {id:"D", label:"Set D — Mixed revision (preparation for the test)"},
+  {id:"A", label:"Set A — Tense revision (extra practice)"}
+];
+
+const RULES = {
+  A:{title:"Tense revision", discover:[
+      "I <b>checked</b> my screen time yesterday.",
+      "I <b>have checked</b> my screen time three times today."],
+     question:"Both sentences are about the past. Why is the second one different?",
+     reveal:"<i>Yesterday</i> is finished time — the action is closed. <i>Today</i> is not over yet, so the action still belongs to the present. English marks that difference with the present perfect.",
+     table:[["Present simple","routines, facts","She <b>posts</b> a story every evening."],
+            ["Present progressive","right now, temporary","Look — she <b>is posting</b> a story."],
+            ["Past simple","finished time (yesterday, in 2019, ago)","We <b>ran</b> the survey last week."],
+            ["Past progressive","longer background action","While I <b>was reading</b>, my phone rang."],
+            ["Present perfect","started in the past, still relevant (since, for, yet, already)","I <b>have never posted</b> a selfie."],
+            ["will-future","predictions","By June we <b>will know</b> the results."]]},
+  B:{title:"The passive", discover:[
+      "A team of researchers <b>published</b> the study.",
+      "The study <b>was published</b> last month."],
+     question:"What has happened to the researchers in the second sentence — and why might a writer do that?",
+     reveal:"The agent has disappeared. The passive is used when we do not know who acts, when it does not matter, or when the result matters more than the person behind it. That is why reports about studies and statistics are full of passives.",
+     table:[["Present simple","am / is / are + past participle","Personal data <b>is collected</b> by many apps."],
+            ["Past simple","was / were + past participle","The survey <b>was carried out</b> last week."],
+            ["Present perfect","has / have been + past participle","The post <b>has been deleted</b>."],
+            ["will-future","will be + past participle","The results <b>will be sent</b> to all schools."],
+            ["Agent","by + agent — only if it matters","The article <b>was written by</b> a journalist."]]},
+  C:{title:"Reported speech", discover:[
+      "“Social media <b>makes</b> people compare themselves,” the psychologist said.",
+      "The psychologist said that social media <b>made</b> people compare themselves."],
+     question:"Three things change between the two versions. Can you name them?",
+     reveal:"1) The tense moves one step back (backshift). 2) The pronouns change to the perspective of the person reporting. 3) The quotation marks disappear and <i>that</i> can be added. Time and place expressions shift as well.",
+     table:[["present simple → past simple","“I <b>use</b> it daily.”","He said he <b>used</b> it daily."],
+            ["present progressive → past progressive","“We <b>are testing</b> it.”","They said they <b>were testing</b> it."],
+            ["present perfect / past simple → past perfect","“I <b>have posted</b> it.”","She said she <b>had posted</b> it."],
+            ["will → would · can → could","“I <b>will</b> check.”","He said he <b>would</b> check."],
+            ["should, could, would, might","no change","“You <b>should</b> check.”  →  … that I <b>should</b> check."],
+            ["yes/no questions","if / whether + statement order","“Do you use it?”  →  She asked <b>whether I used</b> it."],
+            ["wh-questions","wh-word + statement order","“Where did you find it?”  →  He asked <b>where I had found</b> it."],
+            ["requests","(not) to + infinitive","“Don’t share it.”  →  She told us <b>not to share</b> it."],
+            ["time and place","tomorrow → the next day · here → there","“We publish it <b>tomorrow</b>.”  →  … <b>the next day</b>."]]},
+  D:{title:"Mixed revision", discover:[
+      "“We have already finished the survey,” they told her.",
+      "They told her that they <b>had</b> already <b>finished</b> the survey."],
+     question:"Which two rules from the sets above do you need at the same time here?",
+     reveal:"Backshift (present perfect → past perfect) and the position of <i>already</i> before the past participle. In the test, passive and reported speech will appear in the same texts — that is what this set trains.",
+     table:[["Read the cue first","The word in the box tells you which verb to use, not which form.","—"],
+            ["Ask: who acts?","If the agent is missing or unimportant, you probably need the passive.","—"],
+            ["Ask: are there quotation marks?","If yes, you need reported speech — with backshift.","—"],
+            ["Check the time words","since / for / yet / already → perfect tenses.","—"]]}
+};
+
+const MODULE_ID = "grammar-theme1";
+const MODULE_TITLE = "Grammar — Unit 1: A Society of Screens";
+const PASS = 0.8;
+
+/* ============================ storage ============================ */
+const store = {
+  read(){ try{ return JSON.parse(localStorage.getItem(MODULE_ID)||"{}"); }catch(e){ return {}; } },
+  write(o){ try{ localStorage.setItem(MODULE_ID, JSON.stringify(o)); }catch(e){ document.getElementById('savenote').textContent="Saving is switched off in this browser"; } }
+};
+let state = Object.assign({name:"", set:"C", attempts:{}, best:{}, last:null}, store.read());
+const save = () => store.write(state);
+
+/* ============================ helpers ============================ */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const norm = s => String(s).toLowerCase().replace(/[’´`]/g,"'").replace(/[“”]/g,'"')
+                    .replace(/[^a-z0-9'" ]/g," ").replace(/\s+/g," ").trim();
+const setItems = () => ITEMS.filter(i=>i.set===state.set);
+
+/* ============================ set selector ============================ */
+const setsel=$('setsel');
+SETS.forEach(s=>{const o=document.createElement('option');o.value=s.id;o.textContent=s.label;setsel.appendChild(o);});
+setsel.value=state.set;
+setsel.addEventListener('change',()=>{ state.set=setsel.value; save(); resetAll(); });
+$('sname').value=state.name||"";
+$('sname').addEventListener('input',e=>{ state.name=e.target.value; save(); });
+
+/* ============================ tabs ============================ */
+const views={Rules:$('viewRules'),Test:$('viewTest')}, tabs={Rules:$('tabRules'),Test:$('tabTest')};
+Object.keys(tabs).forEach(k=>tabs[k].addEventListener('click',()=>{
+  Object.keys(views).forEach(v=>{views[v].classList.toggle('hidden',v!==k);tabs[v].classList.toggle('active',v===k);});
+}));
+
+/* ============================ rules ============================ */
+function renderRules(){
+  const r = RULES[state.set];
+  $('rulesBox').innerHTML =
+    "<div class='card'><h2>"+esc(r.title)+"</h2>"+
+      "<div class='discover'><b>Discover the rule</b>"+
+        r.discover.map(d=>"<p class='sent' style='line-height:1.6;margin:8px 0'>"+d+"</p>").join("")+
+        "<p>"+esc(r.question)+"</p>"+
+        "<button class='soft' id='revealBtn'>Show the answer</button>"+
+        "<p id='revealTxt' class='hidden' style='margin-top:10px'>"+r.reveal+"</p>"+
+      "</div>"+
+      "<h3>Reference</h3>"+
+      "<table><tbody>"+r.table.map(row=>"<tr><td style='width:26%'><b>"+row[0]+"</b></td><td style='width:32%'>"+row[1]+"</td><td>"+(row[2]==="—"?"":row[2])+"</td></tr>").join("")+"</tbody></table>"+
+      "<p class='hint' style='margin-top:12px'>More support in your textbook: skills and grammar pages at the back of the book.</p>"+
+    "</div>";
+  $('revealBtn').addEventListener('click',()=>{ $('revealTxt').classList.remove('hidden'); $('revealBtn').disabled=true; });
+}
+
+/* ============================ quiz ============================ */
+let quiz=[],qi=0,answered=false,wrongList=[];
+
+function renderFrame(it, withInput){
+  let html="";
+  if(it.quote) html += "<p class='quote'>"+it.quote+"</p>";
+  if(it.frame){
+    if(withInput && it.frame.indexOf("___")>=0){
+      const parts = it.frame.split("___");
+      html += "<p class='sent'>"+parts[0]+
+              "<input type='text' id='qInput' autocomplete='off' spellcheck='false' placeholder='…'>"+
+              parts.slice(1).join("___")+"</p>";
+    } else {
+      html += "<p class='sent'>"+it.frame.replace("___","<b>______</b>")+"</p>";
+    }
+  }
+  if(it.cue) html += "<p><span class='cue'>use: "+esc(it.cue)+"</span></p>";
+  return html;
+}
+
+function startQuiz(){
+  quiz = shuffle(setItems()); qi=0; wrongList=[];
+  $('testIntro').classList.add('hidden'); $('testResult').classList.add('hidden');
+  $('testRun').classList.remove('hidden'); renderQ();
+}
+function renderQ(){
+  answered=false;
+  const it=quiz[qi];
+  $('qProgress').textContent="Question "+(qi+1)+" of "+quiz.length;
+  $('qStars').textContent="★".repeat(it.stars);
+  $('qBar').style.width=Math.round(qi/quiz.length*100)+"%";
+  $('qPrompt').innerHTML=it.prompt;
+  $('qFeedback').innerHTML="";
+  $('nextBtn').classList.add('hidden');
+  $('checkBtn').classList.remove('hidden');
+
+  if(it.type==="mc"){
+    $('qBody').innerHTML = renderFrame(it,false) +
+      it.options.map((o,i)=>"<button class='opt' data-i='"+i+"'>"+o+"</button>").join("");
+    $('qBody').querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+      if(answered) return;
+      $('qBody').querySelectorAll('.opt').forEach(x=>{x.dataset.sel="";x.style.outline="";});
+      b.dataset.sel="1"; b.style.outline="2px solid var(--blue)";
+    }));
+  } else {
+    $('qBody').innerHTML = renderFrame(it,true);
+    const el=$('qInput');
+    if(el){ el.focus(); el.addEventListener('keydown',e=>{ if(e.key==="Enter"){e.preventDefault(); answered?next():check();} }); }
+  }
+}
+function check(){
+  if(answered) return;
+  const it=quiz[qi]; let given="",ok=false;
+  const accept = it.answer.map(norm);
+  if(it.type==="mc"){
+    const sel=$('qBody').querySelector('.opt[data-sel="1"]');
+    if(!sel){ $('qFeedback').innerHTML="<div class='fb bad'>Please choose an answer first.</div>"; return; }
+    given=sel.textContent.trim(); ok=accept.includes(norm(given));
+    $('qBody').querySelectorAll('.opt').forEach(b=>{
+      b.style.outline="";
+      if(accept.includes(norm(b.textContent))) b.classList.add('correct');
+      else if(b===sel) b.classList.add('wrong');
+    });
+  } else {
+    given=($('qInput').value||"").trim();
+    ok=accept.includes(norm(given));
+    $('qInput').disabled=true;
+    $('qInput').style.background = ok ? "var(--green)" : "#fbe1df";
+  }
+  answered=true; it.given=given; it.ok=ok;
+  if(!ok) wrongList.push(it);
+  $('qFeedback').innerHTML = ok
+    ? "<div class='fb ok'><b>Correct.</b> "+it.why+"</div>"
+    : "<div class='fb bad'><b>Not quite.</b> Correct: <b>"+esc(it.answer[0])+"</b><br>"+it.why+"</div>";
+  $('checkBtn').classList.add('hidden');
+  $('nextBtn').classList.remove('hidden');
+  $('nextBtn').textContent=(qi===quiz.length-1)?"See result →":"Next →";
+  $('nextBtn').focus();
+}
+function next(){ if(qi===quiz.length-1) finish(); else { qi++; renderQ(); } }
+$('checkBtn').addEventListener('click',check);
+$('nextBtn').addEventListener('click',next);
+$('startBtn').addEventListener('click',()=>{
+  if(!($('sname').value||"").trim()){ alert("Please enter your name first — it goes on your certificate."); $('sname').focus(); return; }
+  startQuiz();
+});
+$('againBtn').addEventListener('click',startQuiz);
+
+function finish(){
+  const total=quiz.length, right=quiz.filter(q=>q.ok).length, pct=Math.round(right/total*100);
+  const key="set"+state.set;
+  state.attempts[key]=(state.attempts[key]||0)+1;
+  state.best[key]=Math.max(state.best[key]||0,pct);
+  state.last={set:state.set,right,total,pct,attempt:state.attempts[key],date:new Date().toISOString()};
+  save();
+  $('testRun').classList.add('hidden'); $('testResult').classList.remove('hidden');
+  $('rPct').textContent=pct+" %";
+  $('rLine').textContent=right+" of "+total+" correct · attempt no. "+state.attempts[key]+" · best so far: "+state.best[key]+" %";
+  $('rBar').style.width=pct+"%";
+  const strong=pct>=PASS*100;
+  $('rVerdict').className="fb "+(strong?"ok":"bad");
+  $('rVerdict').innerHTML = strong
+    ? "<b>Strong.</b> You are ready for the homework module for this week — that is where you earn your certificate."
+    : "<b>Not there yet.</b> Read the rules again, look at your mistakes and run it once more. Nothing here is marked.";
+  $('reviewBtn').classList.toggle('hidden',wrongList.length===0);
+  $('rReview').classList.add('hidden');
+  $('lastResult').textContent="Last attempt: "+pct+" %";
+}
+$('reviewBtn').addEventListener('click',()=>{
+  const box=$('rReview'); box.classList.toggle('hidden');
+  box.innerHTML="<h2 style='font-size:17px'>Look at these again</h2><table><thead><tr>"+
+    "<th style='width:44%'>Sentence</th><th>Your answer</th><th>Correct</th></tr></thead><tbody>"+
+    wrongList.map(it=>"<tr><td>"+(it.frame||it.prompt)+"</td><td class='hint'>"+esc(it.given||"—")+
+      "</td><td><b>"+esc(it.answer[0])+"</b></td></tr>").join("")+"</tbody></table>";
+});
+
+/* ============================ download helper ============================ */
+function download(blob,filename){
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename;
+  document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);
+}
+
+/* ============================ export ============================ */
+$('exportBtn').addEventListener('click',()=>{
+  const name=($('sname').value||"").trim()||"unnamed", l=state.last;
+  const rows=SETS.map(s=>"<tr><td>"+esc(s.label)+"</td><td>"+(state.best["set"+s.id]||0)+" %</td><td>"+(state.attempts["set"+s.id]||0)+"</td></tr>").join("");
+  const html="<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><title>Grammar report — "+esc(name)+"</title>"+
+   "<style>body{font-family:Calibri Light,Calibri,sans-serif;max-width:760px;margin:40px auto;padding:0 20px;color:#1f2d3d}"+
+   "h1{color:#1F3864;font-size:22px}table{border-collapse:collapse;width:100%;margin-top:10px}"+
+   "th,td{border-bottom:1px solid #d8e2ec;padding:7px 9px;text-align:left}th{background:#EDF3F8;color:#1F3864}</style></head><body>"+
+   "<h1>Grammar report — Unit 1: A Society of Screens</h1>"+
+   "<p><b>Name:</b> "+esc(name)+"<br><b>Exported:</b> "+esc(new Date().toLocaleString('en-GB'))+"</p>"+
+   "<table><thead><tr><th>Set</th><th>Best score</th><th>Attempts</th></tr></thead><tbody>"+rows+"</tbody></table>"+
+   (l?"<h2 style='font-size:17px;color:#1F3864'>Last attempt</h2><p>"+l.right+" of "+l.total+" correct ("+l.pct+" %), attempt no. "+l.attempt+", "+esc(new Date(l.date).toLocaleString('en-GB'))+"</p>":"")+
+   "</body></html>";
+  download(new Blob([html],{type:'text/html'}),"Grammar_report_"+name.replace(/[^A-Za-z0-9\-_ ]/g,"").replace(/\s+/g,"_")+".html");
+});
+
+/* ============================ init ============================ */
+function resetAll(){
+  renderRules();
+  $('qCount').textContent=setItems().length;
+  $('testIntro').classList.remove('hidden');
+  $('testRun').classList.add('hidden');
+  $('testResult').classList.add('hidden');
+  const key="set"+state.set;
+  $('lastResult').textContent = state.best[key] ? "Your best score so far: "+state.best[key]+" %" : "";
+}
+resetAll();
+</script>
+</body>
+</html>

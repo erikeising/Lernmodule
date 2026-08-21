@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vocabulary Trainer — Unit 1: A Society of Screens</title>
+<style>
+  :root{
+    --ink:#1f2d3d; --muted:#5d6b7a; --line:#d8e2ec;
+    --blue:#2E5F8A; --blue-dark:#1F3864; --blue-soft:#EDF3F8; --blue-mid:#BDD7EE;
+    --green:#E2F0D9; --green-ink:#3d6b2a;
+    --yellow:#FFF2CC; --orange:#FBE4D5; --lilac:#E4DFEC;
+    --ok:#2f7d4f; --bad:#b3261e; --bg:#f6f9fc;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Calibri Light","Calibri","Segoe UI",system-ui,sans-serif;
+    font-size:17px; line-height:1.5;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:20px 16px 64px}
+  header.top{background:var(--blue-dark);color:#fff;padding:22px 16px}
+  header.top .wrap{padding:0 16px}
+  header.top h1{margin:0;font-size:26px;font-weight:600;letter-spacing:.2px}
+  header.top p{margin:4px 0 0;opacity:.85;font-size:15px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;margin:16px 0}
+  .card h2{margin:0 0 10px;font-size:19px;color:var(--blue-dark)}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  label{font-size:14px;color:var(--muted);display:block;margin-bottom:4px}
+  input[type=text]{
+    font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:8px;
+    background:#fff;color:var(--ink);min-width:200px;
+  }
+  input[type=text]:focus{outline:2px solid var(--blue-mid);border-color:var(--blue)}
+  button{
+    font:inherit;cursor:pointer;border:1px solid var(--blue);background:var(--blue);color:#fff;
+    padding:9px 16px;border-radius:8px;transition:filter .15s;
+  }
+  button:hover{filter:brightness(1.08)}
+  button.ghost{background:#fff;color:var(--blue);}
+  button.soft{background:var(--blue-soft);color:var(--blue-dark);border-color:var(--blue-mid)}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  .tabs{display:flex;gap:8px;margin:18px 0 0;flex-wrap:wrap}
+  .tabs button{background:#fff;color:var(--blue-dark);border:1px solid var(--line);border-radius:999px;padding:8px 18px}
+  .tabs button.active{background:var(--blue-dark);color:#fff;border-color:var(--blue-dark)}
+  .pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13px;background:var(--blue-soft);color:var(--blue-dark);border:1px solid var(--blue-mid)}
+  .stars{letter-spacing:1px;color:#c8912a;font-size:14px}
+  .hint{font-size:14px;color:var(--muted)}
+  .flash{
+    background:linear-gradient(180deg,#fff, var(--blue-soft));
+    border:1px solid var(--blue-mid);border-radius:14px;padding:34px 20px;text-align:center;min-height:210px;
+    display:flex;flex-direction:column;justify-content:center;gap:8px;cursor:pointer;user-select:none;
+  }
+  .flash .term{font-size:30px;font-weight:600;color:var(--blue-dark)}
+  .flash .ipa{font-size:16px;color:var(--muted)}
+  .flash .back{font-size:22px;color:var(--green-ink)}
+  .flash .ex{font-size:15px;color:var(--muted);font-style:italic;max-width:640px;margin:0 auto}
+  .opt{display:block;width:100%;text-align:left;background:#fff;color:var(--ink);border:1px solid var(--line);
+       border-radius:10px;padding:11px 14px;margin:8px 0}
+  .opt:hover{background:var(--blue-soft)}
+  .opt.correct{background:var(--green);border-color:#9dc687}
+  .opt.wrong{background:#fbe1df;border-color:#e0a9a4}
+  .fb{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:15px}
+  .fb.ok{background:var(--green);color:var(--green-ink)}
+  .fb.bad{background:#fbe1df;color:var(--bad)}
+  .bar{height:9px;background:var(--line);border-radius:99px;overflow:hidden;margin:10px 0 4px}
+  .bar>span{display:block;height:100%;background:var(--blue);width:0;transition:width .3s}
+  .big{font-size:44px;font-weight:600;color:var(--blue-dark);line-height:1.1}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--blue-soft);color:var(--blue-dark);font-weight:600}
+  .src{font-size:13px;color:var(--muted)}
+  .teacher{background:#fffdf3;border:1px dashed #d9c98a;border-radius:10px;padding:14px;font-size:14px;color:#6b5b1e;margin-top:26px}
+  .hidden{display:none !important}
+  .gapline{font-size:19px;line-height:1.7}
+  .gapline b{background:var(--yellow);padding:1px 22px;border-radius:4px}
+  @media (max-width:560px){ .flash .term{font-size:24px} .big{font-size:34px} }
+  @media print{ .noprint{display:none} body{background:#fff} }
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <h1>Vocabulary Trainer</h1>
+  <p>English · Year 10 · Unit 1 — A Society of Screens: The Digital Age</p>
+</div></header>
+
+<div class="wrap">
+
+  <div class="card">
+    <div class="row">
+      <div>
+        <label for="sname">Your name</label>
+        <input type="text" id="sname" placeholder="First name, last name" autocomplete="name">
+      </div>
+      <div>
+        <label for="setsel">Word set</label>
+        <select id="setsel" style="font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)"></select>
+      </div>
+      <div style="margin-left:auto;align-self:flex-end">
+        <span class="pill" id="savenote">Progress is saved on this device</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs noprint">
+    <button id="tabLearn" class="active">1 · Learn</button>
+    <button id="tabList">2 · Word list</button>
+    <button id="tabTest">3 · Practice</button>
+  </div>
+
+  <!-- ============ LEARN ============ -->
+  <section id="viewLearn">
+    <div class="card">
+      <h2>Flashcards</h2>
+      <p class="hint">Click the card to turn it over. Work through the set at least once before you start the practice.</p>
+      <div class="flash" id="flash">
+        <div class="term" id="fTerm">—</div>
+        <div class="ipa" id="fIpa"></div>
+        <div id="fBackWrap" class="hidden">
+          <div class="back" id="fBack"></div>
+          <div class="ex" id="fEx"></div>
+        </div>
+        <div class="hint" id="fTurn">click to turn</div>
+      </div>
+      <div class="row" style="margin-top:14px">
+        <button class="ghost" id="fPrev">&#8592; Back</button>
+        <button id="fNext">Next &#8594;</button>
+        <span class="hint" id="fCount"></span>
+        <button class="soft" style="margin-left:auto" id="fShuffle">Shuffle</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LIST ============ -->
+  <section id="viewList" class="hidden">
+    <div class="card">
+      <h2>Word list</h2>
+      <p class="hint">Source: Camden Town Oberstufe, Wordlist Theme 1 (Webcode WES-73630-01) and SB p. 12/1.</p>
+      <table id="listTable"><thead><tr>
+        <th style="width:24%">English</th><th style="width:20%">Pronunciation</th>
+        <th style="width:22%">German</th><th>Example</th><th style="width:10%">Page</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+  </section>
+
+  <!-- ============ TEST ============ -->
+  <section id="viewTest" class="hidden">
+    <div class="card" id="testIntro">
+      <h2>Practice</h2>
+      <p>You will get <b id="qCount">0</b> mixed questions from this set: choosing the right meaning
+        <span class="stars">&#9733;</span>, completing a sentence <span class="stars">&#9733;&#9733;</span>
+        and writing the word yourself <span class="stars">&#9733;&#9733;&#9733;</span>.</p>
+      <p>This trainer is <b>practice only</b> — nothing here is marked and there is no certificate. Repeat it as often as you like. Aim for <b>80&nbsp;% or more</b> before you do the homework module for that week: that is where your certificate comes from.</p>
+      <div class="row"><button id="startBtn">Start practice</button>
+        <label style="display:flex;align-items:center;gap:7px;margin:0;font-size:15px;color:var(--ink)">
+          <input type="checkbox" id="longMode"> Long practice (every word, all three question types)
+        </label>
+        <span class="hint" id="lastResult"></span></div>
+    </div>
+
+    <div class="card hidden" id="testRun">
+      <div class="row" style="justify-content:space-between">
+        <span class="pill" id="qProgress">Question 1</span>
+        <span class="stars" id="qStars"></span>
+      </div>
+      <div class="bar"><span id="qBar"></span></div>
+      <h2 id="qPrompt" style="margin-top:14px">—</h2>
+      <div id="qBody"></div>
+      <div id="qFeedback"></div>
+      <div class="row" style="margin-top:14px">
+        <button id="checkBtn">Check</button>
+        <button class="ghost hidden" id="nextBtn">Next &#8594;</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="testResult">
+      <h2>Your result</h2>
+      <div class="big" id="rPct">—</div>
+      <p id="rLine"></p>
+      <div class="bar"><span id="rBar"></span></div>
+      <div id="rVerdict" class="fb"></div>
+      <div class="row" style="margin-top:16px">
+        <button class="ghost" id="againBtn">Try again</button>
+        <button class="soft" id="reviewBtn">Show my mistakes</button>
+      </div>
+      <div id="rReview" class="hidden" style="margin-top:16px"></div>
+    </div>
+  </section>
+
+  <div class="card noprint">
+    <h2>Send your work to your teacher</h2>
+    <p class="hint">This saves a single file with your name, your set, your best score and your last attempt.
+      Upload it together with your certificate if your teacher asks for it.</p>
+    <button class="ghost" id="exportBtn">Export &amp; send to teacher</button>
+  </div>
+
+  <div class="teacher noprint">
+    <b>Hinweis für die Lehrkraft (nicht SuS-relevant):</b>
+    Die Wortliste stammt vollständig aus der Verlags-Wordlist Theme 1 (Webcode WES-73630-01) sowie aus der
+    Lösung zu SB S. 12/1 — nichts ergänzt oder erfunden. Set&nbsp;3 („Workshop") gehört zum gestrichenen
+    Hacktivists-Block und ist als optional gekennzeichnet. Dieser Trainer erzeugt bewusst KEIN Zertifikat mehr — er ist reines Übungsmaterial. Der Leistungsnachweis für die 80-%-Regel entsteht ausschließlich im Hausaufgabenmodul (U1_HA_Module_W1W5). Der Fortschritt liegt lokal im Browser
+    der SuS; bei Nutzung im Inkognito-Modus oder auf einem fremden Gerät geht er verloren.
+  </div>
+
+</div>
+
+<script>
+/* =========================================================================
+   DATA — Camden Town Oberstufe, Wordlist Theme 1 (Webcode WES-73630-01)
+   + SB p. 12/1. Nothing added, nothing invented.
+   ========================================================================= */
+const WORDS = [
+  // ---- Set 1: WordPool, SB p. 12-13 ----
+  {s:1,p:"12",en:"mass media",ipa:"/ˌmæs ˈmiːdiə/",de:"Massenmedien",ex:"There was mass media coverage of the Royal Wedding.",gap:"mass media"},
+  {s:1,p:"12",en:"tech-savvy",ipa:"/ˈtek ˌsævi/",de:"mit Technikerfahrung",ex:"The younger generation is a lot more tech-savvy than the older generation.",gap:"tech-savvy"},
+  {s:1,p:"12",en:"24/7",ipa:"/ˌtwenti fɔː(r) ˈsev(ə)n/",de:"rund um die Uhr",ex:"The advice hotline is available 24/7.",gap:"24/7"},
+  {s:1,p:"12",en:"ubiquitous",ipa:"/juːˈbɪkwɪtəs/",de:"allgegenwärtig",ex:"The practice of taking selfies is ubiquitous amongst young people.",gap:"ubiquitous"},
+  {s:1,p:"12",en:"inextricable",ipa:"/ˌɪnɪkˈstrɪkəb(ə)l/",de:"untrennbar",ex:"When it comes to history, legend and truth are often inextricable.",gap:"inextricable"},
+  {s:1,p:"12",en:"portable",ipa:"/ˈpɔː(r)təb(ə)l/",de:"tragbar",ex:"Portable devices make it easier to access the internet anywhere.",gap:"Portable"},
+  {s:1,p:"12",en:"showcase",ipa:"/ˈʃəʊˌkeɪs/",de:"Schaukasten, Vitrine",ex:"The museum displayed the dinosaur bones in a glass showcase.",gap:"showcase"},
+  {s:1,p:"12",en:"narcissistic",ipa:"/ˌnɑː(r)sɪˈsɪstɪk/",de:"narzisstisch, selbstverliebt",ex:"Villains in films and novels are often narcissistic and vain.",gap:"narcissistic"},
+  {s:1,p:"12",en:"account",ipa:"/əˈkaʊnt/",de:"Konto",ex:"It's a good idea to put some money aside in a savings account.",gap:"account"},
+  {s:1,p:"12",en:"DIY (= do it yourself)",ipa:"/ˌdiː aɪ ˈwaɪ/",de:"zum Selbermachen",ex:"My dad enjoys DIY projects: last summer he built a shed for our garden.",gap:"DIY"},
+  {s:1,p:"12",en:"dissemination",ipa:"/dɪˌsemɪˈneɪʃ(ə)n/",de:"Verbreitung",ex:"The dissemination of information about AIDS in Africa took a long time.",gap:"dissemination"},
+  {s:1,p:"12",en:"circulation",ipa:"/ˌsɜː(r)kjʊˈleɪʃ(ə)n/",de:"Auflage, Umlauf",ex:"The circulation of local newspapers is dwindling as more people read the news online.",gap:"circulation"},
+  {s:1,p:"12",en:"to craft",ipa:"/krɑːft/",de:"(von Hand) fertigen",ex:"All of the jewellery in the shop was crafted by hand.",gap:"crafted"},
+  {s:1,p:"12",en:"censorship",ipa:"/ˈsensə(r)ʃɪp/",de:"Zensur",ex:"Censorship of the press is one way to control the spread of information.",gap:"Censorship"},
+  {s:1,p:"13",en:"to plagiarize",ipa:"/ˈpleɪdʒəraɪz/",de:"plagiieren",ex:"It is illegal to plagiarize any sources when writing academic essays.",gap:"plagiarize"},
+  {s:1,p:"13",en:"infringement",ipa:"/ɪnˈfrɪndʒmənt/",de:"Rechtsverletzung, Verstoß",ex:"Infringement of the rules will result in severe punishment.",gap:"Infringement"},
+  {s:1,p:"13",en:"deception",ipa:"/dɪˈsepʃ(ə)n/",de:"Betrug, Täuschung",ex:"The company was fined for wilful deception in its advertising campaign.",gap:"deception"},
+  // from the key to SB p. 12/1 (no example sentence in the source)
+  {s:1,p:"12/1",en:"website",ipa:"/ˈwebsaɪt/",de:"Website, Internetseite",ex:"",gap:""},
+  {s:1,p:"12/1",en:"to go viral",ipa:"/ˌgəʊ ˈvaɪrəl/",de:"sich viral verbreiten",ex:"",gap:""},
+  {s:1,p:"12/1",en:"cyberbullying",ipa:"/ˈsaɪbə(r)ˌbʊliɪŋ/",de:"Cybermobbing",ex:"",gap:""},
+  {s:1,p:"12/1",en:"blogosphere",ipa:"/ˈblɒgəsfɪə(r)/",de:"Blogosphäre",ex:"",gap:""},
+
+  // ---- Set 2: Texts, SB p. 26-28 ----
+  {s:2,p:"26",en:"narcissist",ipa:"/ˈnɑː(r)sɪsɪst/",de:"Narzisst/in",ex:"She broke up with her boyfriend because he was too much of a narcissist.",gap:"narcissist"},
+  {s:2,p:"26",en:"vanity",ipa:"/ˈvænəti/",de:"Eitelkeit",ex:"Some people who pay for cosmetic surgery are motivated only by vanity.",gap:"vanity"},
+  {s:2,p:"26",en:"self-absorbed",ipa:"/ˌself əbˈzɔː(r)bd/",de:"egozentrisch, ichbezogen",ex:"She was so self-absorbed, she didn't bother to ask how her friend was feeling.",gap:"self-absorbed"},
+  {s:2,p:"26",en:"prevalence",ipa:"/ˈprevələns/",de:"Vorherrschaft, Häufigkeit",ex:"The increasing prevalence of mental health problems in the population cannot be denied.",gap:"prevalence"},
+  {s:2,p:"26",en:"correlation",ipa:"/ˌkɒrəˈleɪʃ(ə)n/",de:"Zusammenhang",ex:"The study shows that there is a positive correlation between household income and admission to university.",gap:"correlation"},
+  {s:2,p:"27",en:"affirmation",ipa:"/ˌæfə(r)ˈmeɪʃ(ə)n/",de:"Bestätigung",ex:"All members of the committee nodded in affirmation at the speech.",gap:"affirmation"},
+  {s:2,p:"27",en:"self-esteem",ipa:"/ˌself ɪˈstiːm/",de:"Selbstwertgefühl",ex:"His self-esteem improved after he joined the drama club.",gap:"self-esteem"},
+  {s:2,p:"27",en:"layer",ipa:"/ˈleɪə(r)/",de:"Schicht",ex:"The garden furniture needed an extra layer of paint to protect it from the rain.",gap:"layer"},
+  {s:2,p:"28",en:"to erase",ipa:"/ɪˈreɪz/",de:"löschen, ausradieren",ex:"The computer virus erased all the data on the laptop.",gap:"erased"},
+
+  // ---- Set 3: Workshop, SB p. 14-23 (optional) ----
+  {s:3,p:"14",en:"capable",ipa:"/ˈkeɪpəb(ə)l/",de:"fähig",ex:"Men and women are both capable of looking after young children.",gap:"capable"},
+  {s:3,p:"14",en:"repressive",ipa:"/rɪˈpresɪv/",de:"unterdrückerisch, repressiv",ex:"The population revolted against the government's repressive laws.",gap:"repressive"},
+  {s:3,p:"15",en:"to trace",ipa:"/treɪs/",de:"ausfindig machen",ex:"The police traced the criminals as far as Mexico, but then the trail went cold.",gap:"traced"},
+  {s:3,p:"15",en:"villain",ipa:"/ˈvɪlən/",de:"Bösewicht, Schurke",ex:"It was a surprise to see the actor playing the villain in the new film, as he is usually the hero.",gap:"villain"},
+  {s:3,p:"15",en:"to mess around",ipa:"/ˌmes əˈraʊnd/",de:"herumalbern",ex:"They liked to mess around with computers, but they weren't serious hackers.",gap:"mess around"},
+  {s:3,p:"18",en:"to accomplish",ipa:"/əˈkʌmplɪʃ/",de:"erreichen, leisten",ex:"The spy was killed before he could accomplish his mission.",gap:"accomplish"},
+  {s:3,p:"18",en:"vendetta",ipa:"/venˈdetə/",de:"(Blut)rache",ex:"The President seemed to have a personal vendetta against the media.",gap:"vendetta"},
+  {s:3,p:"23",en:"to mock-up",ipa:"/ˈmɒk ʌp/",de:"nachahmen",ex:"The architect mocked-up his initial plans in a cardboard model.",gap:"mocked-up"}
+];
+
+const SETS = [
+  {id:1, label:"Set 1 — WordPool (SB p. 12–13)"},
+  {id:2, label:"Set 2 — Texts (SB p. 26–28)"},
+  {id:3, label:"Set 3 — Workshop (SB p. 14–23, optional)"},
+  {id:0, label:"All sets together"}
+];
+
+const MODULE_ID = "vocab-theme1";
+const MODULE_TITLE = "Vocabulary — Unit 1: A Society of Screens";
+const PASS = 0.8;
+
+/* ============================ storage ============================ */
+const store = {
+  read(){ try{ return JSON.parse(localStorage.getItem(MODULE_ID)||"{}"); }catch(e){ return {}; } },
+  write(o){ try{ localStorage.setItem(MODULE_ID, JSON.stringify(o)); }catch(e){ document.getElementById('savenote').textContent = "Saving is switched off in this browser"; } }
+};
+let state = Object.assign({name:"", set:1, attempts:{}, best:{}, last:null}, store.read());
+const save = () => store.write(state);
+
+/* ============================ helpers ============================ */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; };
+const norm = s => String(s).toLowerCase().replace(/[’´`]/g,"'").replace(/[^a-z0-9'\/\- ]/g,"").replace(/\s+/g," ").trim();
+function currentWords(){ return state.set===0 ? WORDS : WORDS.filter(w=>w.s===state.set); }
+
+/* ============================ set selector ============================ */
+const setsel = $('setsel');
+SETS.forEach(s=>{ const o=document.createElement('option'); o.value=s.id; o.textContent=s.label; setsel.appendChild(o); });
+setsel.value = state.set;
+setsel.addEventListener('change', ()=>{ state.set = +setsel.value; save(); resetAll(); });
+
+$('sname').value = state.name || "";
+$('sname').addEventListener('input', e=>{ state.name = e.target.value; save(); });
+
+/* ============================ tabs ============================ */
+const views = {Learn:$('viewLearn'), List:$('viewList'), Test:$('viewTest')};
+const tabs  = {Learn:$('tabLearn'), List:$('tabList'), Test:$('tabTest')};
+Object.keys(tabs).forEach(k => tabs[k].addEventListener('click', ()=>{
+  Object.keys(views).forEach(v=>{ views[v].classList.toggle('hidden', v!==k); tabs[v].classList.toggle('active', v===k); });
+}));
+
+/* ============================ flashcards ============================ */
+let deck=[], di=0, flipped=false;
+function buildDeck(){ deck = shuffle(currentWords()); di=0; flipped=false; renderCard(); }
+function renderCard(){
+  const w = deck[di]; if(!w) return;
+  $('fTerm').textContent = w.en;
+  $('fIpa').textContent  = w.ipa;
+  $('fBack').textContent = w.de;
+  $('fEx').textContent   = w.ex ? "“"+w.ex+"”" : "";
+  $('fBackWrap').classList.toggle('hidden', !flipped);
+  $('fTurn').textContent = flipped ? "click to turn back" : "click to turn";
+  $('fCount').textContent = (di+1)+" / "+deck.length+"  ·  SB p. "+w.p;
+}
+$('flash').addEventListener('click', ()=>{ flipped=!flipped; renderCard(); });
+$('fNext').addEventListener('click', ()=>{ di=(di+1)%deck.length; flipped=false; renderCard(); });
+$('fPrev').addEventListener('click', ()=>{ di=(di-1+deck.length)%deck.length; flipped=false; renderCard(); });
+$('fShuffle').addEventListener('click', buildDeck);
+
+/* ============================ word list ============================ */
+function renderList(){
+  const tb = $('listTable').querySelector('tbody'); tb.innerHTML="";
+  currentWords().forEach(w=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML = "<td><b>"+esc(w.en)+"</b></td><td class='src'>"+esc(w.ipa)+"</td><td>"+esc(w.de)+
+                   "</td><td class='src'>"+esc(w.ex||"—")+"</td><td class='src'>"+esc(w.p)+"</td>";
+    tb.appendChild(tr);
+  });
+}
+
+/* ============================ quiz ============================ */
+let quiz=[], qi=0, answered=false, wrongList=[];
+
+const MIN_Q = 12, MAX_Q = 30;
+
+function itemsFor(w, pool){
+  const out = [];
+  const distr = shuffle(pool.filter(x=>x.de!==w.de)).slice(0,3).map(x=>x.de);
+  out.push({type:"meaning", w, stars:1,
+    prompt:"What does <b>"+esc(w.en)+"</b> mean?",
+    options: shuffle([w.de, ...distr]), answer:w.de});
+  if(w.gap && w.ex){
+    out.push({type:"gap", w, stars:2, prompt:"Complete the sentence.", answer:w.gap});
+  }
+  out.push({type:"produce", w, stars:3,
+    prompt:"Write the English word: <b>"+esc(w.de)+"</b>", answer:w.en});
+  return out;
+}
+
+/* One question per word (random type) so every word is covered at least once;
+   topped up to MIN_Q and capped at MAX_Q. "Long practice" uses every item. */
+function makeQuiz(long){
+  const ws = currentWords();
+  const pool = ws.length>=4 ? ws : WORDS;
+  const byWord = ws.map(w => shuffle(itemsFor(w, pool)));
+  if(long) return shuffle([].concat.apply([], byWord));
+  let quizItems = byWord.map(list => list[0]);
+  const rest = shuffle([].concat.apply([], byWord.map(l => l.slice(1))));
+  while(quizItems.length < MIN_Q && rest.length) quizItems.push(rest.pop());
+  quizItems = shuffle(quizItems);
+  if(quizItems.length > MAX_Q) quizItems = quizItems.slice(0, MAX_Q);
+  return quizItems;
+}
+
+function gapSentence(w){
+  const i = w.ex.indexOf(w.gap);
+  if(i<0) return esc(w.ex);
+  return esc(w.ex.slice(0,i)) + "<b>&nbsp;</b>" + esc(w.ex.slice(i+w.gap.length));
+}
+
+function acceptable(item){
+  const a = [item.answer];
+  if(item.type==="produce"){
+    let base = item.w.en;
+    a.push(base);
+    if(base.startsWith("to ")) a.push(base.slice(3));
+    const paren = base.match(/^(.+?)\s*\(/); if(paren) a.push(paren[1].trim());
+  }
+  return a.map(norm);
+}
+
+function startQuiz(){
+  quiz = makeQuiz($('longMode') && $('longMode').checked); qi=0; wrongList=[];
+  $('testIntro').classList.add('hidden');
+  $('testResult').classList.add('hidden');
+  $('testRun').classList.remove('hidden');
+  renderQ();
+}
+
+function renderQ(){
+  answered=false;
+  const it = quiz[qi];
+  $('qProgress').textContent = "Question "+(qi+1)+" of "+quiz.length;
+  $('qStars').textContent = "★".repeat(it.stars);
+  $('qBar').style.width = Math.round(qi/quiz.length*100)+"%";
+  $('qFeedback').innerHTML="";
+  $('nextBtn').classList.add('hidden');
+  $('checkBtn').classList.remove('hidden');
+  $('checkBtn').disabled=false;
+
+  if(it.type==="meaning"){
+    $('qPrompt').innerHTML = it.prompt;
+    $('qBody').innerHTML = it.options.map((o,i)=>
+      "<button class='opt' data-i='"+i+"'>"+esc(o)+"</button>").join("");
+    $('qBody').querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+      if(answered) return;
+      $('qBody').querySelectorAll('.opt').forEach(x=>x.dataset.sel="");
+      b.dataset.sel="1";
+      $('qBody').querySelectorAll('.opt').forEach(x=>x.style.outline="");
+      b.style.outline="2px solid var(--blue)";
+    }));
+    $('checkBtn').textContent="Check";
+  } else if(it.type==="gap"){
+    $('qPrompt').innerHTML = it.prompt;
+    $('qBody').innerHTML =
+      "<p class='gapline'>"+gapSentence(it.w)+"</p>"+
+      "<p class='hint'>German: "+esc(it.w.de)+" · SB p. "+esc(it.w.p)+"</p>"+
+      "<input type='text' id='qInput' placeholder='Type the missing word' autocomplete='off' spellcheck='false' style='width:100%'>";
+    focusInput();
+    $('checkBtn').textContent="Check";
+  } else {
+    $('qPrompt').innerHTML = it.prompt;
+    $('qBody').innerHTML =
+      "<p class='hint'>Pronunciation: "+esc(it.w.ipa)+"</p>"+
+      "<input type='text' id='qInput' placeholder='Type the English word' autocomplete='off' spellcheck='false' style='width:100%'>";
+    focusInput();
+    $('checkBtn').textContent="Check";
+  }
+}
+function focusInput(){
+  const el=$('qInput'); if(!el) return;
+  el.focus();
+  el.addEventListener('keydown', e=>{ if(e.key==="Enter"){ e.preventDefault(); answered?next():check(); }});
+}
+
+function check(){
+  if(answered) return;
+  const it = quiz[qi];
+  let given="", ok=false;
+  if(it.type==="meaning"){
+    const sel = $('qBody').querySelector('.opt[data-sel="1"]');
+    if(!sel){ $('qFeedback').innerHTML="<div class='fb bad'>Please choose an answer first.</div>"; return; }
+    given = sel.textContent; ok = (given===it.answer);
+    $('qBody').querySelectorAll('.opt').forEach(b=>{
+      b.style.outline="";
+      if(b.textContent===it.answer) b.classList.add('correct');
+      else if(b===sel) b.classList.add('wrong');
+    });
+  } else {
+    given = ($('qInput').value||"").trim();
+    ok = acceptable(it).includes(norm(given));
+    $('qInput').disabled=true;
+  }
+  answered=true;
+  it.given=given; it.ok=ok;
+  if(!ok) wrongList.push(it);
+  $('qFeedback').innerHTML = ok
+    ? "<div class='fb ok'><b>Correct.</b> "+esc(it.w.en)+" — "+esc(it.w.de)+"</div>"
+    : "<div class='fb bad'><b>Not quite.</b> The answer is: <b>"+esc(it.answer)+"</b> ("+esc(it.w.en)+" — "+esc(it.w.de)+")</div>";
+  $('checkBtn').classList.add('hidden');
+  $('nextBtn').classList.remove('hidden');
+  $('nextBtn').textContent = (qi===quiz.length-1) ? "See result →" : "Next →";
+  $('nextBtn').focus();
+}
+function next(){
+  if(qi===quiz.length-1) finish(); else { qi++; renderQ(); }
+}
+$('checkBtn').addEventListener('click', check);
+$('nextBtn').addEventListener('click', next);
+$('startBtn').addEventListener('click', ()=>{
+  if(!($('sname').value||"").trim()){ alert("Please enter your name first — it goes on your certificate."); $('sname').focus(); return; }
+  startQuiz();
+});
+$('againBtn').addEventListener('click', startQuiz);
+
+function finish(){
+  const total = quiz.length;
+  const right = quiz.filter(q=>q.ok).length;
+  const pct = Math.round(right/total*100);
+  const key = "set"+state.set;
+  state.attempts[key] = (state.attempts[key]||0)+1;
+  state.best[key] = Math.max(state.best[key]||0, pct);
+  state.last = {set:state.set, right, total, pct, attempt:state.attempts[key], date:new Date().toISOString()};
+  save();
+
+  $('testRun').classList.add('hidden');
+  $('testResult').classList.remove('hidden');
+  $('rPct').textContent = pct+" %";
+  $('rLine').textContent = right+" of "+total+" correct · attempt no. "+state.attempts[key]+" · best so far: "+state.best[key]+" %";
+  $('rBar').style.width = pct+"%";
+  const strong = pct>=PASS*100;
+  $('rVerdict').className="fb "+(strong?"ok":"bad");
+  $('rVerdict').innerHTML = strong
+    ? "<b>Strong.</b> You are ready for the homework module for this week — that is where you earn your certificate."
+    : "<b>Not there yet.</b> Look at your mistakes, go back to the learning part and run it again. Nothing here is marked.";
+  $('reviewBtn').classList.toggle('hidden', wrongList.length===0);
+  $('rReview').classList.add('hidden');
+  $('lastResult').textContent = "Last attempt: "+pct+" %";
+}
+
+$('reviewBtn').addEventListener('click', ()=>{
+  const box=$('rReview'); box.classList.toggle('hidden');
+  box.innerHTML = "<h2 style='font-size:17px'>Words to look at again</h2><table><thead><tr>"+
+    "<th>English</th><th>German</th><th>Your answer</th><th>Correct</th></tr></thead><tbody>"+
+    wrongList.map(it=>"<tr><td><b>"+esc(it.w.en)+"</b></td><td>"+esc(it.w.de)+"</td><td class='src'>"+
+      esc(it.given||"—")+"</td><td>"+esc(it.answer)+"</td></tr>").join("")+"</tbody></table>";
+});
+
+/* ============================ download helper ============================ */
+function download(blob,filename){
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename;
+  document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);
+}
+
+/* ============================ export to teacher ============================ */
+$('exportBtn').addEventListener('click', ()=>{
+  const name = ($('sname').value||"").trim() || "unnamed";
+  const l = state.last;
+  const rows = SETS.filter(s=>s.id!==0).map(s=>
+    "<tr><td>"+esc(s.label)+"</td><td>"+(state.best["set"+s.id]||0)+" %</td><td>"+(state.attempts["set"+s.id]||0)+"</td></tr>").join("");
+  const html =
+"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><title>Vocabulary report — "+esc(name)+"</title>"+
+"<style>body{font-family:Calibri Light,Calibri,sans-serif;max-width:760px;margin:40px auto;padding:0 20px;color:#1f2d3d}"+
+"h1{color:#1F3864;font-size:22px}table{border-collapse:collapse;width:100%;margin-top:10px}"+
+"th,td{border-bottom:1px solid #d8e2ec;padding:7px 9px;text-align:left}th{background:#EDF3F8;color:#1F3864}</style></head><body>"+
+"<h1>Vocabulary report — Unit 1: A Society of Screens</h1>"+
+"<p><b>Name:</b> "+esc(name)+"<br><b>Exported:</b> "+esc(new Date().toLocaleString('en-GB'))+"</p>"+
+"<h2 style='font-size:17px;color:#1F3864'>Best score per set</h2>"+
+"<table><thead><tr><th>Set</th><th>Best score</th><th>Attempts</th></tr></thead><tbody>"+rows+"</tbody></table>"+
+(l? "<h2 style='font-size:17px;color:#1F3864'>Last attempt</h2><p>"+l.right+" of "+l.total+" correct ("+l.pct+" %), attempt no. "+l.attempt+", "+esc(new Date(l.date).toLocaleString('en-GB'))+"</p>" : "")+
+"</body></html>";
+  const safe = name.replace(/[^A-Za-z0-9\-_ ]/g,"").replace(/\s+/g,"_");
+  download(new Blob([html],{type:'text/html'}), "Vocabulary_report_"+safe+".html");
+});
+
+/* ============================ init ============================ */
+function resetAll(){
+  buildDeck(); renderList();
+  $('qCount').textContent = makeQuiz(false).length;
+  $('testIntro').classList.remove('hidden');
+  $('testRun').classList.add('hidden');
+  $('testResult').classList.add('hidden');
+  const key="set"+state.set;
+  $('lastResult').textContent = state.best[key] ? "Your best score so far: "+state.best[key]+" %" : "";
+}
+resetAll();
+</script>
+</body>
+</html>
