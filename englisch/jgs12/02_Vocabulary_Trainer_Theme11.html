@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vocabulary Trainer — Science and Technology</title>
+<style>
+  :root{
+    --bg:#f4f7fa; --card:#ffffff; --ink:#1a1a1a; --muted:#55606b;
+    --accent:#34618e; --accent-soft:#dce9f7; --line:#c7d3de;
+    --ok:#2f6b45; --ok-soft:#e4f0dc; --no:#8a3b3b; --no-soft:#fbe1e1;
+    --warn-soft:#fdf3c8;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#141a20; --card:#1c242c; --ink:#eef2f6; --muted:#a8b4c0;
+           --accent:#8ab4e0; --accent-soft:#22303d; --line:#33414f;
+           --ok:#8fd6a8; --ok-soft:#22352a; --no:#f0a5a5; --no-soft:#3a2626;
+           --warn-soft:#3a3520; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font-family:"Calibri Light",Calibri,"Segoe UI",system-ui,sans-serif;
+       font-size:17px;line-height:1.5}
+  .wrap{max-width:820px;margin:0 auto;padding:20px 16px 60px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:10px;margin-bottom:18px}
+  h1{font-size:1.5rem;margin:0 0 4px;color:var(--accent);font-weight:700}
+  .sub{color:var(--muted);font-size:.9rem}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px}
+  .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .row + .row{margin-top:10px}
+  label.grp{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+            width:100%;margin-bottom:2px}
+  button{font:inherit;cursor:pointer;border-radius:7px;border:1px solid var(--line);
+         background:var(--card);color:var(--ink);padding:8px 14px;transition:.15s}
+  button:hover{border-color:var(--accent)}
+  button.sel{background:var(--accent);color:#fff;border-color:var(--accent)}
+  button.primary{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+  button.ghost{background:transparent;color:var(--muted)}
+  .bar{height:8px;background:var(--accent-soft);border-radius:99px;overflow:hidden;margin:14px 0 6px}
+  .bar > i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+  .meta{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted)}
+  .prompt{font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+  .word{font-size:1.9rem;font-weight:700;line-height:1.2}
+  .ipa{color:var(--muted);font-size:1rem;margin-top:2px}
+  .sentence{margin-top:14px;padding:12px 14px;background:var(--accent-soft);border-radius:8px;font-size:1.05rem}
+  .sentence b{background:var(--card);padding:1px 10px;border-radius:4px;border-bottom:2px solid var(--accent)}
+  .opts{display:grid;gap:8px;margin-top:14px}
+  .opts button{text-align:left;padding:11px 14px}
+  .opts button.right{background:var(--ok-soft);border-color:var(--ok);color:var(--ok);font-weight:600}
+  .opts button.wrong{background:var(--no-soft);border-color:var(--no);color:var(--no)}
+  input[type=text]{font:inherit;width:100%;padding:11px 13px;border:1px solid var(--line);
+                   border-radius:7px;background:var(--card);color:var(--ink);margin-top:14px}
+  input[type=text]:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .fb{margin-top:14px;padding:11px 14px;border-radius:8px;display:none}
+  .fb.on{display:block}
+  .fb.good{background:var(--ok-soft);color:var(--ok)}
+  .fb.bad{background:var(--no-soft);color:var(--no)}
+  .fb .sol{color:var(--ink);margin-top:6px;font-size:.95rem}
+  .hint{margin-top:12px;padding:10px 14px;background:var(--warn-soft);border-radius:8px;
+        font-size:.95rem;display:none}
+  .hint.on{display:block}
+  .actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+  .flip{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:8px;display:none}
+  .flip.on{display:block}
+  .flip .de{font-size:1.3rem;font-weight:600}
+  footer{color:var(--muted);font-size:.82rem;margin-top:26px;border-top:1px solid var(--line);padding-top:12px}
+  .done{text-align:center;padding:24px 8px}
+  .done .big{font-size:2rem;font-weight:700;color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Vocabulary Trainer — Science and Technology</h1>
+  <div class="sub">Camden Town Oberstufe, Theme 11 · practice tool · your score is not graded</div>
+</header>
+
+<div class="panel">
+  <div class="row"><label class="grp">Word set</label>
+    <button data-set="1" class="setbtn sel">Set 1 · Intro &amp; WordPool</button>
+    <button data-set="2" class="setbtn">Set 2 · Chances and risks</button>
+    <button data-set="3" class="setbtn">Set 3 · Life in the future</button>
+    <button data-set="0" class="setbtn">Mixed practice</button>
+  </div>
+  <div class="row"><label class="grp">Task type</label>
+    <button data-mode="flash" class="modebtn sel">Flashcards</button>
+    <button data-mode="en2de" class="modebtn">English → German</button>
+    <button data-mode="de2en" class="modebtn">German → English</button>
+    <button data-mode="gap" class="modebtn">Gap-fill</button>
+    <button data-mode="mix" class="modebtn">Mixed tasks</button>
+  </div>
+</div>
+
+<div class="panel" id="stage"></div>
+
+<footer>
+  Vocabulary from the Westermann word lists for Theme 11 (webcodes WES-73643-082 / -084 / -085).
+  Practice as often as you like — nothing here is marked. Aim for short sessions on several days
+  rather than one long session.
+</footer>
+</div>
+
+<script>
+const VOCAB = [{"set":1,"en":"contentious","ipa":"/kənˈtenʃəs/","de":"umstritten, kontrovers","ex":"Opinions were divided over the contentious issue of Scottish independence from Britain.","form":"contentious"},{"set":1,"en":"sufficient","ipa":"/səˈfɪʃ(ə)nt/","de":"ausreichend","ex":"She knew she had sufficient skills to be able to complete the task.","form":"sufficient"},{"set":1,"en":"countless","ipa":"/ˈkaʊntləs/","de":"unzählig, zahllos","ex":"There are countless ways to raise a child.","form":"countless"},{"set":1,"en":"prediction","ipa":"/prɪˈdɪkʃ(ə)n/","de":"Vorhersage, Prognose","ex":"The BBC's prediction of the election result turned out to be far from accurate.","form":"prediction"},{"set":1,"en":"to envision","ipa":"/ɪnˈvɪʒ(ə)n/","de":"sich vorstellen","ex":"The garden my mother envisioned has finally come to life.","form":"envisioned"},{"set":1,"en":"to coin","ipa":"/kɔɪn/","de":"(einen Begriff) prägen","ex":"The divide between East and West during the Cold War was often called the 'Iron Curtain', as coined by Winston Churchill.","form":"coined"},{"set":1,"en":"supervision","ipa":"/ˌsuːpə(r)ˈvɪʒ(ə)n/","de":"Aufsicht, Kontrolle","ex":"Parental supervision is advised, as this film may frighten younger children.","form":"supervision"},{"set":1,"en":"to resemble","ipa":"/rɪˈzemb(ə)l/","de":"ähneln","ex":"Harry was often told that he resembled his mother, Lily.","form":"resembled"},{"set":1,"en":"to enhance","ipa":"/ɪnˈhɑːns/","de":"verbessern","ex":"The funding allowed the scientists to greatly enhance their research.","form":"enhance"},{"set":1,"en":"artificial","ipa":"/ˌɑː(r)tɪˈfɪʃ(ə)l/","de":"künstlich","ex":"Nowadays, artificial meat substitutes taste like the real thing.","form":"artificial"},{"set":1,"en":"to constitute","ipa":"/ˈkɒnstɪˌtjuːt/","de":"ausmachen, ergeben","ex":"Sport constitutes a large part of my social activities.","form":"constitutes"},{"set":1,"en":"to tamper with sth","ipa":"/ˈtæmpə(r) ˌwɪð/","de":"etw manipulieren, an etw herumpfuschen","ex":"After my baby sister had tampered with my games console, it no longer worked.","form":"tampered with"},{"set":1,"en":"device","ipa":"/dɪˈvaɪs/","de":"Gerät","ex":"The detectives used the listening device to spy on their prime suspect.","form":"device"},{"set":1,"en":"extensive","ipa":"/ɪkˈstensɪv/","de":"weitreichend; umfangreich","ex":"Despite extensive research, we have still not cured cancer.","form":"extensive"},{"set":1,"en":"to utilize","ipa":"/ˈjuːtɪlaɪz/","de":"nutzen","ex":"The team utilized each member's strengths to complete the task.","form":"utilized"},{"set":2,"en":"albeit","ipa":"/ɔːlˈbiːɪt/","de":"wenn auch, obgleich","ex":"This decision was necessary, albeit unpleasant.","form":"albeit"},{"set":2,"en":"uneasy","ipa":"/ʌnˈiːzi/","de":"unbehaglich, unwohl","ex":"Although she didn't believe in ghosts, the haunted house still made her uneasy.","form":"uneasy"},{"set":2,"en":"counterpart","ipa":"/ˈkaʊntə(r)ˌpɑː(r)t/","de":"Gegenstück","ex":"Lawyers in central London earn a lot more money than their counterparts in small firms.","form":"counterparts"},{"set":2,"en":"(at) random","ipa":"/æt ˈrændəm/","de":"zufällig, willkürlich, beliebig","ex":"The results are drawn at random, so that every contestant has an equal chance.","form":"at random"},{"set":2,"en":"public opinion","ipa":"/ˌpʌblɪk əˈpɪnjən/","de":"öffentliche Meinung","ex":"Public opinion turned against the politician after the speech.","form":"Public opinion"},{"set":2,"en":"laudable","ipa":"/ˈlɔːdəb(ə)l/","de":"lobenswert","ex":"Her recommendation was laudable, but too expensive for the company to use.","form":"laudable"},{"set":2,"en":"maze","ipa":"/meɪz/","de":"Irrgarten","ex":"It took us two hours to get to the centre of the maze.","form":"maze"},{"set":2,"en":"blame","ipa":"/bleɪm/","de":"Schuld","ex":"My brother always gets the blame, even when something wasn't his fault.","form":"blame"},{"set":2,"en":"agency","ipa":"/ˈeɪdʒ(ə)nsi/","de":"Handlungsfähigkeit, Handlungsmacht","ex":"In order to have free will, we must have the agency to make choices.","form":"agency"},{"set":2,"en":"to endow","ipa":"/ɪnˈdaʊ/","de":"ausstatten","ex":"Parents try and endow their children with the knowledge of right and wrong.","form":"endow"},{"set":2,"en":"urgent","ipa":"/ˈɜː(r)dʒ(ə)nt/","de":"dringend, akut","ex":"The intern prioritized the task that was the most urgent.","form":"urgent"},{"set":2,"en":"to surpass","ipa":"/sə(r)ˈpɑːs/","de":"übertreffen","ex":"My success has surpassed my wildest dreams.","form":"surpassed"},{"set":2,"en":"docile","ipa":"/ˈdəʊsaɪl/","de":"fügsam, gefügig","ex":"The docile cat let himself be carried around the room.","form":"docile"},{"set":2,"en":"to spawn","ipa":"/spɔːn/","de":"hervorbringen","ex":"The Internet spawned countless new industries and products.","form":"spawned"},{"set":2,"en":"forecast","ipa":"/ˈfɔː(r)kɑːst/","de":"Vorhersage, Prognose","ex":"His forecast for the future of the company was bright.","form":"forecast"},{"set":2,"en":"concern","ipa":"/kənˈsɜː(r)n/","de":"Sorge, Besorgnis","ex":"My mother was full of concern when I told her about the accident.","form":"concern"},{"set":2,"en":"consensus","ipa":"/kənˈsensəs/","de":"Konsens, Übereinstimmung","ex":"The general consensus is that the scheme is sure to fail.","form":"consensus"},{"set":2,"en":"school of thought","ipa":"/ˌskuːl‿əv ˈθɔːt/","de":"Denkschule, Denkrichtung","ex":"There are different schools of thought about whether or not humans should eat meat.","form":"schools of thought"},{"set":2,"en":"uninformed","ipa":"/ˌʌnɪnˈfɔː(r)md/","de":"uninformiert, unwissend","ex":"Consumers who were uninformed about the risks continued to buy the product.","form":"uninformed"},{"set":2,"en":"to flourish","ipa":"/ˈflʌrɪʃ/","de":"gedeihen","ex":"The teacher watched the shy child flourish after she gained some confidence.","form":"flourish"},{"set":2,"en":"crucial","ipa":"/ˈkruːʃ(ə)l/","de":"entscheidend","ex":"Financial support is crucial when launching a business.","form":"crucial"},{"set":2,"en":"perennial","ipa":"/pəˈreniəl/","de":"beständig, immerwährend","ex":"Despite perennial protests, the government finally passed the law after five years of trying.","form":"perennial"},{"set":2,"en":"to topple","ipa":"/ˈtɒp(ə)l/","de":"(um)stürzen","ex":"The dictator was toppled by the peasants' revolution.","form":"toppled"},{"set":2,"en":"deliberate","ipa":"/dɪˈlɪb(ə)rət/","de":"absichtlich, gezielt","ex":"The murder was deliberate and planned in advance.","form":"deliberate"},{"set":2,"en":"to embed","ipa":"/ɪmˈbed/","de":"einbetten, einfügen","ex":"My watch is embedded with technology that measures how far I walk each day.","form":"embedded"},{"set":2,"en":"conceivable","ipa":"/kənˈsiːvəb(ə)l/","de":"vorstellbar, denkbar","ex":"One of the conceivable effects of this study is to change public opinion about vaccines.","form":"conceivable"},{"set":2,"en":"to simplify","ipa":"/ˈsɪmplɪfaɪ/","de":"vereinfachen, erleichtern","ex":"The scientist simplified his results to make them easier to understand.","form":"simplified"},{"set":2,"en":"to rush","ipa":"/rʌʃ/","de":"hetzen, eilen","ex":"She rushed home from school to catch the start of her favourite TV programme.","form":"rushed"},{"set":2,"en":"to proliferate","ipa":"/prəˈlɪfəreɪt/","de":"sich (stark) ausbreiten, (stark) zunehmen","ex":"The number of women studying scientific degrees has proliferated in recent years.","form":"proliferated"},{"set":2,"en":"chunk","ipa":"/tʃʌŋk/","de":"Stück","ex":"He left a large chunk of his work for the following day.","form":"chunk"},{"set":2,"en":"to outweigh","ipa":"/ˌaʊtˈweɪ/","de":"überwiegen","ex":"The cost of the holiday greatly outweighed the amount of fun they had.","form":"outweighed"},{"set":3,"en":"pleasant","ipa":"/ˈplez(ə)nt/","de":"angenehm, erfreulich","ex":"I was glad she was coming; she was always pleasant company at events.","form":"pleasant"},{"set":3,"en":"to interact","ipa":"/ˌɪntərˈækt/","de":"interagieren","ex":"He promised himself he would interact more with his flatmates next term.","form":"interact"},{"set":3,"en":"to subsidize","ipa":"/ˈsʌbsɪdaɪz/","de":"subventionieren, bezuschussen","ex":"The government subsidized the cost of the programme so that more students could take part.","form":"subsidized"},{"set":3,"en":"glorious","ipa":"/ˈɡlɔːriəs/","de":"wunderbar, herrlich, glorreich","ex":"The weather was so glorious that we didn't need to bring jackets.","form":"glorious"},{"set":3,"en":"underfunded","ipa":"/ˌʌndə(r)ˈfʌndɪd/","de":"unterfinanziert","ex":"She had to shut down the company; it was underfunded and unsuccessful.","form":"underfunded"},{"set":3,"en":"genuinely","ipa":"/ˈdʒenjuɪnli/","de":"wirklich, ehrlich","ex":"I genuinely thought he was going to win!","form":"genuinely"},{"set":3,"en":"to hitch a ride","ipa":"/ˌhɪtʃ‿ə ˈraɪd/","de":"per Anhalter fahren","ex":"After my car broke down, I hitched a ride to work with my coworker.","form":"hitched a ride"},{"set":3,"en":"to stampede","ipa":"/stæmˈpiːd/","de":"wild (weg)rennen","ex":"As soon as the school bell rang, they stampeded out the door.","form":"stampeded"},{"set":3,"en":"to wind up (doing sth)","ipa":"/ˌwaɪnd‿ˈʌp/","de":"schließlich etw tun","ex":"I wound up letting my friend copy my homework after she asked so many times.","form":"wound up"},{"set":3,"en":"quarter","ipa":"/ˈkwɔː(r)tə(r)/","de":"Viertel-Dollar, 25-Cent-Stück","ex":"This ride costs a quarter and lasts ten minutes.","form":"quarter"}];
+
+/* ---- storage: never let a blocked storage API break the page ---- */
+const store = (()=>{ let mem={};
+  return {
+    get(k){ try{ const v=localStorage.getItem(k); return v===null?mem[k]:v; }catch(e){ return mem[k]; } },
+    set(k,v){ mem[k]=v; try{ localStorage.setItem(k,v); }catch(e){} }
+  };
+})();
+
+let curSet = 1, curMode = 'flash';
+let queue = [], idx = 0, correct = 0, answered = false, current = null, curTask = 'flash';
+
+const stage = document.getElementById('stage');
+const norm = s => s.toLowerCase()
+  .replace(/\(.*?\)/g,' ').replace(/\bsth\b|\bsb\b/g,' ')
+  .replace(/^to\s+/,'').replace(/[^a-zäöüß' ]/g,' ')
+  .replace(/\s+/g,' ').trim();
+const shuffle = a => { const b=a.slice(); for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; };
+
+function pool(){ return curSet===0 ? VOCAB : VOCAB.filter(v=>v.set===curSet); }
+
+function start(){
+  queue = shuffle(pool()); idx = 0; correct = 0;
+  render();
+}
+function render(){
+  if(idx>=queue.length){ return finish(); }
+  current = queue[idx];
+  answered = false;
+  curTask = curMode==='mix' ? ['en2de','de2en','gap'][Math.floor(Math.random()*3)] : curMode;
+  stage.innerHTML = shell() + taskHTML();
+  wire();
+}
+function shell(){
+  const pct = Math.round(idx/queue.length*100);
+  return '<div class="bar"><i style="width:'+pct+'%"></i></div>'
+    + '<div class="meta"><span>Card '+(idx+1)+' of '+queue.length+'</span>'
+    + '<span>Correct: '+correct+'</span></div>';
+}
+function gapSentence(v){
+  const re = new RegExp(v.form.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i');
+  return v.ex.replace(re,'<b>&nbsp;&nbsp;?&nbsp;&nbsp;</b>');
+}
+function distractors(v,key){
+  const others = shuffle(pool().filter(x=>x!==v)).slice(0,3).map(x=>x[key]);
+  return shuffle(others.concat([v[key]]));
+}
+function taskHTML(){
+  const v = current;
+  if(curTask==='flash'){
+    return '<div class="prompt">Do you know this word?</div>'
+      + '<div class="word">'+v.en+'</div><div class="ipa">'+v.ipa+'</div>'
+      + '<div class="flip" id="flip"><div class="de">'+v.de+'</div>'
+      + '<div class="sentence" style="background:transparent;padding:8px 0">'+v.ex+'</div></div>'
+      + '<div class="actions"><button class="primary" id="reveal">Show meaning</button>'
+      + '<button id="knew" style="display:none">I knew it</button>'
+      + '<button id="again" style="display:none">Practise again</button></div>';
+  }
+  if(curTask==='en2de'){
+    return '<div class="prompt">What does this word mean?</div>'
+      + '<div class="word">'+v.en+'</div><div class="ipa">'+v.ipa+'</div>'
+      + '<div class="opts">'+distractors(v,'de').map(o=>'<button data-a="'+encodeURIComponent(o)+'">'+o+'</button>').join('')+'</div>'
+      + '<div class="fb" id="fb"></div>'
+      + '<div class="actions"><button class="primary" id="next" style="display:none">Next</button></div>';
+  }
+  if(curTask==='de2en'){
+    return '<div class="prompt">Type the English word</div>'
+      + '<div class="word">'+v.de+'</div>'
+      + '<input type="text" id="inp" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="your answer">'
+      + '<div class="hint" id="hint"></div>'
+      + '<div class="fb" id="fb"></div>'
+      + '<div class="actions"><button class="primary" id="check">Check</button>'
+      + '<button class="ghost" id="hintbtn">Hint</button>'
+      + '<button class="primary" id="next" style="display:none">Next</button></div>';
+  }
+  return '<div class="prompt">Which word is missing?</div>'
+    + '<div class="sentence">'+gapSentence(v)+'</div>'
+    + '<input type="text" id="inp" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="your answer">'
+    + '<div class="hint" id="hint"></div>'
+    + '<div class="fb" id="fb"></div>'
+    + '<div class="actions"><button class="primary" id="check">Check</button>'
+    + '<button class="ghost" id="hintbtn">Hint</button>'
+    + '<button class="primary" id="next" style="display:none">Next</button></div>';
+}
+function advance(ok){
+  if(ok) correct++;
+  if(!ok) queue.push(current);      // wrong items come back later (spaced retrieval)
+  idx++; render();
+}
+function judgeTyped(){
+  if(answered) return; answered = true;
+  const v = current, inp = document.getElementById('inp');
+  const given = norm(inp.value);
+  const target = curTask==='gap' ? norm(v.form) : norm(v.en);
+  const alt = curTask==='gap' ? norm(v.en) : norm(v.form);
+  const ok = given.length>0 && (given===target || given===alt);
+  const fb = document.getElementById('fb');
+  fb.className = 'fb on ' + (ok?'good':'bad');
+  fb.innerHTML = (ok?'Correct.':'Not yet.')
+    + '<div class="sol"><b>'+v.en+'</b> '+v.ipa+' — '+v.de+'<br><i>'+v.ex+'</i></div>';
+  if(ok) correct++;
+  if(!ok) queue.push(v);
+  document.getElementById('check').style.display='none';
+  document.getElementById('hintbtn').style.display='none';
+  const n = document.getElementById('next'); n.style.display=''; n.focus();
+}
+function wire(){
+  const v = current;
+  if(curTask==='flash'){
+    document.getElementById('reveal').onclick = e=>{
+      document.getElementById('flip').classList.add('on');
+      e.target.style.display='none';
+      document.getElementById('knew').style.display='';
+      document.getElementById('again').style.display='';
+    };
+    document.getElementById('knew').onclick = ()=>advance(true);
+    document.getElementById('again').onclick = ()=>advance(false);
+    return;
+  }
+  if(curTask==='en2de'){
+    const fb = document.getElementById('fb');
+    document.querySelectorAll('.opts button').forEach(b=>{
+      b.onclick = ()=>{
+        if(answered) return; answered = true;
+        const chosen = decodeURIComponent(b.dataset.a);
+        const ok = chosen === v.de;
+        document.querySelectorAll('.opts button').forEach(x=>{
+          const val = decodeURIComponent(x.dataset.a);
+          if(val===v.de) x.classList.add('right');
+          else if(x===b) x.classList.add('wrong');
+          x.disabled = true;
+        });
+        fb.className='fb on '+(ok?'good':'bad');
+        fb.innerHTML = (ok?'Correct.':'Not yet.')+'<div class="sol"><i>'+v.ex+'</i></div>';
+        if(ok) correct++; else queue.push(v);
+        const n=document.getElementById('next'); n.style.display=''; n.focus();
+      };
+    });
+    document.getElementById('next').onclick = ()=>{ idx++; render(); };
+    return;
+  }
+  const inp = document.getElementById('inp');
+  inp.focus();
+  inp.onkeydown = e=>{ if(e.key==='Enter'){ answered ? (idx++, render()) : judgeTyped(); } };
+  document.getElementById('check').onclick = judgeTyped;
+  document.getElementById('next').onclick = ()=>{ idx++; render(); };
+  document.getElementById('hintbtn').onclick = ()=>{
+    const h = document.getElementById('hint');
+    const t = curTask==='gap' ? v.form : v.en.replace(/^to\s+/,'');
+    h.innerHTML = 'Starts with <b>'+t.slice(0,2)+'</b> · '+t.replace(/\S/g,'_').replace(/_/g,'_ ')
+      + ' · ' + v.ipa;
+    h.classList.add('on');
+  };
+}
+function finish(){
+  const total = correct;
+  const key = 'ct11-best-'+curSet+'-'+curMode;
+  const prev = parseInt(store.get(key)||'0',10);
+  if(total>prev) store.set(key,String(total));
+  const best = Math.max(prev,total);
+  stage.innerHTML = '<div class="done"><div class="big">'+total+' correct</div>'
+    + '<p>Your best in this set so far: '+best+'.</p>'
+    + '<p style="color:var(--muted)">Words you got wrong came back automatically. '
+    + 'Come back tomorrow for a short session — that works better than one long one.</p>'
+    + '<div class="actions" style="justify-content:center"><button class="primary" id="again2">Practise again</button></div></div>';
+  document.getElementById('again2').onclick = start;
+}
+
+document.querySelectorAll('.setbtn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.setbtn').forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel'); curSet = +b.dataset.set; start();
+});
+document.querySelectorAll('.modebtn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.modebtn').forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel'); curMode = b.dataset.mode; start();
+});
+start();
+</script>
+</body>
+</html>
