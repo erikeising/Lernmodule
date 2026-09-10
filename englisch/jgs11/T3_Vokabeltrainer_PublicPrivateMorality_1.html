@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulary Trainer — Public and private morality</title>
+<style>
+:root{
+  --paper:#f2f0eb; --paper-deep:#e8e5dd; --ink:#1d1f21; --ink-soft:#4e5257;
+  --line:#d3cfc5;
+  --teal:#17505c; --teal-bg:#dfeaec;
+  --copper:#a8532b; --copper-bg:#f4e5dc;
+  --plum:#5c3a56; --plum-bg:#ece0ea;
+  --green:#2f6b46; --green-bg:#e0efe5;
+  --red:#a63a2b; --red-bg:#f6e2de;
+  --gold:#9c7420;
+  --shadow:0 4px 24px rgba(20,25,30,.10); --shadow-sm:0 2px 10px rgba(20,25,30,.07);
+  --display:"Georgia","Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  --mono:"SF Mono","Courier New",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(circle at 1px 1px,rgba(20,25,30,.022) 1px,transparent 0);background-size:22px 22px}
+.wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:0 24px 120px}
+
+.hero{padding:52px 0 32px;border-bottom:2px solid var(--ink)}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--copper);margin-bottom:18px;font-weight:600}
+.hero h1{font-family:var(--display);font-size:clamp(2.4rem,6.5vw,4rem);font-weight:700;line-height:1.0;letter-spacing:-.02em}
+.hero h1 em{font-style:italic;color:var(--teal)}
+.hero .sub{font-size:1.02rem;color:var(--ink-soft);max-width:560px;margin-top:14px}
+.hero-meta{display:flex;gap:26px;margin-top:26px;flex-wrap:wrap}
+.hero-meta .stat{display:flex;flex-direction:column}
+.hero-meta .num{font-family:var(--display);font-size:1.7rem;font-weight:700;line-height:1}
+.hero-meta .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px}
+
+.modes{position:sticky;top:0;z-index:20;display:flex;gap:4px;padding:14px 0;margin-bottom:6px;background:linear-gradient(var(--paper) 78%,transparent);flex-wrap:wrap}
+.mode-btn{font-family:var(--sans);font-size:13.5px;font-weight:600;padding:9px 15px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink-soft);border-radius:2px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px}
+.mode-btn:hover{border-color:var(--ink);color:var(--ink)}
+.mode-btn.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:26px;padding:14px 16px;background:var(--paper-deep);border-radius:3px;border:1px solid var(--line)}
+.filters .flabel{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-right:4px}
+.chip{font-size:12.5px;font-weight:600;padding:5px 12px;border-radius:20px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink-soft);cursor:pointer;transition:all .15s}
+.chip:hover{border-color:var(--ink)}
+.chip.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.chip.on.copper{background:var(--copper);border-color:var(--copper)}
+.chip.on.plum{background:var(--plum);border-color:var(--plum)}
+
+.panel{display:none;animation:fade .3s ease}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.section-head{font-family:var(--display);font-size:1.4rem;font-weight:700;margin:34px 0 4px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.section-head .tag{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;padding:3px 9px;border-radius:3px;text-transform:uppercase;position:relative;top:-3px}
+.tag.teal{background:var(--teal-bg);color:var(--teal)}
+.tag.copper{background:var(--copper-bg);color:var(--copper)}
+.tag.plum{background:var(--plum-bg);color:var(--plum)}
+.section-sub{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-bottom:16px;letter-spacing:.03em}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:12px}
+.vcard{background:var(--paper);border:1px solid var(--line);border-radius:4px;cursor:pointer;transition:all .2s;perspective:1000px;height:156px;position:relative}
+.vcard:hover{box-shadow:var(--shadow-sm);border-color:var(--ink)}
+.vcard-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.vcard.flipped .vcard-inner{transform:rotateY(180deg)}
+.vcard-face{position:absolute;inset:0;backface-visibility:hidden;padding:17px;display:flex;flex-direction:column;justify-content:space-between;border-radius:4px}
+.vcard-back{transform:rotateY(180deg);background:var(--paper-deep)}
+.vc-en{font-family:var(--display);font-size:1.2rem;font-weight:700;line-height:1.15;padding-right:44px}
+.vc-ipa{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);margin-top:5px}
+.vc-de{font-family:var(--display);font-size:1.08rem;font-weight:700;color:var(--copper);line-height:1.25}
+.vc-ex{font-size:12px;color:var(--ink-soft);font-style:italic;line-height:1.4}
+.vc-pg{position:absolute;top:14px;right:14px;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--ink-soft);opacity:.65}
+.vc-speak{position:absolute;bottom:11px;right:11px;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);background:var(--paper);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;transition:all .15s;backface-visibility:hidden}
+.vc-speak:hover{border-color:var(--teal);background:var(--teal-bg)}
+.flip-hint{font-family:var(--mono);font-size:9px;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase}
+
+.stage{max-width:620px;margin:0 auto}
+#match-stage{max-width:880px}
+.setup{text-align:center;padding:38px 0}
+.setup h2{font-family:var(--display);font-size:1.9rem;font-weight:700;margin-bottom:10px}
+.setup p{color:var(--ink-soft);margin-bottom:24px}
+.dir-toggle{display:inline-flex;border:1.5px solid var(--ink);border-radius:3px;overflow:hidden;margin-bottom:26px}
+.dir-toggle button{font-family:var(--sans);font-size:13.5px;font-weight:600;padding:11px 20px;background:var(--paper);color:var(--ink-soft);border:none;cursor:pointer}
+.dir-toggle button.on{background:var(--ink);color:var(--paper)}
+.btn-primary{font-family:var(--sans);font-size:15px;font-weight:600;padding:13px 32px;background:var(--teal);color:#fff;border:none;border-radius:3px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow-sm)}
+.btn-primary:hover{background:#123f49;transform:translateY(-1px)}
+.btn-ghost{font-family:var(--sans);font-size:13px;font-weight:600;padding:9px 18px;background:transparent;border:1.5px solid var(--line);color:var(--ink-soft);border-radius:3px;cursor:pointer}
+.btn-ghost:hover{border-color:var(--ink);color:var(--ink)}
+
+.progress{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.qbar{flex:1;height:5px;background:var(--line);border-radius:3px;overflow:hidden}
+.qbar-fill{height:100%;background:var(--green);transition:width .4s;border-radius:3px}
+.qcount{font-family:var(--mono);font-size:12px;color:var(--ink-soft);white-space:nowrap}
+.qcard{background:var(--paper);border:2px solid var(--ink);border-radius:6px;padding:32px 26px;text-align:center;box-shadow:var(--shadow);margin-bottom:18px}
+.q-label{font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px}
+.q-prompt{font-family:var(--display);font-size:2rem;font-weight:700;line-height:1.15;margin-bottom:6px}
+.q-prompt.small{font-size:1.35rem;line-height:1.35}
+.q-ipa{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft)}
+.q-speak-big{margin-top:12px;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--line);background:var(--paper);cursor:pointer;font-size:17px}
+.q-speak-big:hover{border-color:var(--teal);background:var(--teal-bg)}
+.q-options{display:grid;gap:9px}
+.q-opt{font-family:var(--sans);font-size:14.5px;text-align:left;padding:14px 18px;background:var(--paper);border:1.5px solid var(--line);border-radius:4px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:12px}
+.q-opt:hover:not(:disabled){border-color:var(--ink);background:var(--paper-deep)}
+.q-opt:disabled{cursor:default}
+.q-opt .opt-key{font-family:var(--mono);font-size:11px;width:22px;height:22px;border-radius:3px;background:var(--paper-deep);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ink-soft)}
+.q-opt.correct{background:var(--green-bg);border-color:var(--green);color:#24553a}
+.q-opt.correct .opt-key{background:var(--green);color:#fff}
+.q-opt.wrong{background:var(--red-bg);border-color:var(--red);color:#7f2b1f}
+.q-opt.wrong .opt-key{background:var(--red);color:#fff}
+.q-feedback{text-align:center;min-height:30px;margin-top:16px;font-size:13.5px;font-weight:600}
+.q-feedback .ex{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:12.5px;margin-top:6px}
+.q-next{text-align:center;margin-top:8px}
+
+.score{text-align:center;padding:28px 0}
+.score-ring{font-family:var(--display);font-size:3.6rem;font-weight:700;line-height:1}
+.score-pct{font-family:var(--mono);font-size:13px;color:var(--ink-soft);letter-spacing:.1em;margin-top:8px}
+.score-msg{font-size:1.05rem;margin:18px 0 26px}
+.breakdown{display:flex;justify-content:center;gap:30px;margin-bottom:28px}
+.breakdown .sb{display:flex;flex-direction:column}
+.breakdown .sb-n{font-family:var(--display);font-size:1.7rem;font-weight:700}
+.breakdown .sb-l{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft)}
+.missed{text-align:left;max-width:480px;margin:0 auto 26px;border-top:1px solid var(--line)}
+.missed h4{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--copper);padding:16px 0 10px}
+.missed-item{display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.missed-item .me{font-weight:600}
+.missed-item .md{color:var(--copper);font-style:italic;text-align:right}
+
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.match-col-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-soft);padding-bottom:8px;text-align:center}
+.match-tile{padding:13px 15px;background:var(--paper);border:1.5px solid var(--line);border-radius:4px;cursor:pointer;transition:all .15s;font-size:14px;font-weight:600;min-height:52px;display:flex;align-items:center;justify-content:center;text-align:center}
+.match-tile.en{font-family:var(--display);font-size:1.02rem}
+.match-tile.de{color:var(--copper);font-weight:500;font-size:13px}
+.match-tile:hover:not(.matched){border-color:var(--ink)}
+.match-tile.selected{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.match-tile.matched{opacity:.22;cursor:default;border-style:dashed}
+.match-tile.flash-ok{background:var(--green-bg);border-color:var(--green)}
+.match-tile.flash-no{background:var(--red-bg);border-color:var(--red);animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.match-stats{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.match-timer{font-family:var(--mono);font-size:1.3rem;font-weight:600}
+.match-moves{font-family:var(--mono);font-size:13px;color:var(--ink-soft)}
+
+.pair-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.pair-card{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:16px 18px}
+.pair-en{font-family:var(--display);font-size:1.15rem;font-weight:700;margin-bottom:10px}
+.pair-row{display:flex;gap:10px;font-size:13.5px;padding:4px 0;align-items:baseline}
+.pair-tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:3px;flex-shrink:0}
+.pair-tag.syn{background:var(--green-bg);color:var(--green)}
+.pair-tag.ant{background:var(--red-bg);color:var(--red)}
+
+.def-card{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:18px 20px;margin-bottom:10px;display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}
+.def-term{font-family:var(--display);font-size:1.18rem;font-weight:700;color:var(--teal);min-width:150px}
+.def-text{font-size:14px;color:var(--ink-soft);flex:1}
+.def-note{font-family:var(--mono);font-size:11px;color:var(--ink-soft);background:var(--paper-deep);border:1px solid var(--line);border-radius:3px;padding:12px 14px;margin-bottom:18px;line-height:1.6}
+
+.progress-note{font-family:var(--mono);font-size:11px;color:var(--ink-soft);text-align:center;margin-top:28px;padding:14px;background:var(--paper-deep);border-radius:3px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);padding:11px 22px;border-radius:4px;font-size:13.5px;font-weight:600;opacity:0;transition:all .25s;z-index:99;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.empty{text-align:center;padding:56px 20px;color:var(--ink-soft)}
+.empty .big{font-family:var(--display);font-size:1.35rem;margin-bottom:8px;color:var(--ink)}
+
+@media(max-width:560px){
+  .hero{padding:36px 0 26px}
+  .card-grid,.pair-grid{grid-template-columns:1fr}
+  .match-tile{font-size:12.5px;padding:10px;min-height:46px}
+  .q-prompt{font-size:1.6rem}
+  .def-card{flex-direction:column;gap:6px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">Camden Town Oberstufe · Theme 4 · SB 96–113</div>
+    <h1>Public and<br><em>private</em> morality</h1>
+    <p class="sub">The vocabulary of conscience, accountability and the rule of law — from cancel culture to <em>A Burning</em>. Browse it, test it, master it.</p>
+    <div class="hero-meta">
+      <div class="stat"><span class="num">121</span><span class="lbl">words</span></div>
+      <div class="stat"><span class="num">7</span><span class="lbl">sections</span></div>
+      <div class="stat"><span class="num" id="stat-mastered">0</span><span class="lbl">mastered</span></div>
+    </div>
+  </header>
+
+  <nav class="modes">
+    <button class="mode-btn active" data-mode="browse">▦ Browse</button>
+    <button class="mode-btn" data-mode="quiz">✎ Quiz</button>
+    <button class="mode-btn" data-mode="match">⇄ Match</button>
+    <button class="mode-btn" data-mode="define">◈ Define</button>
+    <button class="mode-btn" data-mode="pairs">↔ Synonyms</button>
+  </nav>
+
+  <div class="filters" id="filters">
+    <span class="flabel">Sections</span>
+    <button class="chip on" data-part="all" id="chip-all">All</button>
+    <button class="chip on" data-part="A">Intro &amp; WordPool</button>
+    <button class="chip on copper" data-part="B">Cancel culture &amp; Workshop</button>
+    <button class="chip on plum" data-part="C">Disorder &amp; Responsibility</button>
+  </div>
+
+  <section class="panel active" id="panel-browse"></section>
+  <section class="panel" id="panel-quiz"><div class="stage" id="quiz-stage"></div></section>
+  <section class="panel" id="panel-match"><div class="stage" id="match-stage"></div></section>
+  <section class="panel" id="panel-define"><div id="define-host"></div></section>
+  <section class="panel" id="panel-pairs"><div id="pairs-host"></div></section>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const DATA = {"sections":[{"id":"intro","part":"A","label":"Intro — SB S. 96f.","color":"teal","words":[{"en":"morality","ipa":"/məˈræləti/","de":"Moral, (ethische) Grundsätze, Ethik","ex":"The man was well-known for his morality and virtue.","pg":96},{"en":"to permit","ipa":"/pəˈmɪt/","de":"erlauben, gestatten, ermöglichen","ex":"In Britain, you are not permitted to smoke inside.","pg":96},{"en":"doctrine","ipa":"/ˈdɒktrɪn/","de":"Doktrin, Grundsatz","ex":"He was deeply committed to political doctrines of social equality.","pg":96},{"en":"conduct","ipa":"/ˈkɒndʌkt/","de":"Verhalten, Benehmen, Betragen","ex":"The minister was called to court to explain his conduct.","pg":96},{"en":"to jeopardize","ipa":"/ˈdʒepədaɪz/","de":"gefährden","ex":"This scandal could seriously jeopardize her chances of being re-elected.","pg":96},{"en":"hypocrite","ipa":"/ˈhɪpəkrɪt/","de":"Heuchler/in, Scheinheilige/r","ex":"Charles was a liar and a hypocrite who married her for money.","pg":97},{"en":"obedience","ipa":"/əˈbiːdiəns/","de":"Gehorsam","ex":"He has acted in obedience to the law.","pg":97},{"en":"punishment","ipa":"/ˈpʌnɪʃmənt/","de":"Bestrafung, Strafe","ex":"She had to tidy the classroom as punishment for being late.","pg":97},{"en":"accord","ipa":"/əˈkɔːd/","de":"Vereinbarung, Abkommen","ex":"On 31 May the two leaders signed a peace accord.","pg":97},{"en":"contract","ipa":"/ˈkɒntrækt/","de":"Vertrag; Auftrag","ex":"Their contract with the landlord stated that they could not have pets in the house.","pg":97}]},{"id":"wordpool","part":"A","label":"WordPool — SB S. 98f.","color":"teal","words":[{"en":"tension","ipa":"/ˈtenʃ(ə)n/","de":"(An)spannung, Spannungen","ex":"Many teenagers report feeling tension between them and their parents.","pg":98},{"en":"conscience","ipa":"/ˈkɒnʃəns/","de":"Gewissen","ex":"She felt her decision heavily weighing on her conscience.","pg":98},{"en":"by contrast","ipa":"/ˌbaɪ ˈkɒntrɑːst/","de":"im Gegensatz (dazu), dagegen","ex":"By contrast, popular culture appeals to the masses.","pg":98},{"en":"clear-cut","ipa":"/ˌklɪə ˈkʌt/","de":"eindeutig, klar, fest umrissen","ex":"There is no clear-cut answer to this question.","pg":98},{"en":"legitimate","ipa":"/lɪˈdʒɪtəmət/","de":"berechtigt, rechtmäßig, legitim","ex":"It seemed a perfectly legitimate question.","pg":98},{"en":"spouse","ipa":"/spaʊs/","de":"(Ehe)gatte / (Ehe)gattin","ex":"Fill in your spouse’s name here.","pg":98},{"en":"to be subject to sth","ipa":"/ˌbiː səbˈdʒekt tə/","de":"etw unterworfen sein","ex":"Many people are still subject to abuse.","pg":98},{"en":"scrutiny","ipa":"/ˈskruːtəni/","de":"(genaue Über)prüfung, Untersuchung","ex":"People in public office are often under intense scrutiny.","pg":98},{"en":"implication","ipa":"/ˌɪmplɪˈkeɪʃ(ə)n/","de":"Folge, Auswirkung; Mitgemeintes","ex":"I chose to take the long route with the implication that I was late for work.","pg":98},{"en":"to consent","ipa":"/kənˈsent/","de":"zustimmen, einwilligen","ex":"When she told them what she intended, they readily consented.","pg":98},{"en":"wrongdoing","ipa":"/ˈrɒŋˌduːɪŋ/","de":"Vergehen, Fehlverhalten","ex":"The company denies any wrongdoing.","pg":98},{"en":"to shield","ipa":"/ʃiːld/","de":"(ab)schirmen, (be)schützen","ex":"The ozone layer shields the earth from the sun’s ultraviolet rays.","pg":98},{"en":"response","ipa":"/rɪˈspɒns/","de":"Antwort, Reaktion","ex":"His sharp response confused me.","pg":98},{"en":"proceeding","ipa":"/prəˈsiːdɪŋ/","de":"Verfahren, Vorgehen(sweise)","ex":"The EU has started legal proceedings against the country.","pg":98},{"en":"actual","ipa":"/ˈæktʃuəl/","de":"tatsächlich, konkret; eigentlich","ex":"The actual cost was higher than we expected.","pg":98},{"en":"alleged","ipa":"/əˈledʒd/","de":"angeblich","ex":"We heard evidence in court against the alleged attacker.","pg":98},{"en":"to exert","ipa":"/ɪɡˈzɜːt/","de":"ausüben, geltend machen","ex":"Some managers exert considerable pressure on their staff.","pg":98},{"en":"to enforce","ipa":"/ɪnˈfɔːs/","de":"durchsetzen, in Kraft treten lassen","ex":"The school enforced its uniform policy strictly.","pg":98},{"en":"oppressive","ipa":"/əˈpresɪv/","de":"unterdrückerisch, (er)drückend","ex":"We are dealing with an oppressive military regime.","pg":98},{"en":"to blur","ipa":"/blɜː/","de":"verschwimmen (lassen)","ex":"Boundaries between some social classes have blurred in recent years.","pg":98},{"en":"vast","ipa":"/vɑːst/","de":"gewaltig, riesig, überwältigend","ex":"There are vast numbers of stars just in our solar system.","pg":98},{"en":"to constitute","ipa":"/ˈkɒnstɪˌtjuːt/","de":"ausmachen, sein","ex":"Our galaxy only constitutes a small part of the universe.","pg":98},{"en":"to hold sb accountable","ipa":"/ˌhəʊld əˈkaʊntəb(ə)l/","de":"jdn verantwortlich machen","ex":"My parents hold me accountable for my mistakes.","pg":98},{"en":"disapproval","ipa":"/ˌdɪsəˈpruːv(ə)l/","de":"Missbilligung","ex":"He shook his head in disapproval.","pg":99},{"en":"self-determination","ipa":"/ˌself dɪˌtɜːmɪˈneɪʃ(ə)n/","de":"Selbstbestimmung, Entschlusskraft","ex":"Many influences limited girls’ ideas about independence and self-determination.","pg":99},{"en":"opposing","ipa":"/əˈpəʊzɪŋ/","de":"entgegengesetzt, gegensätzlich","ex":"The two opposing positions on the issue are hard to reconcile.","pg":99}]},{"id":"cancel","part":"A","label":"Texts: Cancel culture — SB S. 100","color":"copper","words":[{"en":"accountability","ipa":"/əˌkaʊntəˈbɪləti/","de":"Verantwortlichkeit","ex":"Everybody in the group has to know their accountability.","pg":100},{"en":"virtue","ipa":"/ˈvɜːtʃuː/","de":"Tugend","ex":"She led a life of virtue.","pg":100},{"en":"dubious","ipa":"/ˈdjuːbiəs/","de":"zweifelhaft, fragwürdig","ex":"Ever since that big scandal, the company’s practices have been seen as highly dubious.","pg":100},{"en":"random","ipa":"/ˈrændəm/","de":"zufällig, wahllos, x-beliebig","ex":"The information is processed in a random order.","pg":100},{"en":"objectionable","ipa":"/əbˈdʒekʃənəb(ə)l/","de":"anstößig; unangenehm, übel","ex":"I myself didn’t find his behaviour objectionable.","pg":100},{"en":"to initiate","ipa":"/ɪˈnɪʃieɪt/","de":"in die Wege leiten, initiieren","ex":"The project initiated the attempt for citizens to have a higher quality of life.","pg":100}]},{"id":"stepbystep","part":"B","label":"Workshop: Step by step — SB S. 101–104","color":"copper","words":[{"en":"stance","ipa":"/stæns/","de":"Haltung, Standpunkt, Einstellung","ex":"What is your stance on this issue?","pg":101},{"en":"critic","ipa":"/ˈkrɪtɪk/","de":"Kritiker/in","ex":"I want to be a critic for films when I’m older.","pg":101},{"en":"to speak one’s mind","ipa":"/ˌspiːk wʌnz ˈmaɪnd/","de":"(offen) aussprechen, was man denkt","ex":"She’s never hesitated about speaking her mind.","pg":101},{"en":"to settle","ipa":"/ˈset(ə)l/","de":"entscheiden, regeln, erledigen, beilegen","ex":"Disputes are often settled after much debate.","pg":101},{"en":"self-employed","ipa":"/ˌself ɪmˈplɔɪd/","de":"selbstständig","ex":"I have my own business which means I am self-employed.","pg":101},{"en":"scorn","ipa":"/skɔːn/","de":"Verachtung","ex":"Her fellow teachers greeted her proposal with scorn.","pg":101},{"en":"to anticipate","ipa":"/ænˈtɪsɪpeɪt/","de":"erwarten, rechnen mit, vorhersehen","ex":"The eagerly anticipated movie will be released next month.","pg":101},{"en":"scale","ipa":"/skeɪl/","de":"Ausmaß, Umfang","ex":"It was not until morning that the sheer scale of the damage could be seen.","pg":101},{"en":"to be ripe for sth","ipa":"/raɪp/","de":"reif für etw sein","ex":"The conditions were ripe for social change.","pg":102},{"en":"ridicule","ipa":"/ˈrɪdɪkjuːl/","de":"Spott, Hohn","ex":"She is an object of ridicule in the tabloid newspapers.","pg":102},{"en":"backlash","ipa":"/ˈbækˌlæʃ/","de":"Gegenreaktion","ex":"The backlash against the scandal forced the company to fire him.","pg":102},{"en":"to call sb out","ipa":"/ˌkɔːl ˈaʊt/","de":"jdn zur Rede stellen, jdn kritisieren","ex":"If he did anything wrong, I’d be the first to call him out on it.","pg":102},{"en":"hostility","ipa":"/hɒˈstɪləti/","de":"Feindseligkeit","ex":"There is still a lot of hostility between them.","pg":102},{"en":"to stumble","ipa":"/ˈstʌmb(ə)l/","de":"stolpern, straucheln","ex":"She stumbled through verb conjugations.","pg":102},{"en":"to stoke","ipa":"/stəʊk/","de":"schüren, anheizen","ex":"His departure has stoked fears that the company is planning job cuts.","pg":102},{"en":"to opt out of sth","ipa":"/ˌɒpt ˈaʊt əv/","de":"bei etw nicht länger mitmachen, aus etw aussteigen","ex":"Employees may opt out of the company’s pension plan.","pg":102},{"en":"haphazardly","ipa":"/hæpˈhæzədli/","de":"planlos, wahllos; willkürlich","ex":"Vehicles are parked haphazardly on the narrow streets.","pg":102},{"en":"rigid","ipa":"/ˈrɪdʒɪd/","de":"starr, steif, hart; hier: streng","ex":"His rigid adherence to the rules made him unpopular.","pg":102},{"en":"to refute","ipa":"/rɪˈfjuːt/","de":"widerlegen, entkräften","ex":"Any good scientist will refute the claim that the earth is flat.","pg":103},{"en":"reservation","ipa":"/ˌrezəˈveɪʃ(ə)n/","de":"hier: Vorbehalt, Bedenken","ex":"I have serious reservations about his ability to do the job.","pg":103},{"en":"literally","ipa":"/ˈlɪt(ə)rəli/","de":"(wort)wörtlich, buchstäblich","ex":"Do not take the text literally, it is very overdramatic.","pg":103},{"en":"to be at stake","ipa":"/ˌbi ət ˈsteɪk/","de":"zur Debatte stehen; auf dem Spiel stehen","ex":"Many jobs are at stake.","pg":104},{"en":"coherent","ipa":"/kəʊˈhɪərənt/","de":"zusammenhängend, in sich geschlossen","ex":"I couldn’t string a coherent sentence together.","pg":104},{"en":"ample","ipa":"/ˈæmp(ə)l/","de":"reichlich, genügend, groß","ex":"Diversity offers people ample opportunity to explore different cultures.","pg":104},{"en":"decisive","ipa":"/dɪˈsaɪsɪv/","de":"entschlossen, bestimmend, entscheidend","ex":"You need to be more decisive.","pg":104}]},{"id":"practice","part":"B","label":"Workshop: Practice — SB S. 105–107","color":"copper","words":[{"en":"judiciary","ipa":"/dʒuˈdɪʃəri/","de":"Gerichtswesen, Richterstand","ex":"The judiciary is responsible for the legal system.","pg":105},{"en":"repercussions","ipa":"/ˌriːpəˈkʌʃnz/","de":"Auswirkungen, Konsequenzen","ex":"The collapse of the company will have repercussions for the whole industry.","pg":105},{"en":"lever","ipa":"/ˈliːvə/","de":"Hebel","ex":"This could serve as a powerful lever for peace.","pg":106},{"en":"harassment","ipa":"/həˈræsmənt/","de":"Belästigung, Schikane","ex":"Many women face harassment in public spaces, such as buses and trains.","pg":106},{"en":"allegation","ipa":"/ˌæləˈɡeɪʃ(ə)n/","de":"Behauptung, Anschuldigung","ex":"A lawyer defends the defendant in court against criminal allegations.","pg":106},{"en":"livelihood","ipa":"/ˈlaɪvlihʊd/","de":"Lebensunterhalt","ex":"Climate change and high demand is bad for the livelihood of farmers.","pg":106},{"en":"submission","ipa":"/səbˈmɪʃ(ə)n/","de":"Unterwerfung, Unterordnung; Einreichung","ex":"Looking away is a sign of submission in dogs.","pg":106},{"en":"antithesis","ipa":"/ænˈtɪθəsɪs/","de":"Gegenteil, Gegensatz","ex":"She is the very antithesis of her sister.","pg":106},{"en":"inaugural","ipa":"/ɪˈnɔːɡjʊrəl/","de":"Antritts-, Eröffnungs-, Erst-","ex":"Yesterday was the inaugural boat race.","pg":106},{"en":"to persecute","ipa":"/ˈpɜːsɪˌkjuːt/","de":"verfolgen, hetzen","ex":"During the war, a lot of civilians were persecuted for their beliefs.","pg":106},{"en":"opponent","ipa":"/əˈpəʊnənt/","de":"Gegner/in, Gegenpartei","ex":"The tennis player will play his greatest opponent next week.","pg":106},{"en":"to incite","ipa":"/ɪnˈsaɪt/","de":"aufstacheln, anstiften","ex":"Hate speech is speech that incites violence.","pg":106},{"en":"deference","ipa":"/ˈdefərəns/","de":"Respekt","ex":"You should always treat people with deference.","pg":106},{"en":"entity","ipa":"/ˈentəti/","de":"juristische Person, Einheit; hier auch: Unternehmen","ex":"One section of the company was split up into a separate entity.","pg":106},{"en":"egregious","ipa":"/ɪˈɡriːdʒiəs/","de":"unerhört, ungeheuerlich, grob","ex":"It was an egregious error for a statesman to show such ignorance.","pg":107},{"en":"bribe","ipa":"/braɪb/","de":"Bestechung","ex":"She had been offered a bribe to drop the charges.","pg":107},{"en":"executive order","ipa":"/ɪɡˌzekjətɪv ˈɔːdə/","de":"Durchführungsverordnung, Dekret","ex":"The president has signed another executive order.","pg":107},{"en":"constraint","ipa":"/kənˈstreɪnt/","de":"Beschränkung, Einschränkung; Zwang","ex":"This decision will impose serious constraints on all schools.","pg":107},{"en":"imminent","ipa":"/ˈɪmɪnənt/","de":"bevorstehend, drohend","ex":"A tropical storm is imminent.","pg":107},{"en":"dearth (of sth)","ipa":"/ˈdɜːθ əv/","de":"Mangel (an etw)","ex":"There was a dearth of reliable information on the subject.","pg":107}]},{"id":"disorder","part":"C","label":"Texts: Disorder, dissent, discipline — SB S. 108–111","color":"plum","words":[{"en":"disorder","ipa":"/dɪsˈɔːdə/","de":"Aufruhr, Unordnung, (Funktions)störung","ex":"The disorder worsened on Wednesday.","pg":108},{"en":"samosa","ipa":"/səˈməʊsə/","de":"indische Teigtasche","ex":"Please resist the urge to cut your samosa with a knife and fork.","pg":109},{"en":"torch","ipa":"/tɔːtʃ/","de":"Fackel, Feuer; Taschenlampe","ex":"We struggled to read the map by the light of the torch.","pg":109},{"en":"carriage","ipa":"/ˈkærɪdʒ/","de":"Waggon","ex":"A railway carriage is a separate section of a train for carrying passengers.","pg":109},{"en":"slip","ipa":"/slɪp/","de":"Zettel, Schein","ex":"I wrote it down on a slip of paper.","pg":109},{"en":"to drift","ipa":"/drɪft/","de":"treiben, ziehen, schweben; hier: kreisen","ex":"The talk drifted aimlessly from one subject to another.","pg":109},{"en":"municipal","ipa":"/mjuːˈnɪsɪp(ə)l/","de":"städtisch, Stadt-; kommunal","ex":"Municipal authorities have agreed to the sale of the park.","pg":109},{"en":"to exhaust","ipa":"/ɪɡˈzɔːst/","de":"erschöpfen, ermüden; hier: sich verausgaben","ex":"There’s no need to exhaust yourself clearing up.","pg":110},{"en":"to mount","ipa":"/maʊnt/","de":"(auf)steigen; hier: befestigen","ex":"The CCTV camera is mounted above the main door.","pg":110},{"en":"rooster","ipa":"/ˈruːstə/","de":"Hahn (AE)","ex":"We heard the crow of a rooster.","pg":110},{"en":"to stand tall","ipa":"/ˌstænd ˈtɔːl/","de":"selbstbewusst auftreten (AE)","ex":"Suddenly he seemed to stand taller.","pg":110},{"en":"to buckle","ipa":"/ˈbʌk(ə)l/","de":"verbiegen, nachgeben; hier: weich werden","ex":"I felt faint and my knees began to buckle.","pg":110},{"en":"folder","ipa":"/ˈfəʊldə/","de":"Mappe, Schnellhefter, Ordner","ex":"Jane found two new white folders on her desk.","pg":110},{"en":"to plead","ipa":"/pliːd/","de":"behaupten, plädieren; bitten","ex":"‘How do you plead?’ asked the judge at the start of the trial.","pg":110},{"en":"fan","ipa":"/fæn/","de":"Ventilator, Fächer","ex":"There was no air conditioning, just a ceiling fan turning slowly.","pg":110},{"en":"to toss","ipa":"/tɒs/","de":"(zu)werfen, schleudern","ex":"She tossed her jacket onto the bed.","pg":110},{"en":"cloth","ipa":"/klɒθ/","de":"Tuch, Stoff","ex":"You should clean your windows with a cloth.","pg":111},{"en":"grease","ipa":"/ɡriːs/","de":"Fett, Schmiere","ex":"When repairing cars, technicians often get covered in grease.","pg":111},{"en":"rag","ipa":"/ræɡ/","de":"Lumpen, Lappen","ex":"The rags are old clothes that we use for cleaning now.","pg":111},{"en":"marked","ipa":"/mɑːkt/","de":"deutlich, auffallend, markiert","ex":"She has shown marked improvement.","pg":111},{"en":"to scapegoat","ipa":"/ˈskeɪpɡəʊt/","de":"jdm die Schuld geben","ex":"The community chose to ignore its own failings and to scapegoat her instead.","pg":111},{"en":"the rule of law","ipa":"/ðə ˌruːl əv ˈlɔː/","de":"die Rechtsstaatlichkeit","ex":"All citizens must respect the rule of law.","pg":111}]},{"id":"keeper","part":"C","label":"Texts: Am I my brother’s keeper? — SB S. 112f.","color":"plum","words":[{"en":"keeper","ipa":"/ˈkiːpə/","de":"Aufseher/in, Wärter/in, Wächter/in","ex":"‘I am not my brother’s keeper’ means you are not responsible for what someone else does.","pg":112},{"en":"county","ipa":"/ˈkaʊnti/","de":"Grafschaft, (Verwaltungs)bezirk","ex":"Surrey is a county in the UK.","pg":112},{"en":"to combat","ipa":"/ˈkɒmbæt/","de":"bekämpfen","ex":"What can we do to combat climate change?","pg":112},{"en":"acquaintance","ipa":"/əˈkweɪntəns/","de":"Bekannte/r, Bekanntschaft","ex":"Claire has a wide circle of friends and acquaintances.","pg":112},{"en":"to stab","ipa":"/stæb/","de":"(hin)einstechen; hier: erstechen","ex":"He was attacked and stabbed in the street.","pg":112},{"en":"scar","ipa":"/skɑː/","de":"Narbe","ex":"Will the operation leave a scar?","pg":112},{"en":"stack","ipa":"/stæk/","de":"Haufen, Stoß, Stapel","ex":"There’s a stack of unopened mail waiting for you at the house.","pg":113},{"en":"to put on","ipa":"/ˌpʊt ˈɒn/","de":"aufsetzen, vorgeben, vortäuschen","ex":"I put on a funny voice.","pg":113},{"en":"to take sb out","ipa":"/ˌteɪk ˈaʊt/","de":"jdn außer Gefecht setzen","ex":"They took out two enemy bombers.","pg":113},{"en":"on purpose","ipa":"/ɒn ˈpɜːpəs/","de":"absichtlich","ex":"I did it on purpose, knowing it would annoy her.","pg":113},{"en":"by accident","ipa":"/ˌbaɪ ˈæksɪd(ə)nt/","de":"zufällig, aus Versehen","ex":"It happened, whether by accident or design, that we were the last two to leave.","pg":113},{"en":"to flare (up)","ipa":"/ˌfleər ˈʌp/","de":"aufflammen, aufflackern","ex":"Old conflicts began to flare up again.","pg":113}]}],"definitions":[{"term":"autonomy","def":"independence and self-determination"},{"term":"scrutiny","def":"careful and critical examination"},{"term":"pluralistic","def":"involving many different cultures or beliefs"},{"term":"stigma","def":"public disapproval that damages a person’s reputation"},{"term":"accountability","def":"responsibility for one’s actions"},{"term":"consensus","def":"general agreement"},{"term":"polarization","def":"division into opposing camps"}],"pairs":[{"en":"to maintain","syn":"to keep","ant":"to shed, to discontinue"},{"en":"appropriate","syn":"fitting, legitimate","ant":"inappropriate"},{"en":"to blur","syn":"to mix, to conflate","ant":"to differentiate, to draw a line"},{"en":"to affect","syn":"to influence","ant":"to ignore"},{"en":"vast","syn":"extremely big, huge","ant":"tiny, small"},{"en":"to intensify","syn":"to increase","ant":"to decrease"},{"en":"neutral","syn":"objective, undecided","ant":"biased, subjective"},{"en":"to consent","syn":"to agree","ant":"to disagree"}]};
+
+let ALL = [];
+DATA.sections.forEach(s => s.words.forEach(w => ALL.push({...w, sectionId:s.id, sectionLabel:s.label, part:s.part, color:s.color})));
+
+let activeParts = new Set(['A','B','C']);
+let mastered = {};
+
+let voices = [];
+function loadVoices(){ voices = speechSynthesis.getVoices(); }
+loadVoices();
+if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = loadVoices;
+function speak(text){
+  if(!('speechSynthesis' in window)){ toast('Audio not supported on this device'); return; }
+  speechSynthesis.cancel();
+  const clean = text.replace(/\bsth\b/g,'something').replace(/\bsb\b/g,'somebody').replace(/[()]/g,'').replace(/^to /,'');
+  const u = new SpeechSynthesisUtterance(clean);
+  u.lang = 'en-GB'; u.rate = .9;
+  const gb = voices.find(v=>v.lang==='en-GB') || voices.find(v=>v.lang && v.lang.startsWith('en'));
+  if(gb) u.voice = gb;
+  speechSynthesis.speak(u);
+}
+let toastT;
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(()=>t.classList.remove('show'), 1900);
+}
+function scope(){ return ALL.filter(w=>activeParts.has(w.part)); }
+function updateMastered(){ document.getElementById('stat-mastered').textContent = Object.keys(mastered).length; }
+function shuffle(a){ a=[...a]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+document.querySelectorAll('.mode-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const m = b.dataset.mode;
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById('panel-'+m).classList.add('active');
+    document.getElementById('filters').style.display = (m==='browse'||m==='quiz') ? 'flex' : 'none';
+    if(m==='browse') renderBrowse();
+    if(m==='quiz') renderQuizSetup();
+    if(m==='match') renderMatchSetup();
+    if(m==='define') renderDefine();
+    if(m==='pairs') renderPairs();
+  });
+});
+
+document.querySelectorAll('#filters .chip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    const part = c.dataset.part;
+    if(part==='all'){
+      const on = !(activeParts.has('A')&&activeParts.has('B')&&activeParts.has('C'));
+      activeParts = on ? new Set(['A','B','C']) : new Set();
+    } else {
+      if(activeParts.has(part)) activeParts.delete(part); else activeParts.add(part);
+    }
+    syncChips();
+    const m = document.querySelector('.mode-btn.active').dataset.mode;
+    if(m==='browse') renderBrowse();
+    if(m==='quiz') renderQuizSetup();
+  });
+});
+function syncChips(){
+  document.querySelectorAll('#filters .chip[data-part="A"],#filters .chip[data-part="B"],#filters .chip[data-part="C"]')
+    .forEach(c=>c.classList.toggle('on', activeParts.has(c.dataset.part)));
+  document.getElementById('chip-all').classList.toggle('on', activeParts.size===3);
+}
+
+function renderBrowse(){
+  const host = document.getElementById('panel-browse');
+  const secs = DATA.sections.filter(s=>activeParts.has(s.part));
+  if(!secs.length){ host.innerHTML = '<div class="empty"><div class="big">No sections selected</div><div>Turn a section back on above to see the words.</div></div>'; return; }
+  let html = '';
+  secs.forEach(s=>{
+    html += '<h2 class="section-head"><span>'+esc(s.label)+'</span><span class="tag '+s.color+'">'+s.words.length+' words</span></h2>';
+    html += '<div class="section-sub">tap a card to flip · tap ♪ to hear it</div><div class="card-grid">';
+    s.words.forEach(w=>{
+      html += '<div class="vcard" data-en="'+esc(w.en)+'">'
+        + '<div class="vcard-inner">'
+        + '<div class="vcard-face"><div><div class="vc-en">'+esc(w.en)+'</div><div class="vc-ipa">'+esc(w.ipa)+'</div></div>'
+        + '<span class="flip-hint">tap to flip</span><span class="vc-pg">p.'+w.pg+'</span>'
+        + '<button class="vc-speak" data-speak="'+esc(w.en)+'" title="Hear pronunciation">♪</button></div>'
+        + '<div class="vcard-face vcard-back"><div><div class="vc-de">'+esc(w.de)+'</div></div>'
+        + '<div class="vc-ex">"'+esc(w.ex)+'"</div></div>'
+        + '</div></div>';
+    });
+    html += '</div>';
+  });
+  host.innerHTML = html;
+  host.querySelectorAll('.vcard').forEach(card=>{
+    card.addEventListener('click', e=>{ if(e.target.closest('.vc-speak')) return; card.classList.toggle('flipped'); });
+  });
+  host.querySelectorAll('.vc-speak').forEach(btn=>{
+    btn.addEventListener('click', e=>{ e.stopPropagation(); speak(btn.dataset.speak); });
+  });
+}
+
+let quizDir='en2de', queue=[], qIdx=0, qCorrect=0, qMissed=[];
+function renderQuizSetup(){
+  const pool = scope(), st = document.getElementById('quiz-stage');
+  if(pool.length < 4){ st.innerHTML = '<div class="empty"><div class="big">Not enough words</div><div>Select at least one section with four or more words.</div></div>'; return; }
+  st.innerHTML = '<div class="setup"><h2>Test yourself</h2>'
+    + '<p>'+pool.length+' words in scope · multiple choice · pick a direction</p>'
+    + '<div class="dir-toggle"><button id="d1" class="'+(quizDir==='en2de'?'on':'')+'">English → Deutsch</button>'
+    + '<button id="d2" class="'+(quizDir==='de2en'?'on':'')+'">Deutsch → English</button></div>'
+    + '<div><button class="btn-primary" id="start">Start quiz →</button></div>'
+    + '<p style="margin-top:22px;font-size:13px">Words you miss come back at the end.</p></div>';
+  document.getElementById('d1').onclick = ()=>{ quizDir='en2de'; renderQuizSetup(); };
+  document.getElementById('d2').onclick = ()=>{ quizDir='de2en'; renderQuizSetup(); };
+  document.getElementById('start').onclick = ()=>{ queue=shuffle(scope()); qIdx=0; qCorrect=0; qMissed=[]; showQ(); };
+}
+function showQ(){
+  const st = document.getElementById('quiz-stage');
+  if(qIdx >= queue.length){ showScore(); return; }
+  const w = queue[qIdx], pool = scope();
+  const prompt = quizDir==='en2de' ? w.en : w.de;
+  const answer = quizDir==='en2de' ? w.de : w.en;
+  const distr = shuffle(pool.filter(x=>x.en!==w.en))
+    .map(x=>quizDir==='en2de'?x.de:x.en)
+    .filter((v,i,arr)=>arr.indexOf(v)===i && v!==answer)
+    .slice(0,3);
+  const opts = shuffle([answer, ...distr]);
+  const keys = ['A','B','C','D'];
+  const pct = Math.round(qIdx/queue.length*100);
+  st.innerHTML = '<div class="progress"><div class="qbar"><div class="qbar-fill" style="width:'+pct+'%"></div></div>'
+    + '<span class="qcount">'+(qIdx+1)+' / '+queue.length+'</span></div>'
+    + '<div class="qcard"><div class="q-label">'+(quizDir==='en2de'?'Translate to German':'Translate to English')+'</div>'
+    + '<div class="q-prompt'+(prompt.length>22?' small':'')+'">'+esc(prompt)+'</div>'
+    + (quizDir==='en2de' ? '<div class="q-ipa">'+esc(w.ipa)+'</div><button class="q-speak-big" id="qsp">♪</button>' : '')
+    + '</div><div class="q-options" id="qo">'
+    + opts.map((o,i)=>'<button class="q-opt" data-val="'+esc(o)+'"><span class="opt-key">'+keys[i]+'</span><span>'+esc(o)+'</span></button>').join('')
+    + '</div><div class="q-feedback" id="qf"></div><div class="q-next" id="qn"></div>';
+  const sp = document.getElementById('qsp'); if(sp) sp.onclick = ()=>speak(w.en);
+  st.querySelectorAll('.q-opt').forEach(btn=>{
+    btn.onclick = ()=>{
+      st.querySelectorAll('.q-opt').forEach(b=>{
+        b.disabled = true;
+        if(b.dataset.val === answer) b.classList.add('correct');
+        else if(b === btn) b.classList.add('wrong');
+      });
+      const fb = document.getElementById('qf');
+      if(btn.dataset.val === answer){
+        qCorrect++; mastered[w.en] = true; updateMastered();
+        fb.innerHTML = '<span style="color:var(--green)">✓ Correct</span><span class="ex">"'+esc(w.ex)+'" (SB p.'+w.pg+')</span>';
+      } else {
+        qMissed.push(w);
+        fb.innerHTML = '<span style="color:var(--red)">✗ '+esc(w.en)+' = '+esc(w.de)+'</span><span class="ex">"'+esc(w.ex)+'" (SB p.'+w.pg+')</span>';
+      }
+      document.getElementById('qn').innerHTML = '<button class="btn-primary" id="nx">'+(qIdx+1>=queue.length?'See results →':'Next →')+'</button>';
+      document.getElementById('nx').onclick = ()=>{ qIdx++; showQ(); };
+    };
+  });
+}
+function showScore(){
+  const st = document.getElementById('quiz-stage'), total = queue.length;
+  const pct = Math.round(qCorrect/total*100);
+  let msg, sym;
+  if(pct>=90){ msg='Outstanding. This vocabulary is yours.'; sym='★'; }
+  else if(pct>=70){ msg='Strong work. A few to revisit.'; sym='◆'; }
+  else if(pct>=50){ msg='Getting there. Run the missed words again.'; sym='◑'; }
+  else { msg='Worth another round. Browse first, then retry.'; sym='○'; }
+  const seen = new Set();
+  const missed = qMissed.filter(w=>{ if(seen.has(w.en)) return false; seen.add(w.en); return true; });
+  st.innerHTML = '<div class="score"><div class="score-ring">'+sym+'</div>'
+    + '<div class="score-pct">'+qCorrect+' / '+total+' correct · '+pct+'%</div>'
+    + '<div class="score-msg">'+msg+'</div>'
+    + '<div class="breakdown"><div class="sb"><span class="sb-n" style="color:var(--green)">'+qCorrect+'</span><span class="sb-l">correct</span></div>'
+    + '<div class="sb"><span class="sb-n" style="color:var(--red)">'+(total-qCorrect)+'</span><span class="sb-l">missed</span></div></div>'
+    + (missed.length ? '<div class="missed"><h4>Words to revisit</h4>'+missed.map(w=>'<div class="missed-item"><span class="me">'+esc(w.en)+'</span><span class="md">'+esc(w.de)+'</span></div>').join('')+'</div>' : '')
+    + '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'
+    + (missed.length ? '<button class="btn-primary" id="rm">Retry '+missed.length+' missed →</button>' : '')
+    + '<button class="btn-ghost" id="ra">New quiz</button></div></div>';
+  if(missed.length) document.getElementById('rm').onclick = ()=>{ queue=shuffle(missed); qIdx=0; qCorrect=0; qMissed=[]; showQ(); };
+  document.getElementById('ra').onclick = renderQuizSetup;
+}
+
+let mSel=null, mDone=0, mMoves=0, mTimer=0, mInt=null, mSet=[];
+function renderMatchSetup(){
+  const st = document.getElementById('match-stage'), n = Math.min(10, ALL.length);
+  st.innerHTML = '<div class="setup"><h2>Match it</h2>'
+    + '<p>Pair each English word with its German meaning, against the clock. Drawn from all '+ALL.length+' words.</p>'
+    + '<div><button class="btn-primary" id="sm">Deal '+n+' pairs →</button></div>'
+    + '<p style="margin-top:22px;font-size:13px">Tap an English word, then its match. Wrong pairs shake and reset.</p></div>';
+  document.getElementById('sm').onclick = ()=>startMatch(n);
+}
+function startMatch(n){
+  mSet = shuffle(ALL).slice(0,n); mSel=null; mDone=0; mMoves=0; mTimer=0;
+  const st = document.getElementById('match-stage');
+  const ens = shuffle(mSet.map((w,i)=>({...w, idx:i})));
+  const des = shuffle(mSet.map((w,i)=>({...w, idx:i})));
+  st.innerHTML = '<div class="match-stats"><span class="match-timer" id="mt">0.0s</span><span class="match-moves" id="mm">0 moves</span></div>'
+    + '<div class="match-grid"><div class="match-col-label">English</div><div class="match-col-label">Deutsch</div></div>'
+    + '<div class="match-grid" id="mg"><div style="display:flex;flex-direction:column;gap:10px">'
+    + ens.map(w=>'<div class="match-tile en" data-idx="'+w.idx+'" data-side="en">'+esc(w.en)+'</div>').join('')
+    + '</div><div style="display:flex;flex-direction:column;gap:10px">'
+    + des.map(w=>'<div class="match-tile de" data-idx="'+w.idx+'" data-side="de">'+esc(w.de)+'</div>').join('')
+    + '</div></div>';
+  st.querySelectorAll('.match-tile').forEach(t=>t.addEventListener('click',()=>matchClick(t)));
+  clearInterval(mInt);
+  mInt = setInterval(()=>{ mTimer+=0.1; document.getElementById('mt').textContent = mTimer.toFixed(1)+'s'; },100);
+}
+function matchClick(tile){
+  if(tile.classList.contains('matched')) return;
+  if(mSel===null){ mSel=tile; tile.classList.add('selected'); return; }
+  if(tile===mSel){ tile.classList.remove('selected'); mSel=null; return; }
+  if(tile.dataset.side===mSel.dataset.side){ mSel.classList.remove('selected'); mSel=tile; tile.classList.add('selected'); return; }
+  mMoves++; document.getElementById('mm').textContent = mMoves+' move'+(mMoves>1?'s':'');
+  const a=mSel, b=tile;
+  if(a.dataset.idx===b.dataset.idx){
+    a.classList.add('flash-ok'); b.classList.add('flash-ok');
+    mastered[mSet[+a.dataset.idx].en] = true; updateMastered();
+    setTimeout(()=>{ [a,b].forEach(x=>{ x.classList.add('matched'); x.classList.remove('flash-ok','selected'); }); },340);
+    mDone++;
+    if(mDone===mSet.length) finishMatch();
+  } else {
+    a.classList.add('flash-no'); b.classList.add('flash-no');
+    setTimeout(()=>{ [a,b].forEach(x=>x.classList.remove('flash-no','selected')); },340);
+  }
+  mSel=null;
+}
+function finishMatch(){
+  clearInterval(mInt);
+  const st=document.getElementById('match-stage'), t=mTimer.toFixed(1), perfect = mMoves===mSet.length;
+  setTimeout(()=>{
+    st.innerHTML = '<div class="score"><div class="score-ring">'+(perfect?'★':'◆')+'</div>'
+      + '<div class="score-pct">'+t+'s · '+mMoves+' moves</div>'
+      + '<div class="score-msg">'+(perfect?'Flawless — no wrong pairs!':'All matched. Try for zero mistakes next time.')+'</div>'
+      + '<button class="btn-primary" id="ma">Play again →</button></div>';
+    document.getElementById('ma').onclick = renderMatchSetup;
+  },480);
+}
+
+let dQueue=[], dIdx=0, dCorrect=0, dMissed=[];
+function renderDefine(){
+  const host = document.getElementById('define-host');
+  host.innerHTML = '<div class="def-note">SB p. 98 / 1 — the seven key terms of this Theme, each with the definition the book gives.<br>Read them once, then run the drill: you will see a definition and choose the term it defines.</div>'
+    + DATA.definitions.map(d=>'<div class="def-card"><div class="def-term">'+esc(d.term)+'</div><div class="def-text">'+esc(d.def)+'</div></div>').join('')
+    + '<div style="text-align:center;margin-top:24px"><button class="btn-primary" id="dstart">Start the drill →</button></div>'
+    + '<div class="stage" id="def-stage" style="margin-top:26px"></div>';
+  document.getElementById('dstart').onclick = ()=>{ dQueue=shuffle(DATA.definitions); dIdx=0; dCorrect=0; dMissed=[]; showDef(); document.getElementById('def-stage').scrollIntoView({behavior:'smooth',block:'center'}); };
+}
+function showDef(){
+  const st = document.getElementById('def-stage');
+  if(dIdx >= dQueue.length){
+    const pct = Math.round(dCorrect/dQueue.length*100);
+    st.innerHTML = '<div class="score"><div class="score-ring">'+(pct===100?'★':'◆')+'</div>'
+      + '<div class="score-pct">'+dCorrect+' / '+dQueue.length+' correct · '+pct+'%</div>'
+      + '<div class="score-msg">'+(pct===100?'All seven. Ready for the definition task.':'Read the cards above again, then retry.')+'</div>'
+      + '<button class="btn-ghost" id="dr">Run again</button></div>';
+    document.getElementById('dr').onclick = ()=>{ dQueue=shuffle(DATA.definitions); dIdx=0; dCorrect=0; dMissed=[]; showDef(); };
+    st.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  const d = dQueue[dIdx];
+  const distr = shuffle(DATA.definitions.filter(x=>x.term!==d.term)).slice(0,3).map(x=>x.term);
+  const opts = shuffle([d.term, ...distr]);
+  const keys = ['A','B','C','D'];
+  const pct = Math.round(dIdx/dQueue.length*100);
+  st.innerHTML = '<div class="progress"><div class="qbar"><div class="qbar-fill" style="width:'+pct+'%"></div></div>'
+    + '<span class="qcount">'+(dIdx+1)+' / '+dQueue.length+'</span></div>'
+    + '<div class="qcard"><div class="q-label">Which term does this define?</div>'
+    + '<div class="q-prompt small">'+esc(d.def)+'</div></div>'
+    + '<div class="q-options">'
+    + opts.map((o,i)=>'<button class="q-opt" data-val="'+esc(o)+'"><span class="opt-key">'+keys[i]+'</span><span>'+esc(o)+'</span></button>').join('')
+    + '</div><div class="q-feedback" id="df"></div><div class="q-next" id="dn"></div>';
+  st.querySelectorAll('.q-opt').forEach(btn=>{
+    btn.onclick = ()=>{
+      st.querySelectorAll('.q-opt').forEach(b=>{
+        b.disabled = true;
+        if(b.dataset.val===d.term) b.classList.add('correct');
+        else if(b===btn) b.classList.add('wrong');
+      });
+      const fb = document.getElementById('df');
+      if(btn.dataset.val===d.term){ dCorrect++; fb.innerHTML = '<span style="color:var(--green)">✓ Correct</span>'; }
+      else { dMissed.push(d); fb.innerHTML = '<span style="color:var(--red)">✗ '+esc(d.term)+'</span>'; }
+      document.getElementById('dn').innerHTML = '<button class="btn-primary" id="dnx">'+(dIdx+1>=dQueue.length?'See results →':'Next →')+'</button>';
+      document.getElementById('dnx').onclick = ()=>{ dIdx++; showDef(); };
+    };
+  });
+}
+
+function renderPairs(){
+  document.getElementById('pairs-host').innerHTML =
+    '<div class="def-note">SB p. 98 / 2 — synonyms and antonyms. These are the words you need when you want to say the same thing differently in a comment, or mark a contrast precisely.</div>'
+    + '<div class="pair-grid">'
+    + DATA.pairs.map(p=>'<div class="pair-card"><div class="pair-en">'+esc(p.en)+'</div>'
+      + '<div class="pair-row"><span class="pair-tag syn">syn</span><span>'+esc(p.syn)+'</span></div>'
+      + '<div class="pair-row"><span class="pair-tag ant">ant</span><span>'+esc(p.ant)+'</span></div></div>').join('')
+    + '</div><div class="progress-note">Tip: in a comment, a precise antonym is often stronger than a negation. "biased" beats "not neutral".</div>';
+}
+
+renderBrowse();
+</script>
+</body>
+</html>
