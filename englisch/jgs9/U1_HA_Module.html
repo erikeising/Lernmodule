@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homework Road Trip — Camden Town 9, Theme 1 Australia</title>
+<style>
+  :root{
+    --night:#16233F;--night-2:#0E1830;--earth:#A8432A;--earth-d:#7A2E1C;--ochre:#E3A33B;--ochre-l:#F2C14E;
+    --sand:#F5ECDD;--sand-line:#E4D3B8;--paper:#FBF6EE;--gum:#3F6E53;--ko:#B3261E;
+    --ink:#1E2230;--muted:#5E6472;--asphalt:#2B2B33;
+    --medal-light:#FFE38A;--medal-base:#E8B923;--medal-dark:#9C7A0E;
+    --shadow:0 8px 24px rgba(22,35,63,.13);--radius:14px;
+    --display:Cambria,"Hoefler Text","Liberation Serif",Georgia,serif;
+    --body:Calibri,Carlito,"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}html,body{margin:0}
+  body{font-family:var(--body);font-size:17px;color:var(--ink);background:var(--paper);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+  .wrap{max-width:700px;margin:0 auto;padding:0 16px 64px}
+  .screen{display:none}.screen.active{display:block}
+  button{font:inherit}
+
+  /* ---------- hero: outback road at sunset ---------- */
+  .hero{position:relative;height:230px;margin:0 -16px;overflow:hidden;color:#fff;background:var(--night)}
+  .hero svg{position:absolute;inset:0;width:100%;height:100%}
+  .hero .txt{position:relative;padding:22px 20px 0;max-width:700px;margin:0 auto}
+  .eyebrow{font-family:var(--body);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.72rem;color:var(--ochre-l)}
+  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(1.75rem,6.4vw,2.5rem);line-height:1.05;margin:.2em 0 .15em;text-shadow:0 2px 8px rgba(0,0,0,.35)}
+  .hero p{margin:0;font-size:.98rem;color:#E9E4F2;max-width:30em;text-shadow:0 1px 4px rgba(0,0,0,.4)}
+
+  .card{background:#fff;border:1px solid var(--sand-line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-top:18px}
+  label{font-weight:700;font-size:.9rem;color:var(--night);display:block;margin:0 0 6px}
+  input[type=text]{width:100%;font-family:var(--body);font-size:1.05rem;padding:12px 14px;border:1px solid var(--sand-line);border-radius:10px;background:#fff;color:var(--ink)}
+  input[type=text]:focus{outline:3px solid rgba(227,163,59,.45);border-color:var(--night)}
+  .err{color:var(--ko);font-weight:700;font-size:.9rem;margin-top:6px;min-height:1.2em}
+  .hint{color:var(--muted);font-size:.92rem;margin:.4em 0 0}
+  h2.sec{font-family:var(--display);color:var(--night);font-size:1.3rem;margin:26px 0 2px}
+
+  /* ---------- route: five stops along one road ---------- */
+  .route{position:relative;margin-top:14px;padding:4px 0 4px 0}
+  .route::before{content:"";position:absolute;left:14px;top:0;bottom:0;width:24px;border-radius:12px;
+    background:repeating-linear-gradient(180deg,transparent 0 9px,var(--sand) 9px 19px) center/2px 100% no-repeat,var(--asphalt)}
+  .stop{position:relative;display:block;width:calc(100% - 56px);margin:0 0 14px 56px;text-align:left;cursor:pointer;
+    background:#fff;border:1px solid var(--sand-line);border-left:6px solid var(--c,#999);border-radius:12px;padding:13px 16px 13px 16px;
+    box-shadow:0 3px 10px rgba(22,35,63,.07);transition:transform .12s,box-shadow .18s}
+  .stop:last-child{margin-bottom:0}
+  .stop:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+  .sign{position:absolute;width:30px;height:30px;transform:rotate(45deg);background:var(--ochre-l);border:2.5px solid var(--ink);border-radius:4px;
+    display:flex;align-items:center;justify-content:center}
+  .sign span{transform:rotate(-45deg);font-weight:800;font-size:.8rem;color:var(--ink);letter-spacing:-.02em}
+  .stop .sign{left:-52px;top:50%;margin-top:-15px}
+  .stop .wk{font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--earth)}
+  .stop .tt{font-family:var(--display);font-weight:700;font-size:1.1rem;color:var(--night);line-height:1.2;margin:1px 0 3px}
+  .stop .dd{font-size:.93rem;color:var(--muted)}
+  .stop .mm{font-size:.84rem;font-weight:700;color:var(--night);margin-top:6px}
+  .stop .ok{display:none;margin-left:8px;color:var(--gum)}
+  .stop.passed .ok{display:inline}
+
+  /* ---------- quiz ---------- */
+  .qtop{display:flex;align-items:center;gap:14px;margin:20px 0 10px}
+  .qtop .sign{position:relative;flex:0 0 auto;margin:0 4px}
+  .qtop .qt{flex:1;min-width:0}
+  .qtop .qr{font-family:var(--display);font-weight:700;color:var(--night);font-size:1.05rem;line-height:1.2}
+  .qtop .qn{font-size:.88rem;color:var(--muted)}
+  .road{position:relative;height:14px;border-radius:7px;background:var(--asphalt);margin:6px 0 4px}
+  .road::before{content:"";position:absolute;left:8px;right:8px;top:6px;height:2px;background:repeating-linear-gradient(90deg,var(--sand) 0 10px,transparent 10px 20px)}
+  .road>i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:7px;background:linear-gradient(90deg,var(--earth),var(--ochre));transition:width .3s}
+  .road>b{position:absolute;top:50%;left:0;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:var(--ochre-l);border:3px solid var(--night);transition:left .3s}
+  .qcount{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);font-weight:700}
+  .sectiontag{font-weight:700;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--earth);margin:16px 0 8px}
+  .prompt{position:relative;overflow:hidden;background:linear-gradient(165deg,var(--night),var(--night-2));color:#fff;border-radius:var(--radius);padding:20px 18px 26px;text-align:center;margin-bottom:14px}
+  .prompt::after{content:"";position:absolute;left:0;right:0;bottom:0;height:8px;background:linear-gradient(90deg,var(--earth),var(--ochre),var(--earth))}
+  .prompt .lbl{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.13em;color:#D6D9E6}
+  .prompt .word{font-family:var(--display);font-weight:700;font-size:clamp(1.5rem,6vw,2.3rem);color:var(--ochre-l);line-height:1.2;margin-top:4px}
+  .prompt .cloze{font-size:clamp(1.05rem,3.8vw,1.3rem);line-height:1.5;text-align:left;margin-top:6px}
+  .prompt .cloze .gap{color:var(--ochre-l);font-weight:700;letter-spacing:.04em}
+  .prompt .inf{display:block;margin-top:8px;font-size:.92rem;color:#D6D9E6;font-style:italic}
+  .options{display:grid;gap:10px}
+  .opt{font-weight:700;font-size:1.05rem;border:1px solid var(--sand-line);background:#fff;color:var(--ink);padding:13px 15px;border-radius:10px;cursor:pointer;text-align:left;transition:transform .1s,border-color .15s}
+  .opt:hover{transform:translateY(-1px);border-color:var(--night)}
+
+  .btn{display:block;width:100%;font-weight:700;font-size:1.02rem;cursor:pointer;border:1px solid var(--night);background:var(--night);color:#fff;padding:13px 18px;border-radius:10px;margin-top:12px;transition:transform .12s}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.warm{background:var(--earth);border-color:var(--earth)}
+  .btn.ghost{background:#fff;color:var(--night);border-color:var(--sand-line)}
+  .btn.link{background:none;border:0;color:var(--muted);text-decoration:underline;margin-top:6px;padding:8px}
+
+  /* ---------- result ---------- */
+  .score{font-family:var(--display);font-weight:700;font-size:clamp(2.6rem,12vw,3.8rem);text-align:center;line-height:1}
+  .score.pass{color:var(--gum)}.score.fail{color:var(--earth)}
+  .rmsg{text-align:center;color:var(--muted);margin:.4em 0 4px}
+  .review{margin-top:16px;border-top:1px solid var(--sand-line);padding-top:12px}
+  .review h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 8px}
+  .review .row{font-size:.95rem;padding:5px 0;display:flex;gap:8px;border-bottom:1px dashed var(--sand-line)}
+  .review .row:last-child{border-bottom:0}
+  .review .x{color:var(--ko);font-weight:700}.review .v{color:var(--gum);font-weight:700}
+  .review .you{color:var(--muted)}
+
+  /* ---------- certificate: postcard with round stamp ---------- */
+  .cert{position:relative;background:#fff;border:2px solid var(--night);border-radius:16px;padding:30px 20px 18px;margin-top:20px;box-shadow:var(--shadow);overflow:hidden}
+  .cert::before{content:"";position:absolute;left:0;right:0;top:0;height:10px;background:linear-gradient(90deg,var(--night),var(--earth) 45%,var(--ochre))}
+  .cert::after{content:"";position:absolute;inset:16px 8px 8px;border:1px solid var(--sand-line);border-radius:10px;pointer-events:none}
+  .stamp{float:right;position:relative;width:96px;height:96px;margin:-6px 0 8px 12px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,var(--medal-light),var(--medal-base) 62%,var(--medal-dark));
+    box-shadow:0 0 0 4px #fff,0 0 0 6px var(--medal-dark),0 4px 10px rgba(0,0,0,.2);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5);z-index:1}
+  .stamp::before{content:"";position:absolute;inset:6px;border-radius:50%;border:2px dashed rgba(255,255,255,.75)}
+  .stamp .s1{font-size:.62rem;font-weight:800;letter-spacing:.14em}
+  .stamp .s2{font-family:var(--display);font-weight:700;font-size:2.2rem;line-height:1}
+  .stamp .s3{font-size:.62rem;font-weight:800;letter-spacing:.12em}
+  .cert .cap{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--earth)}
+  .cert h3{font-family:var(--display);font-weight:700;color:var(--night);font-size:1.45rem;margin:.15em 0 .1em;line-height:1.15}
+  .cert .rt{color:var(--muted);font-size:.98rem;margin:0}
+  .cert .who{clear:both;padding-top:6px;text-align:center}
+  .cert .name{font-family:var(--display);font-weight:700;font-size:1.65rem;color:var(--ink);display:inline-block;border-bottom:3px solid var(--ochre);padding:0 12px 3px;margin-top:4px}
+  .cert .meta{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin:14px 0 8px}
+  .cert .meta div{font-size:.88rem;color:var(--muted);text-align:center}
+  .cert .meta b{display:block;font-family:var(--display);font-size:1.2rem;color:var(--night)}
+  .cert .meta b.p{color:var(--gum)}
+  .tag{display:table;margin:10px auto 4px;background:var(--sand);border:1px dashed var(--night);border-radius:10px;padding:8px 16px;text-align:center}
+  .tag .tl{font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .tag .code{display:block;font-family:Consolas,"Liberation Mono",Menlo,monospace;font-weight:700;font-size:1rem;color:var(--night);letter-spacing:.01em;white-space:nowrap}
+  .upload{position:relative;z-index:1;background:rgba(227,163,59,.16);border:1px solid var(--ochre);border-radius:10px;padding:10px 14px;margin-top:14px;font-size:.93rem;text-align:center}
+
+  /* ---------- teacher ---------- */
+  details.teacher{margin-top:30px;border:1px solid var(--sand-line);border-radius:12px;background:#fff;padding:0 16px}
+  details.teacher summary{cursor:pointer;font-weight:700;color:var(--night);padding:13px 0;list-style:none}
+  details.teacher summary::-webkit-details-marker{display:none}
+  details.teacher summary::before{content:"▸ ";color:var(--earth)}
+  details.teacher[open] summary::before{content:"▾ "}
+  .tbody{padding:0 0 16px}.tbody label{margin-top:12px}
+  .verdict{font-weight:700;margin-top:12px;padding:11px 14px;border-radius:10px}
+  .verdict.ok{background:rgba(63,110,83,.13);color:var(--gum)}
+  .verdict.bad{background:rgba(179,38,30,.09);color:var(--ko)}
+  .verdict small{display:block;font-weight:400;color:var(--ink);margin-top:4px}
+  .legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:.85rem;color:var(--muted)}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+
+  footer{margin-top:26px;text-align:center;color:var(--muted);font-size:.8rem}
+  :focus-visible{outline:3px solid var(--ochre);outline-offset:2px;border-radius:6px}
+  /* compact road strip on every screen except the start */
+  body.compact .hero{height:64px}body.compact .hero .txt{display:none}
+  @media (max-width:420px){.hero{height:262px}.tag .code{font-size:.84rem}.cert .meta{gap:16px}.stamp{width:82px;height:82px}.stamp .s2{font-size:1.8rem}.cert h3{font-size:1.25rem}}
+  @media print{.hero,.noprint,details.teacher,footer{display:none!important}body{background:#fff}.cert{box-shadow:none}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <svg viewBox="0 0 680 230" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#16233F"/><stop offset=".45" stop-color="#3A2C4A"/>
+          <stop offset=".75" stop-color="#A8432A"/><stop offset="1" stop-color="#E3A33B"/>
+        </linearGradient>
+        <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#8E3A24"/><stop offset="1" stop-color="#5E2616"/>
+        </linearGradient>
+      </defs>
+      <rect width="680" height="172" fill="url(#sky)"/>
+      <circle cx="520" cy="166" r="30" fill="#F2C14E" opacity=".9"/>
+      <g fill="#FFFFFF" opacity=".55">
+        <circle cx="40" cy="30" r="1.2"/><circle cx="120" cy="18" r="1"/><circle cx="210" cy="42" r="1.1"/><circle cx="300" cy="14" r="1"/>
+        <circle cx="390" cy="34" r="1.2"/><circle cx="470" cy="12" r="1"/><circle cx="560" cy="40" r="1.1"/><circle cx="640" cy="22" r="1"/>
+      </g>
+      <path d="M0 172 L0 160 C40 158 70 150 110 152 L130 146 L170 147 L180 156 C230 158 260 162 300 164 L680 164 L680 172 Z" fill="#4A1E14"/>
+      <path d="M560 172 L574 152 C590 146 640 145 652 150 L668 170 Z" fill="#4A1E14"/>
+      <rect y="170" width="680" height="60" fill="url(#ground)"/>
+      <path d="M252 230 L337 170 L343 170 L428 230 Z" fill="#2B2B33"/>
+      <g fill="#F5ECDD">
+        <path d="M339 174 h2 l.4 5 h-2.8 Z"/><path d="M338.6 186 h2.8 l.8 8 h-4.4 Z"/><path d="M338 203 h4 l1.2 12 h-6.4 Z"/>
+      </g>
+      <g fill="#6B8F5E" opacity=".9">
+        <circle cx="70" cy="190" r="9"/><circle cx="82" cy="186" r="7"/><circle cx="600" cy="196" r="10"/><circle cx="612" cy="191" r="7"/>
+      </g>
+      <g transform="translate(470 178)">
+        <rect x="-1.5" y="0" width="3" height="40" fill="#2B2B33"/>
+        <rect x="-14" y="-14" width="28" height="28" rx="3" transform="rotate(45)" fill="#F2C14E" stroke="#1E2230" stroke-width="2.5"/>
+        <text x="0" y="4.5" text-anchor="middle" font-family="Calibri,Arial,sans-serif" font-weight="800" font-size="12" fill="#1E2230">1–5</text>
+      </g>
+    </svg>
+    <div class="txt">
+      <div class="eyebrow">Camden Town 9 · Theme 1 · Australia</div>
+      <h1>Homework Road Trip</h1>
+      <p>One module for all five homework rounds. Choose the stop your teacher set, reach 80&nbsp;% and hand in your certificate.</p>
+    </div>
+  </header>
+
+  <!-- START -->
+  <section class="screen active" id="screen-start">
+    <div class="card">
+      <label for="name">Your full name</label>
+      <input type="text" id="name" autocomplete="name" placeholder="e.g. Alex Müller">
+      <div class="err" id="nameErr" role="alert"></div>
+      <p class="hint">Write your name exactly as your teacher knows it. It appears on your certificate.</p>
+    </div>
+
+    <h2 class="sec">Choose your stop</h2>
+    <p class="hint">One stop for every week. Do the round your teacher gave you in TEAMS.</p>
+    <div class="route" id="route"></div>
+
+    <div class="card">
+      <b>How it works</b>
+      <ul style="margin:.5em 0 0;padding-left:1.2em">
+        <li>The questions are drawn at random, so every attempt is different.</li>
+        <li>You need <b>at least 80&nbsp;%</b> to pass. Didn't make it? Practise and start again.</li>
+        <li>Do it <b>on your own</b>. When you pass, <b>screenshot the certificate</b> and upload it to <b>TEAMS</b>.</li>
+        <li>Nothing is saved or sent. When you close the page, your result is gone, so take the screenshot straight away.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="screen" id="screen-quiz">
+    <div class="qtop">
+      <div class="sign"><span id="qSign">R1</span></div>
+      <div class="qt"><div class="qr" id="qRound"></div><div class="qn" id="qName"></div></div>
+    </div>
+    <div class="road" aria-hidden="true"><i id="qFill"></i><b id="qCar"></b></div>
+    <div class="qcount"><span>Question <span id="qPos">1</span> / <span id="qTot">0</span></span><span id="qPct"></span></div>
+    <div class="sectiontag" id="qSection"></div>
+    <div class="prompt"><span class="lbl" id="qLbl"></span><div class="word" id="qWord"></div></div>
+    <div class="options" id="qOptions"></div>
+    <button class="btn link noprint" id="quit">← Back to the stops (this attempt will not count)</button>
+  </section>
+
+  <!-- RESULT -->
+  <section class="screen" id="screen-result">
+    <div class="card">
+      <div class="score" id="resScore"></div>
+      <p class="rmsg" id="resMsg"></p>
+      <button class="btn warm" id="getCert" style="display:none">Get my certificate →</button>
+      <button class="btn ghost" id="retry">Try this round again</button>
+      <button class="btn ghost" id="toStops">Back to the stops</button>
+      <div class="review" id="review"></div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATE -->
+  <section class="screen" id="screen-cert">
+    <div class="cert" id="certBox">
+      <div class="stamp" aria-hidden="true"><span class="s1">ROUND</span><span class="s2" id="cNum">1</span><span class="s3" id="cWeek">WEEK 1</span></div>
+      <div class="cap">Camden Town 9 · Theme 1 Australia</div>
+      <h3>Homework Certificate</h3>
+      <p class="rt" id="cTitle"></p>
+      <div class="who">
+        <div class="name" id="cName"></div>
+        <div class="meta">
+          <div>Date<b id="cDate"></b></div>
+          <div>Score<b id="cScore"></b></div>
+          <div>Result<b class="p">PASSED</b></div>
+        </div>
+        <div class="tag"><span class="tl">Verification code</span><span class="code" id="cCode"></span></div>
+      </div>
+      <div class="upload">📸 <b>Screenshot this certificate</b> and upload it to TEAMS to hand in your homework.</div>
+    </div>
+    <button class="btn ghost noprint" id="printBtn">Print / save as PDF</button>
+    <button class="btn ghost noprint" id="again">Back to the stops</button>
+  </section>
+
+  <!-- TEACHER -->
+  <details class="teacher noprint">
+    <summary>For the teacher: verify a certificate code</summary>
+    <div class="tbody">
+      <label for="vName">Student name (as written on the certificate)</label>
+      <input type="text" id="vName" placeholder="e.g. Alex Müller">
+      <label for="vCode">Verification code</label>
+      <input type="text" id="vCode" placeholder="CT9-R3-261005-1720-XXXX-XXXXX">
+      <button class="btn" id="verifyBtn">Verify</button>
+      <div id="verdict" role="status"></div>
+      <div class="legend" id="legend"></div>
+      <p class="hint" style="font-size:.84rem;margin-top:10px">The code contains round, date and score plus a checksum tied to the student's name. A reused, mistyped or edited screenshot will not verify. Codes from the earlier single modules (R1, R2) verify here as well. Client-side check: robust against casual tampering, not a cryptographic guarantee.</p>
+    </div>
+  </details>
+
+  <footer>Homework module · Camden Town 9, Theme 1 · Rounds 1–5 · 80&nbsp;% to pass · nothing is saved or sent</footer>
+</div>
+
+<script>
+const DATA = {"R1_POOL":[{"au":"avo","uk":"avocado"},{"au":"biccy","uk":"biscuit"},{"au":"Chrissie","uk":"Christmas"},{"au":"crook","uk":"criminal"},{"au":"defo","uk":"definitely"},{"au":"runners","uk":"trainers"},{"au":"Straya","uk":"Australia"},{"au":"sunnies","uk":"sunglasses"}],"R2_VOCAB":[{"en":"to benefit","de":"profitieren, Nutzen ziehen"},{"en":"to profit (from/by)","de":"profitieren (von), Nutzen ziehen (aus)"},{"en":"convict","de":"Strafgefangene/r"},{"en":"guilty","de":"schuldig"},{"en":"colony","de":"Kolonie"},{"en":"control","de":"Kontrolle, Gewalt, Herrschaft"},{"en":"to expire","de":"ablaufen, enden, auslaufen"},{"en":"to found","de":"gründen"},{"en":"indigenous","de":"(ein)heimisch"},{"en":"overcrowded","de":"überfüllt, überlaufen"},{"en":"to be related to","de":"verwandt sein (mit), in Beziehung stehen (zu)"},{"en":"colonization","de":"Kolonisation, Kolonisierung"},{"en":"official","de":"offiziell"},{"en":"Aboriginal","de":"Aborigine, der Aborigines, Aborigine-"},{"en":"to represent sb/sth","de":"jdn/etw repräsentieren, vertreten"},{"en":"stripe","de":"Streifen"},{"en":"to impact","de":"beeinflussen, Auswirkungen haben auf"},{"en":"unsure","de":"unsicher, ungewiss"},{"en":"to be based on","de":"basieren auf, beruhen auf"},{"en":"the Dreaming","de":"zentraler Begriff der Aborigine-Mythologie"},{"en":"foundation","de":"Fundament, Basis, Grundlage, Gründung"},{"en":"religion","de":"Religion, Glaube"},{"en":"creation","de":"(Er)schaffung, Produkt, Werk"},{"en":"sacred","de":"heilig, geheiligt"},{"en":"belief","de":"Glaube, Überzeugung, Ansicht"},{"en":"connection","de":"Verbindung, Beziehung, Zusammenhang"},{"en":"to pass down","de":"weitergeben, überliefern"},{"en":"knowledge","de":"Kenntnis(se), Wissen"},{"en":"to communicate","de":"kommunizieren, Kontakt haben"},{"en":"starvation","de":"Hungertod, Verhungern, Unterernährung"},{"en":"to abandon","de":"verlassen, zurücklassen, aufgeben"},{"en":"will","de":"Wille"},{"en":"to raise","de":"heben, großziehen"},{"en":"foster","de":"Pflege-"},{"en":"to protest","de":"protestieren"},{"en":"mistreatment","de":"Misshandlung, schlechte Behandlung"},{"en":"not until ...","de":"erst ..."},{"en":"widely","de":"weithin"},{"en":"society","de":"Gesellschaft"},{"en":"to acknowledge","de":"zugeben, anerkennen, bestätigen"},{"en":"to suffer (from)","de":"erleiden, ertragen, leiden (an/unter)"},{"en":"reconciliation","de":"Aussöhnung, Versöhnung, Beilegung"},{"en":"prime minister","de":"Premierminister/in, Ministerpräsident/in"},{"en":"past","de":"vergangen, frühere(r,s)"},{"en":"rate","de":"Maß, Menge, Rate, Quote"},{"en":"abuse","de":"Missbrauch, Verletzung, Beschimpfung(en)"},{"en":"mentoring","de":"Beratung und Unterstützung durch erfahrene Fach- oder Führungskräfte"},{"en":"according to","de":"nach, laut, gemäß"},{"en":"capable","de":"fähig"},{"en":"worth","de":"Wert"},{"en":"cycle","de":"Kreislauf, Zyklus"},{"en":"tiny","de":"winzig"},{"en":"isolated","de":"abgelegen, isoliert"},{"en":"to hunt","de":"jagen"},{"en":"to adjust (to)","de":"einstellen, anpassen (an)"},{"en":"currently","de":"zurzeit, gegenwärtig, momentan"},{"en":"musician","de":"Musiker/in"},{"en":"pride","de":"Stolz"},{"en":"identity","de":"Identität"},{"en":"anger","de":"Ärger, Wut"},{"en":"on a daily basis","de":"täglich, jeden Tag"},{"en":"forearm","de":"Unterarm"},{"en":"heritage","de":"(Kultur)erbe"},{"en":"award","de":"Preis, Auszeichnung"},{"en":"creative","de":"kreativ, schöpferisch"},{"en":"to analyse","de":"analysieren, untersuchen"},{"en":"to overcome","de":"bewältigen, meistern"}],"R2_PASS":[{"s":"The Sydney Harbour Bridge {} by people looking for adventure.","inf":"climb","ans":"can be climbed","opts":["can be climbed","climbs","is climbing","climbed"]},{"s":"During the climb, visitors {} with safety equipment.","inf":"provide","ans":"are provided","opts":["are provided","provide","are providing","provided"]},{"s":"The climbers {} by trained professionals.","inf":"look after","ans":"are looked after","opts":["are looked after","look after","are looking after","looked after"]},{"s":"At the start, climbers {} about the safety procedures.","inf":"tell","ans":"are told","opts":["are told","tell","are telling","told"]},{"s":"The climbers {} a harness.","inf":"give","ans":"are given","opts":["are given","give","are giving","gave"]},{"s":"Then, they {} up a series of stairs to the top.","inf":"lead","ans":"are led","opts":["are led","lead","are leading","led"]},{"s":"The climb down {} in the same way.","inf":"do","ans":"is done","opts":["is done","does","is doing","did"]},{"s":"The climbers {} by the guides every step of the way.","inf":"help","ans":"are helped","opts":["are helped","help","are helping","helped"]},{"s":"Adelaide {} in 1836.","inf":"found","ans":"was founded","opts":["was founded","founded","was finding","is founded"]},{"s":"Uluru {} over millions of years.","inf":"form","ans":"was formed","opts":["was formed","formed","was forming","is formed"]},{"s":"Uluru {} a World Heritage site in 1987.","inf":"make","ans":"was made","opts":["was made","made","was making","is made"]},{"s":"Stage 2 of the light rail {} in 2017.","inf":"finish","ans":"was finished","opts":["was finished","finished","was finishing","is finished"]},{"s":"Plastic plates and straws {} on the island.","inf":"ban","ans":"are banned","opts":["are banned","ban","are banning","banned"]},{"s":"Shadeene Evans {} in an isolated community.","inf":"raise","ans":"was raised","opts":["was raised","raised","was raising","is raised"]}],"VA5":[{"en":"Australia Day","de":"Australiens offizieller Nationalfeiertag"},{"en":"protester","de":"Protestierende/r, Demonstrant/in"},{"en":"across","de":"über, querdurch, über ... hinweg"},{"en":"supporter","de":"Unterstützer/in, Anhänger/in, Verfechter/in"},{"en":"despite","de":"trotz"},{"en":"march","de":"Marsch"},{"en":"central","de":"zentral, Haupt-"},{"en":"native","de":"einheimisch, eingeboren"},{"en":"speech","de":"Rede"},{"en":"meanwhile","de":"inzwischen, unterdessen, mittlerweile"},{"en":"naval officer","de":"Marineoffizier/in"},{"en":"to assess","de":"(ein)schätzen, beurteilen"},{"en":"to abolish","de":"abschaffen, aufheben"},{"en":"suspect","de":"Verdächtige/r"},{"en":"heated","de":"hitzig, beheizt"},{"en":"arrival","de":"Ankunft"},{"en":"forcefully","de":"gewaltsam"},{"en":"possibly","de":"möglicherweise, gegebenenfalls"},{"en":"elder","de":"Ältere/r, ältere(r,s)"},{"en":"to reflect","de":"spiegeln, zeigen, reflektieren"},{"en":"to mark","de":"markieren, kennzeichnen"},{"en":"ceremony","de":"Zeremonie, Feier, Feierlichkeiten"},{"en":"citizenship","de":"Staatsangehörigkeit"},{"en":"multicultural","de":"multikulturell"},{"en":"faith","de":"Vertrauen, Glaube"},{"en":"to proclaim","de":"verkünden, erklären"},{"en":"gratitude","de":"Dankbarkeit"},{"en":"to span","de":"umfassen, umspannen"},{"en":"unmatched","de":"unerreicht, unübertroffen"},{"en":"wrong","de":"Unrecht"},{"en":"acknowledg(e)ment","de":"Eingeständnis, Anerkennung, Würdigung"},{"en":"hardship","de":"Not, Elend, Härte"},{"en":"to strive","de":"sich bemühen, (an)streben"},{"en":"just","de":"gerecht"},{"en":"no matter ...","de":"egal(,) ..."},{"en":"First Nations","de":"Ureinwohner-, die einheimische Bevölkerung betreffend"}],"VALL":[{"en":"Australia Day","de":"Australiens offizieller Nationalfeiertag"},{"en":"protester","de":"Protestierende/r, Demonstrant/in"},{"en":"across","de":"über, querdurch, über ... hinweg"},{"en":"supporter","de":"Unterstützer/in, Anhänger/in, Verfechter/in"},{"en":"despite","de":"trotz"},{"en":"march","de":"Marsch"},{"en":"central","de":"zentral, Haupt-"},{"en":"native","de":"einheimisch, eingeboren"},{"en":"speech","de":"Rede"},{"en":"meanwhile","de":"inzwischen, unterdessen, mittlerweile"},{"en":"naval officer","de":"Marineoffizier/in"},{"en":"to assess","de":"(ein)schätzen, beurteilen"},{"en":"to abolish","de":"abschaffen, aufheben"},{"en":"suspect","de":"Verdächtige/r"},{"en":"heated","de":"hitzig, beheizt"},{"en":"arrival","de":"Ankunft"},{"en":"forcefully","de":"gewaltsam"},{"en":"possibly","de":"möglicherweise, gegebenenfalls"},{"en":"elder","de":"Ältere/r, ältere(r,s)"},{"en":"to reflect","de":"spiegeln, zeigen, reflektieren"},{"en":"to mark","de":"markieren, kennzeichnen"},{"en":"ceremony","de":"Zeremonie, Feier, Feierlichkeiten"},{"en":"citizenship","de":"Staatsangehörigkeit"},{"en":"multicultural","de":"multikulturell"},{"en":"faith","de":"Vertrauen, Glaube"},{"en":"to proclaim","de":"verkünden, erklären"},{"en":"gratitude","de":"Dankbarkeit"},{"en":"to span","de":"umfassen, umspannen"},{"en":"unmatched","de":"unerreicht, unübertroffen"},{"en":"wrong","de":"Unrecht"},{"en":"acknowledg(e)ment","de":"Eingeständnis, Anerkennung, Würdigung"},{"en":"hardship","de":"Not, Elend, Härte"},{"en":"to strive","de":"sich bemühen, (an)streben"},{"en":"just","de":"gerecht"},{"en":"no matter ...","de":"egal(,) ..."},{"en":"First Nations","de":"Ureinwohner-, die einheimische Bevölkerung betreffend"},{"en":"to benefit","de":"profitieren, Nutzen ziehen"},{"en":"convict","de":"Strafgefangene/r"},{"en":"guilty","de":"schuldig"},{"en":"colony","de":"Kolonie"},{"en":"control","de":"Kontrolle, Gewalt, Herrschaft"},{"en":"to expire","de":"ablaufen, enden, auslaufen"},{"en":"to found","de":"gründen"},{"en":"indigenous","de":"(ein)heimisch"},{"en":"overcrowded","de":"überfüllt, überlaufen"},{"en":"to be related to","de":"verwandt sein (mit), in Beziehung stehen (zu)"},{"en":"colonization","de":"Kolonisation, Kolonisierung"},{"en":"official","de":"offiziell"},{"en":"Aboriginal","de":"Aborigine, der Aborigines, Aborigine-"},{"en":"to represent sb/sth","de":"jdn/etw repräsentieren, vertreten"},{"en":"stripe","de":"Streifen"},{"en":"to impact","de":"beeinflussen, Auswirkungen haben auf"},{"en":"unsure","de":"unsicher, ungewiss"},{"en":"to be based on","de":"basieren auf, beruhen auf"},{"en":"the Dreaming","de":"zentraler Begriff der Aborigine-Mythologie"},{"en":"foundation","de":"Fundament, Basis, Grundlage, Gründung"},{"en":"sacred","de":"heilig, geheiligt"},{"en":"belief","de":"Glaube, Überzeugung, Ansicht"},{"en":"connection","de":"Verbindung, Beziehung, Zusammenhang"},{"en":"to pass down","de":"weitergeben, überliefern"},{"en":"knowledge","de":"Kenntnis(se), Wissen"},{"en":"to communicate","de":"kommunizieren, Kontakt haben"},{"en":"starvation","de":"Hungertod, Verhungern, Unterernährung"},{"en":"to abandon","de":"verlassen, zurücklassen, aufgeben"},{"en":"to raise","de":"heben, großziehen"},{"en":"foster","de":"Pflege-"},{"en":"to protest","de":"protestieren"},{"en":"mistreatment","de":"Misshandlung, schlechte Behandlung"},{"en":"not until ...","de":"erst ..."},{"en":"widely","de":"weithin"},{"en":"society","de":"Gesellschaft"},{"en":"to acknowledge","de":"zugeben, anerkennen, bestätigen"},{"en":"to suffer (from)","de":"erleiden, ertragen, leiden (an/unter)"},{"en":"reconciliation","de":"Aussöhnung, Versöhnung, Beilegung"},{"en":"prime minister","de":"Premierminister/in, Ministerpräsident/in"},{"en":"rate","de":"Maß, Menge, Rate, Quote"},{"en":"abuse","de":"Missbrauch, Verletzung, Beschimpfung(en)"},{"en":"mentoring","de":"Beratung und Unterstützung durch erfahrene Fachkräfte"},{"en":"according to","de":"nach, laut, gemäß"},{"en":"capable","de":"fähig"},{"en":"worth","de":"Wert"},{"en":"cycle","de":"Kreislauf, Zyklus"},{"en":"tiny","de":"winzig"},{"en":"isolated","de":"abgelegen, isoliert"},{"en":"to hunt","de":"jagen"},{"en":"to adjust (to)","de":"einstellen, anpassen (an)"},{"en":"currently","de":"zurzeit, gegenwärtig, momentan"},{"en":"pride","de":"Stolz"},{"en":"identity","de":"Identität"},{"en":"anger","de":"Ärger, Wut"},{"en":"on a daily basis","de":"täglich, jeden Tag"},{"en":"heritage","de":"(Kultur)erbe"},{"en":"award","de":"Preis, Auszeichnung"},{"en":"creative","de":"kreativ, schöpferisch"},{"en":"to analyse","de":"analysieren, untersuchen"},{"en":"to overcome","de":"bewältigen, meistern"},{"en":"to publish","de":"veröffentlichen, herausgeben"},{"en":"to vary","de":"variieren"}],"R35_PASS":[{"s":"The Sydney Harbour Bridge {} by people looking for adventure.","inf":"climb","ans":"can be climbed","opts":["can be climbed","climbs","is climbing","climbed"]},{"s":"During the climb, visitors {} with safety equipment.","inf":"provide","ans":"are provided","opts":["are provided","provide","are providing","provided"]},{"s":"The climbers {} by trained professionals.","inf":"look after","ans":"are looked after","opts":["are looked after","look after","are looking after","looked after"]},{"s":"At the start, climbers {} about the safety procedures.","inf":"tell","ans":"are told","opts":["are told","tell","are telling","told"]},{"s":"The climbers {} a harness.","inf":"give","ans":"are given","opts":["are given","give","are giving","gave"]},{"s":"Then, they {} up a series of stairs to the top.","inf":"lead","ans":"are led","opts":["are led","lead","are leading","led"]},{"s":"The climb down {} in the same way.","inf":"do","ans":"is done","opts":["is done","does","is doing","did"]},{"s":"Adelaide {} in 1836.","inf":"found","ans":"was founded","opts":["was founded","founded","was finding","is founded"]},{"s":"Uluru {} over millions of years.","inf":"form","ans":"was formed","opts":["was formed","formed","was forming","is formed"]},{"s":"Uluru {} a World Heritage site in 1987.","inf":"make","ans":"was made","opts":["was made","made","was making","is made"]},{"s":"Plastic plates and straws {} on the island.","inf":"ban","ans":"are banned","opts":["are banned","ban","are banning","banned"]},{"s":"Shadeene Evans {} in an isolated community.","inf":"raise","ans":"was raised","opts":["was raised","raised","was raising","is raised"]},{"s":"Convicts {} to Australia from 1788 onwards.","inf":"send","ans":"were sent","opts":["were sent","sent","was sent","are sent"]},{"s":"Australia Day {} every year on 26 January.","inf":"celebrate","ans":"is celebrated","opts":["is celebrated","celebrates","was celebrated","celebrating"]}],"RS":[{"d":"Liv: “I did the Bridge Climb yesterday!”","s":"Liv said that she {} the Bridge Climb the day before.","ans":"had done","opts":["had done","did","has done","was doing"]},{"d":"Dan: “There are such good views from the bridge!”","s":"Dan said that there {} such good views from the bridge.","ans":"were","opts":["were","are","had been","would be"]},{"d":"Sandra: “Do you know how much it costs?”","s":"Sandra {} if someone knew how much it cost.","ans":"asked","opts":["asked","said","told","says"]},{"d":"Sandra: “How much does it cost?”","s":"Sandra asked how much it {}.","ans":"cost","opts":["cost","costs","had cost","would cost"]},{"d":"Akash: “This is the biggest bridge I’ve ever seen!”","s":"Akash said this {} the biggest bridge he had ever seen.","ans":"was","opts":["was","is","has been","would be"]},{"d":"Niko: “I think it’s too expensive.”","s":"Niko said he {} it was too expensive.","ans":"thought","opts":["thought","thinks","had thought","would think"]},{"d":"Marnie: “I love this day.”","s":"Marnie said that she {} that day.","ans":"loved","opts":["loved","loves","had loved","would love"]},{"d":"An elder: “We are still mourning.”","s":"The elder explained that they {} still mourning.","ans":"were","opts":["were","are","had been","would be"]},{"d":"The protesters: “The date will change one day.”","s":"The protesters argued that the date {} change one day.","ans":"would","opts":["would","will","had","was going"]},{"d":"Theo: “I moved to Sydney last year.”","s":"Theo told us that he had moved to Sydney {}.","ans":"the year before","opts":["the year before","last year","next year","this year"]}],"COMMENT":[{"s":"In my {}, Australia Day should be moved to a different date.","ans":"opinion","opts":["opinion","meaning","thinking","sense"],"hint":"stating your position — first sentence"},{"s":"The main {} for this is that the date marks the arrival of the First Fleet.","ans":"reason","opts":["reason","cause","ground","because"],"hint":"introducing your first reason"},{"s":"{} example, many Indigenous Australians call it Invasion Day.","ans":"For","opts":["For","As","By","With"],"hint":"adding a concrete example"},{"s":"To sum {}, I believe the date should change.","ans":"up","opts":["up","on","in","out"],"hint":"closing your comment"},{"s":"Some people {} that changing the date would mean forgetting history.","ans":"argue","opts":["argue","tell","speak","mean"],"hint":"introducing a counter-argument"},{"s":"It is true that the flag is part of history, {} it does not fit the country today.","ans":"but","opts":["but","and","so","because"],"hint":"answering a counter-argument"},{"s":"Unlike a summary, a comment {} your own opinion.","ans":"includes","opts":["includes","avoids","reports","shortens"],"hint":"summary vs comment — know the difference"},{"s":"I strongly {} with this idea, because it ignores the facts.","ans":"disagree","opts":["disagree","disagreement","disagreeing","against"],"hint":"rejecting a position politely but clearly"},{"s":"That is {} I think the date should change.","ans":"why","opts":["why","what","because","so that"],"hint":"linking your reason to your conclusion"},{"s":"A comment always needs a clear {} in the first sentence.","ans":"position","opts":["position","story","summary","question"],"hint":"from the checklist"},{"s":"A second {} is that a national day should bring people together.","ans":"reason","opts":["reason","example","opinion","conclusion"],"hint":"adding your second reason"},{"s":"{} in all, Australia should keep its national day but change the date.","ans":"All","opts":["All","At","In","On"],"hint":"the closing formula"}]};
+(function(){
+  "use strict";
+  var $=function(id){return document.getElementById(id);};
+
+  /* Medal colour per round (= per week). Colour is the quick check, the number on the stamp the reliable one. */
+  var MEDAL_PALETTE=[
+    {name:"Gold",light:"#FFE38A",base:"#E8B923",dark:"#9C7A0E"},
+    {name:"Sapphire",light:"#8DB6F5",base:"#2E6FD8",dark:"#1B3F80"},
+    {name:"Emerald",light:"#8FE0B6",base:"#1E9E62",dark:"#0F5C38"},
+    {name:"Ruby",light:"#F29AA3",base:"#D23B4B",dark:"#7D1622"},
+    {name:"Amethyst",light:"#C9A8F2",base:"#8A4FD6",dark:"#4B2386"}
+  ];
+  function applyMedalColors(n,el){var p=MEDAL_PALETTE[(n-1)%MEDAL_PALETTE.length];el.style.setProperty("--medal-light",p.light);el.style.setProperty("--medal-base",p.base);el.style.setProperty("--medal-dark",p.dark);return p;}
+
+  /* Words that must never be offered as distractors for each other (near-synonyms in the word list). */
+  var CONFUSABLE=[["to benefit","to profit (from/by)"],["native","indigenous","Aboriginal","First Nations"],["belief","faith","religion"],["mistreatment","abuse"]];
+  var groupOf={};CONFUSABLE.forEach(function(g,i){g.forEach(function(w){groupOf[w]=i;});});
+  function clash(a,b){return groupOf[a]!==undefined&&groupOf[a]===groupOf[b];}
+
+  var ROUNDS=[
+    {key:"R1",week:1,title:"Round 1 — Australian & British English",desc:"The eight Australian English words from week 1 and their British English partners.",
+      parts:[{kind:"aue",n:10}]},
+    {key:"R2",week:2,title:"Round 2 — History vocabulary & the passive",desc:"Vocabulary from Part A (history and the three profiles) and the passive.",
+      parts:[{kind:"vocab",pool:DATA.R2_VOCAB,n:10,section:"Part A · Vocabulary"},
+             {kind:"pass",set:DATA.R2_PASS,n:5,section:"Part B · Grammar: the passive",lbl:"Choose the correct passive form"}]},
+    {key:"R3",week:3,title:"Round 3 — In the news, reported speech & comment phrases",desc:"“In the news” vocabulary, reported speech (WB ex. 14) and the phrases you need for a comment.",
+      parts:[{kind:"vocab",pool:DATA.VA5,n:10,section:"Part A · Vocabulary"},
+             {kind:"rs",set:DATA.RS,n:5,section:"Part B · Grammar: reported speech",lbl:"Choose the correct reported form"},
+             {kind:"comment",set:DATA.COMMENT,n:5,section:"Part C · Writing: comment phrases",lbl:"Choose the phrase that fits a comment"}]},
+    {key:"R4",week:4,title:"Round 4 — Cumulative review",desc:"Mixed: Theme 1 vocabulary, the passive, reported speech and comment phrases.",
+      parts:[{kind:"vocab",pool:DATA.VALL,n:8,section:"Part A · Vocabulary"},
+             {kind:"pass",set:DATA.R35_PASS,n:4,section:"Part B · Grammar: the passive",lbl:"Choose the correct passive form"},
+             {kind:"rs",set:DATA.RS,n:4,section:"Part C · Grammar: reported speech",lbl:"Choose the correct reported form"},
+             {kind:"comment",set:DATA.COMMENT,n:3,section:"Part D · Writing: comment phrases",lbl:"Choose the phrase that fits a comment"}]},
+    {key:"R5",week:5,title:"Round 5 — Full review before the test",desc:"Everything for the class test: vocabulary, the passive, reported speech and comment phrases.",
+      parts:[{kind:"vocab",pool:DATA.VALL,n:10,section:"Part A · Vocabulary"},
+             {kind:"pass",set:DATA.R35_PASS,n:4,section:"Part B · Grammar: the passive",lbl:"Choose the correct passive form"},
+             {kind:"rs",set:DATA.RS,n:4,section:"Part C · Grammar: reported speech",lbl:"Choose the correct reported form"},
+             {kind:"comment",set:DATA.COMMENT,n:4,section:"Part D · Writing: comment phrases",lbl:"Choose the phrase that fits a comment"}]}
+  ];
+  ROUNDS.forEach(function(r){r.total=r.parts.reduce(function(s,p){return s+p.n;},0);r.pass=Math.ceil(r.total*0.8);});
+  var byKey={};ROUNDS.forEach(function(r){byKey[r.key]=r;});
+
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function show(id){document.querySelectorAll(".screen").forEach(function(s){s.classList.remove("active");});$(id).classList.add("active");document.body.classList.toggle("compact",id!=="screen-start");window.scrollTo(0,0);}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+
+  /* ---------- certificate code (same format and checksum as the earlier R1/R2 modules) ---------- */
+  function fnv(str){var x=2166136261>>>0;for(var i=0;i<str.length;i++){x^=str.charCodeAt(i);x=Math.imul(x,16777619)>>>0;}return (x>>>0).toString(36).toUpperCase();}
+  function pad(n,l){n=""+n;while(n.length<l)n="0"+n;return n;}
+  function normName(s){return (s||"").trim().toLowerCase().replace(/\s+/g," ");}
+  function todayParts(){var d=new Date();return {yy:pad(d.getFullYear()%100,2),mm:pad(d.getMonth()+1,2),dd:pad(d.getDate(),2),iso:d.getFullYear()+"-"+pad(d.getMonth()+1,2)+"-"+pad(d.getDate(),2)};}
+  function makeCode(name,score,total,round){
+    var t=todayParts(),salt=fnv(""+Math.random()+Date.now()).slice(0,4);
+    var check=fnv(normName(name)+"|"+t.iso+"|"+score+"|"+total+"|"+round+"|"+salt).slice(0,5);
+    return "CT9-"+round+"-"+t.yy+t.mm+t.dd+"-"+pad(score,2)+pad(total,2)+"-"+salt+"-"+check;
+  }
+
+  /* ---------- item builders ---------- */
+  function aueItems(n){
+    var P=DATA.R1_POOL,combos=[];
+    P.forEach(function(w,i){combos.push({i:i,dir:"au"});combos.push({i:i,dir:"uk"});});
+    return shuffle(combos).slice(0,n).map(function(c){
+      var w=P[c.i],au=c.dir==="au",answer=au?w.uk:w.au;
+      var dis=P.filter(function(_,j){return j!==c.i;}).map(function(x){return au?x.uk:x.au;});
+      return {section:"Vocabulary · Australian English",lbl:au?"Australian English → British English":"British English → Australian English",
+              isWord:true,html:au?w.au:w.uk,answer:answer,options:shuffle(shuffle(dis).slice(0,3).concat([answer]))};
+    });
+  }
+  function vocabItems(pool,n,section){
+    var used={},out=[],guard=0;
+    while(out.length<n&&guard++<500){
+      var w=pool[Math.floor(Math.random()*pool.length)],en2de=Math.random()<0.5;
+      var prompt=en2de?w.en:w.de,answer=en2de?w.de:w.en,key=en2de?"de":"en";
+      if(used[w.en])continue;used[w.en]=1;
+      var seen={};seen[answer]=1;
+      var dis=shuffle(pool.filter(function(x){return x.en!==w.en&&!clash(x.en,w.en);})).map(function(x){return x[key];})
+               .filter(function(t){if(seen[t])return false;seen[t]=1;return true;}).slice(0,3);
+      out.push({section:section,lbl:en2de?"Vocabulary · English → Deutsch":"Vocabulary · Deutsch → English",isWord:true,html:prompt,answer:answer,options:shuffle(dis.concat([answer]))});
+    }
+    return out;
+  }
+  function setItems(p){
+    return shuffle(p.set).slice(0,p.n).map(function(it){
+      var sub=p.kind==="pass"?"infinitive: "+it.inf:(p.kind==="rs"?"Direct: "+it.d:(it.hint||""));
+      return {section:p.section,lbl:p.lbl,isWord:false,html:esc(it.s).replace("{}",'<span class="gap">______</span>'),sub:sub,plain:it.s.replace("{}","____"),answer:it.ans,options:shuffle(it.opts)};
+    });
+  }
+  function buildRun(r){
+    var run=[];
+    r.parts.forEach(function(p){
+      if(p.kind==="aue")run=run.concat(aueItems(p.n));
+      else if(p.kind==="vocab")run=run.concat(vocabItems(p.pool,p.n,p.section));
+      else run=run.concat(setItems(p));
+    });
+    return run;
+  }
+
+  /* ---------- start screen: the route ---------- */
+  var passedToday={};
+  function drawRoute(){
+    var box=$("route");box.innerHTML="";
+    ROUNDS.forEach(function(r){
+      var p=MEDAL_PALETTE[r.week-1];
+      var b=document.createElement("button");b.className="stop"+(passedToday[r.key]?" passed":"");b.style.setProperty("--c",p.base);
+      b.innerHTML='<div class="sign"><span>'+r.key+'</span></div>'+
+        '<div class="wk">Stop '+r.week+' · Week '+r.week+'<span class="ok">✓ passed</span></div>'+
+        '<div class="tt">'+esc(r.title.replace(/^Round \d — /,""))+'</div>'+
+        '<div class="dd">'+esc(r.desc)+'</div>'+
+        '<div class="mm">'+r.total+' questions · you need '+r.pass+'</div>';
+      b.addEventListener("click",function(){start(r.key);});
+      box.appendChild(b);
+    });
+  }
+
+  /* ---------- quiz ---------- */
+  var cur=null,run=[],pos=0,score=0,answers=[],studentName="";
+  function start(key){
+    var n=$("name").value.trim();
+    if(n.length<2){$("nameErr").textContent="Please enter your name first.";$("name").focus();window.scrollTo(0,0);return;}
+    $("nameErr").textContent="";studentName=n;cur=byKey[key];run=buildRun(cur);pos=0;score=0;answers=[];
+    $("qSign").textContent=cur.key;$("qRound").textContent=cur.title;$("qName").textContent=n;$("qTot").textContent=run.length;
+    show("screen-quiz");renderQ();
+  }
+  function renderQ(){
+    var q=run[pos],pct=pos/run.length*100;
+    $("qPos").textContent=pos+1;$("qFill").style.width=pct+"%";$("qCar").style.left="calc(10px + (100% - 20px) * "+(pos/run.length)+")";
+    $("qPct").textContent=Math.round(pct)+" % of the way";
+    $("qSection").textContent=q.section;$("qLbl").textContent=q.lbl;
+    var w=$("qWord");
+    if(q.isWord){w.className="word";w.textContent=q.html;}
+    else{w.className="cloze";w.innerHTML=q.html+(q.sub?'<span class="inf">'+esc(q.sub)+'</span>':"");}
+    var box=$("qOptions");box.innerHTML="";
+    q.options.forEach(function(o){var b=document.createElement("button");b.className="opt";b.textContent=o;b.addEventListener("click",function(){pick(o);});box.appendChild(b);});
+  }
+  function pick(choice){
+    var q=run[pos],ok=choice===q.answer;if(ok)score++;
+    answers.push({prompt:q.isWord?q.html:q.plain,answer:q.answer,chosen:choice,ok:ok});
+    pos++;if(pos>=run.length)showResult();else renderQ();
+  }
+  function showResult(){
+    var passed=score>=cur.pass,pct=Math.round(score/run.length*100);
+    var rs=$("resScore");rs.textContent=score+" / "+run.length;rs.className="score "+(passed?"pass":"fail");
+    $("resMsg").textContent=passed?("Passed with "+pct+" %. Beauty! Get your certificate now."):("Not yet: "+pct+" %. You need "+cur.pass+" / "+run.length+". Check the review, practise and try again.");
+    $("getCert").style.display=passed?"block":"none";
+    if(passed){passedToday[cur.key]=1;}
+    var wrong=answers.filter(function(a){return !a.ok;}),h='<h3>Review</h3>';
+    if(wrong.length)wrong.forEach(function(a){h+='<div class="row"><span class="x">✗</span><span><b>'+esc(a.prompt)+'</b> → '+esc(a.answer)+' <span class="you">(you chose '+esc(a.chosen)+')</span></span></div>';});
+    else h+='<div class="row"><span class="v">✓</span><span>All correct. Spot on!</span></div>';
+    $("review").innerHTML=h;
+    show("screen-result");
+  }
+  function showCert(){
+    var t=todayParts();
+    applyMedalColors(cur.week,$("certBox"));
+    $("cNum").textContent=cur.week;$("cWeek").textContent="WEEK "+cur.week;
+    $("cTitle").textContent=cur.title;$("cName").textContent=studentName;
+    $("cDate").textContent=t.dd+"."+t.mm+".20"+t.yy;
+    $("cScore").textContent=score+" / "+run.length+" ("+Math.round(score/run.length*100)+" %)";
+    $("cCode").textContent=makeCode(studentName,score,run.length,cur.key);
+    show("screen-cert");
+  }
+  function toStops(){drawRoute();show("screen-start");}
+
+  $("getCert").addEventListener("click",showCert);
+  $("retry").addEventListener("click",function(){start(cur.key);});
+  $("toStops").addEventListener("click",toStops);
+  $("again").addEventListener("click",toStops);
+  $("quit").addEventListener("click",toStops);
+  $("printBtn").addEventListener("click",function(){window.print();});
+  $("name").addEventListener("keydown",function(e){if(e.key==="Enter")$("name").blur();});
+
+  /* ---------- teacher verifier ---------- */
+  $("legend").innerHTML=ROUNDS.map(function(r){var p=MEDAL_PALETTE[r.week-1];return '<span><i style="background:'+p.base+'"></i>'+r.key+' · '+p.name+'</span>';}).join("");
+  $("verifyBtn").addEventListener("click",function(){
+    var name=$("vName").value,code=($("vCode").value||"").trim().toUpperCase().replace(/\s+/g,""),v=$("verdict");
+    var p=code.split("-");
+    if(p.length!==6||p[0]!=="CT9"||!/^\d{6}$/.test(p[2])||!/^\d{4}$/.test(p[3])){v.className="verdict bad";v.innerHTML="Invalid code format.";return;}
+    var round=p[1],dt=p[2],sc=p[3],salt=p[4],check=p[5];
+    var iso="20"+dt.slice(0,2)+"-"+dt.slice(2,4)+"-"+dt.slice(4,6);
+    var s=parseInt(sc.slice(0,2),10),tot=parseInt(sc.slice(2,4),10);
+    var expect=fnv(normName(name)+"|"+iso+"|"+s+"|"+tot+"|"+round+"|"+salt).slice(0,5);
+    var info="Round "+esc(round.replace("R",""))+" · date "+iso+" · score "+s+" / "+tot+" ("+Math.round(s/tot*100)+" %)";
+    if(expect!==check){v.className="verdict bad";v.innerHTML="✗ Does not verify<small>Wrong name, mistyped code or an edited screenshot. The code claims: "+info+", but the checksum does not match this name.</small>";return;}
+    var r=byKey[round],warn="";
+    if(!r)warn=" Unknown round for this module.";
+    else if(tot!==r.total)warn=" Note: this round currently has "+r.total+" questions (code shows "+tot+").";
+    if(s<Math.ceil(tot*0.8))warn+=" Score is below 80 %.";
+    v.className="verdict "+(warn?"bad":"ok");
+    v.innerHTML=(warn?"⚠ Checksum valid, but check this":"✓ Valid certificate")+"<small>"+info+" · name matches."+esc(warn)+"</small>";
+  });
+
+  drawRoute();
+  window.__HA={rounds:ROUNDS,build:buildRun,state:function(){return {run:run,pos:pos,score:score,cur:cur};},fnv:fnv,normName:normName};
+})();
+</script>
+</body>
+</html>
