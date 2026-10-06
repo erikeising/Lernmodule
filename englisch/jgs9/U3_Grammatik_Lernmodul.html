@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grammar Desk — Relative Clauses (Camden Town 9, Theme 3)</title>
+<style>
+:root{
+  --main:#7A1F2B;--main-d:#56141e;--paper:#faf6ee;--line:#e2d6c2;--ink:#1f1a17;--muted:#62584f;--tint:#f3e9dc;--hl:#f7d9a8;
+  --ok:#0b57a4;--okbg:#e3eefa;--oktx:#0b3d6e;--ko:#d35f0b;--kobg:#fdebdf;--kotx:#a4410a;--warn:#e8b100;--warnbg:#fff5d1;--warntx:#5c4300;
+  --serif:Georgia,"Times New Roman",serif;--sans:"Segoe UI",Calibri,Carlito,system-ui,-apple-system,Arial,sans-serif;--mono:Consolas,"Liberation Mono",Menlo,monospace;
+  --ic-ok:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='9' fill='%230b57a4'/%3E%3Cpath d='M5.5 10.5l3 3 6-6.5' stroke='white' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --ic-ko:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='9' fill='%23d35f0b'/%3E%3Cpath d='M6.5 6.5l7 7M13.5 6.5l-7 7' stroke='white' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
+  --ic-mid:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8.5' fill='white' stroke='%23e8b100' stroke-width='2'/%3E%3Cpath d='M10 1.5a8.5 8.5 0 0 1 0 17z' fill='%23e8b100'/%3E%3C/svg%3E");
+}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:var(--sans);font-size:17px;line-height:1.55;color:var(--ink);background:var(--paper);min-height:100vh}
+button,select,input,textarea{font:inherit}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 70px}
+/* masthead */
+.mast{border-bottom:3px double var(--main);padding:18px 0 10px;text-align:center}
+.mast .ey{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.mast h1{font-family:var(--serif);color:var(--main);font-size:clamp(1.6rem,6vw,2.4rem);margin:.1em 0 .05em;letter-spacing:.02em}
+.mast p{margin:0;color:var(--muted);font-size:.92rem}
+.namebar{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin:14px 0 4px}
+.namebar label{font-weight:700;font-size:.85rem;display:block;margin-bottom:4px}
+.namebar .f{flex:1 1 220px}
+input[type=text]{width:100%;padding:10px 12px;border:1px solid #c9bba3;border-radius:6px;background:#fff}
+.small{font-size:.85rem;color:var(--muted)}
+/* topics + steps */
+.topics{display:flex;gap:10px;margin:14px 0 6px;flex-wrap:wrap}
+.topic{flex:1 1 260px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:8px;padding:11px 14px;cursor:pointer;border-left:6px solid var(--line)}
+.topic[aria-pressed=true]{border-left-color:var(--main);box-shadow:0 4px 14px rgba(122,31,43,.14)}
+.topic .tk{font-family:var(--serif);font-weight:700;color:var(--main);font-size:1.05rem}
+.topic .ts{font-size:.8rem;color:var(--muted);display:block}
+.steps{display:flex;gap:6px;margin:14px 0 4px;flex-wrap:wrap}
+.step{flex:1 1 0;min-width:110px;border:1px solid var(--line);background:#fff;color:var(--muted);padding:8px 8px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.86rem}
+.step .n{display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--tint);color:var(--main);align-items:center;justify-content:center;font-size:.74rem;margin-right:5px}
+.step[aria-current=true]{background:var(--main);color:#fff;border-color:var(--main)}
+.step[aria-current=true] .n{background:rgba(255,255,255,.25);color:#fff}
+.step.done .n{background:var(--ok);color:#fff}
+/* cards */
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:18px;margin-top:14px}
+.phase{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--main);font-weight:700}
+.card h2{font-family:var(--serif);color:var(--main);font-size:1.25rem;margin:.15em 0 .45em}
+.src{display:inline-block;font-size:.74rem;background:var(--tint);color:var(--muted);border-radius:4px;padding:1px 7px;margin-left:6px;font-weight:600;vertical-align:middle}
+.lead{color:var(--muted);margin:.3em 0 .6em}
+.ex{background:var(--tint);border-radius:6px;padding:10px 12px;margin:8px 0;display:flex;gap:10px;align-items:baseline}
+.ex .no{font-weight:700;color:var(--main);min-width:1.3em}
+.ex .t{flex:1}
+.hl{background:var(--hl);border-bottom:2px solid var(--main);font-weight:700;padding:0 2px;border-radius:2px;white-space:pre-wrap}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 8px}
+.tbtn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 12px;font-size:.84rem;cursor:pointer;color:var(--main);font-weight:600}
+.tbtn[aria-expanded=true]{background:var(--tint)}
+.help{display:none;background:#fffaf2;border-left:3px solid var(--main);padding:8px 12px;border-radius:4px;margin:6px 0;font-size:.93rem}
+.help.show{display:block}
+/* questions */
+.q{border-top:1px solid var(--line);padding:12px 0 6px;position:relative}
+.q:first-of-type{border-top:0}
+.q .qt{font-weight:600;margin-bottom:8px}
+.opts{display:grid;gap:7px}
+.opt{text-align:left;border:1px solid var(--line);background:#fff;border-radius:6px;padding:9px 12px;cursor:pointer}
+.opt:hover{border-color:var(--main)}
+.opt.sel{border-color:var(--main);background:var(--tint)}
+.opt.ok{background:var(--okbg) var(--ic-ok) no-repeat right 10px center/20px;border:2px solid var(--ok);color:var(--oktx);padding-right:38px}
+.opt.ko{background:var(--kobg) var(--ic-ko) no-repeat right 10px center/20px;border:2px dashed var(--ko);color:var(--kotx);padding-right:38px}
+.why{font-size:.9rem;color:var(--muted);margin-top:6px;display:none}
+.why.show{display:block}
+/* flow text */
+.flow{line-height:2.25;font-size:1.02rem}
+.gapn{font-size:.7rem;font-weight:700;color:var(--main);vertical-align:super;margin:0 1px}
+.flow select,.it select{border:1px solid #b9a98f;border-radius:5px;padding:2px 4px;background:#fff;max-width:100%}
+.flow input.g{width:7.2em;padding:2px 26px 2px 6px;border:1px solid #b9a98f;border-radius:5px;background:#fff}
+select.ok{border:2px solid var(--ok);background:var(--okbg);color:var(--oktx)}
+select.ko{border:2px dashed var(--ko);background:var(--kobg);color:var(--kotx)}
+input.g.ok{border:2px solid var(--ok);background:var(--okbg) var(--ic-ok) no-repeat right 4px center/18px;color:var(--oktx)}
+input.g.ko{border:2px dashed var(--ko);background:var(--kobg) var(--ic-ko) no-repeat right 4px center/18px;color:var(--kotx)}
+.mk{display:inline-block;width:0;height:18px;vertical-align:middle;background-size:18px}
+.mk.ok,.mk.ko{width:18px;margin-left:2px}
+.gw{white-space:nowrap}
+.mk.ok{background-image:var(--ic-ok)}.mk.ko{background-image:var(--ic-ko)}
+/* item list */
+.it{border-top:1px solid var(--line);padding:10px 30px 10px 0;position:relative}
+.it:first-child{border-top:0}
+.it.ok::after,.it.ko::after{content:"";position:absolute;right:2px;top:12px;width:20px;height:20px;background-size:20px}
+.it.ok::after{background-image:var(--ic-ok)}.it.ko::after{background-image:var(--ic-ko)}
+.it .s{margin-bottom:6px}
+.it input.full{width:100%;padding:8px 10px;border:1px solid #b9a98f;border-radius:5px;background:#fff}
+.it input.full.ok{border:2px solid var(--ok);background:var(--okbg)}
+.it input.full.ko{border:2px dashed var(--ko);background:var(--kobg)}
+.yn{display:flex;gap:8px}
+.yn .opt{min-width:80px;text-align:center}
+.sol{display:none;font-size:.9rem;color:var(--oktx);background:var(--okbg);border-radius:4px;padding:4px 8px;margin-top:6px}
+.sol.show{display:block}
+textarea.w{width:100%;min-height:70px;padding:9px 11px;border:1px solid #b9a98f;border-radius:6px;background:#fff;resize:vertical}
+textarea.w.ok{border:2px solid var(--ok)}textarea.w.ko{border:2px dashed var(--ko)}
+.wc{font-size:.8rem;color:var(--muted)}
+.model{display:none;background:var(--tint);border-left:3px solid var(--main);border-radius:4px;padding:8px 10px;margin-top:6px;font-size:.95rem}
+.model.show{display:block}
+.model b{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--main);display:block}
+.chk{display:flex;gap:8px;align-items:flex-start;margin:4px 0;font-size:.95rem}
+/* buttons + feedback */
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{border:1px solid var(--main);background:var(--main);color:#fff;border-radius:6px;padding:9px 16px;cursor:pointer;font-weight:700}
+.btn.ghost{background:#fff;color:var(--main)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.fb{margin-top:10px;padding:9px 12px 9px 40px;border-radius:6px;font-weight:600;display:none;background-repeat:no-repeat;background-position:12px center;background-size:20px}
+.fb.show{display:block}
+.fb.g{background-color:var(--okbg);color:var(--oktx);background-image:var(--ic-ok)}
+.fb.y{background-color:var(--warnbg);color:var(--warntx);background-image:var(--ic-mid)}
+.fb.r{background-color:var(--kobg);color:var(--kotx);background-image:var(--ic-ko)}
+table.rule{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem}
+table.rule th,table.rule td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+table.rule th{color:var(--main);font-size:.76rem;text-transform:uppercase;letter-spacing:.06em}
+.tablewrap{overflow-x:auto}
+.navrow{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
+.secnav{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0}
+.secnav button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:5px 10px;cursor:pointer;font-size:.84rem}
+.secnav button[aria-current=true]{border-color:var(--main);color:var(--main);font-weight:700}
+.secnav button .st{display:inline-block;width:14px;height:14px;vertical-align:-2px;margin-left:4px;background-size:14px}
+.secnav button .st.ok{background-image:var(--ic-ok)}.secnav button .st.mid{background-image:var(--ic-mid)}.secnav button .st.ko{background-image:var(--ic-ko)}
+/* certificate */
+.cert{border:2px solid var(--main);outline:1px solid var(--main);outline-offset:4px;border-radius:4px;padding:22px 20px;background:#fffdf8;margin-top:18px;text-align:center}
+.cert h2{font-family:var(--serif);color:var(--main);font-size:1.6rem;margin:.1em 0}
+.cert .who{font-family:var(--serif);font-size:1.4rem;border-bottom:1px solid var(--line);display:inline-block;padding:0 20px 2px;margin:6px 0}
+.cert table{margin:12px auto;border-collapse:collapse;font-size:.92rem;text-align:left}
+.cert td{padding:4px 10px;border-bottom:1px solid var(--line)}
+.cert td.r{text-align:right;font-weight:700}
+.stamp{display:inline-block;border:3px solid var(--main);color:var(--main);border-radius:50%;width:110px;height:110px;padding-top:28px;font-weight:800;letter-spacing:.06em;transform:rotate(-8deg);font-size:.85rem;line-height:1.2;margin-top:6px}
+.stamp.open{border-style:dashed;color:var(--muted);border-color:var(--muted)}
+.code{font-family:var(--mono);font-size:1.05rem;background:var(--tint);padding:6px 10px;border-radius:4px;display:inline-block;margin-top:6px;word-break:break-all}
+.todo{color:var(--kotx);font-weight:600}
+details.teach{margin-top:26px;border-top:1px solid var(--line);padding-top:10px;font-size:.92rem}
+details.teach summary{cursor:pointer;color:var(--muted)}
+.verdict{margin-top:8px;padding:8px 10px;border-radius:5px;font-weight:600;display:none}
+.verdict.ok{display:block;background:var(--okbg);color:var(--oktx)}.verdict.bad{display:block;background:var(--kobg);color:var(--kotx)}
+footer{margin-top:26px;text-align:center;color:var(--muted);font-size:.76rem}
+:focus-visible{outline:3px solid #e8a33a;outline-offset:2px}
+@media print{.mast p,.namebar,.topics,.steps,.navrow,details.teach,footer,.acts{display:none!important}body{background:#fff}.cert{margin-top:0}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="mast">
+    <div class="ey">Camden Town 9 · Theme 3 · Grammar desk</div>
+    <h1 id="title">Relative clauses</h1>
+    <p>Discover the rule, practise with feedback, then use it for mediation. Your progress stays in this browser tab only.</p>
+  </header>
+  <div class="namebar">
+    <div class="f"><label for="nm">Your name (first name + surname)</label><input type="text" id="nm" autocomplete="off" placeholder="e.g. Mia Schulz"></div>
+    <div class="small" id="total"></div>
+  </div>
+  <div class="topics" role="group" aria-label="Choose a topic" id="topics"></div>
+  <div class="steps" id="stepNav"></div>
+  <div id="content"></div>
+  <div class="navrow"><button class="btn ghost" id="backBtn">← Back</button><button class="btn" id="nextBtn">Next step →</button></div>
+
+  <details class="teach">
+    <summary>Für Lehrkräfte: Code prüfen</summary>
+    <p>Name genau so eingeben, wie er auf dem Nachweis steht; Groß-/Kleinschreibung und Leerzeichen sind egal. Code-Typen: <b>G3</b> = Relativsätze (Übungsteil, 38 Punkte), <b>G3P</b> = ★★★ Personal passive (10 Punkte).</p>
+    <label for="vName">Name</label><input type="text" id="vName">
+    <label for="vCode" style="margin-top:8px;display:block">Code</label><input type="text" id="vCode" placeholder="CT9-G3-261020-3438-XXXX-XXXXX">
+    <div class="acts"><button class="btn" id="vBtn">Prüfen</button></div>
+    <div class="verdict" id="verdict"></div>
+  </details>
+  <footer>Eigene Übungen zu Camden Town 9 (Westermann), Theme 3 · Sätze aus WB 10, WB 11, Check your progress 2 und Extra training E2 sind gekennzeichnet; alle anderen Sätze sind eigene Beispiele. · Fundstellen: TB D8–D11, Grammar file G2R/G8R</footer>
+</div>
+<script>
+"use strict";
+function norm(s){
+  return String(s==null?"":s).normalize("NFC")
+    .replace(/[’‘´`ʼ]/g,"'")
+    .replace(/[«»""]/g," ")
+    .toLowerCase()
+    .replace(/\s*'\s*/g,"'")
+    .replace(/\s*\/\s*/g,"/")
+    .replace(/\s+[-–—]\s+/g," ")
+    .replace(/[.!?;:,…]/g," ")
+    .replace(/\s+/g," ").trim();
+}
+
+// Platzhalter, die in einer SuS-Antwort fehlen dürfen (FR/ES/EN/DE)
+const _PH = /^(qn|qc|algn|algo|alguien|sb|sth|s\.o\.|s\.th\.|someone|something|jdn|jdm|jds|jmd|jmdn|jmdm|etw)(\/(qn|qc|algn|algo|alguien|sb|sth|jdn|jdm|jds|jmd|jmdn|jmdm|etw))*$/;
+function _stripPH(s){
+  const t = (" "+s+" ")
+    .replace(/ quelque chose /g," ").replace(/ quelqu'un /g," ")
+    .replace(/ algo /g," ").replace(/ alguien /g," ")
+    .replace(/ something /g," ").replace(/ someone /g," ")
+    .trim().split(" ").filter(w=>!_PH.test(w));
+  return t.join(" ");
+}
+
+// löst Klammerteile aus der Vokabelliste auf: "rendre qc (à qn)" → ["rendre qc à qn", "rendre qc"]
+function _expandParens(s, depth){
+  depth = depth||0;
+  const m = s.match(/\(([^()]*)\)/);
+  if(!m || depth>4) return [s.replace(/[()]/g," ")];
+  const pre = s.slice(0,m.index), post = s.slice(m.index+m[0].length);
+  return _expandParens(pre+" "+m[1]+" "+post, depth+1)
+    .concat(_expandParens(pre+" "+post, depth+1));
+}
+
+const _ART = ["le","la","l'","les","un","une","el","la","los","las","un","una","the","a","an","der","die","das","den","dem","ein","eine"];
+
+// löst Schrägstrich-Varianten auf: "seul/seule" → ["seul","seule"]; "Streber/in" → ["Streber","Streberin"]
+function _expandSlashes(s){
+  let combos = [""];
+  s.split(" ").forEach(tok=>{
+    let alts = [tok];
+    if(tok.indexOf("/")>0){
+      const p = tok.split("/").filter(Boolean);
+      alts = [tok];
+      p.forEach((a,i)=>{
+        if(i>0 && a.length<=2 && _ART.indexOf(a)<0) alts.push(p[0]+a);
+        else alts.push(a);
+      });
+    }
+    const next = [];
+    combos.forEach(c=>alts.forEach(a=>{ if(next.length<64) next.push(c? c+" "+a : a); }));
+    combos = next;
+  });
+  return combos;
+}
+
+function _dropArticle(s){
+  return s.replace(/^(der|die|das|den|dem|ein|eine|le|la|les|l'|un|une|el|los|las|the|an) /,"");
+}
+
+// de:true → deutscher Artikel darf fehlen (Standardfall bei Wortschatz-Abfragen Zielsprache→Deutsch)
+function answerKeys(ans, de){
+  const out = new Set();
+  const add = x => { x = (x||"").replace(/\s+/g," ").trim(); if(x) out.add(x); };
+  _expandParens(String(ans==null?"":ans)).forEach(p=>{
+    const b = norm(p);
+    [b].concat(_expandSlashes(b), b.split("/")).forEach(e=>{
+      add(e); add(_stripPH(e));
+      if(de){ add(_dropArticle(e)); add(_dropArticle(_stripPH(e))); }
+    });
+  });
+  return out;
+}
+
+function inputKeys(inp, de){
+  const out = new Set();
+  const add = x => { x = (x||"").replace(/\s+/g," ").trim(); if(x) out.add(x); };
+  const b = norm(inp), c = norm(String(inp==null?"":inp).replace(/[()]/g," "));
+  [b,c].forEach(x=>{
+    add(x); add(_stripPH(x));
+    if(de){ add(_dropArticle(x)); add(_dropArticle(_stripPH(x))); }
+  });
+  return out;
+}
+
+function _deaccentFirst(s){
+  return s ? s.charAt(0).normalize("NFD").replace(/[̀-ͯ]/g,"") + s.slice(1) : s;
+}
+
+/**
+ * Prüft eine SuS-Eingabe gegen eine oder mehrere Musterlösungen.
+ * @param {string} input Eingabe des/der SuS
+ * @param {string|string[]} answers Musterlösung(en), auch in Lexikonschreibweise ("rendre qc (à qn)", "seul/seule")
+ * @param {{de?: boolean}} [opt] de:true → deutscher Artikel optional (Standard bei FR/ES/EN → DE Wortschatzabfragen)
+ * @returns {boolean}
+ */
+function accepts(input, answers, opt){
+  const de = !!(opt && opt.de);
+  const ins = inputKeys(input, de);
+  if(ins.size===0) return false;
+  const capStart = /^[A-ZÀÉÈÊÂÎÔÛÇÑÁÍÓÚÜ]/.test(String(input||"").trim());
+  const list = Array.isArray(answers) ? answers : [answers];
+  for(const a of list){
+    for(const k of answerKeys(a, de)){
+      if(ins.has(k)) return true;
+      if(capStart){ const kk=_deaccentFirst(k); if(ins.has(kk)) return true; }
+    }
+  }
+  return false;
+}
+
+if(typeof module!=='undefined')module.exports={norm,accepts};
+
+const TOPICS={"rel":{"key":"rel","title":"Relative clauses","short":"who · which · that · contact clauses · “, which” for a whole sentence","ref":"Grammar file ‣ G8R · TB D9–D11 p.168–169 · WB 11 p.45","discover":{"intro":"Read the six sentences. Look at the highlighted parts and the commas. Then answer the questions below.","examples":[{"t":"Fridays for Future is a global movement [[that]] began in 2018.","src":"WB 11"},{"t":"It was started by a Swedish teenager called Greta Thunberg[[, who]] was worried about the future of the planet.","src":"WB 11"},{"t":"Countries [[which]] have stricter gun-control laws have less gun-related violence.","src":"CYP 2"},{"t":"The Second Amendment[[, which]] lists the right to bear arms, makes things complicated.","src":"CYP 2"},{"t":"The march [[( – )]] the boy talks to Dan about is against homelessness.","src":"own example · No Place"},{"t":"Lisa gives Dan extra food in front of the other students[[, which]] embarrasses him.","src":"own example · No Place"}],"qs":[{"q":"Sentences 2 and 4: What happens if you cover the relative clause?","a":"The sentence is still complete and clear – the clause only adds extra information.","opts":["We no longer know which person or thing is meant.","The sentence has no verb any more."],"why":"Greta Thunberg and the Second Amendment are already clear. The clause between the commas is extra information."},{"q":"Sentences 1 and 3: What does the relative clause do?","a":"It tells us which movement / which countries we are talking about – we need it.","opts":["It only adds a fun fact – we could leave it out.","It explains when something happened."],"why":"“Countries have less gun-related violence” is not true without the clause. The clause defines which countries."},{"q":"Which relative pronoun never comes after a comma in these sentences?","a":"that","opts":["who","which"],"why":"After a comma (extra information) you use who or which – never that."},{"q":"Sentence 5: There is no relative pronoun. Why is the sentence still correct?","a":"A new subject + verb follows (the boy talks), so the pronoun can be left out.","opts":["Because “march” is a thing.","Because the sentence is in the present tense."],"why":"The pronoun is the object here: the boy talks about the march. Object pronouns can be left out."},{"q":"Sentence 6: What does “, which” refer to?","a":"the whole idea before the comma (Lisa gives Dan extra food in front of others)","opts":["only “the other students”","only “extra food”"],"why":"“, which” can refer to a whole sentence. German: …, was ihn in Verlegenheit bringt."}]},"rule":{"intro":"Complete the rule. Choose the right word in each gap, then check.","gaps":[{"s":"A defining relative clause tells you which person or thing is meant. It has {}.","a":"no commas","opts":["no commas","commas"]},{"s":"A non-defining relative clause gives extra information. It has {}.","a":"commas","opts":["commas","no commas"]},{"s":"In a non-defining relative clause, you can never use {}.","a":"that","opts":["that","who","which"]},{"s":"You can leave out who / which / that when it is the {} of the relative clause (a new subject + verb follows).","a":"object","opts":["object","subject"]},{"s":"In a clause with commas, you {} leave out the pronoun.","a":"can never","opts":["can never","can always"]},{"s":"“, which” can refer to {} – German often uses “, was”. Never use “what” here.","a":"a whole sentence","opts":["a whole sentence","only the last word"]}],"table":[["defining","no commas","who / that (people) · which / that (things)","Countries which have strict gun laws have less gun violence."],["non-defining","commas","who (people) · which (things) – no “that”!","Greta Thunberg, who is from Sweden, started FFF."],["contact clause","no commas","no pronoun (object pronoun left out)","The novel we are reading is by Todd Strasser."],["“, which” for a sentence","comma","which (never: what / that)","Many 18-year-olds don’t vote, which surprises many people."]]},"practice":[{"id":"p1","title":"Fridays for Future","src":"WB 11 │ p.45","mode":"flowSelect","instr":"Complete the text using which, that or who. Choose the version with a comma where a comma is necessary.","aide":"Vervollständige den Text mit which, that oder who. Wähle die Variante mit Komma, wenn ein Komma nötig ist.","tip":"Ask yourself: Do I need the information to know who or what is meant? → no comma. Is it extra information? → comma + who/which.","opts":["who","which","that",", who",", which"],"text":"Fridays for Future is a global movement [[1]] began in 2018. It was started by a Swedish teenager called Greta Thunberg[[2]] was worried about the future of the planet. It is now a worldwide movement [[3]] includes people of all ages, nationalities and backgrounds. People [[4]] participate in Fridays for Future (or FFF) protests demand that politicians take immediate action against climate change. They try to get others to pay attention to their cause with their events[[5]] often involve protest marches and demonstrations. Many schools [[6]] recognize the importance of climate action have shown support for students [[7]] participate in FFF protests.","gaps":[{"a":["that","which"],"why":"Defining: which movement? → no comma."},{"a":[", who"],"why":"Greta Thunberg is already clear → extra information → comma + who."},{"a":["that","which"],"why":"Defining clause about a thing → that or which, no comma."},{"a":["who","that"],"why":"Which people? → defining → no comma."},{"a":[", which"],"why":"“their events” is already clear → extra information → comma + which."},{"a":["which","that"],"why":"Not all schools – only the schools which recognize … → no comma."},{"a":["who","that"],"why":"Which students? → defining → no comma."}]},{"id":"p2","title":"Gun control","src":"WB Check your progress 2 │ p.51","mode":"flowSelect","instr":"Complete the text using which, that or who. Choose the version with a comma where a comma is necessary.","aide":"Vervollständige den Text mit which, that oder who. Wähle die Variante mit Komma, wenn ein Komma nötig ist.","tip":"Look at the text after the gap: if there is a second comma later, the clause in between is extra information.","opts":["who","which","that",", who",", which"],"text":"The recent increase in US gun violence[[1]] has claimed many innocent lives, has led to further debates on gun control. The Second Amendment[[2]] lists the right to bear arms, makes things complicated. One thing is for certain: individuals with a criminal past[[3]] are more likely to commit another crime, need stricter background checks. Many other countries, such as Australia and the UK, have strict gun control laws[[4]] have been effective in reducing gun-related deaths. Countries [[5]] have stricter gun-control laws have less gun-related violence.","gaps":[{"a":[", which"],"why":"The second comma (… lives,) shows: extra information → comma + which."},{"a":[", which"],"why":"There is only one Second Amendment → extra information → comma + which."},{"a":[", who"],"why":"The second comma (… crime,) shows: extra information about people → comma + who."},{"a":[", which"],"why":"Extra information about the laws in Australia and the UK → comma + which."},{"a":["which","that"],"why":"Which countries? → defining → no comma."}]},{"id":"p3","title":"Homelessness","src":"WB Extra training E2 │ p.54","mode":"flowType","instr":"Type the relative pronoun. If a comma is necessary, type the comma, too (e.g. “, who”).","aide":"Tippe das Relativpronomen. Wenn ein Komma nötig ist, tippe auch das Komma (z. B. „, who“).","tip":"Here the comma is checked! Two answers are sometimes possible (who/that, which/that).","text":"Homelessness[[1]] is unfortunately something you can witness in many towns and cities, continues to be a worldwide issue in society. People[[2]] have financial problems, often as a result of losing their jobs, are at a higher risk of becoming homeless. Lack of cheap housing[[3]] has become a big problem in many urban areas, contributes to the growing number of individuals who become homeless. Many homeless people[[4]] struggle with mental health issues or drug addiction face additional challenges in finding somewhere new to live. Young homeless people[[5]] can be some of the most at-risk people on the streets, often require special help. Charities[[6]] provide shelter and assistance to the homeless are an important way of getting help to the people that need it the most. Communities[[7]] prioritize homelessness prevention programmes[[8]] include job training and public housing, can have a positive impact on reducing the amount of homeless people in the area.","gaps":[{"a":[", which"],"why":"Homelessness is clear → extra information → “, which”."},{"a":["who","that"],"why":"Which people? Those who have financial problems → no comma."},{"a":[", which"],"why":"Extra information about the lack of cheap housing → “, which”."},{"a":["who","that"],"why":"Not all homeless people – only those who struggle … → no comma."},{"a":[", who"],"why":"The second comma (… streets,) shows extra information → “, who”."},{"a":["which","that"],"why":"Which charities? → defining → no comma."},{"a":["that","which"],"why":"Which communities? → defining → no comma."},{"a":[", which"],"why":"The second comma (… housing,) shows extra information → “, which”."}]},{"id":"p4","title":"Leave it out? (contact clauses)","src":"TB D10 │ p.168 · own sentences","mode":"yesno","instr":"Can you leave out the relative pronoun? Choose yes or no.","aide":"Kann man das Relativpronomen weglassen? Wähle yes oder no.","tip":"Leave it out only if a new subject + verb follows (… that the boy talked about). Not possible if the pronoun is the subject (… who talked …) or if there are commas.","items":[{"s":"The march which the boy talked about is against homelessness.","a":true,"why":"the boy talked about it → object → yes."},{"s":"The boy who talked to Dan cares about homeless people.","a":false,"why":"who talked → subject → no."},{"s":"The rights that the UN listed in 1948 are for everyone.","a":true,"why":"the UN listed them → object → yes."},{"s":"Malala, who was shot by the Taliban in 2012, still fights for girls’ education.","a":false,"why":"Commas → non-defining → never."},{"s":"The comment that Ava wrote is about gun control.","a":true,"why":"Ava wrote it → object → yes."},{"s":"Teenagers who are under 18 can vote in local elections in some countries.","a":false,"why":"who are → subject → no."}]},{"id":"p5","title":"Rewrite without the pronoun","src":"TB D10 │ p.168 · own sentences","mode":"typed","instr":"Rewrite the sentences without the relative pronoun.","aide":"Schreibe die Sätze ohne Relativpronomen.","tip":"Only leave out the pronoun – change nothing else.","items":[{"s":"The novel which we are reading is by Todd Strasser.","a":["The novel we are reading is by Todd Strasser.","The novel we’re reading is by Todd Strasser."]},{"s":"The poem that we read in class was about gun violence.","a":["The poem we read in class was about gun violence."]},{"s":"The extra food that Lisa gives Dan embarrasses him.","a":["The extra food Lisa gives Dan embarrasses him."]},{"s":"The video which we watched was about Malala Yousafzai.","a":["The video we watched was about Malala Yousafzai."]}]},{"id":"p6","title":"“, which” for a whole sentence","src":"TB D11 │ p.169 · own sentences","mode":"select","instr":"Choose the right word. Careful: German “, was” is “, which” in English.","aide":"Wähle das richtige Wort. Achtung: Deutsches „, was“ heißt im Englischen „, which“.","tip":"“, which” refers to the whole idea before the comma. “what” and “that” are not possible here.","opts":["which","what","that","who"],"items":[{"s":"Dan’s parents lost their jobs, {} meant that the family could not pay for their house.","a":["which"]},{"s":"Many 18-year-olds do not use their right to vote, {} surprises many people.","a":["which"]},{"s":"Lisa gives Dan extra food in front of the other students, {} embarrasses him.","a":["which"]},{"s":"In many US states, you don’t need an ID to buy a gun at a gun show, {} surprised me.","a":["which"]},{"s":"Malala won the Nobel Peace Prize when she was only 17, {} made her the youngest winner ever.","a":["which"]}]},{"id":"p7","title":"Join with “, which”","src":"TB D11 │ p.169 · own sentences","mode":"typedComma","instr":"Join the two sentences. Replace “This” with “, which”. The comma is checked!","aide":"Verbinde die beiden Sätze. Ersetze „This“ durch „, which“. Das Komma wird geprüft!","tip":"Sentence 1 + comma + which + the rest of sentence 2 (small letters).","items":[{"s":"Dan’s family had to move into a tent city. This was very hard for Dan.","a":["Dan’s family had to move into a tent city, which was very hard for Dan."]},{"s":"Some countries allow 16-year-olds to vote. This is a good idea in my opinion.","a":["Some countries allow 16-year-olds to vote, which is a good idea in my opinion.","Some countries allow 16-year-olds to vote, which in my opinion is a good idea."]},{"s":"Our class collected money for a homeless shelter. This made us very proud.","a":["Our class collected money for a homeless shelter, which made us very proud."]}]}],"apply":{"intro":"Mediation tool: When there is no English word for a German word, explain it with a relative clause. Write one sentence for each task. Then check and compare with the model.","aide":"Werkzeug für die Sprachmittlung: Gibt es kein englisches Wort, erkläre den deutschen Begriff mit einem Relativsatz. Schreibe je einen Satz, prüfe und vergleiche mit dem Modell.","items":[{"prompt":"Explain “der Projekttag” to Sam from Leeds.","min":8,"need":"\\b(who|which|that|where|when)\\b","needTxt":"who / which / that / where / when","model":"A Projekttag is a school day when there are no normal lessons and students work on one topic in workshops."},{"prompt":"Explain “die Tafel” to your American pen friend Jordan.","min":8,"need":"\\b(who|which|that|where)\\b","needTxt":"who / which / that / where","model":"A Tafel is an organization which collects food from supermarkets and gives it to people who don’t have much money."},{"prompt":"Explain “das Jugendamt”.","min":8,"need":"\\b(who|which|that|where)\\b","needTxt":"who / which / that / where","model":"The Jugendamt is an office in every town which helps children and young people who have problems at home."},{"prompt":"Jordan asks: “Who is the Leuchtturm for?” The German text says: „Sie ist für Jugendliche zwischen 14 und 21 Jahren gedacht, die kein Zuhause haben.“ Answer in one English sentence.","min":8,"need":"\\b(who|that)\\b","needTxt":"who / that","model":"It’s an emergency shelter for young people between 14 and 21 who have no home."},{"prompt":"Sam doesn’t know what the SV is. Write one sentence about the project day with a non-defining relative clause (commas!): „Die Schülervertretung (SV) veranstaltet einen Projekttag.“","min":8,"need":",\\s*(who|which)\\b","needTxt":"a comma + who / which","model":"The SV, which is our student council, is organizing a project day."}],"checklist":["I used a relative clause in every sentence.","I used commas only for extra information.","I explained in simple English – no word-for-word translation."]}},"pas":{"key":"pas","title":"★★★ Personal passive","short":"The students were shown a film. · optional challenge","ref":"Grammar file ‣ G2R · TB D8 · WB 10 p.44","discover":{"intro":"Compare the active and the passive sentences. Who receives something? What becomes the subject?","examples":[{"t":"Active: The teacher showed [[the students]] a film about the history of human rights.","src":"WB 10"},{"t":"Passive: [[The students were shown]] a film about the history of human rights.","src":"WB 10"},{"t":"Passive: [[Malala was given]] the Nobel Peace Prize in 2014.","src":"own example"}],"qs":[{"q":"In the active sentence, who receives the film?","a":"the students","opts":["the teacher","the film"],"why":"The students get the film – they are the indirect object (the person)."},{"q":"What becomes the subject of the passive sentence?","a":"the person (the students)","opts":["the thing (a film)","the teacher"],"why":"In the personal passive, the person becomes the subject. This is very common in English."},{"q":"German often says „Den Schülern wurde ein Film gezeigt.“ What does English say?","a":"The students were shown a film.","opts":["To the students was shown a film.","The students was showed a film."],"why":"English starts with the person: The students were shown …"}]},"rule":{"intro":"Complete the rule.","gaps":[{"s":"In the personal passive, the {} becomes the subject.","a":"person","opts":["person","thing"]},{"s":"Form: subject + {} + the thing.","a":"be + past participle","opts":["be + past participle","have + past participle"]},{"s":"Typical verbs: give, show, send, tell, offer, {}.","a":"promise","opts":["promise","arrive"]},{"s":"The person who does the action (by …) is often {}.","a":"left out","opts":["left out","always necessary"]}],"table":[["active","Politicians promise people unrealistic things.","person = indirect object"],["personal passive","People are promised unrealistic things.","person = subject"],["with a modal","Teenagers should be given the right to vote.","modal + be + past participle"]]},"practice":[{"id":"q1","title":"Choose the passive form","src":"TB D8 · own sentences","mode":"select","instr":"Choose the correct passive form.","aide":"Wähle die richtige Passivform.","tip":"be (in the right tense) + past participle: was given, are asked, will be given …","opts":null,"items":[{"s":"Dan {} extra food by Lisa.","a":["is given"],"opts":["is given","gives","is give","has give"]},{"s":"Visitors {} to ask before they take photos.","a":["are asked"],"opts":["are asked","ask","are ask","is asked"]},{"s":"On 20 November, every student {} the chance to choose a workshop.","a":["will be given"],"opts":["will be given","will give","will be give","is giving"]},{"s":"Last week, we {} a video about Malala in class.","a":["were shown"],"opts":["were shown","showed","were show","was shown"]},{"s":"At the Leuchtturm, homeless young people {} a warm meal.","a":["are offered"],"opts":["are offered","offer","are offering","is offered"]}]},{"id":"q2","title":"Rewrite in the passive","src":"WB 10 │ p.44","mode":"typed","instr":"Rewrite the sentences in the passive so that the person (indirect object) is the subject.","aide":"Schreibe die Sätze im Passiv. Die Person (indirektes Objekt) wird zum Subjekt.","tip":"Example: The teacher showed the students a film. → The students were shown a film. You can leave out “by …”.","items":[{"s":"Many people sent the president letters of protest after his latest speech.","a":["The president was sent letters of protest (by many people) after his latest speech.","After his latest speech, the president was sent letters of protest (by many people)."]},{"s":"Politicians should give teenagers the right to vote at the age of 16.","a":["Teenagers should be given the right to vote at the age of 16 (by politicians).","Teenagers should be given the right to vote (by politicians) at the age of 16.","Teenagers should be given the right to vote at the age of sixteen."]},{"s":"Politicians sometimes promise people unrealistic things before an election.","a":["People are sometimes promised unrealistic things before an election.","Sometimes people are promised unrealistic things before an election.","People are sometimes promised unrealistic things (by politicians) before an election.","People are promised unrealistic things before an election sometimes."]},{"s":"Some people say that teachers in German schools don’t teach children enough about their rights.","a":["Some people say that children in German schools are not taught enough about their rights.","Some people say that children in German schools aren’t taught enough about their rights.","Some people say children in German schools are not taught enough about their rights.","Some people say children in German schools aren’t taught enough about their rights."]},{"s":"Even many elderly people showed young climate activists their support at climate demonstrations.","a":["Young climate activists were shown support (even by many elderly people) at climate demonstrations.","Young climate activists were shown support at climate demonstrations (even by many elderly people).","Young climate activists were shown support at climate demonstrations by many elderly people."]}]}],"apply":{"intro":"Write one sentence about the project day or the Leuchtturm. Use a personal passive (person + be + past participle).","aide":"Schreibe je einen Satz zum Projekttag oder zum „Leuchtturm“. Benutze ein persönliches Passiv.","items":[{"prompt":"Project day: What do students get or what are they told? (e.g. give, show, tell)","min":6,"need":"\\b(am|is|are|was|were|be|been)\\s+(\\w+\\s+)?(given|shown|told|sent|offered|promised|taught|asked)\\b","needTxt":"be + given / shown / told / sent / offered / promised / taught / asked","model":"In the morning, all students are told about the UN Convention on the Rights of the Child."},{"prompt":"Leuchtturm: What are the young people offered there?","min":6,"need":"\\b(am|is|are|was|were|be|been)\\s+(\\w+\\s+)?(given|shown|told|sent|offered|promised|taught|asked)\\b","needTxt":"be + given / shown / told / sent / offered / promised / taught / asked","model":"The young people are offered a warm meal and a bed for the night."}],"checklist":["The person is the subject of my sentence.","I used be + past participle."]}}};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const STEP_NAMES=['Discover','The rule','Practice','Apply','Report'];
+const TKEYS=['rel','pas'];
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+/* state (sessionStorage only, optional) */
+let S={name:'',topic:'rel',step:0,sec:{rel:0,pas:0},res:{},apply:{rel:false,pas:false},disc:{},rule:{}};
+function save(){try{sessionStorage.setItem('CT9_G3',JSON.stringify(S));}catch(e){}}
+try{const r=sessionStorage.getItem('CT9_G3');if(r)S=Object.assign(S,JSON.parse(r));}catch(e){}
+function res(id){return S.res[id]||(S.res[id]={best:0,tries:0,solved:false});}
+function secItems(sec){return sec.gaps?sec.gaps.length:sec.items.length;}
+function topicTotal(k){return TOPICS[k].practice.reduce((s,x)=>s+secItems(x),0);}
+function topicScore(k){return TOPICS[k].practice.reduce((s,x)=>s+(S.res[x.id]?S.res[x.id].best:0),0);}
+function topicChecked(k){return TOPICS[k].practice.every(x=>S.res[x.id]&&S.res[x.id].tries>0);}
+/* checks */
+function strictNorm(s){return String(s||'').normalize('NFC').replace(/[’‘´`ʼ]/g,"'").toLowerCase().replace(/\s*,\s*/g,', ').replace(/[.!?]+\s*$/,'').replace(/\s+/g,' ').trim();}
+function commaPron(s){return String(s||'').toLowerCase().replace(/\s+/g,'');}
+function wc(s){return (String(s).trim().match(/\S+/g)||[]).length;}
+
+/* ---------- topics + steps ---------- */
+function renderTopics(){const box=$('topics');box.innerHTML='';TKEYS.forEach(k=>{const T=TOPICS[k];const b=document.createElement('button');b.className='topic';b.setAttribute('aria-pressed',S.topic===k);
+  b.innerHTML='<span class="tk">'+esc(T.title)+'</span><span class="ts">'+esc(T.short)+'</span>';b.onclick=()=>{S.topic=k;S.step=0;save();render();};box.appendChild(b);});}
+function stepDone(i){const k=S.topic;if(i===0)return !!S.disc[k];if(i===1)return !!S.rule[k];if(i===2)return topicChecked(k);if(i===3)return !!S.apply[k];return false;}
+function renderSteps(){const nav=$('stepNav');nav.innerHTML='';STEP_NAMES.forEach((n,i)=>{const b=document.createElement('button');b.className='step'+(stepDone(i)?' done':'');if(i===S.step)b.setAttribute('aria-current','true');
+  b.innerHTML='<span class="n">'+(i+1)+'</span>'+n;b.onclick=()=>{S.step=i;save();render();};nav.appendChild(b);});}
+function renderTotal(){$('total').innerHTML='Relative clauses: <b>'+topicScore('rel')+' / '+topicTotal('rel')+'</b> · ★★★ Passive: <b>'+topicScore('pas')+' / '+topicTotal('pas')+'</b>';}
+function render(){const T=TOPICS[S.topic];$('title').textContent=T.title.replace('★★★ ','');renderTopics();renderSteps();renderTotal();
+  const c=$('content');
+  if(S.step===0)renderDiscover(c,T);else if(S.step===1)renderRule(c,T);else if(S.step===2)renderPractice(c,T);else if(S.step===3)renderApply(c,T);else renderReport(c);
+  $('backBtn').style.visibility=S.step===0?'hidden':'visible';$('nextBtn').style.visibility=S.step===4?'hidden':'visible';}
+$('backBtn').onclick=()=>{if(S.step>0){S.step--;save();render();window.scrollTo(0,0);}};
+$('nextBtn').onclick=()=>{if(S.step<4){S.step++;save();render();window.scrollTo(0,0);}};
+$('nm').value=S.name||'';$('nm').addEventListener('input',()=>{S.name=$('nm').value;save();if(S.step===4)render();});
+
+function hlText(t){return esc(t).replace(/\[\[(.*?)\]\]/g,(m,x)=>'<span class="hl">'+x+'</span>');}
+function helpTools(aide,tip){return '<div class="tools">'+(aide?'<button class="tbtn" data-h="aide" aria-expanded="false">🇩🇪 Hilfe</button>':'')+(tip?'<button class="tbtn" data-h="tip" aria-expanded="false">💡 Tip</button>':'')+'</div>'+
+  (aide?'<div class="help" data-p="aide">'+esc(aide)+'</div>':'')+(tip?'<div class="help" data-p="tip">'+esc(tip)+'</div>':'');}
+function wireHelp(root){root.querySelectorAll('.tbtn').forEach(b=>b.onclick=()=>{const p=root.querySelector('.help[data-p="'+b.dataset.h+'"]');const on=!p.classList.contains('show');p.classList.toggle('show',on);b.setAttribute('aria-expanded',on);});}
+
+/* ---------- step 1: discover ---------- */
+function renderDiscover(c,T){const d=T.discover;
+  let h='<div class="card"><div class="phase">Step 1 · Discover</div><h2>Look closely</h2><p class="lead">'+esc(d.intro)+'</p>';
+  d.examples.forEach((e,i)=>{h+='<div class="ex"><span class="no">'+(i+1)+'</span><span class="t">'+hlText(e.t)+' <span class="src">'+esc(e.src)+'</span></span></div>';});
+  h+='</div><div class="card"><div class="phase">Your hypothesis</div><h2>Answer the questions</h2><div id="dq"></div></div>';c.innerHTML=h;
+  const box=$('dq');d.qs.forEach((q,qi)=>{const w=document.createElement('div');w.className='q';w.innerHTML='<div class="qt">'+(qi+1)+'. '+esc(q.q)+'</div><div class="opts"></div><div class="why">'+esc(q.why)+'</div>';
+    const ob=w.querySelector('.opts');shuffle([q.a].concat(q.opts)).forEach(o=>{const b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>{
+      ob.querySelectorAll('.opt').forEach(x=>{x.classList.remove('ok','ko');});
+      if(o===q.a){b.classList.add('ok');w.querySelector('.why').classList.add('show');w.dataset.done=1;}else{b.classList.add('ko');}
+      if([...box.querySelectorAll('.q')].every(x=>x.dataset.done)){S.disc[S.topic]=true;save();renderSteps();}
+    };ob.appendChild(b);});box.appendChild(w);});}
+
+/* ---------- step 2: rule ---------- */
+function ruleTable(T){const tb=T.rule.table;const head=S.topic==='rel'?['type','commas','pronoun','example']:['','example','note'];
+  return '<div class="tablewrap"><table class="rule"><tr>'+head.map(x=>'<th>'+x+'</th>').join('')+'</tr>'+tb.map(r=>'<tr>'+r.map((x,i)=>'<td>'+(i===0?'<b>'+esc(x)+'</b>':esc(x))+'</td>').join('')+'</tr>').join('')+'</table></div>';}
+function renderRule(c,T){const r=T.rule;
+  let h='<div class="card"><div class="phase">Step 2 · The rule</div><h2>Complete the rule</h2><p class="lead">'+esc(r.intro)+'</p><div id="rg">';
+  r.gaps.forEach((g,i)=>{h+='<div class="it" data-i="'+i+'"><span class="s">'+esc(g.s).replace('{}','<select><option value=""></option>'+g.opts.map(o=>'<option>'+esc(o)+'</option>').join('')+'</select>')+'</span></div>';});
+  h+='</div><div class="acts"><button class="btn" id="rchk">✔ Check</button><button class="btn ghost" id="rtab">Show the rule table</button></div><div class="fb" id="rfb"></div><div id="rtable" style="display:none">'+ruleTable(T)+'<p class="small">'+esc(T.ref)+'</p></div></div>';
+  c.innerHTML=h;
+  const showTab=()=>{$('rtable').style.display='block';$('rtab').style.display='none';};
+  if(S.rule[S.topic])showTab();
+  $('rtab').onclick=showTab;
+  $('rchk').onclick=()=>{let ok=0;c.querySelectorAll('#rg .it').forEach(el=>{const g=r.gaps[+el.dataset.i];const s=el.querySelector('select');const good=s.value===g.a;el.classList.toggle('ok',good);el.classList.toggle('ko',!good);s.classList.toggle('ok',good);s.classList.toggle('ko',!good);if(good)ok++;});
+    const fb=$('rfb');fb.className='fb show '+(ok===r.gaps.length?'g':ok>=r.gaps.length/2?'y':'r');
+    fb.textContent=ok===r.gaps.length?'All correct – this is your rule. Compare it with the table.':ok+' / '+r.gaps.length+' correct. Look at the examples in step 1 again and try once more.';
+    if(ok===r.gaps.length){S.rule[S.topic]=true;save();renderSteps();showTab();}};}
+
+/* ---------- step 3: practice ---------- */
+function renderPractice(c,T){const i=Math.min(S.sec[S.topic]||0,T.practice.length-1);
+  let nav='<div class="secnav">'+T.practice.map((x,k)=>{const r=S.res[x.id];let st='';if(r&&r.tries){const p=r.best/secItems(x);st='<span class="st '+(p>=.8?'ok':p>=.5?'mid':'ko')+'"></span>';}
+    return '<button data-k="'+k+'"'+(k===i?' aria-current="true"':'')+'>'+String.fromCharCode(97+k)+') '+esc(x.title)+st+'</button>';}).join('')+'</div>';
+  c.innerHTML='<div class="card"><div class="phase">Step 3 · Practice</div><h2>Practise with feedback</h2><p class="lead">Work through all parts (a–'+String.fromCharCode(96+T.practice.length)+'). Each part counts for your report: your best result is saved. The solution appears after two checks.</p>'+nav+'</div><div id="sec"></div>';
+  c.querySelectorAll('.secnav button').forEach(b=>b.onclick=()=>{S.sec[S.topic]=+b.dataset.k;save();renderPractice(c,T);});
+  renderSection($('sec'),T.practice[i],T,i);}
+
+function selHTML(opts){return '<select><option value=""></option>'+opts.map(o=>'<option value="'+esc(o)+'">'+esc(o)+'</option>').join('')+'</select>';}
+function renderSection(box,sec,T,idx){const r=res(sec.id);
+  let h='<div class="card"><div class="phase">Part '+String.fromCharCode(97+idx)+'</div><h2>'+esc(sec.title)+' <span class="src">'+esc(sec.src)+'</span></h2><p><b>'+esc(sec.instr)+'</b></p>'+helpTools(sec.aide,sec.tip)+'<div class="body">';
+  if(sec.mode==='flowSelect'||sec.mode==='flowType'){
+    let t=esc(sec.text);t=t.replace(/\[\[(\d+)\]\]/g,(m,n)=>{const k=+n-1;return '<span class="gw"><span class="gapn">'+n+'</span>'+(sec.mode==='flowSelect'?selHTML(sec.opts):'<input class="g" type="text" autocomplete="off" spellcheck="false">')+'<span class="mk" data-k="'+k+'"></span></span>';});
+    h+='<div class="flow">'+t+'</div><div class="sol" id="solbox"></div>';
+  } else {
+    h+='<div class="items">';sec.items.forEach((it,k)=>{
+      if(sec.mode==='yesno')h+='<div class="it" data-k="'+k+'"><div class="s">'+esc(it.s)+'</div><div class="yn"><button class="opt" data-v="1">yes</button><button class="opt" data-v="0">no</button></div><div class="sol"></div></div>';
+      else if(sec.mode==='select')h+='<div class="it" data-k="'+k+'"><div class="s">'+esc(it.s).replace('{}',selHTML(shuffle(it.opts||sec.opts)))+'</div><div class="sol"></div></div>';
+      else h+='<div class="it" data-k="'+k+'"><div class="s">'+esc(it.s)+'</div><input class="full" type="text" autocomplete="off" spellcheck="false" placeholder="Write the whole sentence"><div class="sol"></div></div>';
+    });h+='</div>';}
+  h+='</div><div class="acts"><button class="btn" id="chk">✔ Check</button><button class="btn ghost" id="sol"'+(r.tries>=2||r.solved?'':' disabled')+'>👁 Show solution</button>'+
+    (idx<T.practice.length-1?'<button class="btn ghost" id="nxt">Next part →</button>':'')+'</div><div class="fb" id="fb"></div><p class="small" id="best">'+bestTxt(sec)+'</p></div>';
+  box.innerHTML=h;wireHelp(box);
+  box.querySelectorAll('.yn').forEach(y=>y.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{y.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel','ok','ko'));b.classList.add('sel');}));
+  $('chk').onclick=()=>checkSection(box,sec);
+  $('sol').onclick=()=>showSolution(box,sec);
+  if($('nxt'))$('nxt').onclick=()=>{S.sec[S.topic]=idx+1;save();renderPractice($('content'),T);window.scrollTo(0,0);};}
+function bestTxt(sec){const r=S.res[sec.id];if(!r||!r.tries)return 'Not checked yet.';return 'Best result: '+r.best+' / '+secItems(sec)+' · checks: '+r.tries+(r.solved?' · solution shown':'');}
+
+function evalSection(box,sec){const out=[];
+  if(sec.mode==='flowSelect'||sec.mode==='flowType'){const ctrls=box.querySelectorAll(sec.mode==='flowSelect'?'.flow select':'.flow input.g');
+    ctrls.forEach((el,k)=>{const g=sec.gaps[k];let ok;if(sec.mode==='flowSelect')ok=g.a.indexOf(el.value)>=0;else ok=g.a.some(a=>commaPron(a)===commaPron(el.value));out.push({el,ok,mk:box.querySelector('.mk[data-k="'+k+'"]')});});}
+  else box.querySelectorAll('.it').forEach(el=>{const it=sec.items[+el.dataset.k];let ok=false,ctrl;
+    if(sec.mode==='yesno'){const s=el.querySelector('.opt.sel');ctrl=s;ok=!!s&&(s.dataset.v==='1')===it.a;}
+    else if(sec.mode==='select'){ctrl=el.querySelector('select');ok=it.a.indexOf(ctrl.value)>=0;}
+    else if(sec.mode==='typed'){ctrl=el.querySelector('input');ok=accepts(ctrl.value,it.a);}
+    else if(sec.mode==='typedComma'){ctrl=el.querySelector('input');const v=strictNorm(ctrl.value);ok=it.a.some(a=>strictNorm(a)===v);}
+    out.push({el:ctrl,row:el,ok});});
+  return out;}
+function checkSection(box,sec){const r=res(sec.id);const ev=evalSection(box,sec);let n=0;
+  ev.forEach(x=>{if(x.ok)n++;if(x.el){x.el.classList.remove('ok','ko');x.el.classList.add(x.ok?'ok':'ko');}if(x.row){x.row.classList.remove('ok','ko');x.row.classList.add(x.ok?'ok':'ko');}if(x.mk){x.mk.className='mk '+(x.ok?'ok':'ko');}});
+  r.tries++;if(!r.solved)r.best=Math.max(r.best,n);save();
+  const tot=ev.length,p=n/tot,fb=$('fb');fb.className='fb show '+(p>=.8?'g':p>=.5?'y':'r');
+  fb.textContent=Math.round(p*100)+' % ('+n+' / '+tot+') – '+(p===1?'Excellent! Everything is correct.':p>=.8?'Well done! Look at the marked gaps once more.':p>=.5?'Good start. Use the tip and check again.':'Read the rule (step 2) again, then try once more.');
+  $('best').textContent=bestTxt(sec);if(r.tries>=2)$('sol').disabled=false;renderSteps();renderTotal();
+  const nav=document.querySelectorAll('.secnav button');const k=S.sec[S.topic]||0;if(nav[k]){const st=nav[k].querySelector('.st')||nav[k].appendChild(document.createElement('span'));st.className='st '+(r.best/tot>=.8?'ok':r.best/tot>=.5?'mid':'ko');}}
+function showSolution(box,sec){const r=res(sec.id);r.solved=true;save();
+  if(sec.mode==='flowSelect'||sec.mode==='flowType'){$('solbox').innerHTML='<b>Solution:</b><br>'+sec.gaps.map((g,k)=>(k+1)+') '+esc(g.a.join(' / '))+' – '+esc(g.why)).join('<br>');$('solbox').classList.add('show');}
+  else box.querySelectorAll('.it').forEach(el=>{const it=sec.items[+el.dataset.k];const s=el.querySelector('.sol');
+    s.innerHTML=sec.mode==='yesno'?(it.a?'yes':'no')+' – '+esc(it.why):esc(Array.isArray(it.a)?it.a[0]:it.a)+(it.a.length>1&&sec.mode==='select'?' (also: '+esc(it.a.slice(1).join(', '))+')':'');s.classList.add('show');});
+  $('best').textContent=bestTxt(sec);}
+
+/* ---------- step 4: apply ---------- */
+function renderApply(c,T){const a=T.apply;
+  let h='<div class="card"><div class="phase">Step 4 · Apply</div><h2>Use it</h2><p><b>'+esc(a.intro)+'</b></p>'+helpTools(a.aide,null)+'<div class="items">';
+  a.items.forEach((it,k)=>{h+='<div class="it" data-k="'+k+'"><div class="s"><b>'+(k+1)+'.</b> '+esc(it.prompt)+'</div><textarea class="w" spellcheck="false" placeholder="Write your sentence here …"></textarea><div class="wc">Words: 0 / at least '+it.min+' · must contain: '+esc(it.needTxt)+'</div><div class="model"><b>Model</b>'+esc(it.model)+'</div></div>';});
+  h+='</div><p style="margin-top:12px"><b>Checklist</b></p>'+a.checklist.map((x,i)=>'<label class="chk"><input type="checkbox" data-c="'+i+'"> '+esc(x)+'</label>').join('')+
+    '<div class="acts"><button class="btn" id="achk">✔ Check</button></div><div class="fb" id="afb"></div><p class="small">The check only looks at the form (length, relative pronoun/passive). Compare the content with the model yourself.</p></div>';
+  c.innerHTML=h;wireHelp(c);
+  c.querySelectorAll('textarea.w').forEach(t=>t.addEventListener('input',()=>{const it=a.items[+t.closest('.it').dataset.k];t.nextElementSibling.textContent='Words: '+wc(t.value)+' / at least '+it.min+' · must contain: '+it.needTxt;}));
+  $('achk').onclick=()=>{let ok=0;c.querySelectorAll('.items .it').forEach(el=>{const it=a.items[+el.dataset.k];const t=el.querySelector('textarea');const good=wc(t.value)>=it.min&&new RegExp(it.need,'i').test(t.value);
+      t.classList.remove('ok','ko');t.classList.add(good?'ok':'ko');el.classList.remove('ok','ko');el.classList.add(good?'ok':'ko');if(t.value.trim())el.querySelector('.model').classList.add('show');if(good)ok++;});
+    const all=[...c.querySelectorAll('.chk input')].every(x=>x.checked);const fb=$('afb');
+    if(ok===a.items.length&&all){fb.className='fb show g';fb.textContent='Done! All sentences have the right form. Compare them with the models.';S.apply[S.topic]=true;save();renderSteps();}
+    else{fb.className='fb show '+(ok>=a.items.length/2?'y':'r');fb.textContent=ok+' / '+a.items.length+' sentences have the right form'+(all?'.':' – and tick the checklist when you have compared your sentences.');}};}
+
+/* ---------- step 5: report / certificate ---------- */
+function fnv(str){let x=2166136261>>>0;for(let i=0;i<str.length;i++){x^=str.charCodeAt(i);x=Math.imul(x,16777619)>>>0;}return (x>>>0).toString(36).toUpperCase();}
+const pad=(n,l)=>String(n).padStart(l,'0');
+const normName=s=>(s||'').trim().toLowerCase().replace(/\s+/g,' ');
+function today(){const d=new Date();return {yy:pad(d.getFullYear()%100,2),mm:pad(d.getMonth()+1,2),dd:pad(d.getDate(),2),iso:d.getFullYear()+'-'+pad(d.getMonth()+1,2)+'-'+pad(d.getDate(),2),de:pad(d.getDate(),2)+'.'+pad(d.getMonth()+1,2)+'.'+d.getFullYear()};}
+function makeCode(name,score,total,round){const t=today(),salt=fnv(''+Math.random()+Date.now()).slice(0,4);const check=fnv(normName(name)+'|'+t.iso+'|'+score+'|'+total+'|'+round+'|'+salt).slice(0,5);return 'CT9-'+round+'-'+t.yy+t.mm+t.dd+'-'+pad(score,2)+pad(total,2)+'-'+salt+'-'+check;}
+function renderReport(c){const name=(S.name||'').trim();const t=today();
+  const todo=[];if(name.length<3)todo.push('Enter your name at the top.');
+  TOPICS.rel.practice.forEach((x,k)=>{if(!(S.res[x.id]&&S.res[x.id].tries))todo.push('Practice part '+String.fromCharCode(97+k)+') “'+x.title+'” is not checked yet.');});
+  if(!S.apply.rel)todo.push('Step 4 (Apply) for relative clauses is not finished.');
+  const sc=topicScore('rel'),tot=topicTotal('rel'),pct=Math.round(sc/tot*100),passed=sc>=Math.ceil(tot*.8);
+  let rows=TOPICS.rel.practice.map((x,k)=>'<tr><td>'+String.fromCharCode(97+k)+') '+esc(x.title)+'</td><td class="r">'+(S.res[x.id]?S.res[x.id].best:0)+' / '+secItems(x)+'</td></tr>').join('');
+  rows+='<tr><td><b>Total relative clauses</b></td><td class="r">'+sc+' / '+tot+' ('+pct+' %)</td></tr>';
+  const pasDone=topicChecked('pas')&&S.apply.pas;const ps=topicScore('pas'),pt=topicTotal('pas');
+  if(topicChecked('pas'))rows+='<tr><td>★★★ Personal passive (optional)</td><td class="r">'+ps+' / '+pt+'</td></tr>';
+  let h='<div class="card"><div class="phase">Step 5 · Report</div><h2>Your grammar report</h2>';
+  if(todo.length){h+='<p class="todo">Before you get your code:</p><ul>'+todo.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul><p class="small">You can still see your current results below.</p><table class="rule">'+rows+'</table></div>';c.innerHTML=h;return;}
+  const code=makeCode(name,sc,tot,'G3');const code2=pasDone?makeCode(name,ps,pt,'G3P'):'';
+  h+='<p class="lead">Take a screenshot of this report or print it and hand it in as your homework (package 4).</p></div>'+
+    '<div class="cert"><div class="small" style="letter-spacing:.18em;text-transform:uppercase">The Rights Gazette · Grammar desk</div><h2>Grammar report: relative clauses</h2>'+
+    '<div class="who">'+esc(name)+'</div><div class="small">'+t.de+' · Camden Town 9, Theme 3</div><table>'+rows+'</table>'+
+    '<div class="stamp'+(passed?'':' open')+'">'+(passed?'PASSED<br>≥ 80 %':'KEEP<br>PRACTISING')+'</div>'+
+    '<div style="margin-top:12px">Code: <span class="code" id="code">'+esc(code)+'</span></div>'+(code2?'<div style="margin-top:6px">★★★ Code: <span class="code" id="code2">'+esc(code2)+'</span></div>':'')+
+    (passed?'':'<p class="small" style="margin-top:10px">Tip: You need '+Math.ceil(tot*.8)+' points. Go back to the parts with an orange or yellow symbol and check again – your best result counts.</p>')+'</div>'+
+    '<div class="acts"><button class="btn ghost" id="prt">🖨 Print / save as PDF</button></div>';
+  c.innerHTML=h;$('prt').onclick=()=>window.print();}
+
+/* teacher verifier */
+$('vBtn').onclick=()=>{const name=$('vName').value,raw=$('vCode').value.trim().toUpperCase().replace(/\s+/g,'');const v=$('verdict');const p=raw.split('-');
+  if(p.length!==6||p[0]!=='CT9'||(p[1]!=='G3'&&p[1]!=='G3P')||!/^\d{6}$/.test(p[2])||!/^\d{4}$/.test(p[3])){v.className='verdict bad';v.textContent='Ungültiges Codeformat.';return;}
+  const dt=p[2],iso='20'+dt.slice(0,2)+'-'+dt.slice(2,4)+'-'+dt.slice(4,6),s=parseInt(p[3].slice(0,2),10),tot=parseInt(p[3].slice(2,4),10);
+  const expect=fnv(normName(name)+'|'+iso+'|'+s+'|'+tot+'|'+p[1]+'|'+p[4]).slice(0,5);
+  if(expect===p[5]){v.className='verdict ok';v.textContent='✓ Echt · '+(p[1]==='G3'?'Relativsätze':'Personal passive')+' · Datum '+iso+' · '+s+' / '+tot+' ('+Math.round(s/tot*100)+' %) · '+(s>=Math.ceil(tot*.8)?'bestanden':'unter 80 %');}
+  else{v.className='verdict bad';v.textContent='✗ Code passt nicht zu diesem Namen (Tippfehler im Namen oder veränderter Code).';}};
+
+window.__GM={S:()=>S,TOPICS,render,accepts,strictNorm,commaPron,makeCode,fnv,normName,set:(k,v)=>{S[k]=v;save();render();}};
+render();
+</script>
+</body>
+</html>
