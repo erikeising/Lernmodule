@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Theme 3 Word Lab</title>
+<style>
+/* Layout: one column "lab notebook" — setup strip, four learning steps as rows of tiles, activity screens replace the home view. */
+:root{
+  --bg:#eef2f1; --card:#ffffff; --ink:#17282d; --muted:#56676c; --line:#d3dcd9;
+  --teal:#123D4A; --teal-2:#1d5463; --on-teal:#f3f0e4; --on-teal-2:#c9d8d6;
+  --gold:#a07c12; --gold-l:#E8CF6E; --chip:#e3ebe9; --chip-on:#123D4A; --chip-on-tx:#ffffff;
+  --ok:#0b57a4; --okbg:#e3eefa; --oktx:#0b3d6e;
+  --ko:#d35f0b; --kobg:#fdebdf; --kotx:#a4410a;
+  --warn:#e8b100; --warnbg:#fff5d1; --warntx:#5c4300;
+  --display:Georgia,"Iowan Old Style","Charter","Cambria",serif;
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,Calibri,Arial,sans-serif;
+  --mono:ui-monospace,Consolas,"Liberation Mono",Menlo,monospace;
+  --ic-ok:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='9' fill='%230b57a4'/%3E%3Cpath d='M5.5 10.5l3 3 6-6.5' stroke='white' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --ic-ko:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='9' fill='%23d35f0b'/%3E%3Cpath d='M6.5 6.5l7 7M13.5 6.5l-7 7' stroke='white' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
+  --ic-mid:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8.2' fill='white' stroke='%23e8b100' stroke-width='1.8'/%3E%3Cpath d='M10 1.8a8.2 8.2 0 0 1 0 16.4z' fill='%23e8b100'/%3E%3C/svg%3E");
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0f1b1f; --card:#16262b; --ink:#e4ecea; --muted:#9db0b4; --line:#2b434a;
+  --teal:#0c2a33; --teal-2:#1b4a57; --on-teal:#f3f0e4; --on-teal-2:#b4c9c7;
+  --gold:#E8CF6E; --gold-l:#E8CF6E; --chip:#203840; --chip-on:#E8CF6E; --chip-on-tx:#16262b;
+  --ok:#5aa0ec; --okbg:#13304d; --oktx:#b5d4f7;
+  --ko:#f08a3e; --kobg:#3b2414; --kotx:#f5b07c;
+  --warn:#e8b100; --warnbg:#3a3112; --warntx:#f1d27a;
+  color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#0f1b1f; --card:#16262b; --ink:#e4ecea; --muted:#9db0b4; --line:#2b434a;
+  --teal:#0c2a33; --teal-2:#1b4a57; --on-teal:#f3f0e4; --on-teal-2:#b4c9c7;
+  --gold:#E8CF6E; --gold-l:#E8CF6E; --chip:#203840; --chip-on:#E8CF6E; --chip-on-tx:#16262b;
+  --ok:#5aa0ec; --okbg:#13304d; --oktx:#b5d4f7;
+  --ko:#f08a3e; --kobg:#3b2414; --kotx:#f5b07c;
+  --warn:#e8b100; --warnbg:#3a3112; --warntx:#f1d27a;
+  color-scheme:dark; }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+[hidden]{display:none!important}
+
+/* header */
+.top{background:var(--teal);color:var(--on-teal);padding-inline:16px;padding-block:22px 20px}
+.top .in{max-width:760px;margin:0 auto}
+.eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--on-teal-2);font-weight:600}
+.top h1{font-family:var(--display);font-weight:700;font-size:clamp(1.9rem,6.5vw,2.6rem);line-height:1.05;margin:.18em 0 .2em;text-wrap:balance}
+.top h1 span{color:var(--gold-l)}
+.top p{margin:0;color:var(--on-teal-2);max-width:40em}
+body.in-act .top{padding-block:12px 12px}
+body.in-act .top p, body.in-act .top .eyebrow{display:none}
+body.in-act .top h1{font-size:1.3rem;margin:0}
+
+/* home */
+.setup{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-top:-10px;position:relative}
+.label{font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--chip);border-radius:999px;padding:7px 13px;font-weight:600;font-size:.92rem;line-height:1.2}
+.chip small{display:block;font-weight:500;font-size:.72rem;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-tx);border-color:var(--chip-on)}
+.chip[aria-pressed="true"] small{color:inherit;opacity:.85}
+.chip:disabled{opacity:.45;cursor:not-allowed}
+.setrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:12px;font-size:.92rem;color:var(--muted)}
+.switch{display:inline-flex;align-items:center;gap:8px;color:var(--ink);font-weight:600}
+.switch input{width:18px;height:18px;accent-color:var(--teal-2)}
+.count{font-variant-numeric:tabular-nums}
+.count b{color:var(--ink)}
+
+.step{margin-top:26px}
+.stephead{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
+.stephead .n{font-family:var(--display);font-weight:700;font-size:1.5rem;color:var(--gold);min-width:1.2em}
+.stephead h2{font-family:var(--display);font-size:1.25rem;margin:0}
+.stephead p{margin:0;color:var(--muted);font-size:.9rem}
+.stephead > div{min-width:0}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.tile{display:flex;flex-direction:column;gap:4px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 14px;min-height:96px;transition:transform .12s,border-color .12s}
+.tile:hover{transform:translateY(-2px);border-color:var(--teal-2)}
+.tile b{font-size:1.02rem}
+.tile span{font-size:.88rem;color:var(--muted)}
+.tile .tag{margin-top:auto;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+.tile[aria-disabled="true"]{opacity:.5}
+
+.tips{margin-top:30px;border-top:1px solid var(--line);padding-top:16px}
+.tips h2{font-family:var(--display);font-size:1.15rem;margin:0 0 8px}
+.tips ol{margin:0;padding-left:1.2em;display:grid;gap:6px;max-width:62ch}
+details.teacher{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:0 16px}
+details.teacher summary{cursor:pointer;font-weight:700;padding:12px 0}
+details.teacher div{font-size:.9rem;color:var(--ink);padding-bottom:12px;max-width:68ch}
+details.teacher p{margin:.5em 0}
+footer{margin-top:22px;text-align:center;color:var(--muted);font-size:.8rem}
+
+/* activity */
+.bar{display:flex;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+.back{background:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-weight:600;color:var(--ink);background:var(--card)}
+.bar h2{font-family:var(--display);font-size:1.3rem;margin:0;flex:1 1 auto;min-width:0}
+.bar .setname{font-size:.8rem;color:var(--muted)}
+.progress{height:8px;background:var(--chip);border-radius:99px;overflow:hidden;margin:12px 0 4px}
+.progress i{display:block;height:100%;width:0;background:var(--teal-2);transition:width .25s}
+.pinfo{display:flex;justify-content:space-between;gap:10px;font-size:.84rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.seg{display:inline-flex;flex-wrap:wrap;background:var(--chip);border-radius:9px;padding:3px;gap:2px;margin-top:10px}
+.seg button{border:0;background:transparent;border-radius:7px;padding:6px 11px;font-size:.86rem;font-weight:600;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.why{font-size:.85rem;color:var(--muted);margin:8px 0 0;max-width:62ch}
+
+.prompt{background:var(--teal);color:var(--on-teal);border-radius:12px;padding:20px 18px;margin-top:14px;text-align:center;position:relative}
+.prompt .lbl{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--on-teal-2);font-weight:600}
+.prompt .word{font-family:var(--display);font-weight:700;font-size:clamp(1.45rem,6vw,2.1rem);line-height:1.2;color:var(--gold-l);margin-top:6px;overflow-wrap:anywhere}
+.prompt .word.de{font-family:var(--body);font-weight:600;font-size:clamp(1.15rem,4.6vw,1.5rem)}
+.prompt .sent{font-size:clamp(1.05rem,3.9vw,1.25rem);margin-top:6px;text-align:left}
+.prompt .sent .gap{color:var(--gold-l);font-weight:700;letter-spacing:.04em}
+.prompt .emo{font-size:3.6rem;line-height:1.1;margin-top:4px}
+.meta{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:10px}
+.pill{font-size:.7rem;font-weight:700;letter-spacing:.05em;border-radius:99px;padding:2px 8px;background:rgba(255,255,255,.12);color:var(--on-teal-2)}
+.pill.cb{background:var(--gold-l);color:#3a2f06}
+
+.answer{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:10px}
+.answer .big{font-family:var(--display);font-size:1.35rem;font-weight:700;overflow-wrap:anywhere}
+.answer .ex{color:var(--muted);font-style:italic;margin-top:4px}
+.answer .ex b{font-style:normal;color:var(--ink)}
+.say{border:1px solid var(--line);background:var(--chip);border-radius:99px;padding:3px 10px;font-size:.85rem;margin-left:6px;vertical-align:middle}
+
+.row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.row input[type=text]{flex:1 1 220px;min-width:0;padding:12px 14px;border:1px solid var(--line);border-radius:9px;background:var(--card);font-size:1.05rem}
+.btn{border:1px solid var(--teal-2);background:var(--teal-2);color:#fff;border-radius:9px;padding:11px 16px;font-weight:700}
+.btn.ghost{background:var(--card);color:var(--ink);border-color:var(--line)}
+.btn.wide{flex:1 1 140px}
+.linkish{background:none;border:0;color:var(--muted);text-decoration:underline;padding:4px 0;font-size:.86rem}
+
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.opt{position:relative;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 38px 12px 13px;font-weight:600;overflow-wrap:anywhere}
+.opt:hover{border-color:var(--teal-2)}
+.opts.one{grid-template-columns:1fr}
+
+/* feedback: blue = right, orange (dashed) = wrong, yellow = almost; colour never alone */
+.fb{margin-top:10px;border-radius:9px;padding:10px 12px 10px 40px;font-weight:600;position:relative;min-height:1em}
+.fb:empty{display:none}
+.fb::before{content:"";position:absolute;left:11px;top:11px;width:20px;height:20px;background-size:contain;background-repeat:no-repeat}
+.fb.ok{background:var(--okbg);color:var(--oktx)} .fb.ok::before{background-image:var(--ic-ok)}
+.fb.ko{background:var(--kobg);color:var(--kotx);border:1.5px dashed var(--ko)} .fb.ko::before{background-image:var(--ic-ko)}
+.fb.mid{background:var(--warnbg);color:var(--warntx)} .fb.mid::before{background-image:var(--ic-mid)}
+.fb small{display:block;font-weight:500;color:var(--ink);margin-top:2px}
+.ok-mark::after,.ko-mark::after,.mid-mark::after{content:"";position:absolute;right:10px;top:50%;width:20px;height:20px;margin-top:-10px;background-size:contain;background-repeat:no-repeat}
+.ok-mark{border-color:var(--ok)!important;background-color:var(--okbg)!important;color:var(--oktx)!important}
+.ok-mark::after{background-image:var(--ic-ok)}
+.ko-mark{border:1.5px dashed var(--ko)!important;background-color:var(--kobg)!important;color:var(--kotx)!important}
+.ko-mark::after{background-image:var(--ic-ko)}
+.mid-mark{border-color:var(--warn)!important;background-color:var(--warnbg)!important;color:var(--warntx)!important}
+.mid-mark::after{background-image:var(--ic-mid)}
+input.ok-mark,input.ko-mark,input.mid-mark{padding-right:38px!important;background-repeat:no-repeat!important;background-position:right 10px center!important;background-size:20px!important}
+input.ok-mark{background-image:var(--ic-ok)!important} input.ko-mark{background-image:var(--ic-ko)!important} input.mid-mark{background-image:var(--ic-mid)!important}
+
+/* flashcard */
+.card{width:100%;border:0;padding:0;background:none;text-align:inherit;display:block}
+.dots{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.dots i{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--muted);display:inline-block}
+.dots i.s1{background:linear-gradient(90deg,var(--teal-2) 50%,transparent 50%);border-color:var(--teal-2)}
+.dots i.s2{background:var(--teal-2);border-color:var(--teal-2)}
+
+/* match */
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
+.mgrid > div{display:grid;gap:8px;align-content:start;min-width:0}
+.mcol h3{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0}
+.mi{position:relative;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:10px 34px 10px 11px;font-weight:600;font-size:.93rem;overflow-wrap:anywhere;min-height:48px}
+.mi.sel{border:2px solid var(--teal-2);background:var(--chip)}
+.mi.done{pointer-events:none}
+.shake{animation:sh .32s}
+@keyframes sh{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+/* context */
+.box{display:flex;flex-wrap:wrap;gap:6px 8px;margin-top:14px;padding:12px;border:1.5px solid var(--teal-2);border-radius:10px;background:var(--card)}
+.box span{font-weight:700;padding:3px 10px;border-radius:6px;background:var(--chip)}
+.clist{display:grid;gap:12px;margin-top:12px;counter-reset:c}
+.citem{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px}
+.citem p{margin:0 0 8px}
+.citem p::before{counter-increment:c;content:counter(c) "  ";font-weight:700;color:var(--gold)}
+.citem input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+.citem .sol{font-size:.86rem;margin-top:6px;color:var(--muted)}
+.citem .sol b{color:var(--ink)}
+
+/* results */
+.result{text-align:center;padding:18px 8px 6px}
+.result .score{font-family:var(--display);font-weight:700;font-size:clamp(2.4rem,11vw,3.4rem);line-height:1}
+.result p{color:var(--muted);margin:.5em auto 0;max-width:40em}
+.review{margin-top:16px;display:grid;gap:6px}
+.rv{display:flex;gap:10px;align-items:flex-start;border-bottom:1px dashed var(--line);padding:6px 0;font-size:.95rem}
+.rv i{flex:0 0 20px;height:20px;background-size:contain;margin-top:2px}
+.rv i.v{background-image:var(--ic-ok)} .rv i.x{background-image:var(--ic-ko)} .rv i.m{background-image:var(--ic-mid)}
+.rv span{min-width:0;overflow-wrap:anywhere}
+.rv .you{color:var(--kotx)}
+.sec{font-weight:700;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:18px 0 0}
+.tricky{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tricky span{background:var(--chip);border-radius:99px;padding:3px 10px;font-size:.88rem}
+.empty{background:var(--card);border:1px dashed var(--line);border-radius:10px;padding:16px;margin-top:14px;color:var(--muted)}
+
+@media (max-width:480px){ .opts{grid-template-columns:1fr} body{font-size:16px} .mi{font-size:.88rem} }
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="in">
+    <div class="eyebrow">Camden Town 9 · Theme 3 · Word lists p.&nbsp;258–264</div>
+    <h1>Theme 3 Word <span>Lab</span></h1>
+    <p>Practise the words of “Human rights for all?” for your vocabulary test – and bring back words from Theme 1 and Theme 4.</p>
+  </div>
+</header>
+<main class="wrap">
+  <section id="home">
+    <div class="setup">
+      <p class="label">Which words?</p>
+      <div class="chips" id="sets" role="group" aria-label="Word set"></div>
+      <div class="setrow">
+        <span class="count" id="count"></span>
+      </div>
+    </div>
+    <div id="steps"></div>
+    <section class="tips">
+      <h2>How to make words stick</h2>
+      <ol>
+        <li><b>Remember before you look.</b> Try to bring the word back from memory first, then check. Reading the list again helps much less.</li>
+        <li><b>Go from German to English.</b> If you can say the English word, you will also understand it when you read or hear it.</li>
+        <li><b>Practise on different days.</b> Three short sessions on three days work better than one long session the evening before the test.</li>
+        <li><b>Use the words.</b> Learn word partners (<i>pass a law</i>) and word families (<i>secure – security</i>). Then you can also explain a word in other words when you mediate.</li>
+      </ol>
+    </section>
+    <details class="teacher">
+      <summary>Für die Lehrkraft</summary>
+      <div>
+        <p><b>Einsatz:</b> Selbstlernmodul zur Vorbereitung auf die Kurzkontrolle Theme 3 (W5/L9, Teil A + B: Vokabeln beidseitig, Lückensätze mit Wortkasten und richtiger Form) sowie zur Jahresabschluss-Wiederholung Theme 1 und 4 (Progression T1 → T4 → T3).</p>
+        <p><b>Datengrundlage:</b> Wortliste SB S. 258–264, alle Einträge ohne ° (<span id="nT3"></span> Wörter, fett und nicht fett gedruckt gleichrangig: keine Hierarchisierung für SuS). Beispielsätze und Wortpartner stammen aus der Wortliste. Wiederholungswörter T1/T4 aus <i>Vokabeltrainer_Theme1_Theme4.html</i>. Die englischen Erklärungen im „Word web“ sind eigene Formulierungen auf Basis der deutschen Bedeutungen der Wortliste.</p>
+        <p><b>Didaktische Entscheidungen:</b> Abruf vor Wiedererkennen; Abrufrichtung Deutsch → Englisch als Voreinstellung; verteilte Wiederholung innerhalb der Sitzung (jedes Wort zweimal richtig, Fehler kehren nach zwei, Treffer nach fünf Karten zurück); Bilder nur für bildlich darstellbare Wörter; Synonyme als Erklärung mit bekannten Wörtern (Sprachmittlung, KA 3); neue Fast-Synonyme (gun, rifle, weapon, arms) erscheinen nicht in derselben Zuordnungsrunde; Gegenteile über Präfixe; Wortfamilien mit Bezügen zu Theme 1 und 4.</p>
+        <p><b>Auswertung:</b> Toleriert werden Groß-/Kleinschreibung, Satzzeichen, „to“, „sb/sth“, der deutsche Artikel und ein Tippfehler im Deutschen. Englische Rechtschreibung bleibt streng: ein Buchstabe Abweichung ergibt „Almost“ mit zweitem Versuch. Im Practice test gibt es keinen zweiten Versuch; eine richtige Grundform mit falscher Form im Lückentext zählt ½ Punkt.</p>
+        <p><b>Speichern:</b> Nichts wird dauerhaft gespeichert und nichts wird gesendet. Die Liste „My tricky words“ gilt nur für den geöffneten Tab (geteilte Schulgeräte). Aussprache über die Sprachausgabe des Browsers, falls eine englische Stimme vorhanden ist.</p>
+      </div>
+    </details>
+    <footer>Own exercises for Camden Town 9 (Westermann), Theme 3 · word list p.&nbsp;258–264 · nothing is saved when you close the page</footer>
+  </section>
+
+  <section id="act" hidden>
+    <div class="bar">
+      <button class="back" id="backBtn" type="button">← All activities</button>
+      <h2 id="actTitle"></h2>
+      <span class="setname" id="actSet"></span>
+    </div>
+    <div id="view"></div>
+  </section>
+</main>
+
+<script>
+/* ===== DATA — Camden Town 9, Theme 3 "Human rights for all?" =====
+   Source: Word lists, Schülerbuch p.258–264 (entries marked ° are left out: they are only there to help with the texts).
+     = headword printed in bold in the word list.
+   sec: I = Intro (TB p.66–67), A = Part A (TB p.68–73), B = Part B "No Place" (TB p.74–79).
+   ex/bl = example sentence from the word list and the word form used in it (gap for "Words in context").
+   pos/grp are used only to keep sets free of answers that could fit the same gap. */
+var T3 = [];
+function E(en, de, o){ o = o || {}; o.en = en; o.de = de; T3.push(o); }
+
+/* ---- Intro · p.258 ---- */
+E("United Nations (UN)","Vereinte Nationen",{sec:"I",ref:"2",pos:"n",alt:["UN","the United Nations"]});
+E("identity","Identität",{sec:"I",ref:"2",pos:"n",ex:"The spy has a secret identity.",bl:"identity"});
+E("adequate","ausreichend, angemessen",{sec:"I",ref:"2",pos:"adj",ex:"Tom’s homework was adequate, but it wasn’t great.",bl:"adequate"});
+E("standard of living","Lebensstandard",{sec:"I",ref:"2",pos:"n"});
+E("harm","Schaden, Verletzung",{sec:"I",ref:"2",pos:"n",ex:"It is important to always be aware of the harm that our actions could cause.",bl:"harm"});
+E("to educate","unterrichten, ausbilden, erziehen",{sec:"I",ref:"2",pos:"v",ex:"It is the responsibility of parents and schools to educate children on the importance of respecting other cultures.",bl:"educate"});
+E("belief","Glaube, Überzeugung, Ansicht",{sec:"I",ref:"2",pos:"n",ex:"Respecting others’ belief is essential for a tolerant society.",bl:"belief",grp:"belief"});
+E("to associate","in Verbindung bringen, hier: Kontakt haben/halten",{sec:"I",ref:"2",pos:"v",ex:"Cara always tries to associate with people who share her interests.",bl:"associate"});
+E("religion","Religion, Glaube",{sec:"I",ref:"2",pos:"n",ex:"Hinduism and Islam are examples of religions.",bl:"religions",grp:"belief"});
+E("just","gerecht",{sec:"I",ref:"2",pos:"adj",ex:"The judge’s decision was just.",bl:"just"});
+E("least","am wenigsten",{sec:"I",ref:"3",pos:"adv",ex:"That was my least favourite novel. It was extremely boring.",bl:"least"});
+E("to observe","beobachten, bemerken, hier: (be)achten",{sec:"I",ref:"3",pos:"v",ex:"During the festival, we observe a moment of silence.",bl:"observe",grp:"see"});
+E("impressive","beeindruckend",{sec:"I",ref:"5",pos:"adj",ex:"Buckingham Palace is an impressive building.",bl:"impressive"});
+E("to research","erforschen, recherchieren",{sec:"I",ref:"6",pos:"v",ex:"Scientists have been researching this topic for years.",bl:"researching",grp:"study"});
+E("silence","Stille, Schweigen, Ruhe",{sec:"I",ref:"6",pos:"n",ex:"The silence in the room made me feel uncomfortable.",bl:"silence"});
+
+/* ---- Part A · p.258–262 ---- */
+E("gun","(Schuss)waffe, Pistole, Gewehr, hier: Waffen-",{sec:"A",ref:"A1",pos:"n",ex:"Gun control is an important topic in the US.",bl:"Gun",grp:"weapon"});
+E("immediate","umgehend, unmittelbar, direkt, augenblicklich",{sec:"A",ref:"A1",pos:"adj",ex:"What was her immediate reaction?",bl:"immediate"});
+E("elementary school","Grundschule",{sec:"A",ref:"A1",pos:"n",ex:"In elementary school, children learn basic skills.",bl:"elementary school",alt:["primary school"],note:"AE = primary school (BE)"});
+E("to arise","aufkommen, sich ergeben",{disp:"to arise, arose, arisen",sec:"A",ref:"A2",pos:"v",ex:"Unexpected problems can arise at any moment, so it’s important to be prepared.",bl:"arise"});
+E("shooting","Schießerei, Schießen",{sec:"A",ref:"A2",pos:"n",grp:"weapon"});
+E("valuable","wertvoll, kostbar",{sec:"A",ref:"A2",pos:"adj",ex:"A ring can be very valuable.",bl:"valuable"});
+E("rifle","Gewehr",{sec:"A",ref:"A2",pos:"n",grp:"weapon"});
+E("weapon","Waffe",{sec:"A",ref:"A2",pos:"n",ex:"If you own a weapon, you need to think about health and safety.",bl:"weapon",grp:"weapon"});
+E("shot","Schuss",{sec:"A",ref:"A2",pos:"n",grp:"weapon"});
+E("politician","Politiker/in",{sec:"A",ref:"A2",pos:"n",ex:"The politician is talking to the press.",bl:"politician"});
+E("to claim","behaupten, Anspruch erheben auf",{sec:"A",ref:"A2",pos:"v",ex:"Marcus claimed that the dog ate his homework.",bl:"claimed",grp:"say"});
+E("accidentally","versehentlich, zufällig",{sec:"A",ref:"A2",pos:"adv",ex:"Michael was accidentally shot. He is in hospital now.",bl:"accidentally"});
+E("to shoot sb","jdn anschießen, jdn erschießen",{disp:"to shoot sb, shot, shot",sec:"A",ref:"A2",pos:"v",ex:"As he ran away, the thief shot a policeman.",bl:"shot",grp:"weapon"});
+E("stylistic device","Stilmittel",{sec:"A",ref:"A3",pos:"n",ex:"The use of a stylistic device can be an effective tool for attracting the reader’s attention.",bl:"stylistic device",sent:"sd"});
+E("reader","Leser/in",{sec:"A",ref:"A3",pos:"n",ex:"The use of a stylistic device can be an effective tool for attracting the reader’s attention.",bl:"reader",sent:"sd"});
+E("attention","Aufmerksamkeit, Achtung",{sec:"A",ref:"A3",pos:"n",ex:"The use of a stylistic device can be an effective tool for attracting the reader’s attention.",bl:"attention",sent:"sd",note:"Frz. attention, Sp. atención"});
+E("quote","Zitat",{sec:"A",ref:"A3",pos:"n",ex:"The most famous quotes are from Shakespeare.",bl:"quotes"});
+E("rhetorical","rhetorisch",{sec:"A",ref:"A3",pos:"adj",ex:"The question is rhetorical: it doesn’t need an answer.",bl:"rhetorical"});
+E("anaphora","Anapher",{sec:"A",ref:"A3",pos:"n"});
+E("to repeat","wiederholen",{sec:"A",ref:"A3",pos:"v",ex:"Repeat this phrase ten times until you can remember it.",bl:"Repeat"});
+E("chart","Diagramm, Schaubild",{sec:"A",ref:"A4",pos:"n",ex:"This chart deals with the reasons for owning a gun in the US.",bl:"chart"});
+E("law","Gesetz, Recht",{sec:"A",ref:"A4",pos:"n",ex:"You’re not allowed to do that! It is against the law.",bl:"law",grp:"law"});
+E("Second Amendment","Zweiter Zusatzartikel (zur Verfassung der Vereinigten Staaten)",{sec:"A",ref:"A4",pos:"n",grp:"law"});
+E("citizen","(Staats)bürger/in",{sec:"A",ref:"A4",pos:"n",ex:"Pierre is French, he is a citizen of France.",bl:"citizen"});
+E("controversial","umstritten, kontrovers, strittig",{sec:"A",ref:"A4",pos:"adj",ex:"The issue of gun control is a highly controversial topic.",bl:"controversial"});
+E("to bear","(er)tragen",{disp:"to bear, bore, borne",sec:"A",ref:"A4",pos:"v"});
+E("arms","Waffen",{sec:"A",ref:"A4",pos:"n",ex:"The right to bear arms is important to some Americans.",bl:"arms",grp:"weapon"});
+E("such as","wie (zum Beispiel)",{sec:"A",ref:"A4",pos:"other",ex:"Richard and Joseph share lots of interests, such as sports, reading and animals.",bl:"such as"});
+E("conflict","Konflikt, Kampf, Zusammenstoß",{sec:"A",ref:"A4",pos:"n",ex:"Harry solved the conflict and everyone was happy again.",bl:"conflict",grp:"fight"});
+E("to surround","einkreisen, umgeben",{sec:"A",ref:"A4",pos:"v",ex:"The police surrounded the building.",bl:"surrounded"});
+E("background check","Nachforschungen, Screening",{sec:"A",ref:"A4",pos:"n"});
+E("association","Vereinigung, Verband",{sec:"A",ref:"A4",pos:"n",ex:"There is a large association of football clubs.",bl:"association"});
+E("supporter","Unterstützer/in, Anhänger/in, Verfechter/in",{sec:"A",ref:"A4",pos:"n",ex:"The politician’s supporters cheered.",bl:"supporters"});
+E("to pass","geben, (herüber)reichen, hier: verabschieden",{sec:"A",ref:"A4",pos:"v",ex:"The law was passed yesterday.",bl:"passed",grp:"law"});
+E("means (of)","Weg, Mittel, Art",{sec:"A",ref:"A4",pos:"n",ex:"The means of transportation have improved over the years.",bl:"means"});
+E("self-defence","Selbstverteidigung",{sec:"A",ref:"A4",pos:"n",alt:["self-defense"]});
+E("to involve","beinhalten, umfassen, betreffen, beteiligen",{sec:"A",ref:"A4",pos:"v",ex:"This project will involve a lot of hard work.",bl:"involve"});
+E("related","verbunden, verwandt, in Zusammenhang stehen",{sec:"A",ref:"A4",pos:"adj",ex:"There was an increase in gun-related violence.",bl:"related"});
+E("to be obliged to do sth","verpflichtet sein, etw zu tun",{sec:"A",ref:"A4",pos:"v",ex:"Students are obliged to go to school, even if they don’t want to.",bl:"obliged",box:"obliged",alt:["obliged to","be obliged to","obliged"]});
+E("to retreat","sich zurückziehen, zurückweichen",{sec:"A",ref:"A4",pos:"v",ex:"The soldiers retreated, they went back.",bl:"retreated"});
+E("confrontation","Auseinandersetzung, Konfrontation",{sec:"A",ref:"A4",pos:"n",ex:"The confrontation didn’t last long, and soon they were friends.",bl:"confrontation",grp:"fight"});
+E("to respond (to)","reagieren (auf), antworten",{sec:"A",ref:"A4",pos:"v",ex:"Maya made sure she responded to all of her emails.",bl:"responded"});
+E("in fact","genaugenommen",{sec:"A",ref:"A4",pos:"adv",ex:"That is, in fact, true.",bl:"in fact"});
+E("rise","Steigen, Anstieg, Aufstieg",{sec:"A",ref:"A4",pos:"n",ex:"The rise in crime rates is worrying.",bl:"rise",grp:"change"});
+E("homicide","Mord",{sec:"A",ref:"A4",pos:"n",note:"AE"});
+E("control","Kontrolle, Gewalt, Herrschaft",{sec:"A",ref:"A4",pos:"n",ex:"Paula has control over the design of her bedroom.",bl:"control"});
+E("to hunt","jagen",{sec:"A",ref:"A6",pos:"v"});
+E("grocery","Lebensmittel-",{sec:"A",ref:"A6",pos:"n"});
+E("to reflect","spiegeln, zeigen, reflektieren",{sec:"A",ref:"A7",pos:"v",ex:"The headline of the article reflects the author’s attitude towards stricter gun control laws.",bl:"reflects",sent:"hl"});
+E("attitude","Haltung, Einstellung",{sec:"A",ref:"A7",pos:"n",ex:"The headline of the article reflects the author’s attitude towards stricter gun control laws.",bl:"attitude",sent:"hl"});
+E("issue","Thema, Angelegenheit, Problem, Streitfrage",{sec:"A",ref:"A7",pos:"n",ex:"Gun control is an important issue.",bl:"issue"});
+E("amount","Menge, Betrag",{sec:"A",ref:"A7",pos:"n",ex:"James spent a huge amount of money on Christmas presents.",bl:"amount"});
+E("horrifying","schrecklich, entsetzlich, grauenhaft",{sec:"A",ref:"A7",pos:"adj"});
+E("measure","Maßnahme, Maß, Messgerät",{sec:"A",ref:"A7",pos:"n",ex:"The UK has strict gun control measures.",bl:"measures",grp:"rule"});
+E("restrictive","einschränkend, einengend",{sec:"A",ref:"A7",pos:"adj"});
+E("convinced","überzeugt",{sec:"A",ref:"A7",pos:"adj",ex:"I am convinced we need to do more about climate change.",bl:"convinced"});
+E("society","Gesellschaft",{sec:"A",ref:"A7",pos:"n",ex:"Society has come a long way.",bl:"Society",note:"Lat. societas"});
+E("forward(s)","nach vorn(e), weiter, vorn(e)",{sec:"A",ref:"A7",pos:"adv",ex:"I walked forwards when the traffic light was green.",bl:"forwards",alt:["forward","forwards"]});
+E("first of all","zu(aller)erst",{sec:"A",ref:"A7",pos:"adv",ex:"Jack had a long to-do list. First of all he washed the dishes, then he cleaned his room.",bl:"First of all"});
+E("constitution","Zusammensetzung, Konstitution, Verfassung, Satzung",{sec:"A",ref:"A7",pos:"n",ex:"While the US has a written constitution, the UK does not.",bl:"constitution",grp:"law"});
+E("outdated","veraltet, überholt",{sec:"A",ref:"A7",pos:"adj"});
+E("to gain","bekommen, erreichen, gewinnen",{sec:"A",ref:"A7",pos:"v",ex:"Frank gained five new customers last month.",bl:"gained"});
+E("threat","(Be)drohung, Gefahr",{sec:"A",ref:"A7",pos:"n",ex:"The president received threats from people who did not agree with him.",bl:"threats"});
+E("to invade","einfallen (in), einmarschieren (in)",{sec:"A",ref:"A7",pos:"v",note:"Lat. invadere"});
+E("military","Militär(-), militärisch",{sec:"A",ref:"A7",pos:"n",ex:"The military had to assist the police.",bl:"military"});
+E("capable","fähig",{sec:"A",ref:"A7",pos:"adj",ex:"Alex is capable of finishing this task.",bl:"capable"});
+E("restriction","Begrenzung, Einschränkung",{sec:"A",ref:"A7",pos:"n",ex:"We can’t go by plane because of weather restrictions.",bl:"restrictions",grp:"rule"});
+E("quite a few","eine ganze Menge",{sec:"A",ref:"A7",pos:"other"});
+E("record","Aufzeichnungen, Akte, Vorgeschichte",{sec:"A",ref:"A7",pos:"n",ex:"Lisa has an excellent record at school. Her behaviour is very good and she has great grades.",bl:"record"});
+E("direction","Richtung",{sec:"A",ref:"A7",pos:"n",ex:"I realised I was going in the wrong direction when I looked at the map.",bl:"direction"});
+E("despite","trotz",{sec:"A",ref:"A7",pos:"other",ex:"Despite the bad weather, Freddie went for a walk.",bl:"Despite"});
+E("official","offiziell",{sec:"A",ref:"A7",pos:"adj",ex:"The US has no official language.",bl:"official"});
+E("realistically","realistisch (betrachtet)",{sec:"A",ref:"A7",pos:"adv",ex:"Liam wants to go to space but realistically that won’t happen.",bl:"realistically"});
+E("legal","legal, gesetzlich (vorgeschrieben)",{sec:"A",ref:"A7",pos:"adj",note:"legal ↔ illegal"});
+E("to be opposed to sth","etw ablehnend gegenüberstehen, gegen etw sein",{sec:"A",ref:"A7",pos:"v",ex:"Dina and Ravi are opposed to the new rule about phones at school.",bl:"opposed",box:"opposed",alt:["be opposed to","opposed to","opposed"]});
+E("to point (at/to)","deuten/zeigen (auf), hier: richten (auf)",{sec:"A",ref:"A7",pos:"v",ex:"The policewoman pointed her gun at the building.",bl:"pointed"});
+E("furthermore","außerdem, ferner",{sec:"A",ref:"A7",pos:"adv"});
+E("guarantee","Garantie, Zusicherung, Sicherheit",{sec:"A",ref:"A7",pos:"n",ex:"There is no guarantee that guns in private households are kept in a secure place.",bl:"guarantee",sent:"gs"});
+E("secure","sicher, fest (verschlossen)",{sec:"A",ref:"A7",pos:"adj",ex:"There is no guarantee that guns in private households are kept in a secure place.",bl:"secure",sent:"gs"});
+E("to take sth into account","etw berücksichtigen",{sec:"A",ref:"A7",pos:"v",alt:["take into account"]});
+E("doubt","Zweifel, Bedenken",{sec:"A",ref:"A7",pos:"n",ex:"No one had doubts about whether Nina would win the race.",bl:"doubts"});
+E("across","über, hier: querdurch, über … hinweg",{sec:"A",ref:"A7",pos:"other",ex:"There is a road across the whole country, from the east coast to the west coast.",bl:"across"});
+E("to harm","Schaden zufügen, schaden",{sec:"A",ref:"A7",pos:"v",ex:"Plastic harms the environment.",bl:"harms"});
+E("constitutional right","Grundrecht",{sec:"A",ref:"A7",pos:"n",grp:"law"});
+E("death","Tod, Ende",{sec:"A",ref:"A7",pos:"n",ex:"The death of his grandmother made Owen very sad.",bl:"death"});
+E("truth","Wahrheit",{sec:"A",ref:"A7",pos:"n",ex:"I know the truth, so stop lying!",bl:"truth"});
+E("current","jetzig, gegenwärtig, aktuell",{sec:"A",ref:"A8",pos:"adj",ex:"The current task is cleaning the kitchen; then we will clean the bathroom.",bl:"current"});
+E("safety","Sicherheit(s-)",{sec:"A",ref:"A9",pos:"n",ex:"Safety measures are taken to reduce risks.",bl:"Safety"});
+E("to adopt","adoptieren, annehmen",{sec:"A",ref:"A9",pos:"v",ex:"The school adopted new school uniform rules.",bl:"adopted"});
+E("drill","Übung, Probe(alarm)",{sec:"A",ref:"A9",pos:"n"});
+E("armed","bewaffnet",{sec:"A",ref:"A10",pos:"adj",ex:"In the US, police officers are armed: they carry guns.",bl:"armed"});
+E("to state","aussprechen, erklären, darlegen",{sec:"A",ref:"A10",pos:"v",ex:"Kim stated the facts but Dean didn’t listen.",bl:"stated",grp:"say"});
+
+/* ---- Part B "No Place" · p.262–264 ---- */
+E("plot","Handlung",{sec:"B",ref:"B1",pos:"n",ex:"The plot of the film was interesting.",bl:"plot",grp:"story"});
+E("senior","Oberstufenschüler/in im letzten Jahr",{sec:"B",ref:"B1",pos:"n",note:"AE"});
+E("to date sb","mit jdm gehen",{sec:"B",ref:"B1",pos:"v",ex:"Emily and Chris have been dating for three months.",bl:"dating",note:"AE"});
+E("college","College (Eingangsstufe der Universität in den USA)",{sec:"B",ref:"B1",pos:"n",ex:"She is studying history in college.",bl:"college"});
+E("financial","finanziell, Finanz-, Geld-",{sec:"B",ref:"B1",pos:"adj",ex:"For financial reasons, we had to cancel our holiday.",bl:"financial"});
+E("resentment","Verbitterung, Groll",{sec:"B",ref:"B1",pos:"n",note:"Frz. ressentiment, Sp. resentimiento"});
+E("unemployed","arbeitslos",{sec:"B",ref:"B1",pos:"adj",ex:"Sally has been unemployed for a month, but she is looking for a new job.",bl:"unemployed"});
+E("dignity","Würde, Achtung",{sec:"B",ref:"B1",pos:"n"});
+E("homeless","heimatlos, obdachlos",{sec:"B",ref:"B1",pos:"adj"});
+E("to struggle","sich abmühen, kämpfen, ringen",{sec:"B",ref:"B1",pos:"v",ex:"Poppy struggled to do her homework.",bl:"struggled"});
+E("rejection","Ablehnung, Absage, Abweisung",{sec:"B",ref:"B1",pos:"n",ex:"Ben applied for six jobs but received five rejections.",bl:"rejections"});
+E("to witness","beobachten, Zeuge/Zeugin sein, miterleben",{sec:"B",ref:"B1",pos:"v",ex:"Will witnessed the crime and told the police what happened.",bl:"witnessed",grp:"see"});
+E("unexpected","unerwartet",{sec:"B",ref:"B1",pos:"adj",ex:"Sam’s good grades were unexpected.",bl:"unexpected"});
+E("decline","Rückgang, Verschlechterung, Niedergang",{sec:"B",ref:"B1",pos:"n",grp:"change"});
+E("prejudiced","voreingenommen",{sec:"B",ref:"B1",pos:"adj"});
+E("ill fortune","Pech",{sec:"B",ref:"B1",pos:"n"});
+E("outcast","Ausgestoßene/r, Geächtete/r",{sec:"B",ref:"B1",pos:"n"});
+E("extract","Auszug",{sec:"B",ref:"B2",pos:"n",ex:"Peter thought they had to read the whole book, but it was only an extract of twenty pages.",bl:"extract",grp:"story"});
+E("to quote","zitieren",{sec:"B",ref:"B2",pos:"v",ex:"The teacher began the class by quoting a famous writer.",bl:"quoting"});
+E("first-person narrator","Icherzähler/in",{sec:"B",ref:"B2",pos:"n"});
+E("third-person narrator","personale/r Erzähler/in",{sec:"B",ref:"B2",pos:"n"});
+E("narrative","Erzählung, Erzähl-, Schilderung",{sec:"B",ref:"B2",pos:"n",ex:"The narrative of the story was brilliant; I read for hours.",bl:"narrative",grp:"story"});
+E("perspective","Perspektive, Sicht, Blickwinkel",{sec:"B",ref:"B2",pos:"n",ex:"A third-person narrator tells the story from an outside perspective.",bl:"perspective",grp:"story"});
+E("to sign up","sich einschreiben, sich anmelden",{sec:"B",ref:"B3",pos:"v",ex:"Rory signed up for hockey club.",bl:"signed up"});
+E("march","Marsch",{sec:"B",ref:"B3",pos:"n",ex:"Thousands of people joined the protest march.",bl:"march"});
+E("undivided","uneingeschränkt, ungeteilt",{sec:"B",ref:"B3",pos:"adj"});
+E("motivation","Begründung, Motivation",{sec:"B",ref:"B3",pos:"n",ex:"Motivation is important for success.",bl:"Motivation"});
+E("to analyse","analysieren, untersuchen",{sec:"B",ref:"B4",pos:"v",ex:"I analysed the results to find out the answer.",bl:"analysed",alt:["to analyze","analyzed"],grp:"study"});
+E("speculation","Spekulation, Vermutung",{sec:"B",ref:"B4",pos:"n",ex:"There has been lots of speculation about the crime, but no one is certain.",bl:"speculation"});
+E("to relate to","sich beziehen auf, hier: in Beziehung stehen zu",{sec:"B",ref:"B6",pos:"v"});
+E("to imitate","imitieren, nachahmen",{sec:"B",ref:"B6",pos:"v",ex:"Jade tried to imitate her favourite singer’s voice.",bl:"imitate"});
+
+/* ===== Review: Theme 1 (Australia) and Theme 4 (Chances and opportunities) =====
+   Source: project file Vokabeltrainer_Theme1_Theme4.html (word lists p.246–251 and p.265 ff.). */
+var REVIEW = [];
+function R(th, en, de, o){ o = o || {}; o.en = en; o.de = de; o.sec = th; o.pos = o.pos || "n"; REVIEW.push(o); }
+R("T1","convict","Strafgefangene/r");
+R("T1","colony","Kolonie");
+R("T1","indigenous","(ein)heimisch",{pos:"adj"});
+R("T1","to found","gründen",{pos:"v",ex:"Adelaide was founded in 1836.",bl:"founded"});
+R("T1","reconciliation","Aussöhnung, Versöhnung, Beilegung");
+R("T1","heritage","(Kultur)erbe");
+R("T1","to acknowledge","zugeben, anerkennen, bestätigen",{pos:"v",ex:"They should acknowledge their mistakes.",bl:"acknowledge"});
+R("T1","to abolish","abschaffen, aufheben",{pos:"v"});
+R("T1","ceremony","Zeremonie, Feier, Feierlichkeiten");
+R("T1","multicultural","multikulturell",{pos:"adj"});
+R("T1","hardship","Not, Elend, Härte");
+R("T1","overcrowded","überfüllt, überlaufen",{pos:"adj"});
+R("T1","guilty","schuldig",{pos:"adj"});
+R("T1","to protest","protestieren",{pos:"v",ex:"They protested about their working conditions.",bl:"protested"});
+R("T1","mistreatment","Misshandlung, schlechte Behandlung");
+R("T1","pride","Stolz");
+R("T1","to overcome","bewältigen, meistern",{pos:"v"});
+R("T1","according to","nach, laut, gemäß",{pos:"other"});
+R("T1","isolated","abgelegen, isoliert",{pos:"adj"});
+R("T1","to publish","veröffentlichen, herausgeben",{pos:"v",ex:"The book was published in 2023.",bl:"published"});
+R("T1","abroad","im/ins Ausland",{pos:"adv"});
+R("T1","exception","Ausnahme");
+R("T1","pollution","Verschmutzung");
+R("T1","to ban","verbieten",{pos:"v",ex:"Plastic plates and straws are banned on the island.",bl:"banned"});
+R("T1","citizenship","Staatsangehörigkeit");
+R("T1","currently","zurzeit, gegenwärtig, momentan",{pos:"adv"});
+R("T1","to suffer (from)","erleiden, ertragen, leiden (an/unter)",{pos:"v",ex:"Many people suffer from a disease.",bl:"suffer"});
+R("T1","to raise","heben, großziehen",{pos:"v",ex:"Shadeene Evans was raised in an isolated community.",bl:"raised"});
+R("T4","application","Bewerbung, Antrag, Anwendung",{ex:"I checked my job application for mistakes before I sent it.",bl:"application"});
+R("T4","applicant","Bewerber/in");
+R("T4","internship","Praktikum",{ex:"Internships are a good way of getting work experience.",bl:"Internships"});
+R("T4","reliable","verlässlich, zuverlässig",{pos:"adj",ex:"Peter is very reliable: you can trust him.",bl:"reliable"});
+R("T4","qualification","Qualifikation, Ausbildung, Abschluss",{ex:"To become a teacher, you need a teaching qualification.",bl:"qualification"});
+R("T4","employer","Arbeitgeber/in");
+R("T4","cover letter","Anschreiben",{ex:"In a cover letter you can tell the employer more about yourself.",bl:"cover letter"});
+R("T4","to require","brauchen, verlangen, benötigen",{pos:"v",ex:"Thomas required help with his homework.",bl:"required"});
+R("T4","to cope with","zurechtkommen mit, bewältigen",{pos:"v",ex:"David has lots of homework to do, but he is coping with the stress well.",bl:"coping"});
+R("T4","enthusiastic","enthusiastisch, begeistert",{pos:"adj"});
+R("T4","to volunteer","sich freiwillig melden, ehrenamtlich tätig sein",{pos:"v",ex:"Diana volunteers at an animal shelter on weekends.",bl:"volunteers"});
+R("T4","patience","Geduld");
+R("T4","impatient","ungeduldig",{pos:"adj",ex:"Liam is so impatient: he hates waiting.",bl:"impatient"});
+R("T4","impolite","unhöflich, frech, unverschämt",{pos:"adj",ex:"Don’t talk with food in your mouth, it is impolite.",bl:"impolite"});
+R("T4","responsible","verantwortlich, zuständig",{pos:"adj",ex:"Ola is responsible for getting her mum’s birthday present.",bl:"responsible"});
+R("T4","involvement","Beteiligung");
+R("T4","to reject","ablehnen, zurückweisen, abweisen",{pos:"v",ex:"Unfortunately, my application was rejected.",bl:"rejected"});
+R("T4","motivated","motiviert",{pos:"adj",ex:"Sarah was very motivated to practise tennis because she really wanted to win.",bl:"motivated"});
+R("T4","ability","Fähigkeit, Talent, Begabung",{ex:"Tom has the ability to understand many languages.",bl:"ability"});
+R("T4","willing","bereit, gewillt, willig",{pos:"adj",ex:"Sean is willing to work very hard to get good grades.",bl:"willing"});
+R("T4","knowledge","Kenntnis(se), Wissen",{ex:"Anna doesn’t know much about animals, but she has lots of knowledge about flowers.",bl:"knowledge"});
+R("T4","to invest","investieren, anlegen",{pos:"v",ex:"Gina invests a lot of time in her education.",bl:"invests"});
+R("T4","device","Gerät, Vorrichtung, Apparat",{ex:"Simrun uses her electronic devices to talk to her friends.",bl:"devices"});
+R("T4","trustworthy","vertrauenswürdig, zuverlässig",{pos:"adj"});
+R("T4","to assist (in/with)","(mit)helfen (bei)",{pos:"v",ex:"The lady needed help, so Leah assisted her.",bl:"assisted"});
+
+/* Theme 3 words that are also in the Theme 1 / Theme 4 word lists (checked against Vokabeltrainer_Theme1_Theme4.html) */
+var COMEBACK = {
+  "identity":"T1","harm":"T1","belief":"T1","religion":"T1","just":"T1","control":"T1","to hunt":"T1","society":"T1",
+  "to reflect":"T1","to claim":"T1","supporter":"T1","across":"T1 · T4","despite":"T1","march":"T1","reader":"T1",
+  "to gain":"T1 · T4","threat":"T1","to sign up":"T1","to analyse":"T1","capable":"T1 · T4","to involve":"T4",
+  "official":"T1","attention":"T4","to research":"T4","to respond (to)":"T4","to repeat":"T4"
+};
+
+/* ===== Word partners (collocations) — all taken from the example sentences / entries of the word list ===== */
+var PARTNERS = [
+  {s:"___ control is an important topic in the US.",a:["Gun"],en:"gun"},
+  {s:"standard of ___",a:["living"],en:"standard of living"},
+  {s:"a background ___",a:["check"],en:"background check"},
+  {s:"the right to bear ___",a:["arms"],en:"arms"},
+  {s:"The law was ___ yesterday.",a:["passed"],en:"to pass"},
+  {s:"We have to take people’s feelings into ___.",a:["account"],en:"to take sth into account"},
+  {s:"___ measures are taken to reduce risks.",a:["Safety"],en:"safety"},
+  {s:"The UK has strict gun control ___.",a:["measures"],en:"measure"},
+  {s:"The ___ in crime rates is worrying.",a:["rise"],en:"rise"},
+  {s:"a huge ___ of money",a:["amount"],en:"amount"},
+  {s:"an increase in gun-___ violence",a:["related"],en:"related"},
+  {s:"going in the wrong ___",a:["direction"],en:"direction"},
+  {s:"to receive ___ from people",a:["threats"],en:"threat"},
+  {s:"a highly ___ topic",a:["controversial"],en:"controversial"},
+  {s:"to observe a moment of ___",a:["silence"],en:"silence"},
+  {s:"to ___ a moment of silence",a:["observe"],en:"to observe"},
+  {s:"The spy has a secret ___.",a:["identity"],en:"identity"},
+  {s:"an excellent ___ at school",a:["record"],en:"record"},
+  {s:"for ___ reasons",a:["financial"],en:"financial"},
+  {s:"to join the protest ___",a:["march"],en:"march"},
+  {s:"a ___ question that doesn’t need an answer",a:["rhetorical"],en:"rhetorical"},
+  {s:"a stylistic ___",a:["device"],en:"stylistic device"},
+  {s:"to attract the reader’s ___",a:["attention"],en:"attention"},
+  {s:"a first-person ___",a:["narrator"],en:"first-person narrator"},
+  {s:"to tell a story from an outside ___",a:["perspective"],en:"perspective"},
+  {s:"a constitutional ___",a:["right"],en:"constitutional right"},
+  {s:"the ___ of transportation",a:["means"],en:"means (of)"},
+  {s:"to ___ new school uniform rules",a:["adopt"],en:"to adopt"},
+  {s:"quite a ___",a:["few"],en:"quite a few"},
+  {s:"___ of all",a:["First"],en:"first of all"},
+  {s:"That is, in ___, true.",a:["fact"],en:"in fact"},
+  {s:"to sign ___ for hockey club",a:["up"],en:"to sign up",prep:true},
+  {s:"to respond ___ all of her emails",a:["to"],en:"to respond (to)",prep:true},
+  {s:"to be capable ___ finishing a task",a:["of"],en:"capable",prep:true},
+  {s:"to be opposed ___ the new rule",a:["to"],en:"to be opposed to sth",prep:true},
+  {s:"to point a gun ___ a building",a:["at"],en:"to point (at/to)",prep:true},
+  {s:"to have doubts ___ something",a:["about"],en:"doubt",prep:true},
+  {s:"to associate ___ people who share your interests",a:["with"],en:"to associate",prep:true},
+  {s:"to be obliged ___ go to school",a:["to"],en:"to be obliged to do sth",prep:true},
+  {s:"to have control ___ the design of your bedroom",a:["over"],en:"control",prep:true},
+  {s:"a citizen ___ France",a:["of"],en:"citizen",prep:true},
+  {s:"a large association ___ football clubs",a:["of"],en:"association",prep:true},
+  {s:"the author’s attitude ___ stricter gun laws",a:["towards","toward"],en:"attitude",prep:true},
+  {s:"to be aware ___ the harm our actions could cause",a:["of"],en:"harm",prep:true},
+  {s:"to educate children ___ the importance of respecting other cultures",a:["on"],en:"to educate",prep:true},
+  {s:"a road ___ the whole country",a:["across"],en:"across",prep:true}
+];
+
+/* ===== Word web =====
+   SAME: short English explanations (my wording, checked against the German meanings in the word list).
+   OPP: opposites. p:true = made with a prefix.  FAM: word families. */
+var SAME = [
+  ["to state","to say something clearly and officially"],
+  ["to claim","to say that something is true, although others may not believe it"],
+  ["to observe","to watch something carefully; also: to follow a rule or tradition"],
+  ["to witness","to see something happen, for example a crime or an accident"],
+  ["to retreat","to move back or go away, for example from danger"],
+  ["to struggle","to try very hard to do something difficult"],
+  ["to gain","to get something, for example new customers or experience"],
+  ["to respond (to)","to answer or react to something"],
+  ["to imitate","to copy the way someone speaks, sings or behaves"],
+  ["to educate","to teach someone, especially at school"],
+  ["to involve","to include something as a necessary part"],
+  ["to adopt","to start to use a new rule or idea"],
+  ["to research","to study a topic carefully to find out new facts"],
+  ["to be opposed to sth","to be against something"],
+  ["to take sth into account","to think about something before you decide"],
+  ["to arise","to start to happen, for example a problem"],
+  ["to be obliged to do sth","to have to do something, for example because of a law"],
+  ["to surround","to be all around someone or something"],
+  ["to harm","to hurt or damage someone or something"],
+  ["to quote","to repeat the exact words that someone else said or wrote"],
+  ["to analyse","to look at something in detail in order to understand it"],
+  ["to sign up","to put your name on a list because you want to take part"],
+  ["to reflect","to show what something is like"],
+  ["despite","without being stopped by something; in spite of"],
+  ["furthermore","also; in addition (to add one more point)"],
+  ["such as","for example"],
+  ["accidentally","by accident; not on purpose"],
+  ["convinced","completely sure that something is true"],
+  ["capable","able to do something"],
+  ["adequate","good enough, but not very good"],
+  ["just","fair and right"],
+  ["immediate","happening at once, without waiting"],
+  ["current","happening or existing now"],
+  ["outdated","old-fashioned; no longer modern or useful"],
+  ["unexpected","surprising, because you did not think it would happen"],
+  ["unemployed","without a paid job"],
+  ["homeless","without a place to live"],
+  ["valuable","worth a lot of money"],
+  ["impressive","so good or so big that people admire it"],
+  ["financial","connected with money"],
+  ["legal","allowed by the law"],
+  ["armed","carrying a weapon"],
+  ["controversial","causing a lot of disagreement and discussion"],
+  ["restrictive","limiting what people are allowed to do"],
+  ["secure","safe; locked so that nobody can get in"],
+  ["prejudiced","having an unfair opinion about people before you know them"],
+  ["issue","an important topic that people discuss or argue about"],
+  ["amount","how much there is of something"],
+  ["rise","an increase"],
+  ["decline","a fall or decrease, for example in numbers"],
+  ["attitude","the way you think and feel about something"],
+  ["confrontation","an angry argument or fight between people"],
+  ["threat","a warning that someone may hurt you; a danger"],
+  ["guarantee","a promise that something will happen or is true"],
+  ["doubt","a feeling that something may not be true"],
+  ["supporter","a person who agrees with and helps a person, team or idea"],
+  ["citizen","a person who legally belongs to a country"],
+  ["association","a group of people or clubs with the same aim"],
+  ["politician","a person whose job is in politics"],
+  ["extract","a short part of a longer text, book or film"],
+  ["plot","what happens in a story or film"],
+  ["perspective","a point of view"],
+  ["motivation","the reason why you want to do something"],
+  ["speculation","ideas or guesses without clear facts"],
+  ["quote","words that you repeat from a book, a speech or a famous person"],
+  ["chart","a diagram that shows information, for example numbers"],
+  ["law","a rule made by the government that everyone must follow"],
+  ["constitution","the basic laws of a country, often in one document"],
+  ["resentment","a feeling of anger because you were treated unfairly"],
+  ["dignity","the respect that every person deserves"],
+  ["rejection","the experience of being told “no”"],
+  ["outcast","a person who is not accepted by other people"],
+  ["ill fortune","bad luck"],
+  ["record","written facts about what someone has done in the past"],
+  ["society","people living together in a country or community"],
+  ["silence","no sound at all"],
+  ["direction","the way in which you go or look"],
+  ["truth","the real facts about something"],
+  ["weapon","something you can use to hurt or kill, for example a gun or a knife"],
+  ["self-defence","protecting yourself when someone attacks you"],
+  ["elementary school","a school for young children in the US"],
+  ["college","the first level of university in the US"],
+  ["march","a walk by a large group of people who protest"],
+  ["least","less than all others (the opposite of “most”)"]
+];
+var OPP = [
+  {w:"legal",a:["illegal"],p:true},
+  {w:"expected",a:["unexpected"],p:true,en:"unexpected"},
+  {w:"employed",a:["unemployed"],p:true,en:"unemployed"},
+  {w:"divided",a:["undivided"],p:true,en:"undivided"},
+  {w:"armed",a:["unarmed"],p:true},
+  {w:"just",a:["unjust"],p:true},
+  {w:"official",a:["unofficial"],p:true},
+  {w:"related",a:["unrelated"],p:true},
+  {w:"secure",a:["insecure"],p:true},
+  {w:"capable",a:["incapable"],p:true},
+  {w:"adequate",a:["inadequate"],p:true},
+  {w:"patient",a:["impatient"],p:true,t:"T4"},
+  {w:"polite",a:["impolite"],p:true,t:"T4"},
+  {w:"responsible",a:["irresponsible"],p:true,t:"T4"},
+  {w:"rise",a:["decline","fall"],en:"rise",note:"Both rise and decline are in the Theme 3 word list."},
+  {w:"accidentally",a:["on purpose","deliberately","intentionally"]},
+  {w:"least",a:["most"]},
+  {w:"silence",a:["noise"]},
+  {w:"truth",a:["lie"]},
+  {w:"safety",a:["danger"]},
+  {w:"forward(s)",a:["backward","backwards"],en:"forward(s)"},
+  {w:"to gain",a:["to lose","lose"]},
+  {w:"supporter",a:["opponent"]},
+  {w:"outdated",a:["modern","up-to-date","up to date"]},
+  {w:"current",a:["former","past","previous"]},
+  {w:"rejection",a:["acceptance"]},
+  {w:"death",a:["life","birth"]},
+  {w:"to retreat",a:["to advance","advance","to move forward","move forward"]},
+  {w:"convinced",a:["unconvinced","unsure","doubtful"]},
+  {w:"valuable",a:["worthless","valueless"],note:"Careful: “invaluable” is not the opposite. It means “extremely valuable”."}
+];
+var FAM = [
+  {w:"to educate",k:"noun",a:["education"]},
+  {w:"to observe",k:"noun (the action)",a:["observation"]},
+  {w:"to research",k:"person",a:["researcher"]},
+  {w:"belief",k:"verb",a:["to believe","believe"]},
+  {w:"religion",k:"adjective",a:["religious"]},
+  {w:"impressive",k:"verb",a:["to impress","impress"]},
+  {w:"to associate",k:"noun (a group)",a:["association"],note:"Both words are in the Theme 3 word list."},
+  {w:"restriction",k:"adjective",a:["restrictive"],note:"Both words are in the Theme 3 word list."},
+  {w:"harm",k:"adjective",a:["harmful"]},
+  {w:"arms",k:"adjective",a:["armed"],note:"Both words are in the Theme 3 word list."},
+  {w:"constitution",k:"adjective",a:["constitutional"],note:"constitutional right is in the Theme 3 word list."},
+  {w:"to quote",k:"noun",a:["quote","quotation"]},
+  {w:"to analyse",k:"noun",a:["analysis"]},
+  {w:"speculation",k:"verb",a:["to speculate","speculate"]},
+  {w:"narrative",k:"person who tells the story",a:["narrator"]},
+  {w:"motivation",k:"adjective",a:["motivated"],t:"T4"},
+  {w:"unemployed",k:"person who gives people jobs",a:["employer"],t:"T4"},
+  {w:"homeless",k:"noun",a:["homelessness"],note:"From the word list: “The city wants to end homelessness.”"},
+  {w:"rejection",k:"verb",a:["to reject","reject"],t:"T4"},
+  {w:"financial",k:"noun",a:["finance","finances"]},
+  {w:"safety",k:"adjective",a:["safe"]},
+  {w:"secure",k:"noun",a:["security"]},
+  {w:"to imitate",k:"noun",a:["imitation"]},
+  {w:"politician",k:"adjective",a:["political"]},
+  {w:"controversial",k:"noun",a:["controversy"]},
+  {w:"confrontation",k:"verb",a:["to confront","confront"]},
+  {w:"supporter",k:"verb",a:["to support","support"]},
+  {w:"to involve",k:"noun",a:["involvement"],t:"T4"},
+  {w:"realistically",k:"adjective",a:["realistic"]},
+  {w:"accidentally",k:"noun",a:["accident"]},
+  {w:"death",k:"adjective",a:["dead"]},
+  {w:"truth",k:"adjective",a:["true"]},
+  {w:"current",k:"adverb",a:["currently"],t:"T1 · T4"},
+  {w:"citizen",k:"noun (belonging to a country)",a:["citizenship"],t:"T1"},
+  {w:"to respond (to)",k:"noun",a:["response"],t:"T4",note:"Theme 4: “in response to your advertisement”"},
+  {w:"to repeat",k:"noun",a:["repetition"]},
+  {w:"to reflect",k:"noun",a:["reflection"]},
+  {w:"to state",k:"noun",a:["statement"]},
+  {w:"convinced",k:"verb",a:["to convince","convince"]},
+  {w:"doubt",k:"adjective",a:["doubtful"]},
+  {w:"threat",k:"verb",a:["to threaten","threaten"]},
+  {w:"silence",k:"adjective",a:["silent"]},
+  {w:"to witness",k:"person",a:["witness"]}
+];
+
+/* ===== Picture it — only words you can show in a picture ===== */
+var PICS = [
+  ["📊","chart"],["📈","rise"],["📉","decline"],["🧭","direction"],["🤫","silence"],["🔒","secure"],
+  ["⚖️","law"],["👉","to point (at/to)"],["➡️","forward(s)"],["🎓","college"],["🛒","grocery"],["🏹","to hunt"],
+  ["⚠️","threat"],["🤔","doubt"],["💰","financial"],["👀","to witness"],["⛑️","safety"],["📖","reader"],
+  ["🔁","to repeat"],["🔍","to research"],["🏫","elementary school"],["📝","to sign up"],["❝ ❞","quote"]
+];
+
+</script>
+<script>
+(function(){
+"use strict";
+
+/* ===== answer matching (shared library, skill mfs-html-lernmodule-selfcheck) ===== */
+function norm(s){
+  return String(s==null?"":s).normalize("NFC")
+    .replace(/[’‘´`ʼ]/g,"'")
+    .replace(/[«»“”"]/g," ")
+    .toLowerCase()
+    .replace(/\s*'\s*/g,"'")
+    .replace(/\s*\/\s*/g,"/")
+    .replace(/\s+[-–—]\s+/g," ")
+    .replace(/[.!?;:,…]/g," ")
+    .replace(/\s+/g," ").trim();
+}
+const _PH = /^(qn|qc|algn|algo|alguien|sb|sth|s\.o\.|s\.th\.|someone|something|jdn|jdm|jds|jmd|jmdn|jmdm|etw)(\/(qn|qc|algn|algo|alguien|sb|sth|jdn|jdm|jds|jmd|jmdn|jmdm|etw))*$/;
+function _stripPH(s){
+  const t = (" "+s+" ")
+    .replace(/ quelque chose /g," ").replace(/ quelqu'un /g," ")
+    .replace(/ algo /g," ").replace(/ alguien /g," ")
+    .replace(/ something /g," ").replace(/ someone /g," ")
+    .trim().split(" ").filter(w=>!_PH.test(w));
+  return t.join(" ");
+}
+function _expandParens(s, depth){
+  depth = depth||0;
+  const m = s.match(/\(([^()]*)\)/);
+  if(!m || depth>4) return [s.replace(/[()]/g," ")];
+  const pre = s.slice(0,m.index), post = s.slice(m.index+m[0].length);
+  return _expandParens(pre+" "+m[1]+" "+post, depth+1).concat(_expandParens(pre+" "+post, depth+1));
+}
+const _ART = ["le","la","l'","les","un","une","el","la","los","las","un","una","the","a","an","der","die","das","den","dem","ein","eine"];
+function _expandSlashes(s){
+  let combos = [""];
+  s.split(" ").forEach(tok=>{
+    let alts = [tok];
+    if(tok.indexOf("/")>0){
+      const p = tok.split("/").filter(Boolean);
+      alts = [tok];
+      p.forEach((a,i)=>{ if(i>0 && a.length<=2 && _ART.indexOf(a)<0) alts.push(p[0]+a); else alts.push(a); });
+    }
+    const next = [];
+    combos.forEach(c=>alts.forEach(a=>{ if(next.length<64) next.push(c? c+" "+a : a); }));
+    combos = next;
+  });
+  return combos;
+}
+function _dropArticle(s){ return s.replace(/^(der|die|das|den|dem|ein|eine|le|la|les|l'|un|une|el|los|las|the|an) /,""); }
+function answerKeys(ans, de){
+  const out = new Set();
+  const add = x => { x = (x||"").replace(/\s+/g," ").trim(); if(x) out.add(x); };
+  _expandParens(String(ans==null?"":ans)).forEach(p=>{
+    const b = norm(p);
+    [b].concat(_expandSlashes(b), b.split("/")).forEach(e=>{
+      add(e); add(_stripPH(e));
+      if(de){ add(_dropArticle(e)); add(_dropArticle(_stripPH(e))); }
+    });
+  });
+  return out;
+}
+function inputKeys(inp, de){
+  const out = new Set();
+  const add = x => { x = (x||"").replace(/\s+/g," ").trim(); if(x) out.add(x); };
+  const b = norm(inp), c = norm(String(inp==null?"":inp).replace(/[()]/g," "));
+  [b,c].forEach(x=>{ add(x); add(_stripPH(x)); if(de){ add(_dropArticle(x)); add(_dropArticle(_stripPH(x))); } });
+  return out;
+}
+function _deaccentFirst(s){ return s ? s.charAt(0).normalize("NFD").replace(/[̀-ͯ]/g,"") + s.slice(1) : s; }
+function accepts(input, answers, opt){
+  const de = !!(opt && opt.de);
+  const ins = inputKeys(input, de);
+  if(ins.size===0) return false;
+  const capStart = /^[A-ZÀÉÈÊÂÎÔÛÇÑÁÍÓÚÜ]/.test(String(input||"").trim());
+  const list = Array.isArray(answers) ? answers : [answers];
+  for(const a of list){
+    for(const k of answerKeys(a, de)){
+      if(ins.has(k)) return true;
+      if(capStart){ const kk=_deaccentFirst(k); if(ins.has(kk)) return true; }
+    }
+  }
+  return false;
+}
+
+/* ===== helpers ===== */
+const $ = id => document.getElementById(id);
+const esc = s => String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function lev(a,b){ if(a===b) return 0; const m=a.length,n=b.length; if(!m) return n; if(!n) return m;
+  let p=new Array(n+1); for(let j=0;j<=n;j++) p[j]=j;
+  for(let i=1;i<=m;i++){ const c=[i]; for(let j=1;j<=n;j++){ c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1)); } p=c; }
+  return p[n]; }
+const LET = /[A-Za-zÄÖÜäöüß]/;
+
+/* German compounds written with brackets: "(Schuss)waffe", "zu(aller)erst", "Sicherheit(s-)", "forward(s)" */
+function glue(s){
+  let out=[s];
+  for(let guard=0; guard<6; guard++){
+    let changed=false; const next=[];
+    out.forEach(t=>{
+      const re=/(\S?)\(([^()]*)\)(\S?)/g; let m, hit=null;
+      while((m=re.exec(t))){ if(LET.test(m[1])||LET.test(m[3])){ hit=m; break; } re.lastIndex=m.index+1; }
+      if(hit){ const inner=hit[2].replace(/-$/,""); const pre=t.slice(0,hit.index)+hit[1]; const post=hit[3]+t.slice(hit.index+hit[0].length);
+        next.push(pre+inner+post, pre+post); changed=true; }
+      else next.push(t);
+    });
+    out=next; if(!changed) break;
+  }
+  return out.map(x=>x.replace(/-(?=\s|$)/g,"").replace(/\s+/g," ").trim()).filter(Boolean);
+}
+function deMeanings(w){
+  const parts=[w.de].concat(w.de.split(",").map(x=>x.replace(/^\s*hier( auch)?:\s*/,"").trim()));
+  const out=[]; parts.forEach(p=>glue(p).forEach(g=>{ if(out.indexOf(g)<0) out.push(g); })); return out;
+}
+function enAnswers(w){
+  const out=[w.en]; [w.en].concat(w.alt||[]).forEach(a=>glue(a).forEach(g=>{ [g, g.replace(/^to /,"")].forEach(x=>{ if(out.indexOf(x)<0) out.push(x); }); }));
+  return out;
+}
+function headword(w){ return w.box || w.en.replace(/^to /,"").replace(/\b(sb|sth)\b/g,"").replace(/\s*\([^)]*\)\s*$/,"").replace(/\s+/g," ").trim(); }
+function keysOf(list,de){ const s=new Set(); list.forEach(a=>answerKeys(a,de).forEach(k=>s.add(k))); return s; }
+const MEANKEYS = new Map();
+function meanKeys(w){ if(!MEANKEYS.has(w)) MEANKEYS.set(w, keysOf(deMeanings(w), true)); return MEANKEYS.get(w); }
+
+function checkEN(inp, w){
+  if(accepts(inp, enAnswers(w))) return {r:"ok"};
+  const mine=meanKeys(w);
+  const other=ALL.find(o=>o!==w && accepts(inp, enAnswers(o)) && [...meanKeys(o)].some(k=>k.length>3 && mine.has(k)));
+  if(other) return {r:"ok", note:"Also right! The word on this card is: "+(w.disp||w.en)};
+  const n=norm(inp).replace(/^to /,"");
+  const close=enAnswers(w).some(a=>{ const k=norm(a).replace(/^to /,""); return k.length>=4 && lev(n,k)<=1; });
+  return {r: close ? "mid" : "ko"};
+}
+function checkDE(inp, w){
+  if(accepts(inp, deMeanings(w), {de:true})) return {r:"ok"};
+  const n=_dropArticle(norm(inp));
+  for(const k of meanKeys(w)){ if(k.length>=5 && lev(n,k)<=1) return {r:"ok", note:"Small spelling slip – check: "+w.de}; }
+  return {r:"ko"};
+}
+
+/* ===== data index ===== */
+const ALL = T3.concat(REVIEW);
+const BY = {}; ALL.forEach(w=>{ if(!BY[w.en]) BY[w.en]=w; });
+T3.forEach(w=>{ w.theme="T3"; if(COMEBACK[w.en]) w.cb=COMEBACK[w.en]; });
+const SECNAME = {I:"Intro",A:"Part A",B:"Part B",T1:"Theme 1",T4:"Theme 4"};
+
+/* ===== session stats (this tab only) ===== */
+const STORE="wl3_stats_v1";
+let stats={};
+try{ stats=JSON.parse(sessionStorage.getItem(STORE)||"{}")||{}; }catch(e){ stats={}; }
+function rec(en, ok){ if(!BY[en]) return; const s=stats[en]||(stats[en]={k:0,s:0}); if(ok){ s.s++; } else { s.k++; s.s=0; }
+  try{ sessionStorage.setItem(STORE, JSON.stringify(stats)); }catch(e){} }
+function trickyList(){ return Object.keys(stats).filter(k=>stats[k].k>0 && stats[k].s<2 && BY[k]); }
+
+/* ===== word sets ===== */
+const state = { set:"T3" };
+const SETS = [
+  {id:"I",  name:"Intro",            sub:"p. 258"},
+  {id:"A",  name:"Part A",           sub:"Guns & laws · p. 258–262"},
+  {id:"B",  name:"Part B",           sub:"No Place · p. 262–264"},
+  {id:"T3", name:"All of Theme 3",   sub:"p. 258–264"},
+  {id:"REV",name:"Theme 1 + 4",      sub:"year review"},
+  {id:"TRICKY",name:"My tricky words",sub:"from today"}
+];
+function getWords(){
+  if(state.set==="TRICKY") return trickyList().map(k=>BY[k]);
+  if(state.set==="REV") return REVIEW.slice();
+  let L=T3.filter(w=>state.set==="T3"||w.sec===state.set);
+  return L;
+}
+let WSET=new Set();
+function refreshSet(){ WSET=new Set(getWords()); }
+function inSet(en, tag){
+  if(tag && (state.set==="T3"||state.set==="REV")) return true;
+  const w=BY[en]; return !!w && WSET.has(w);
+}
+function setLabel(){ return SETS.find(x=>x.id===state.set).name; }
+function clozePool(){ return getWords().filter(w=>w.ex && w.bl && w.ex.indexOf(w.bl)>=0); }
+
+/* ===== speech ===== */
+const canSay = typeof window.speechSynthesis!=="undefined" && typeof window.SpeechSynthesisUtterance!=="undefined";
+function speakable(t){ return String(t).replace(/\([^)]*\)/g," ").replace(/\b(sb|sth)\b/g," ").replace(/,.*$/,"").replace(/\s+/g," ").trim(); }
+function say(t){ if(!canSay) return; try{ const u=new SpeechSynthesisUtterance(t); u.lang="en-GB"; const vs=speechSynthesis.getVoices();
+  const v=vs.find(v=>/^en[-_]GB/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang)); if(v) u.voice=v; u.rate=.9; speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){} }
+function sayBtn(t){ return canSay ? '<button type="button" class="say" data-say="'+esc(speakable(t))+'" aria-label="Listen">🔊 listen</button>' : ""; }
+document.addEventListener("click", e=>{ const b=e.target.closest("[data-say]"); if(b){ e.preventDefault(); say(b.getAttribute("data-say")); } });
+
+/* ===== shared bits of markup ===== */
+function pills(w){
+  let h='<div class="meta">';
+  if(w.theme==="T3") h+='<span class="pill">'+SECNAME[w.sec]+(w.ref?" · "+esc(w.ref):"")+'</span>';
+  else h+='<span class="pill">'+SECNAME[w.sec]+'</span>';
+  if(w.cb) h+='<span class="pill cb">↺ also in '+esc(w.cb.replace(/T/g,"Theme "))+'</span>';
+  return h+'</div>';
+}
+function exHtml(w){ if(!w.ex) return ""; const i=w.ex.indexOf(w.bl||"#@#");
+  return i<0 ? esc(w.ex) : esc(w.ex.slice(0,i))+"<b>"+esc(w.bl)+"</b>"+esc(w.ex.slice(i+w.bl.length)); }
+function answerBox(w){
+  return '<div class="answer"><div class="big">'+esc(w.disp||w.en)+' '+sayBtn(w.en)+'</div><div>'+esc(w.de)+'</div>'+
+    (w.note?'<div class="why" style="margin-top:2px">'+esc(w.note)+'</div>':'')+
+    (w.ex?'<div class="ex">'+exHtml(w)+'</div>':'')+'</div>';
+}
+function progress(done,total,left,right){
+  return '<div class="progress" aria-hidden="true"><i style="width:'+(total?Math.round(done/total*100):0)+'%"></i></div><div class="pinfo"><span>'+left+'</span><span>'+(right||"")+'</span></div>';
+}
+function seg(id, opts, cur){ return '<div class="seg" role="group" id="'+id+'">'+opts.map(o=>'<button type="button" data-v="'+o[0]+'" aria-pressed="'+(o[0]===cur)+'">'+o[1]+'</button>').join("")+'</div>'; }
+function onSeg(id, fn){ const el=$(id); if(!el) return; el.addEventListener("click", e=>{ const b=e.target.closest("button[data-v]"); if(b) fn(b.getAttribute("data-v")); }); }
+function fb(kind, msg, small){ return '<div class="fb '+kind+'" role="status">'+msg+(small?'<small>'+small+'</small>':'')+'</div>'; }
+function trickyChips(list){ return list.length ? '<p class="sec">Practise these again</p><div class="tricky">'+list.map(w=>'<span>'+esc(w.en)+'</span>').join("")+'</div>' : ''; }
+function emptyMsg(t){ return '<div class="empty">'+t+'</div>'; }
+function focusSoon(id){ setTimeout(()=>{ const el=$(id); if(el){ try{ el.focus({preventScroll:false}); }catch(e){ el.focus(); } } },30); }
+
+/* ===== spaced queue: every word needs two right answers; misses return after 2 cards, hits after 5 ===== */
+function Queue(words, size){ this.items=shuffle(words).slice(0,size).map(w=>({w:w, st:0, miss:0})); this.q=this.items.slice(); this.turns=0; }
+Queue.prototype.cur=function(){ return this.q[0]; };
+Queue.prototype.grade=function(r){ const it=this.q.shift(); this.turns++;
+  if(r==="ok"){ it.st++; if(it.st<2) this.q.splice(Math.min(this.q.length,5),0,it); }
+  else if(r==="hint"){ this.q.splice(Math.min(this.q.length,3),0,it); }
+  else { it.st=0; it.miss++; this.q.splice(Math.min(this.q.length,2),0,it); } };
+Queue.prototype.mastered=function(){ return this.items.filter(i=>i.st>=2).length; };
+Queue.prototype.dots=function(){ return '<div class="dots" aria-hidden="true">'+this.items.map(i=>'<i class="s'+Math.min(i.st,2)+'"></i>').join("")+'</div>'; };
+
+/* ===== activities ===== */
+const ACTS = {};
+let V=null;
+
+/* --- Flashcards --- */
+ACTS.flash = { title:"Flashcards", need:()=>getWords().length>=1,
+  start(){ this.dir=this.dir||"de2en"; this.size=this.size||12; this.q=new Queue(getWords(), this.size); this.render(); },
+  render(){
+    const q=this.q, it=q.cur(), self=this;
+    let h=seg("fDir",[["de2en","German → English"],["en2de","English → German"]],this.dir)+' '+seg("fSize",[["8","8 words"],["12","12"],["20","20"]],String(this.size));
+    h+='<p class="why">Say or think the word <b>before</b> you turn the card. Each word needs two right answers. Words you don’t know come back sooner.</p>';
+    h+=progress(q.mastered(),q.items.length,q.mastered()+" / "+q.items.length+" words learnt",q.turns+" cards")+q.dots();
+    if(!it){ return this.end(); }
+    const w=it.w, de2en=this.dir==="de2en";
+    h+='<div class="prompt"><span class="lbl">'+(de2en?"German":"English")+'</span><div class="word'+(de2en?" de":"")+'">'+esc(de2en?w.de:(w.disp||w.en))+'</div>'+pills(w)+'</div>';
+    h+='<div id="fBack" hidden>'+answerBox(w)+'<div class="row"><button class="btn ghost wide" id="fNo" type="button">Not yet</button><button class="btn wide" id="fYes" type="button">I knew it</button></div></div>';
+    h+='<div class="row" id="fTurnRow"><button class="btn wide" id="fTurn" type="button">Turn the card</button></div>';
+    V.innerHTML=h;
+    onSeg("fDir",v=>{ self.dir=v; self.start(); });
+    onSeg("fSize",v=>{ self.size=+v; self.start(); });
+    $("fTurn").onclick=()=>{ $("fBack").hidden=false; $("fTurnRow").hidden=true; if(!de2en) say(speakable(w.en)); focusSoon("fYes"); };
+    $("fYes").onclick=()=>{ rec(w.en,true); q.grade("ok"); self.render(); focusSoon("fTurn"); };
+    $("fNo").onclick=()=>{ rec(w.en,false); q.grade("ko"); self.render(); focusSoon("fTurn"); };
+    focusSoon("fTurn");
+  },
+  end(){ const q=this.q; const miss=q.items.filter(i=>i.miss>0).map(i=>i.w);
+    V.innerHTML='<div class="result"><div class="score">'+q.items.length+' words</div><p>All learnt in '+q.turns+' cards. '+(miss.length?'These needed extra turns:':'You knew every word straight away.')+'</p></div>'+trickyChips(miss)+
+      '<div class="row"><button class="btn wide" id="again" type="button">New words</button><button class="btn ghost wide" id="toType" type="button">Now type them →</button></div>';
+    $("again").onclick=()=>this.start(); $("toType").onclick=()=>open("type"); }
+};
+
+/* --- Type it --- */
+ACTS.type = { title:"Type it", need:()=>getWords().length>=1,
+  start(){ this.dir=this.dir||"de2en"; this.size=this.size||12; this.q=new Queue(getWords(), this.size); this.render(); },
+  render(){
+    const q=this.q, it=q.cur(), self=this;
+    let h=seg("tDir",[["de2en","German → English"],["en2de","English → German"],["mix","Mixed"]],this.dir)+' '+seg("tSize",[["8","8 words"],["12","12"],["20","20"]],String(this.size));
+    h+='<p class="why">Like Part A of the test. Spelling counts in English. Each word needs two right answers; a hint means the word comes back once more.</p>';
+    h+=progress(q.mastered(),q.items.length,q.mastered()+" / "+q.items.length+" words learnt",q.turns+" answers")+q.dots();
+    if(!it) return this.end();
+    const w=it.w; const d=this.dir==="mix" ? (Math.random()<.5?"de2en":"en2de") : this.dir; this.cd=d;
+    this.hint=0; this.tries=0; this.doneItem=false;
+    h+='<div class="prompt"><span class="lbl">'+(d==="de2en"?"German → write the English word":"English → write the German word")+'</span><div class="word'+(d==="de2en"?" de":"")+'">'+esc(d==="de2en"?w.de:(w.disp||w.en))+'</div>'+pills(w)+'</div>';
+    h+='<form class="row" id="tForm" autocomplete="off"><input type="text" id="tIn" aria-label="Your answer" autocapitalize="none" spellcheck="false" placeholder="'+(d==="de2en"?"English word …":"deutsches Wort …")+'">'+
+       '<button class="btn ghost" type="button" id="tHint">Hint</button><button class="btn" type="submit" id="tGo">Check</button></form>';
+    h+='<div id="tFb"></div><div id="tAns"></div>';
+    V.innerHTML=h;
+    onSeg("tDir",v=>{ self.dir=v; self.start(); });
+    onSeg("tSize",v=>{ self.size=+v; self.start(); });
+    $("tHint").onclick=()=>{ self.hint++; const target=d==="de2en"? headword(w) : deMeanings(w)[1]||w.de;
+      const shown = self.hint===1 ? target.charAt(0)+"…" : target.split("").map((c,i)=>i===0||c===" "||c==="-"?c:"_").join(" ");
+      $("tFb").innerHTML=fb("mid","Hint: "+esc(shown), self.hint===1?"Press Hint again to see how long the word is.":""); $("tIn").focus(); };
+    $("tForm").onsubmit=e=>{ e.preventDefault(); if(self.doneItem){ self.next(); return; } self.check(); };
+    focusSoon("tIn");
+  },
+  check(){
+    const it=this.q.cur(), w=it.w, inp=$("tIn").value; if(!inp.trim()) return;
+    const res = this.cd==="de2en" ? checkEN(inp,w) : checkDE(inp,w);
+    if(res.r==="mid" && this.tries===0){ this.tries++; $("tIn").className="mid-mark"; $("tFb").innerHTML=fb("mid","Almost! Check your spelling and try again."); $("tIn").select(); return; }
+    this.doneItem=true; $("tIn").readOnly=true; $("tHint").disabled=true; $("tGo").textContent="Next →";
+    if(res.r==="ok"){ $("tIn").className="ok-mark"; $("tFb").innerHTML=fb("ok", this.hint?"Right – with a hint. This word comes back once more.":"Right!", res.note?esc(res.note):""); this.result=this.hint?"hint":"ok"; rec(w.en,!this.hint); }
+    else { $("tIn").className="ko-mark"; $("tFb").innerHTML=fb("ko","Not quite. The answer is below – this word comes back soon.")+(this.cd==="en2de"?'<button type="button" class="linkish" id="tOwn">My German answer means the same → count it as right</button>':''); this.result="ko"; rec(w.en,false);
+      const own=$("tOwn"); if(own) own.onclick=()=>{ this.result="ok"; stats[w.en].k=Math.max(0,stats[w.en].k-1); $("tIn").className="ok-mark"; $("tFb").innerHTML=fb("ok","Counted as right."); focusSoon("tGo"); }; }
+    $("tAns").innerHTML=answerBox(w); if(this.cd==="de2en") say(speakable(w.en));
+    focusSoon("tGo");
+  },
+  next(){ this.q.grade(this.result); this.render(); },
+  end(){ const q=this.q; const miss=q.items.filter(i=>i.miss>0).map(i=>i.w);
+    V.innerHTML='<div class="result"><div class="score">'+(q.items.length-miss.length)+' / '+q.items.length+'</div><p>words right the first time they came up. All '+q.items.length+' words learnt in '+q.turns+' answers.</p></div>'+trickyChips(miss)+
+      '<div class="row"><button class="btn wide" id="again" type="button">New words</button><button class="btn ghost wide" id="toCtx" type="button">Use them in sentences →</button></div>';
+    $("again").onclick=()=>this.start(); $("toCtx").onclick=()=>open("ctx"); }
+};
+
+/* --- Match-up --- */
+function boardKey(w){ return w.grp || null; }
+function makeBoards(words, size){
+  const rest=shuffle(words), boards=[];
+  while(rest.length){ const b=[], keys=new Set(), des=new Set();
+    for(let i=0;i<rest.length && b.length<size;){ const w=rest[i], k=boardKey(w), d=norm(w.de);
+      if((k && keys.has(k)) || des.has(d)){ i++; continue; }
+      b.push(w); if(k) keys.add(k); des.add(d); rest.splice(i,1); }
+    if(!b.length){ b.push(rest.shift()); }
+    boards.push(b); }
+  return boards;
+}
+ACTS.match = { title:"Match-up", need:()=>getWords().length>=3,
+  start(){ this.boards=makeBoards(getWords(),6); this.bi=0; this.errors=0; this.render(); },
+  render(){
+    const self=this, b=this.boards[this.bi];
+    let h='<p class="why">Tap an English word, then its German partner. Then go on to the cards or “Type it”: matching alone is not enough for the test.</p>';
+    h+=progress(this.bi,this.boards.length,"Board "+(this.bi+1)+" / "+this.boards.length,'<span id="mErr">'+this.errors+'</span> mistakes');
+    h+='<div class="mgrid"><div class="mcol"><h3>English</h3>'+shuffle(b).map(w=>'<button type="button" class="mi" data-en="'+esc(w.en)+'">'+esc(w.disp||w.en)+'</button>').join("")+'</div>'+
+       '<div class="mcol"><h3>Deutsch</h3>'+shuffle(b).map(w=>'<button type="button" class="mi" data-de="'+esc(w.en)+'">'+esc(w.de)+'</button>').join("")+'</div></div>';
+    h+='<div id="mFb"></div><div class="row" id="mNextRow" hidden><button class="btn wide" id="mNext" type="button">'+(this.bi<this.boards.length-1?"Next board →":"Finish")+'</button></div>';
+    V.innerHTML=h; let sel=null, left=b.length;
+    V.querySelectorAll("[data-en]").forEach(x=>x.onclick=()=>{ if(x.classList.contains("done")) return; if(sel) sel.classList.remove("sel"); sel=x; x.classList.add("sel"); });
+    V.querySelectorAll("[data-de]").forEach(x=>x.onclick=()=>{
+      if(x.classList.contains("done")) return;
+      if(!sel){ $("mFb").innerHTML=fb("mid","Tap an English word first."); return; }
+      if(sel.getAttribute("data-en")===x.getAttribute("data-de")){
+        [sel,x].forEach(y=>{ y.classList.remove("sel"); y.classList.add("done","ok-mark"); y.setAttribute("aria-disabled","true"); });
+        rec(x.getAttribute("data-de"),true); sel=null; left--; $("mFb").innerHTML="";
+        if(!left){ $("mFb").innerHTML=fb("ok","Board complete!"); $("mNextRow").hidden=false; focusSoon("mNext"); }
+      } else { self.errors++; $("mErr").textContent=self.errors; rec(sel.getAttribute("data-en"),false); x.classList.add("ko-mark","shake"); setTimeout(()=>x.classList.remove("ko-mark","shake"),650);
+        $("mFb").innerHTML=fb("ko","Not a pair. Try again."); }
+    });
+    $("mNext").onclick=()=>{ if(self.bi<self.boards.length-1){ self.bi++; self.render(); } else self.end(); };
+  },
+  end(){ V.innerHTML='<div class="result"><div class="score">'+this.errors+'</div><p>'+(this.errors===1?"mistake":"mistakes")+' on '+this.boards.length+' boards. Next step: recall the words without help.</p></div><div class="row"><button class="btn wide" id="toFlash" type="button">Flashcards →</button><button class="btn ghost wide" id="again" type="button">Match again</button></div>';
+    $("toFlash").onclick=()=>open("flash"); $("again").onclick=()=>this.start(); }
+};
+
+/* --- Multiple-choice / typed round engine (Picture it, Word partners, Word web) --- */
+function Round(cfg){ this.cfg=cfg; }
+Round.prototype.start=function(){ this.items=shuffle(this.cfg.pool()).slice(0,this.cfg.n||8); this.i=0; this.score=0; this.wrong=[]; this.render(); };
+Round.prototype.render=function(){
+  const c=this.cfg, self=this, it=this.items[this.i];
+  let h=(c.top?c.top():"");
+  if(!it) return this.end();
+  h+=progress(this.i,this.items.length,"Question "+(this.i+1)+" / "+this.items.length,this.score+" right");
+  h+='<div class="prompt">'+c.prompt(it)+'</div>';
+  const typed = c.typed && c.typed();
+  if(typed){ h+='<form class="row" id="rForm" autocomplete="off"><input type="text" id="rIn" aria-label="Your answer" autocapitalize="none" spellcheck="false" placeholder="Type your answer …"><button class="btn ghost" type="button" id="rHint">Hint</button><button class="btn" type="submit" id="rGo">Check</button></form>'; }
+  else { const opts=c.options(it); h+='<div class="opts'+(c.oneCol?" one":"")+'">'+opts.map((o,k)=>'<button type="button" class="opt" data-k="'+k+'">'+esc(o)+'</button>').join("")+'</div>'; this.opts=opts; }
+  h+='<div id="rFb"></div><div id="rAfter"></div><div class="row" id="rNextRow" hidden><button class="btn wide" id="rNext" type="button">Next →</button></div>';
+  V.innerHTML=h; if(c.bind) c.bind();
+  this.tries=0; this.hinted=false; this.closed=false;
+  $("rNext").onclick=()=>{ self.i++; self.render(); };
+  if(typed){
+    $("rHint").onclick=()=>{ self.hinted=true; const a=c.answers(it)[0]; $("rFb").innerHTML=fb("mid","Hint: it starts with “"+esc(a.charAt(0))+"” and has "+a.replace(/[^A-Za-z]/g,"").length+" letters."); $("rIn").focus(); };
+    $("rForm").onsubmit=e=>{ e.preventDefault(); if(self.closed){ $("rNext").click(); return; } const v=$("rIn").value; if(!v.trim()) return;
+      const ok=accepts(v,c.answers(it)); const close=!ok && c.answers(it).some(a=>{ const k=norm(a); return k.length>=4 && lev(norm(v),k)<=1; });
+      if(close && self.tries===0){ self.tries++; $("rIn").className="mid-mark"; $("rFb").innerHTML=fb("mid","Almost! Check your spelling and try again."); return; }
+      self.finish(ok, v); };
+    focusSoon("rIn");
+  } else {
+    V.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ if(self.closed) return; const k=+b.getAttribute("data-k"); const ok=accepts(self.opts[k],c.answers(it));
+      V.querySelectorAll(".opt").forEach((x,j)=>{ x.disabled=true; if(accepts(self.opts[j],c.answers(it))) x.classList.add("ok-mark"); });
+      if(!ok) b.classList.add("ko-mark"); self.finish(ok, self.opts[k]); });
+  }
+};
+Round.prototype.finish=function(ok, given){
+  const c=this.cfg, it=this.items[this.i]; this.closed=true;
+  if(ok){ this.score++; } else this.wrong.push(it);
+  if(c.rec) c.rec(it, ok);
+  const inp=$("rIn"); if(inp){ inp.readOnly=true; inp.className=ok?"ok-mark":"ko-mark"; $("rHint").disabled=true; $("rGo").textContent="Next →"; }
+  $("rFb").innerHTML= ok ? fb("ok","Right!"+(this.hinted?" (with a hint)":"")) : fb("ko","Not quite. The answer: "+esc(c.answers(it).join(" / ")));
+  $("rAfter").innerHTML = c.after ? c.after(it, ok) : "";
+  $("rNextRow").hidden = !!inp; focusSoon(inp?"rGo":"rNext");
+};
+Round.prototype.end=function(){ const c=this.cfg;
+  V.innerHTML=(c.top?c.top():"")+'<div class="result"><div class="score">'+this.score+' / '+this.items.length+'</div><p>'+(this.score===this.items.length?"All right. Well done!":"Look at the ones you missed, then play another round.")+'</p></div>'+
+    (this.wrong.length?'<p class="sec">Missed</p><div class="review">'+this.wrong.map(it=>'<div class="rv"><i class="x"></i><span>'+c.reviewLine(it)+'</span></div>').join("")+'</div>':'')+
+    '<div class="row"><button class="btn wide" id="again" type="button">New round</button></div>';
+  if(c.bind) c.bind(); $("again").onclick=()=>this.start(); };
+
+/* --- Picture it --- */
+const PICIT = new Round({ n:10, oneCol:false,
+  pool:()=>PICS.filter(p=>inSet(p[1])).map(p=>({e:p[0], w:BY[p[1]]})),
+  top:()=>'<p class="why">Pictures help with words you can see or show. Most Theme 3 words are abstract (dignity, attitude …) – learn those with the cards and the word web.</p>',
+  prompt:it=>'<span class="lbl">Which word fits the picture?</span><div class="emo" aria-hidden="true">'+esc(it.e)+'</div>',
+  options:it=>{ const others=shuffle(PICS.filter(p=>p[1]!==it.w.en)).slice(0,3).map(p=>p[1]); return shuffle(others.concat([it.w.en])); },
+  answers:it=>[it.w.en],
+  rec:(it,ok)=>rec(it.w.en,ok),
+  after:it=>answerBox(it.w),
+  reviewLine:it=>esc(it.e)+" → <b>"+esc(it.w.en)+"</b> · "+esc(it.w.de)
+});
+ACTS.pics = { title:"Picture it", need:()=>PICS.filter(p=>inSet(p[1])).length>=4, start(){ PICIT.start(); } };
+
+/* --- Word partners --- */
+const PARTNERS_R = new Round({ n:8, oneCol:false,
+  pool:()=>PARTNERS.filter(p=>inSet(p.en)),
+  top:()=>seg("pMode",[["choose","Choose"],["type","Type"]],ACTS.partners.mode)+'<p class="why">Words come in partners. Learn them together: <i>pass a law</i>, <i>take sth into account</i>, <i>opposed to</i>.</p>',
+  bind:()=>onSeg("pMode",v=>{ ACTS.partners.mode=v; PARTNERS_R.start(); }),
+  typed:()=>ACTS.partners.mode==="type",
+  prompt:it=>'<span class="lbl">'+(it.prep?"Which little word is missing?":"Which word is missing?")+'</span><div class="sent">'+esc(it.s).replace("___",'<span class="gap">_____</span>')+'</div>',
+  options:it=>{ const same=PARTNERS.filter(p=>!!p.prep===!!it.prep && norm(p.a[0])!==norm(it.a[0])).map(p=>p.a[0].toLowerCase());
+    const uniq=[...new Set(same)]; return shuffle(shuffle(uniq).slice(0,3).concat([it.a[0].toLowerCase()])); },
+  answers:it=>it.a,
+  rec:(it,ok)=>rec(it.en,ok),
+  after:it=>{ const w=BY[it.en]; return '<div class="answer"><div class="big">'+esc(it.s.replace("___",it.a[0]))+'</div>'+(w?'<div class="ex">Word list: '+esc(w.en)+' – '+esc(w.de)+'</div>':'')+'</div>'; },
+  reviewLine:it=>esc(it.s.replace("___",it.a[0]))
+});
+ACTS.partners = { title:"Word partners", mode:"choose", need:()=>PARTNERS.filter(p=>inSet(p.en)).length>=4, start(){ PARTNERS_R.start(); } };
+
+/* --- Word web --- */
+const PREFIX_TIP = "Opposites with a prefix: un- is the most common (unarmed, unjust). il- comes before l (illegal), im- before p (impatient, impolite), ir- before r (irresponsible), in- before many other words (incapable, inadequate, insecure).";
+function webPool(){
+  const m=ACTS.web.sub;
+  if(m==="same"||m==="explain") return SAME.filter(s=>inSet(s[0])).map(s=>({k:"same", w:BY[s[0]], d:s[1]}));
+  if(m==="opp") return OPP.filter(o=>inSet(o.en||o.w, o.t)).map(o=>({k:"opp", o:o}));
+  return FAM.filter(f=>inSet(f.w, f.t)).map(f=>({k:"fam", f:f}));
+}
+const WEB_R = new Round({ n:8,
+  pool:webPool,
+  top:()=>{ const s=ACTS.web.sub; return seg("wSub",[["same","Same meaning"],["explain","Explain it"],["opp","Opposites"],["fam","Word families"]],s)+
+    (s==="explain"?"":" "+seg("wMode",[["choose","Choose"],["type","Type"]],ACTS.web.mode))+
+    '<p class="why">'+({same:"Find the word for an explanation in simple English.",explain:"Pick the best explanation in English. You need this when you mediate and don’t know a word: explain it in other words.",opp:"Find the opposite. Many opposites are made with a prefix.",fam:"Make a new word from the same family. Some of them come from Theme 1 or Theme 4."})[s]+'</p>'; },
+  bind:()=>{ onSeg("wSub",v=>{ ACTS.web.sub=v; WEB_R.start(); }); onSeg("wMode",v=>{ ACTS.web.mode=v; WEB_R.start(); }); },
+  typed:()=>ACTS.web.sub!=="explain" && ACTS.web.mode==="type",
+  oneCol:false,
+  prompt:it=>{ const s=ACTS.web.sub;
+    if(s==="same") return '<span class="lbl">Which word means …</span><div class="sent" style="text-align:center">'+esc(it.d)+'</div>';
+    if(s==="explain") return '<span class="lbl">What does it mean?</span><div class="word">'+esc(it.w.disp||it.w.en)+'</div>';
+    if(it.k==="opp") return '<span class="lbl">The opposite of</span><div class="word">'+esc(it.o.w)+'</div>'+(it.o.t?'<div class="meta"><span class="pill cb">↺ '+esc(it.o.t.replace(/T/g,"Theme "))+'</span></div>':'');
+    return '<span class="lbl">Same family · give the '+esc(it.f.k)+'</span><div class="word">'+esc(it.f.w)+'</div>'+(it.f.t?'<div class="meta"><span class="pill cb">↺ '+esc(it.f.t.replace(/T/g,"Theme "))+'</span></div>':''); },
+  options:it=>{ const s=ACTS.web.sub;
+    if(s==="same"){ const others=shuffle(SAME.filter(x=>x[0]!==it.w.en && (!BY[x[0]].grp || BY[x[0]].grp!==it.w.grp))).slice(0,3).map(x=>x[0]); return shuffle(others.concat([it.w.en])); }
+    if(s==="explain"){ const others=shuffle(SAME.filter(x=>x[0]!==it.w.en && (!BY[x[0]].grp || BY[x[0]].grp!==it.w.grp))).slice(0,2).map(x=>x[1]); WEB_R.cfg.oneCol=true; return shuffle(others.concat([it.d])); }
+    WEB_R.cfg.oneCol=false;
+    if(it.k==="opp"){ const others=shuffle(OPP.filter(x=>x!==it.o)).slice(0,3).map(x=>x.a[0]); return shuffle(others.concat([it.o.a[0]])); }
+    const same=FAM.filter(x=>x!==it.f && x.k.split(" ")[0]===it.f.k.split(" ")[0]); const pool=same.length>=3?same:FAM.filter(x=>x!==it.f);
+    return shuffle(shuffle(pool).slice(0,3).map(x=>x.a[0]).concat([it.f.a[0]])); },
+  answers:it=>{ const s=ACTS.web.sub; if(s==="same") return enAnswers(it.w); if(s==="explain") return [it.d]; return it.k==="opp"?it.o.a:it.f.a; },
+  rec:(it,ok)=>{ if(it.w) rec(it.w.en,ok); else if(it.k==="opp"&&BY[it.o.en||it.o.w]) rec(it.o.en||it.o.w,ok); else if(it.k==="fam"&&BY[it.f.w]) rec(it.f.w,ok); },
+  after:it=>{ if(it.w) return answerBox(it.w);
+    if(it.k==="opp") return '<div class="answer"><div class="big">'+esc(it.o.w)+' ↔ '+esc(it.o.a[0])+'</div>'+(it.o.p?'<div class="ex">'+esc(PREFIX_TIP)+'</div>':'')+(it.o.note?'<div class="ex">'+esc(it.o.note)+'</div>':'')+'</div>';
+    return '<div class="answer"><div class="big">'+esc(it.f.w)+' → '+esc(it.f.a[0])+'</div>'+(it.f.note?'<div class="ex">'+esc(it.f.note)+'</div>':'')+'</div>'; },
+  reviewLine:it=>{ if(it.w) return '<b>'+esc(it.w.en)+'</b> = '+esc(it.d); if(it.k==="opp") return esc(it.o.w)+' ↔ <b>'+esc(it.o.a.join(" / "))+'</b>'; return esc(it.f.w)+' → <b>'+esc(it.f.a.join(" / "))+'</b>'; }
+});
+ACTS.web = { title:"Word web", sub:"same", mode:"choose", need:()=>SAME.filter(s=>inSet(s[0])).length+OPP.filter(o=>inSet(o.en||o.w,o.t)).length>=4, start(){ WEB_R.start(); } };
+
+/* --- Words in context (test Part B) --- */
+function ckey(w){ return w.grp || (w.pos==="adj"?"ADJ":(w.pos==="adv"?"ADV":null)); }
+function pickSet(pool, n, rot){
+  const chosen=[], keys=new Set(), sents=new Set();
+  const take=w=>{ const k=ckey(w); if((k&&keys.has(k))||(w.sent&&sents.has(w.sent))||chosen.indexOf(w)>=0) return false; chosen.push(w); if(k) keys.add(k); if(w.sent) sents.add(w.sent); return true; };
+  for(let i=0;i<rot.length && chosen.length<n;){ if(take(rot[i])) rot.splice(i,1); else i++; }
+  if(chosen.length<n) shuffle(pool).forEach(w=>{ if(chosen.length<n) take(w); });
+  const extra=shuffle(pool).find(w=>chosen.indexOf(w)<0 && !(ckey(w)&&keys.has(ckey(w))) && !(w.sent&&sents.has(w.sent)) && chosen.every(c=>headword(c)!==headword(w)));
+  return {items:chosen, extra:extra};
+}
+function gapSentence(w, firstLetter){ const i=w.ex.indexOf(w.bl); const gap=firstLetter? w.bl.charAt(0)+"_____" : "_____";
+  return esc(w.ex.slice(0,i))+'<span class="gap">'+gap+'</span>'+esc(w.ex.slice(i+w.bl.length)); }
+function ctxAnswers(w){ return [w.bl].concat((w.alt||[]).filter(a=>!/^to /.test(a))); }
+function gradeCtx(inp, w){
+  if(accepts(inp, ctxAnswers(w))) return "ok";
+  const n=norm(inp), base=norm(headword(w));
+  if(n && base!==norm(w.bl) && (n===base || n===norm(w.en))) return "form";
+  if(norm(w.bl).length>=4 && lev(n,norm(w.bl))<=1) return "spell";
+  return "ko";
+}
+ACTS.ctx = { title:"Words in context", mode:"box", need:()=>clozePool().length>=6,
+  start(){ this.right=0; this.total=0; this.rot=shuffle(clozePool()); this.newSet(); },
+  newSet(){ const pool=clozePool(); if(this.rot.length<5) this.rot=this.rot.concat(shuffle(pool));
+    const s=pickSet(pool,5,this.rot); this.items=s.items; this.extra=s.extra; this.round=0; this.status=this.items.map(()=>null); this.render(); },
+  render(){
+    const self=this; const box=this.items.concat(this.extra?[this.extra]:[]).map(headword).sort((a,b)=>a.localeCompare(b));
+    let h=seg("cMode",[["box","With word box"],["letter","First letter only"]],this.mode);
+    h+='<p class="why">Like Part B of the test: complete the sentences'+(this.mode==="box"?' with words from the box. Use the correct form (claim → claimed). There is one word you don’t need.':'. The first letter is given.')+'</p>';
+    h+=progress(this.right,this.total||1,this.right+" right so far",this.total?this.total+" gaps done":"");
+    if(this.mode==="box") h+='<div class="box" aria-label="Word box">'+box.map(b=>'<span>'+esc(b)+'</span>').join("")+'</div>';
+    h+='<form id="cForm" autocomplete="off"><div class="clist">'+this.items.map((w,i)=>'<div class="citem"><p>'+gapSentence(w,this.mode==="letter")+'</p><input type="text" id="c'+i+'" aria-label="Gap '+(i+1)+'" autocapitalize="none" spellcheck="false"><div class="sol" id="cs'+i+'"></div></div>').join("")+'</div>'+
+       '<div id="cFb"></div><div class="row"><button class="btn wide" type="submit" id="cGo">Check</button></div></form>';
+    V.innerHTML=h;
+    onSeg("cMode",v=>{ self.mode=v; self.render(); });
+    $("cForm").onsubmit=e=>{ e.preventDefault(); if(self.round>=2 || self.status.every(s=>s==="ok"||s==="ko")){ self.newSet(); return; } self.check(); };
+    focusSoon("c0");
+  },
+  check(){
+    const self=this; let open=0;
+    if(this.round===0 && this.items.some((w,i)=>!$("c"+i).value.trim())){ $("cFb").innerHTML=fb("mid","Fill in all the gaps first. Guess if you are not sure."); return; }
+    this.items.forEach((w,i)=>{ if(self.status[i]==="ok"||self.status[i]==="ko") return;
+      const inp=$("c"+i), v=inp.value; const g=gradeCtx(v,w);
+      if(g==="ok"){ self.status[i]="ok"; inp.className="ok-mark"; inp.readOnly=true; $("cs"+i).innerHTML=""; }
+      else if((g==="form"||g==="spell") && self.round===0){ self.status[i]="mid"; inp.className="mid-mark"; open++;
+        $("cs"+i).innerHTML=g==="form"?"Right word – now check the <b>form</b> (tense, -s, plural …).":"Almost – check the <b>spelling</b>."; }
+      else { self.status[i]="ko"; inp.className="ko-mark"; inp.readOnly=true; $("cs"+i).innerHTML="Answer: <b>"+esc(w.bl)+"</b>"+(headword(w)!==w.bl?" ("+esc(headword(w))+")":""); }
+    });
+    this.round++;
+    const done=this.status.every(s=>s==="ok"||s==="ko");
+    if(done){ this.items.forEach((w,i)=>rec(w.en,this.status[i]==="ok")); const r=this.status.filter(s=>s==="ok").length; this.right+=r; this.total+=this.items.length;
+      $("cFb").innerHTML=fb(r===this.items.length?"ok":(r>=3?"mid":"ko"), r+" / "+this.items.length+" right."); $("cGo").textContent="New sentences →"; focusSoon("cGo"); }
+    else { $("cFb").innerHTML=fb("mid","Some answers are almost right. Correct them and check again."); $("cGo").textContent="Check again"; }
+  }
+};
+
+/* --- Practice test --- */
+ACTS.mock = { title:"Practice test", need:()=>getWords().length>=10 && clozePool().length>=6,
+  start(){
+    const words=shuffle(getWords());
+    const de2en=words.slice(0,5); const en2de=words.slice(5,10);
+    const pool=clozePool(); const s=pickSet(pool.filter(w=>de2en.indexOf(w)<0&&en2de.indexOf(w)<0).length>=6?pool.filter(w=>de2en.indexOf(w)<0&&en2de.indexOf(w)<0):pool,5,[]);
+    this.a1=en2de; this.a2=de2en; this.b=s.items; this.extra=s.extra; this.render(); },
+  render(){
+    const box=this.b.concat(this.extra?[this.extra]:[]).map(headword).sort((a,b)=>a.localeCompare(b));
+    let h='<p class="why">Like the vocabulary part of your test: 15 points, no hints, one try. Work on your own, then hand in.</p>';
+    h+='<form id="mForm" autocomplete="off"><p class="sec">Part A · Vocabulary (10 points)</p><p class="why" style="margin-top:2px">Write the German word (1–5) and the English word (6–10).</p><div class="clist">';
+    this.a1.forEach((w,i)=>{ h+='<div class="citem"><p>'+esc(w.disp||w.en)+'</p><input type="text" id="ma'+i+'" aria-label="German word for '+esc(w.en)+'" autocapitalize="none" spellcheck="false"><div class="sol" id="msa'+i+'"></div></div>'; });
+    this.a2.forEach((w,i)=>{ h+='<div class="citem"><p>'+esc(w.de)+'</p><input type="text" id="mb'+i+'" aria-label="English word" autocapitalize="none" spellcheck="false"><div class="sol" id="msb'+i+'"></div></div>'; });
+    h+='</div><p class="sec">Part B · Words in context (5 points)</p><p class="why" style="margin-top:2px">Complete the sentences with words from the box. Use the correct form. There is one word you don’t need.</p>';
+    h+='<div class="box">'+box.map(b=>'<span>'+esc(b)+'</span>').join("")+'</div><div class="clist" style="counter-reset:c 10">';
+    this.b.forEach((w,i)=>{ h+='<div class="citem"><p>'+gapSentence(w,false)+'</p><input type="text" id="mc'+i+'" aria-label="Gap '+(i+1)+'" autocapitalize="none" spellcheck="false"><div class="sol" id="msc'+i+'"></div></div>'; });
+    h+='</div><div id="mRes"></div><div class="row"><button class="btn wide" type="submit" id="mGo">Hand in</button></div></form>';
+    V.innerHTML=h; const self=this;
+    $("mForm").onsubmit=e=>{ e.preventDefault(); if(self.done){ self.start(); window.scrollTo(0,0); return; } self.grade(); };
+  },
+  grade(){
+    let pts=0; const miss=[];
+    const mark=(id,sid,kind,sol)=>{ const el=$(id); el.readOnly=true; el.className=kind==="ok"?"ok-mark":(kind==="mid"?"mid-mark":"ko-mark"); $(sid).innerHTML=sol; };
+    this.a1.forEach((w,i)=>{ const r=checkDE($("ma"+i).value,w); const ok=r.r==="ok"; if(ok) pts++; else miss.push(w); rec(w.en,ok);
+      mark("ma"+i,"msa"+i,ok?"ok":"ko", ok?"":"Answer: <b>"+esc(w.de)+"</b>"); });
+    this.a2.forEach((w,i)=>{ const ok=accepts($("mb"+i).value,enAnswers(w)); if(ok) pts++; else miss.push(w); rec(w.en,ok);
+      mark("mb"+i,"msb"+i,ok?"ok":"ko", ok?"":"Answer: <b>"+esc(w.disp||w.en)+"</b>"); });
+    this.b.forEach((w,i)=>{ const g=gradeCtx($("mc"+i).value,w); const ok=g==="ok"; const half=g==="form";
+      pts+= ok?1:(half?.5:0); if(!ok) miss.push(w); rec(w.en,ok);
+      mark("mc"+i,"msc"+i,ok?"ok":(half?"mid":"ko"), ok?"":(half?"½ point – right word, wrong form. Answer: <b>"+esc(w.bl)+"</b>":"Answer: <b>"+esc(w.bl)+"</b>")); });
+    this.done=true;
+    const pct=Math.round(pts/15*100);
+    $("mRes").innerHTML='<div class="result"><div class="score">'+String(pts).replace(".",",")+' / 15</div><p>'+pct+' %. '+(pct>=90?"Excellent – you are ready.":pct>=70?"Good. Practise the words below once more.":"Practise the words below with Flashcards and “Type it”, then take the test again.")+'</p></div>'+trickyChips(miss);
+    $("mGo").textContent="New practice test";
+    $("mRes").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+};
+
+/* ===== home ===== */
+const STEPS = [
+  {n:1, h:"Recognise", p:"Meet the words and connect form and meaning.", acts:[
+    ["flash","Flashcards","Remember first, then turn the card. Words you don’t know come back sooner.",""],
+    ["match","Match-up","Find the pairs: English – German.",""],
+    ["pics","Picture it","Words you can show in a picture.",""]]},
+  {n:2, h:"Recall", p:"Bring the words back from memory. This makes them stick.", acts:[
+    ["type","Type it","German → English, English → German, with spelling.","Test Part A"]]},
+  {n:3, h:"Use", p:"Use the words in sentences, with partners and in word families.", acts:[
+    ["ctx","Words in context","Fill the gaps with the right word in the right form.","Test Part B"],
+    ["partners","Word partners","Which words go together? pass a law, opposed to …",""],
+    ["web","Word web","Same meaning, opposites, word families. Explain words in English.","Helps with mediation"]]},
+  {n:4, h:"Check", p:"Test yourself like in the real test.", acts:[
+    ["mock","Practice test","10 words + 5 gaps. No hints, one try. 15 points.","Test format"]]}
+];
+function drawHome(){
+  refreshSet();
+  const tc=trickyList().length;
+  $("sets").innerHTML=SETS.map(s=>{ const n = s.id==="TRICKY"?tc : (s.id==="REV"?REVIEW.length : T3.filter(w=>s.id==="T3"||w.sec===s.id).length);
+    return '<button type="button" class="chip" data-set="'+s.id+'" aria-pressed="'+(state.set===s.id)+'"'+(s.id==="TRICKY"&&!tc?" disabled":"")+'>'+esc(s.name)+' <small>'+esc(s.sub)+' · '+n+'</small></button>'; }).join("");
+  $("count").innerHTML='<b>'+getWords().length+'</b> words selected';
+  $("steps").innerHTML=STEPS.map(s=>'<section class="step"><div class="stephead"><span class="n">'+s.n+'</span><div><h2>'+s.h+'</h2><p>'+s.p+'</p></div></div><div class="tiles">'+
+    s.acts.map(a=>{ const ok=ACTS[a[0]].need(); return '<button type="button" class="tile" data-act="'+a[0]+'"'+(ok?'':' aria-disabled="true"')+'><b>'+a[1]+'</b><span>'+(ok?a[2]:'Not available for this word set. Choose another one above.')+'</span>'+(a[3]?'<span class="tag">'+a[3]+'</span>':'')+'</button>'; }).join("")+'</div></section>').join("");
+}
+$("sets").addEventListener("click",e=>{ const b=e.target.closest("[data-set]"); if(!b||b.disabled) return; state.set=b.getAttribute("data-set"); drawHome(); });
+$("steps").addEventListener("click",e=>{ const b=e.target.closest("[data-act]"); if(!b||b.getAttribute("aria-disabled")==="true") return; open(b.getAttribute("data-act")); });
+function open(id){
+  refreshSet(); const a=ACTS[id]; if(!a.need()){ return; }
+  $("home").hidden=true; $("act").hidden=false; document.body.classList.add("in-act"); $("actTitle").textContent=a.title; $("actSet").textContent=setLabel();
+  V=$("view"); window.scrollTo(0,0); a.start();
+}
+$("backBtn").addEventListener("click",()=>{ $("act").hidden=true; document.body.classList.remove("in-act"); $("home").hidden=false; drawHome(); window.scrollTo(0,0); });
+const nT3=$("nT3"); if(nT3) nT3.textContent=T3.length;
+drawHome();
+
+/* test hook */
+window.__WL={T3,REVIEW,PARTNERS,SAME,OPP,FAM,PICS,accepts,checkEN,checkDE,deMeanings,enAnswers,glue,headword,gradeCtx,ctxAnswers,state,open,drawHome,stats:()=>stats};
+})();
+
+</script>
+</body>
+</html>
