@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homework Road Trip — Part B · Camden Town 9, Theme 1</title>
+<style>
+  :root{
+    --night:#16233F;--night-2:#0E1830;--earth:#A8432A;--ochre:#E3A33B;--ochre-l:#F2C14E;
+    --sand:#F5ECDD;--sand-line:#E4D3B8;--paper:#FBF6EE;
+    --ok:#0b57a4;--oktx:#0b3d6e;--okbg:#e3eefa;--ko:#d35f0b;--kotx:#a4410a;--kobg:#fdebdf;
+    --ink:#1E2230;--muted:#5E6472;--asphalt:#2B2B33;
+    --medal-light:#8EDFE8;--medal-base:#16A6B6;--medal-dark:#0B5F69;
+    --shadow:0 8px 24px rgba(22,35,63,.13);--radius:14px;
+    --display:Cambria,"Hoefler Text","Liberation Serif",Georgia,serif;
+    --body:Calibri,Carlito,"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}html,body{margin:0}
+  body{font-family:var(--body);font-size:17px;color:var(--ink);background:var(--paper);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+  .wrap{max-width:700px;margin:0 auto;padding:0 16px 64px}
+  .screen{display:none}.screen.active{display:block}
+  button{font:inherit}
+  .hero{position:relative;height:230px;margin:0 -16px;overflow:hidden;color:#fff;background:var(--night)}
+  .hero svg{position:absolute;inset:0;width:100%;height:100%}
+  .hero .txt{position:relative;padding:22px 20px 0;max-width:700px;margin:0 auto}
+  .eyebrow{font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.72rem;color:var(--ochre-l)}
+  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(1.75rem,6.4vw,2.5rem);line-height:1.05;margin:.2em 0 .15em;text-shadow:0 2px 8px rgba(0,0,0,.35)}
+  .hero p{margin:0;font-size:.98rem;color:#E9E4F2;max-width:30em;text-shadow:0 1px 4px rgba(0,0,0,.4)}
+  .card{background:#fff;border:1px solid var(--sand-line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-top:18px}
+  label{font-weight:700;font-size:.9rem;color:var(--night);display:block;margin:0 0 6px}
+  input[type=text]{width:100%;font-family:var(--body);font-size:1.05rem;padding:12px 14px;border:1px solid var(--sand-line);border-radius:10px;background:#fff;color:var(--ink)}
+  input[type=text]:focus{outline:3px solid rgba(227,163,59,.45);border-color:var(--night)}
+  .err{color:var(--kotx);font-weight:700;font-size:.9rem;margin-top:6px;min-height:1.2em}
+  .hint{color:var(--muted);font-size:.92rem;margin:.4em 0 0}
+  h2.sec{font-family:var(--display);color:var(--night);font-size:1.3rem;margin:26px 0 2px}
+  .route{position:relative;margin-top:14px}
+  .route::before{content:"";position:absolute;left:14px;top:0;bottom:0;width:24px;border-radius:12px;
+    background:repeating-linear-gradient(180deg,transparent 0 9px,var(--sand) 9px 19px) center/2px 100% no-repeat,var(--asphalt)}
+  .stop{position:relative;display:block;width:calc(100% - 56px);margin:0 0 14px 56px;text-align:left;cursor:pointer;
+    background:#fff;border:1px solid var(--sand-line);border-left:6px solid var(--c,#999);border-radius:12px;padding:13px 16px;
+    box-shadow:0 3px 10px rgba(22,35,63,.07);transition:transform .12s,box-shadow .18s}
+  .stop:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+  .sign{position:absolute;width:30px;height:30px;transform:rotate(45deg);background:var(--ochre-l);border:2.5px solid var(--ink);border-radius:4px;display:flex;align-items:center;justify-content:center}
+  .sign span{transform:rotate(-45deg);font-weight:800;font-size:.8rem;color:var(--ink);letter-spacing:-.02em}
+  .stop .sign{left:-52px;top:50%;margin-top:-15px}
+  .stop .wk{font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--earth)}
+  .stop .tt{font-family:var(--display);font-weight:700;font-size:1.1rem;color:var(--night);line-height:1.2;margin:1px 0 3px}
+  .stop .dd{font-size:.93rem;color:var(--muted)}
+  .stop .mm{font-size:.84rem;font-weight:700;color:var(--night);margin-top:6px}
+  .stop .done{display:none;margin-left:8px;color:var(--ok)}
+  .stop.passed .done{display:inline}
+  .qtop{display:flex;align-items:center;gap:14px;margin:20px 0 10px}
+  .qtop .sign{position:relative;flex:0 0 auto;margin:0 4px}
+  .qtop .qt{flex:1;min-width:0}
+  .qtop .qr{font-family:var(--display);font-weight:700;color:var(--night);font-size:1.05rem;line-height:1.2}
+  .qtop .qn{font-size:.88rem;color:var(--muted)}
+  .road{position:relative;height:14px;border-radius:7px;background:var(--asphalt);margin:6px 0 4px}
+  .road::before{content:"";position:absolute;left:8px;right:8px;top:6px;height:2px;background:repeating-linear-gradient(90deg,var(--sand) 0 10px,transparent 10px 20px)}
+  .road>i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:7px;background:linear-gradient(90deg,var(--earth),var(--ochre));transition:width .3s}
+  .road>b{position:absolute;top:50%;left:0;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:var(--ochre-l);border:3px solid var(--night);transition:left .3s}
+  .qcount{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);font-weight:700}
+  .sectiontag{font-weight:700;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--earth);margin:16px 0 8px}
+  .prompt{position:relative;overflow:hidden;background:linear-gradient(165deg,var(--night),var(--night-2));color:#fff;border-radius:var(--radius);padding:20px 18px 26px;text-align:center;margin-bottom:14px}
+  .prompt::after{content:"";position:absolute;left:0;right:0;bottom:0;height:8px;background:linear-gradient(90deg,var(--earth),var(--ochre),var(--earth))}
+  .prompt .lbl{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.13em;color:#D6D9E6}
+  .prompt .word{font-family:var(--display);font-weight:700;font-size:clamp(1.5rem,6vw,2.3rem);color:var(--ochre-l);line-height:1.2;margin-top:4px}
+  .prompt .cloze{font-size:clamp(1.05rem,3.8vw,1.3rem);line-height:1.5;text-align:left;margin-top:6px}
+  .prompt .cloze .gap{color:var(--ochre-l);font-weight:700;letter-spacing:.04em}
+  .prompt .inf{display:block;margin-top:8px;font-size:.92rem;color:#D6D9E6;font-style:italic}
+  .bank{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+  .bank span{background:var(--sand);border:1px solid var(--sand-line);border-radius:999px;padding:3px 11px;font-weight:700;font-size:.92rem;color:var(--night)}
+  .options{display:grid;gap:10px}
+  .opt{font-weight:700;font-size:1.05rem;border:1px solid var(--sand-line);background:#fff;color:var(--ink);padding:13px 15px;border-radius:10px;cursor:pointer;text-align:left;transition:transform .1s,border-color .15s}
+  .opt:hover{transform:translateY(-1px);border-color:var(--night)}
+  .btn{display:block;width:100%;font-weight:700;font-size:1.02rem;cursor:pointer;border:1px solid var(--night);background:var(--night);color:#fff;padding:13px 18px;border-radius:10px;margin-top:12px;transition:transform .12s}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.warm{background:var(--earth);border-color:var(--earth)}
+  .btn.ghost{background:#fff;color:var(--night);border-color:var(--sand-line)}
+  .btn.link{background:none;border:0;color:var(--muted);text-decoration:underline;margin-top:6px;padding:8px}
+  .score{font-family:var(--display);font-weight:700;font-size:clamp(2.6rem,12vw,3.8rem);text-align:center;line-height:1}
+  .score.pass{color:var(--oktx)}.score.fail{color:var(--kotx)}
+  .rmsg{text-align:center;color:var(--muted);margin:.4em 0 4px}
+  .review{margin-top:16px;border-top:1px solid var(--sand-line);padding-top:12px}
+  .review h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 8px}
+  .review .row{font-size:.95rem;padding:6px 8px;display:flex;gap:8px;border:1px dashed var(--ko);border-radius:8px;background:var(--kobg);margin-bottom:6px}
+  .review .row.allok{border:1px solid var(--ok);background:var(--okbg)}
+  .review .x{color:var(--kotx);font-weight:700}.review .v{color:var(--oktx);font-weight:700}
+  .review .you{color:var(--muted)}
+  .cert{position:relative;background:#fff;border:2px solid var(--night);border-radius:16px;padding:30px 20px 18px;margin-top:20px;box-shadow:var(--shadow);overflow:hidden}
+  .cert::before{content:"";position:absolute;left:0;right:0;top:0;height:10px;background:linear-gradient(90deg,var(--night),var(--earth) 45%,var(--ochre))}
+  .cert::after{content:"";position:absolute;inset:16px 8px 8px;border:1px solid var(--sand-line);border-radius:10px;pointer-events:none}
+  .stamp{float:right;position:relative;width:96px;height:96px;margin:-6px 0 8px 12px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,var(--medal-light),var(--medal-base) 62%,var(--medal-dark));
+    box-shadow:0 0 0 4px #fff,0 0 0 6px var(--medal-dark),0 4px 10px rgba(0,0,0,.2);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5);z-index:1}
+  .stamp::before{content:"";position:absolute;inset:6px;border-radius:50%;border:2px dashed rgba(255,255,255,.75)}
+  .stamp .s1{font-size:.62rem;font-weight:800;letter-spacing:.14em}
+  .stamp .s2{font-family:var(--display);font-weight:700;font-size:2.2rem;line-height:1}
+  .stamp .s3{font-size:.62rem;font-weight:800;letter-spacing:.12em}
+  .cert .cap{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--earth)}
+  .cert h3{font-family:var(--display);font-weight:700;color:var(--night);font-size:1.45rem;margin:.15em 0 .1em;line-height:1.15}
+  .cert .rt{color:var(--muted);font-size:.98rem;margin:0}
+  .cert .who{clear:both;padding-top:6px;text-align:center}
+  .cert .name{font-family:var(--display);font-weight:700;font-size:1.65rem;color:var(--ink);display:inline-block;border-bottom:3px solid var(--ochre);padding:0 12px 3px;margin-top:4px}
+  .cert .meta{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin:14px 0 8px}
+  .cert .meta div{font-size:.88rem;color:var(--muted);text-align:center}
+  .cert .meta b{display:block;font-family:var(--display);font-size:1.2rem;color:var(--night)}
+  .cert .meta b.p{color:var(--oktx)}
+  .tag{display:table;margin:10px auto 4px;background:var(--sand);border:1px dashed var(--night);border-radius:10px;padding:8px 16px;text-align:center}
+  .tag .tl{font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .tag .code{display:block;font-family:Consolas,"Liberation Mono",Menlo,monospace;font-weight:700;font-size:1rem;color:var(--night);white-space:nowrap}
+  .upload{position:relative;z-index:1;background:rgba(227,163,59,.16);border:1px solid var(--ochre);border-radius:10px;padding:10px 14px;margin-top:14px;font-size:.93rem;text-align:center}
+  details.teacher{margin-top:30px;border:1px solid var(--sand-line);border-radius:12px;background:#fff;padding:0 16px}
+  details.teacher summary{cursor:pointer;font-weight:700;color:var(--night);padding:13px 0;list-style:none}
+  details.teacher summary::-webkit-details-marker{display:none}
+  details.teacher summary::before{content:"▸ ";color:var(--earth)}
+  details.teacher[open] summary::before{content:"▾ "}
+  .tbody{padding:0 0 16px}.tbody label{margin-top:12px}
+  .verdict{font-weight:700;margin-top:12px;padding:11px 14px;border-radius:10px}
+  .verdict.ok{background:var(--okbg);color:var(--oktx);border:1px solid var(--ok)}
+  .verdict.bad{background:var(--kobg);color:var(--kotx);border:1px dashed var(--ko)}
+  .verdict small{display:block;font-weight:400;color:var(--ink);margin-top:4px}
+  .legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:.85rem;color:var(--muted)}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+  footer{margin-top:26px;text-align:center;color:var(--muted);font-size:.8rem}
+  :focus-visible{outline:3px solid var(--ochre);outline-offset:2px;border-radius:6px}
+  body.compact .hero{height:64px}body.compact .hero .txt{display:none}
+  @media (max-width:420px){.hero{height:262px}.tag .code{font-size:.84rem}.cert .meta{gap:16px}.stamp{width:82px;height:82px}.stamp .s2{font-size:1.8rem}.cert h3{font-size:1.25rem}}
+  @media print{.hero,.noprint,details.teacher,footer{display:none!important}body{background:#fff}.cert{box-shadow:none}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <svg viewBox="0 0 680 230" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16233F"/><stop offset=".5" stop-color="#1F4C6B"/><stop offset=".8" stop-color="#2E8A9A"/><stop offset="1" stop-color="#E3A33B"/></linearGradient>
+        <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16A6B6"/><stop offset="1" stop-color="#0B5F69"/></linearGradient>
+      </defs>
+      <rect width="680" height="172" fill="url(#sky)"/>
+      <circle cx="150" cy="150" r="26" fill="#F2C14E" opacity=".9"/>
+      <rect y="166" width="680" height="64" fill="url(#sea)"/>
+      <path d="M0 176 Q40 170 80 176 T160 176 T240 176 T320 176 T400 176 T480 176 T560 176 T640 176 T720 176" stroke="#8EDFE8" stroke-width="2" fill="none" opacity=".6"/>
+      <path d="M440 168 C470 150 520 146 560 152 C590 156 610 162 630 168 Z" fill="#3F6E53"/>
+      <path d="M252 230 L337 170 L343 170 L428 230 Z" fill="#2B2B33" opacity=".0"/>
+      <g transform="translate(560 120)"><rect x="-2" y="0" width="4" height="40" fill="#5E3A1E"/><path d="M0 0 C-18 -6 -28 2 -34 10 C-20 4 -8 4 0 4 Z M0 0 C18 -6 28 2 34 10 C20 4 8 4 0 4 Z M0 0 C-6 -16 -2 -26 4 -30 C2 -18 2 -8 2 0 Z" fill="#3F6E53"/></g>
+      <g transform="translate(300 196)"><ellipse rx="22" ry="12" fill="#3F6E53"/><circle cx="24" cy="-2" r="6" fill="#3F6E53"/><path d="M-10 8 l-8 8 M10 8 l8 8 M-10 -8 l-8 -8 M10 -8 l8 -8" stroke="#3F6E53" stroke-width="5" stroke-linecap="round"/></g>
+      <g transform="translate(90 196)"><rect x="-1.5" y="-10" width="3" height="34" fill="#2B2B33"/>
+        <rect x="-14" y="-38" width="28" height="28" rx="3" transform="rotate(45 0 -24)" fill="#F2C14E" stroke="#1E2230" stroke-width="2.5"/>
+        <text x="0" y="-19.5" text-anchor="middle" font-family="Calibri,Arial,sans-serif" font-weight="800" font-size="12" fill="#1E2230">6–8</text></g>
+    </svg>
+    <div class="txt">
+      <div class="eyebrow">Camden Town 9 · Theme 1 · Part B</div>
+      <h1>Homework Road Trip — Down Under</h1>
+      <p>Three more stops for Part B. Choose the stop your teacher set, reach 80&nbsp;% and hand in your certificate.</p>
+    </div>
+  </header>
+
+  <section class="screen active" id="screen-start">
+    <div class="card">
+      <label for="name">Your full name</label>
+      <input type="text" id="name" autocomplete="name" placeholder="e.g. Alex Müller">
+      <div class="err" id="nameErr" role="alert"></div>
+      <p class="hint">Write your name exactly as your teacher knows it. It appears on your certificate.</p>
+    </div>
+    <h2 class="sec">Choose your stop</h2>
+    <p class="hint">One stop for every week. Do the round your teacher gave you in TEAMS.</p>
+    <div class="route" id="route"></div>
+    <div class="card">
+      <b>How it works</b>
+      <ul style="margin:.5em 0 0;padding-left:1.2em">
+        <li>The questions are drawn at random, so every attempt is different.</li>
+        <li>Some questions ask you to <b>type</b> a word. Capital letters and full stops don't matter — spelling does.</li>
+        <li>You need <b>at least 80&nbsp;%</b> to pass. Didn't make it? Practise and start again.</li>
+        <li>Do it <b>on your own</b>. When you pass, <b>screenshot the certificate</b> and upload it to <b>TEAMS</b>.</li>
+        <li>Nothing is saved or sent. When you close the page, your result is gone, so take the screenshot straight away.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-quiz">
+    <div class="qtop">
+      <div class="sign"><span id="qSign">R6</span></div>
+      <div class="qt"><div class="qr" id="qRound"></div><div class="qn" id="qName"></div></div>
+    </div>
+    <div class="road" aria-hidden="true"><i id="qFill"></i><b id="qCar"></b></div>
+    <div class="qcount"><span>Question <span id="qPos">1</span> / <span id="qTot">0</span></span><span id="qPct"></span></div>
+    <div class="sectiontag" id="qSection"></div>
+    <div class="prompt"><span class="lbl" id="qLbl"></span><div class="word" id="qWord"></div></div>
+    <div id="qBank" class="bank"></div>
+    <div class="options" id="qOptions"></div>
+    <button class="btn link noprint" id="quit">← Back to the stops (this attempt will not count)</button>
+  </section>
+
+  <section class="screen" id="screen-result">
+    <div class="card">
+      <div class="score" id="resScore"></div>
+      <p class="rmsg" id="resMsg"></p>
+      <button class="btn warm" id="getCert" style="display:none">Get my certificate →</button>
+      <button class="btn ghost" id="retry">Try this round again</button>
+      <button class="btn ghost" id="toStops">Back to the stops</button>
+      <div class="review" id="review"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-cert">
+    <div class="cert" id="certBox">
+      <div class="stamp" aria-hidden="true"><span class="s1">ROUND</span><span class="s2" id="cNum">6</span><span class="s3" id="cWeek">WEEK 6</span></div>
+      <div class="cap">Camden Town 9 · Theme 1 · Part B</div>
+      <h3>Homework Certificate</h3>
+      <p class="rt" id="cTitle"></p>
+      <div class="who">
+        <div class="name" id="cName"></div>
+        <div class="meta">
+          <div>Date<b id="cDate"></b></div>
+          <div>Score<b id="cScore"></b></div>
+          <div>Result<b class="p">✓ PASSED</b></div>
+        </div>
+        <div class="tag"><span class="tl">Verification code</span><span class="code" id="cCode"></span></div>
+      </div>
+      <div class="upload">📸 <b>Screenshot this certificate</b> and upload it to TEAMS to hand in your homework.</div>
+    </div>
+    <button class="btn ghost noprint" id="printBtn">Print / save as PDF</button>
+    <button class="btn ghost noprint" id="again">Back to the stops</button>
+  </section>
+
+  <details class="teacher noprint">
+    <summary>For the teacher: verify a certificate code</summary>
+    <div class="tbody">
+      <label for="vName">Student name (as written on the certificate)</label>
+      <input type="text" id="vName" placeholder="e.g. Alex Müller">
+      <label for="vCode">Verification code</label>
+      <input type="text" id="vCode" placeholder="CT9-R7-261014-1720-XXXX-XXXXX">
+      <button class="btn" id="verifyBtn">Verify</button>
+      <div id="verdict" role="status"></div>
+      <div class="legend" id="legend"></div>
+      <p class="hint" style="font-size:.84rem;margin-top:10px">The code contains round, date and score plus a checksum tied to the student's name — same format as rounds 1–5. Codes from rounds 1–5 also verify here (checksum only). Client-side check: robust against casual tampering, not a cryptographic guarantee.</p>
+    </div>
+  </details>
+
+  <footer>Homework module · Camden Town 9, Theme 1, Part B · Rounds 6–8 · 80&nbsp;% to pass · nothing is saved or sent</footer>
+</div>
+
+<script>
+const DATA = {"R6_VOCAB": [{"en": "down under", "de": "Australien, Neuseeland"}, {"en": "abroad", "de": "im/ins Ausland"}, {"en": "to gain", "de": "bekommen, erreichen, gewinnen"}, {"en": "loads of", "de": "jede Menge, massenhaft"}, {"en": "personally", "de": "persönlich; ich für meinen Teil"}, {"en": "tropical", "de": "Tropen-, tropisch"}, {"en": "rainforest", "de": "Regenwald"}, {"en": "exception", "de": "Ausnahme"}, {"en": "to sign up", "de": "sich einschreiben, sich anmelden"}, {"en": "practical", "de": "praktisch, auf die Praxis bezogen"}, {"en": "foreign", "de": "ausländisch, fremd, Fremd-"}, {"en": "range", "de": "Reichweite, Bereich, Angebot"}, {"en": "elective", "de": "Wahlfach"}, {"en": "engineering", "de": "Technik, Ingenieurwissenschaft, Maschinenbau"}, {"en": "aviation", "de": "Fliegerei, Fliegen, Luftfahrt"}, {"en": "psychology", "de": "Psychologie"}, {"en": "snorkelling", "de": "Schnorcheln"}, {"en": "licence", "de": "Genehmigung, Erlaubnis; Führerschein"}, {"en": "coral reef", "de": "Korallenriff"}, {"en": "coral", "de": "Koralle(n-)"}, {"en": "rowing", "de": "Rudern"}], "R7_VOCAB": [{"en": "just as ... (as)", "de": "genauso ... (wie)"}, {"en": "to claim", "de": "behaupten, Anspruch erheben auf"}, {"en": "to get back", "de": "zurückkommen"}, {"en": "turtle", "de": "Schildkröte"}, {"en": "rehabilitation", "de": "Rehabilitation, Wiedereingliederung"}, {"en": "dry season", "de": "Trockenzeit"}, {"en": "wet season", "de": "Regenzeit"}, {"en": "stinger", "de": "stechendes Insekt, brennende Pflanze"}, {"en": "to take a risk", "de": "ein Risiko eingehen, etw riskieren"}, {"en": "to nurse", "de": "pflegen, fördern"}, {"en": "to get to do sth", "de": "die Möglichkeit haben, etw zu tun"}, {"en": "jellyfish", "de": "Qualle"}, {"en": "to float", "de": "schwimmen, treiben, ziehen"}, {"en": "to attach", "de": "anhängen, befestigen, anbringen"}, {"en": "shell", "de": "Schale, Muschel, Panzer"}, {"en": "to contain", "de": "enthalten"}, {"en": "collection", "de": "(An)sammlung, Auswahl"}, {"en": "harm", "de": "Schaden, Verletzung"}, {"en": "threat", "de": "(Be)drohung, Gefahr"}, {"en": "stressed", "de": "gestresst"}, {"en": "as a result (of sth)", "de": "als Folge (einer Sache)"}, {"en": "coral bleaching", "de": "Korallenbleiche"}, {"en": "tragedy", "de": "Tragödie, Trauerspiel"}, {"en": "precious", "de": "wertvoll, kostbar"}, {"en": "restoration", "de": "Restaurierung, Wiederherstellung"}, {"en": "to specialize (in)", "de": "sich spezialisieren (auf)"}, {"en": "pollution", "de": "Verschmutzung"}, {"en": "pest", "de": "Schädling, Plage"}, {"en": "plate", "de": "Teller"}, {"en": "straw", "de": "Stroh(-), Strohhalm"}, {"en": "to ban", "de": "verbieten"}, {"en": "reader", "de": "Leser/in"}], "RETRO_A": [{"en": "isolated", "de": "abgelegen, isoliert"}, {"en": "to adjust (to)", "de": "einstellen, anpassen (an)"}, {"en": "multicultural", "de": "multikulturell"}, {"en": "indigenous", "de": "(ein)heimisch"}, {"en": "to communicate", "de": "kommunizieren, Kontakt haben"}, {"en": "connection", "de": "Verbindung, Beziehung, Zusammenhang"}, {"en": "knowledge", "de": "Kenntnis(se), Wissen"}, {"en": "to benefit", "de": "profitieren, Nutzen ziehen"}, {"en": "according to", "de": "nach, laut, gemäß"}, {"en": "heritage", "de": "(Kultur)erbe"}, {"en": "identity", "de": "Identität"}, {"en": "pride", "de": "Stolz"}, {"en": "currently", "de": "zurzeit, gegenwärtig, momentan"}, {"en": "society", "de": "Gesellschaft"}, {"en": "to overcome", "de": "bewältigen, meistern"}], "CONJ": [{"s": "{} the next school is hundreds of kilometres away, the children learn at home.", "ans": "Since", "opts": ["Since", "Although", "So that", "Just as"], "hint": "reason — why?"}, {"s": "The exchange student signed up for snorkelling {} she could see the coral reef.", "ans": "so that", "opts": ["so that", "although", "whereas", "before"], "hint": "purpose — what for?"}, {"s": "{} jellyfish look harmless, some of them can do serious harm.", "ans": "Although", "opts": ["Although", "So that", "As soon as", "Just as"], "hint": "contrast"}, {"s": "Pupils at our school see their friends every day, {} School of the Air pupils often meet only once or twice a year.", "ans": "whereas", "opts": ["whereas", "so that", "as soon as", "before"], "hint": "contrast between two groups"}, {"s": "The volunteers nurse the injured turtles {} they release them back into the sea.", "ans": "before", "opts": ["before", "although", "so that", "whereas"], "hint": "time — what happens first?"}, {"s": "{} the lesson starts, the pupils switch on their computers.", "ans": "As soon as", "opts": ["As soon as", "Although", "Whereas", "So that"], "hint": "time — exactly when?"}, {"s": "Australian pupils wear school uniforms {} pupils in Britain do.", "ans": "just as", "opts": ["just as", "so that", "although", "before"], "hint": "comparison"}, {"s": "Plastic straws are banned on the island {} they do not harm sea animals.", "ans": "so that", "opts": ["so that", "although", "whereas", "as soon as"], "hint": "purpose — what for?"}, {"s": "{} I love the beach, I would never take the risk of swimming with sharks.", "ans": "Although", "opts": ["Although", "So that", "Before", "Just as"], "hint": "contrast"}, {"s": "Thousands of children have learned at the School of the Air {} it started in 1951.", "ans": "since", "opts": ["since", "so that", "whereas", "although"], "hint": "time — from when?"}, {"s": "Mia writes a blog {} her family can follow her year abroad.", "ans": "so that", "opts": ["so that", "although", "whereas", "before"], "hint": "purpose — what for?"}, {"s": "{} some people love the wet season, others find the heat and the rain stressful.", "ans": "While", "opts": ["While", "So that", "As soon as", "Just as"], "hint": "contrast"}], "TYPED": [{"s": "Take water with you {} you don't get thirsty in the Outback.", "a": ["so that"]}, {"s": "{} it was raining, we went snorkelling.", "a": ["although", "though", "even though"]}, {"s": "Read the signs on the beach {} you go into the water.", "a": ["before"]}, {"s": "I'll call you {} I get back to Cairns.", "a": ["as soon as", "when", "once"]}, {"s": "Mia has felt at home {} she arrived in Cairns.", "a": ["since", "ever since"]}, {"s": "My sister loves the rainforest, {} I prefer the beach.", "a": ["whereas", "while"]}, {"s": "The pupils have a timetable {} children at other schools do.", "a": ["just as"]}, {"s": "Mia listened to podcasts {} she was on the bus.", "a": ["while", "when"]}], "CONNECT": [{"s": "The water got too warm. {}, the coral turned white.", "ans": "As a result", "opts": ["As a result", "However", "Although", "So that"], "hint": "result of the first sentence"}, {"s": "Jellyfish can be dangerous. {}, many tourists still swim in the sea.", "ans": "However", "opts": ["However", "As a result", "Since", "So that"], "hint": "surprising contrast"}, {"s": "Plastic straws harm sea animals. {}, they are banned on the island.", "ans": "As a result", "opts": ["As a result", "However", "Whereas", "Although"], "hint": "result of the first sentence"}, {"s": "The children live far away from their school. {}, they can talk to their teachers every day.", "ans": "However", "opts": ["However", "As a result", "Because", "So that"], "hint": "surprising contrast"}, {"s": "Mia forgot her sun cream. {}, she got sunburnt.", "ans": "As a result", "opts": ["As a result", "However", "Although", "While"], "hint": "result of the first sentence"}, {"s": "Australia is very far away from Germany. {}, lots of German students go on an exchange there.", "ans": "However", "opts": ["However", "As a result", "So that", "Since"], "hint": "surprising contrast"}], "PASS": [{"s": "Plastic plates and straws {} on the island.", "inf": "ban", "ans": "are banned", "opts": ["are banned", "ban", "are banning", "banned"]}, {"s": "Convicts {} to Australia from 1788 onwards.", "inf": "send", "ans": "were sent", "opts": ["were sent", "sent", "was sent", "are sent"]}, {"s": "Australia Day {} every year on 26 January.", "inf": "celebrate", "ans": "is celebrated", "opts": ["is celebrated", "celebrates", "was celebrated", "celebrating"]}, {"s": "Uluru {} a World Heritage site in 1987.", "inf": "make", "ans": "was made", "opts": ["was made", "made", "was making", "is made"]}, {"s": "Adelaide {} in 1836.", "inf": "found", "ans": "was founded", "opts": ["was founded", "founded", "was finding", "is founded"]}], "RS": [{"d": "Liv: “I did the Bridge Climb yesterday!”", "s": "Liv said that she {} the Bridge Climb the day before.", "ans": "had done", "opts": ["had done", "did", "has done", "was doing"]}, {"d": "Dan: “There are such good views from the bridge!”", "s": "Dan said that there {} such good views from the bridge.", "ans": "were", "opts": ["were", "are", "had been", "would be"]}, {"d": "Theo: “I moved to Sydney last year.”", "s": "Theo told us that he had moved to Sydney {}.", "ans": "the year before", "opts": ["the year before", "last year", "next year", "this year"]}, {"d": "The protesters: “The date will change one day.”", "s": "The protesters argued that the date {} change one day.", "ans": "would", "opts": ["would", "will", "had", "was going"]}]};
+/* ---------- answer-check library (mfs-html-lernmodule-selfcheck) ---------- */
+function norm(s){return String(s==null?"":s).normalize("NFC").replace(/[’‘´`ʼ]/g,"'").replace(/[«»""]/g," ").toLowerCase().replace(/\s*'\s*/g,"'").replace(/\s*\/\s*/g,"/").replace(/\s+[-–—]\s+/g," ").replace(/[.!?;:,…]/g," ").replace(/\s+/g," ").trim();}
+const _PH=/^(qn|qc|algn|algo|alguien|sb|sth|s\.o\.|s\.th\.|someone|something|jdn|jdm|jds|jmd|jmdn|jmdm|etw)(\/(qn|qc|algn|algo|alguien|sb|sth|jdn|jdm|jds|jmd|jmdn|jmdm|etw))*$/;
+function _stripPH(s){const t=(" "+s+" ").replace(/ quelque chose /g," ").replace(/ quelqu'un /g," ").replace(/ algo /g," ").replace(/ alguien /g," ").replace(/ something /g," ").replace(/ someone /g," ").trim().split(" ").filter(w=>!_PH.test(w));return t.join(" ");}
+function _expandParens(s,depth){depth=depth||0;const m=s.match(/\(([^()]*)\)/);if(!m||depth>4)return [s.replace(/[()]/g," ")];const pre=s.slice(0,m.index),post=s.slice(m.index+m[0].length);return _expandParens(pre+" "+m[1]+" "+post,depth+1).concat(_expandParens(pre+" "+post,depth+1));}
+const _ART=["le","la","l'","les","un","une","el","la","los","las","un","una","the","a","an","der","die","das","den","dem","ein","eine"];
+function _expandSlashes(s){let combos=[""];s.split(" ").forEach(tok=>{let alts=[tok];if(tok.indexOf("/")>0){const p=tok.split("/").filter(Boolean);alts=[tok];p.forEach((a,i)=>{if(i>0&&a.length<=2&&_ART.indexOf(a)<0)alts.push(p[0]+a);else alts.push(a);});}const next=[];combos.forEach(c=>alts.forEach(a=>{if(next.length<64)next.push(c?c+" "+a:a);}));combos=next;});return combos;}
+function _dropArticle(s){return s.replace(/^(der|die|das|den|dem|ein|eine|le|la|les|l'|un|une|el|los|las|the|an) /,"");}
+function answerKeys(ans,de){const out=new Set();const add=x=>{x=(x||"").replace(/\s+/g," ").trim();if(x)out.add(x);};_expandParens(String(ans==null?"":ans)).forEach(p=>{const b=norm(p);[b].concat(_expandSlashes(b),b.split("/")).forEach(e=>{add(e);add(_stripPH(e));if(de){add(_dropArticle(e));add(_dropArticle(_stripPH(e)));}});});return out;}
+function inputKeys(inp,de){const out=new Set();const add=x=>{x=(x||"").replace(/\s+/g," ").trim();if(x)out.add(x);};const b=norm(inp),c=norm(String(inp==null?"":inp).replace(/[()]/g," "));[b,c].forEach(x=>{add(x);add(_stripPH(x));if(de){add(_dropArticle(x));add(_dropArticle(_stripPH(x)));}});return out;}
+function _deaccentFirst(s){return s?s.charAt(0).normalize("NFD").replace(/[̀-ͯ]/g,"")+s.slice(1):s;}
+function accepts(input,answers,opt){const de=!!(opt&&opt.de);const ins=inputKeys(input,de);if(ins.size===0)return false;const capStart=/^[A-ZÀÉÈÊÂÎÔÛÇÑÁÍÓÚÜ]/.test(String(input||"").trim());const list=Array.isArray(answers)?answers:[answers];for(const a of list){for(const k of answerKeys(a,de)){if(ins.has(k))return true;if(capStart){const kk=_deaccentFirst(k);if(ins.has(kk))return true;}}}return false;}
+
+(function(){
+  "use strict";
+  var $=function(id){return document.getElementById(id);};
+  /* Standard week palette (skill mfs-html-lernmodule-selfcheck); round number = week number. */
+  var MEDAL_PALETTE=[
+    {name:"Gold",light:"#FFE38A",base:"#E8B923",dark:"#9C7A0E"},{name:"Sapphire",light:"#8DB6F5",base:"#2E6FD8",dark:"#1B3F80"},
+    {name:"Emerald",light:"#8FE0B6",base:"#1E9E62",dark:"#0F5C38"},{name:"Ruby",light:"#F29AA3",base:"#D23B4B",dark:"#7D1622"},
+    {name:"Amethyst",light:"#C9A8F2",base:"#8A4FD6",dark:"#4B2386"},{name:"Turquoise",light:"#8EDFE8",base:"#16A6B6",dark:"#0B5F69"},
+    {name:"Orange",light:"#FFC08A",base:"#F07F1A",dark:"#8F4507"},{name:"Magenta",light:"#F5A3CC",base:"#D9418F",dark:"#7F1D52"},
+    {name:"Anthracite",light:"#A7B4C2",base:"#4A5A6A",dark:"#26313C"},{name:"Olive",light:"#D2DD8A",base:"#8A9A2B",dark:"#4F5A12"}];
+  function applyMedalColors(n,el){var p=MEDAL_PALETTE[(n-1)%MEDAL_PALETTE.length];el.style.setProperty("--medal-light",p.light);el.style.setProperty("--medal-base",p.base);el.style.setProperty("--medal-dark",p.dark);return p;}
+  var CONFUSABLE=[["coral reef","coral"],["dry season","wet season"],["harm","threat"],["to gain","to benefit"]];
+  var groupOf={};CONFUSABLE.forEach(function(g,i){g.forEach(function(w){groupOf[w]=i;});});
+  function clash(a,b){return groupOf[a]!==undefined&&groupOf[a]===groupOf[b];}
+  var PART_B=DATA.R6_VOCAB.concat(DATA.R7_VOCAB);
+  var ALL=PART_B.concat(DATA.RETRO_A);
+  var ROUNDS=[
+    {key:"R6",week:6,title:"Round 6 — Going abroad: Theo's school",desc:"Part B words from Theo's blog (B1–B2) plus a few words from Part A.",
+      parts:[{kind:"vocab",pool:DATA.R6_VOCAB,n:10,section:"Part A · Vocabulary: Part B (B1–B2)"},
+             {kind:"vocab",pool:DATA.RETRO_A,n:5,section:"Part B · Review: Theme 1, Part A"}]},
+    {key:"R7",week:7,title:"Round 7 — Adverbial clauses & the Great Barrier Reef",desc:"Adverbial clauses (TB B5, WB 18) and the new words from B5–B7.",
+      parts:[{kind:"vocab",pool:DATA.R7_VOCAB,n:8,section:"Part A · Vocabulary: Part B (B5–B7)"},
+             {kind:"mc",set:DATA.CONJ,n:6,section:"Part B · Grammar: adverbial clauses",lbl:"Choose the conjunction that fits"},
+             {kind:"typed",set:DATA.TYPED,n:4,section:"Part C · Grammar: type the conjunction",lbl:"Type the missing conjunction"},
+             {kind:"vocab",pool:DATA.R6_VOCAB,n:2,section:"Part D · Review: B1–B2"}]},
+    {key:"R8",week:8,title:"Round 8 — Full Theme 1 review",desc:"Everything from Theme 1: Part A and B words, adverbial clauses, connectives, the passive and reported speech.",
+      parts:[{kind:"vocab",pool:ALL,n:8,section:"Part A · Vocabulary: Theme 1"},
+             {kind:"mc",set:DATA.CONJ,n:4,section:"Part B · Grammar: adverbial clauses",lbl:"Choose the conjunction that fits"},
+             {kind:"typed",set:DATA.TYPED,n:3,section:"Part C · Grammar: type the conjunction",lbl:"Type the missing conjunction"},
+             {kind:"mc",set:DATA.CONNECT,n:3,section:"Part D · Linking sentences: connectives",lbl:"Choose the word that links the two sentences"},
+             {kind:"pass",set:DATA.PASS,n:2,section:"Part E · Review: the passive",lbl:"Choose the correct passive form"},
+             {kind:"rs",set:DATA.RS,n:2,section:"Part F · Review: reported speech",lbl:"Choose the correct reported form"}]}
+  ];
+  ROUNDS.forEach(function(r){r.total=r.parts.reduce(function(s,p){return s+p.n;},0);r.pass=Math.ceil(r.total*0.8);});
+  var byKey={};ROUNDS.forEach(function(r){byKey[r.key]=r;});
+  var BANK=["although","as soon as","before","just as","since","so that","whereas","while"];
+
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function show(id){document.querySelectorAll(".screen").forEach(function(s){s.classList.remove("active");});$(id).classList.add("active");document.body.classList.toggle("compact",id!=="screen-start");window.scrollTo(0,0);}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function fnv(str){var x=2166136261>>>0;for(var i=0;i<str.length;i++){x^=str.charCodeAt(i);x=Math.imul(x,16777619)>>>0;}return (x>>>0).toString(36).toUpperCase();}
+  function pad(n,l){n=""+n;while(n.length<l)n="0"+n;return n;}
+  function normName(s){return (s||"").trim().toLowerCase().replace(/\s+/g," ");}
+  function todayParts(){var d=new Date();return {yy:pad(d.getFullYear()%100,2),mm:pad(d.getMonth()+1,2),dd:pad(d.getDate(),2),iso:d.getFullYear()+"-"+pad(d.getMonth()+1,2)+"-"+pad(d.getDate(),2)};}
+  function makeCode(name,score,total,round){
+    var t=todayParts(),salt=fnv(""+Math.random()+Date.now()).slice(0,4);
+    var check=fnv(normName(name)+"|"+t.iso+"|"+score+"|"+total+"|"+round+"|"+salt).slice(0,5);
+    return "CT9-"+round+"-"+t.yy+t.mm+t.dd+"-"+pad(score,2)+pad(total,2)+"-"+salt+"-"+check;
+  }
+  function vocabItems(pool,n,section,avoid){
+    var used={},out=[],guard=0;
+    while(out.length<n&&guard++<800){
+      var w=pool[Math.floor(Math.random()*pool.length)],en2de=Math.random()<0.5;
+      if(used[w.en]||(avoid&&avoid[w.en]))continue;used[w.en]=1;if(avoid)avoid[w.en]=1;
+      var prompt=en2de?w.en:w.de,answer=en2de?w.de:w.en,key=en2de?"de":"en";
+      var seen={};seen[answer]=1;
+      var dis=shuffle(pool.filter(function(x){return x.en!==w.en&&!clash(x.en,w.en);})).map(function(x){return x[key];})
+               .filter(function(t){if(seen[t])return false;seen[t]=1;return true;}).slice(0,3);
+      out.push({type:"mc",section:section,lbl:en2de?"Vocabulary · English → Deutsch":"Vocabulary · Deutsch → English",isWord:true,html:prompt,plain:prompt,answer:answer,options:shuffle(dis.concat([answer]))});
+    }
+    return out;
+  }
+  function setItems(p){
+    return shuffle(p.set).slice(0,p.n).map(function(it){
+      var sub=p.kind==="pass"?"infinitive: "+it.inf:(p.kind==="rs"?"Direct: "+it.d:(it.hint||""));
+      return {type:"mc",section:p.section,lbl:p.lbl,isWord:false,html:esc(it.s).replace("{}",'<span class="gap">______</span>'),sub:sub,plain:it.s.replace("{}","____"),answer:it.ans,options:shuffle(it.opts)};
+    });
+  }
+  function typedItems(p){
+    return shuffle(p.set).slice(0,p.n).map(function(it){
+      return {type:"typed",section:p.section,lbl:p.lbl,isWord:false,html:esc(it.s).replace("{}",'<span class="gap">______</span>'),sub:"",plain:it.s.replace("{}","____"),answer:it.a[0],answers:it.a};
+    });
+  }
+  function buildRun(r){
+    var run=[],avoid={};
+    r.parts.forEach(function(p){
+      if(p.kind==="vocab")run=run.concat(vocabItems(p.pool,p.n,p.section,avoid));
+      else if(p.kind==="typed")run=run.concat(typedItems(p));
+      else run=run.concat(setItems(p));
+    });
+    return run;
+  }
+  var passedToday={};
+  function drawRoute(){
+    var box=$("route");box.innerHTML="";
+    ROUNDS.forEach(function(r){
+      var p=MEDAL_PALETTE[r.week-1];
+      var b=document.createElement("button");b.className="stop"+(passedToday[r.key]?" passed":"");b.style.setProperty("--c",p.base);
+      b.innerHTML='<div class="sign"><span>'+r.key+'</span></div>'+
+        '<div class="wk">Stop '+r.week+' · Week '+r.week+'<span class="done">✓ passed</span></div>'+
+        '<div class="tt">'+esc(r.title.replace(/^Round \d — /,""))+'</div>'+
+        '<div class="dd">'+esc(r.desc)+'</div>'+
+        '<div class="mm">'+r.total+' questions · you need '+r.pass+'</div>';
+      b.addEventListener("click",function(){start(r.key);});
+      box.appendChild(b);
+    });
+  }
+  var cur=null,run=[],pos=0,score=0,answers=[],studentName="";
+  function start(key){
+    var n=$("name").value.trim();
+    if(n.length<2){$("nameErr").textContent="Please enter your name first.";$("name").focus();window.scrollTo(0,0);return;}
+    $("nameErr").textContent="";studentName=n;cur=byKey[key];run=buildRun(cur);pos=0;score=0;answers=[];
+    $("qSign").textContent=cur.key;$("qRound").textContent=cur.title;$("qName").textContent=n;$("qTot").textContent=run.length;
+    show("screen-quiz");renderQ();
+  }
+  function renderQ(){
+    var q=run[pos],pct=pos/run.length*100;
+    $("qPos").textContent=pos+1;$("qFill").style.width=pct+"%";$("qCar").style.left="calc(10px + (100% - 20px) * "+(pos/run.length)+")";
+    $("qPct").textContent=Math.round(pct)+" % of the way";
+    $("qSection").textContent=q.section;$("qLbl").textContent=q.lbl;
+    var w=$("qWord");
+    if(q.isWord){w.className="word";w.textContent=q.html;}
+    else{w.className="cloze";w.innerHTML=q.html+(q.sub?'<span class="inf">'+esc(q.sub)+'</span>':"");}
+    var box=$("qOptions");box.innerHTML="";$("qBank").innerHTML="";
+    if(q.type==="typed"){
+      $("qBank").innerHTML=BANK.map(function(b){return "<span>"+esc(b)+"</span>";}).join("");
+      var inp=document.createElement("input");inp.type="text";inp.id="typed";inp.setAttribute("autocomplete","off");inp.setAttribute("autocapitalize","off");inp.setAttribute("spellcheck","false");inp.placeholder="type the conjunction";
+      var go=document.createElement("button");go.className="btn";go.textContent="Next →";
+      var submit=function(){var v=inp.value.trim();if(!v){inp.focus();return;}pick(v);};
+      go.addEventListener("click",submit);inp.addEventListener("keydown",function(e){if(e.key==="Enter")submit();});
+      box.appendChild(inp);box.appendChild(go);setTimeout(function(){inp.focus();},30);
+    } else {
+      q.options.forEach(function(o){var b=document.createElement("button");b.className="opt";b.textContent=o;b.addEventListener("click",function(){pick(o);});box.appendChild(b);});
+    }
+  }
+  function pick(choice){
+    var q=run[pos],ok=q.type==="typed"?accepts(choice,q.answers):choice===q.answer;if(ok)score++;
+    answers.push({prompt:q.plain,answer:q.type==="typed"?q.answers.join(" / "):q.answer,chosen:choice,ok:ok});
+    pos++;if(pos>=run.length)showResult();else renderQ();
+  }
+  function showResult(){
+    var passed=score>=cur.pass,pct=Math.round(score/run.length*100);
+    var rs=$("resScore");rs.textContent=(passed?"✓ ":"✗ ")+score+" / "+run.length;rs.className="score "+(passed?"pass":"fail");
+    $("resMsg").textContent=passed?("Passed with "+pct+" %. Good on ya! Get your certificate now."):("Not yet: "+pct+" %. You need "+cur.pass+" / "+run.length+". Check the review, practise and try again.");
+    $("getCert").style.display=passed?"block":"none";
+    if(passed){passedToday[cur.key]=1;}
+    var wrong=answers.filter(function(a){return !a.ok;}),h='<h3>Review</h3>';
+    if(wrong.length)wrong.forEach(function(a){h+='<div class="row"><span class="x">✗</span><span><b>'+esc(a.prompt)+'</b> → '+esc(a.answer)+' <span class="you">(you chose '+esc(a.chosen)+')</span></span></div>';});
+    else h+='<div class="row allok"><span class="v">✓</span><span>All correct. Spot on!</span></div>';
+    $("review").innerHTML=h;
+    show("screen-result");
+  }
+  function showCert(){
+    var t=todayParts();
+    applyMedalColors(cur.week,$("certBox"));
+    $("cNum").textContent=cur.week;$("cWeek").textContent="WEEK "+cur.week;
+    $("cTitle").textContent=cur.title;$("cName").textContent=studentName;
+    $("cDate").textContent=t.dd+"."+t.mm+".20"+t.yy;
+    $("cScore").textContent=score+" / "+run.length+" ("+Math.round(score/run.length*100)+" %)";
+    $("cCode").textContent=makeCode(studentName,score,run.length,cur.key);
+    show("screen-cert");
+  }
+  function toStops(){drawRoute();show("screen-start");}
+  $("getCert").addEventListener("click",showCert);
+  $("retry").addEventListener("click",function(){start(cur.key);});
+  $("toStops").addEventListener("click",toStops);
+  $("again").addEventListener("click",toStops);
+  $("quit").addEventListener("click",toStops);
+  $("printBtn").addEventListener("click",function(){window.print();});
+  $("name").addEventListener("keydown",function(e){if(e.key==="Enter")$("name").blur();});
+  $("legend").innerHTML=ROUNDS.map(function(r){var p=MEDAL_PALETTE[r.week-1];return '<span><i style="background:'+p.base+'"></i>'+r.key+' · '+p.name+'</span>';}).join("");
+  $("verifyBtn").addEventListener("click",function(){
+    var name=$("vName").value,code=($("vCode").value||"").trim().toUpperCase().replace(/\s+/g,""),v=$("verdict");
+    var p=code.split("-");
+    if(p.length!==6||p[0]!=="CT9"||!/^\d{6}$/.test(p[2])||!/^\d{4}$/.test(p[3])){v.className="verdict bad";v.innerHTML="✗ Invalid code format.";return;}
+    var round=p[1],dt=p[2],sc=p[3],salt=p[4],check=p[5];
+    var iso="20"+dt.slice(0,2)+"-"+dt.slice(2,4)+"-"+dt.slice(4,6);
+    var s=parseInt(sc.slice(0,2),10),tot=parseInt(sc.slice(2,4),10);
+    var expect=fnv(normName(name)+"|"+iso+"|"+s+"|"+tot+"|"+round+"|"+salt).slice(0,5);
+    var info="Round "+esc(round.replace("R",""))+" · date "+iso+" · score "+s+" / "+tot+" ("+Math.round(s/tot*100)+" %)";
+    if(expect!==check){v.className="verdict bad";v.innerHTML="✗ Does not verify<small>Wrong name, mistyped code or an edited screenshot. The code claims: "+info+", but the checksum does not match this name.</small>";return;}
+    var r=byKey[round],warn="";
+    if(!r){if(!/^R[1-5]$/.test(round))warn=" Unknown round.";}
+    else if(tot!==r.total)warn=" Note: this round currently has "+r.total+" questions (code shows "+tot+").";
+    if(s<Math.ceil(tot*0.8))warn+=" Score is below 80 %.";
+    v.className="verdict "+(warn?"bad":"ok");
+    v.innerHTML=(warn?"⚠ Checksum valid, but check this":"✓ Valid certificate")+"<small>"+info+" · name matches."+esc(warn)+"</small>";
+  });
+  drawRoute();
+  window.__HA={state:function(){return {run:run,pos:pos,score:score};},rounds:ROUNDS,build:buildRun,accepts:accepts,fnv:fnv,normName:normName,makeCode:makeCode,data:DATA};
+})();
+</script>
+</body>
+</html>
