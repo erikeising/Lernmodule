@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Homework · Theme 2: Welcome to Wales!</title>
+<style>:root{
+  --ink:#1d2330; --muted:#5b6678; --line:#d3dcdc;
+  --teal:#1b6f73; --tealdk:#0f4a4d; --tealbg:#e6f2f2; --gold:#d9a520;
+  --bg:#eef3f3; --card:#fff;
+  /* Wertung: Blau = richtig, Orange = falsch, Gelb = fast (nie Rot/Grün) */
+  --ok:#0b57a4; --okbg:#e3eefa; --oktx:#0b3d6e;
+  --ko:#d35f0b; --kobg:#fdebdf; --kotx:#a4410a;
+  --warn:#e8b100; --warnbg:#fff5d1; --warntx:#5c4300;
+  --ic-ok:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%230b57a4'/%3E%3Cpath d='M6.5 12.5l3.8 3.8 7.2-8' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --ic-ko:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%23d35f0b'/%3E%3Cpath d='M8 8l8 8M16 8l-8 8' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  --ic-mid:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10.5' fill='white' stroke='%23b88a00' stroke-width='2'/%3E%3Cpath d='M12 1.5a10.5 10.5 0 0 0 0 21z' fill='%23e8b100'/%3E%3C/svg%3E");
+  --medal-light:#8FE0B6; --medal-base:#1E9E62; --medal-dark:#0F5C38;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+button,input{font:inherit;color:inherit}
+header.top{background:var(--teal);color:#fff;padding:18px 16px 6px}
+header.top .in{max-width:760px;margin:0 auto}
+header.top .kick{font-size:13px;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
+header.top h1{margin:2px 0 4px;font-size:26px;line-height:1.2}
+header.top p{margin:0 0 10px;opacity:.92;font-size:15px}
+.battle{height:12px;background:var(--bg);position:relative}
+.battle::before{content:"";position:absolute;left:0;right:0;bottom:0;height:12px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='12'%3E%3Crect width='18' height='12' fill='%231b6f73'/%3E%3C/svg%3E") repeat-x}
+main{max-width:760px;margin:0 auto;padding:16px 14px 90px}
+h2{font-size:21px;margin:0 0 6px;line-height:1.25}
+h3{font-size:18px;margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:0 0 14px}
+.card.pad0{padding:0}
+label{display:block;font-weight:600;margin:10px 0 4px}
+input[type=text]{width:100%;padding:11px 12px;border:2px solid #9fb3b3;border-radius:10px;background:#fff;font-size:17px}
+input[type=text]:focus{outline:3px solid #a9d4d6;border-color:var(--teal)}
+.btn{display:inline-block;background:var(--teal);color:#fff;border:0;border-radius:12px;padding:12px 18px;font-weight:700;cursor:pointer;min-height:46px}
+.btn:hover{background:var(--tealdk)}
+.btn.sec{background:#fff;color:var(--tealdk);border:2px solid var(--teal)}
+.btn.sec:hover{background:var(--tealbg)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.link{background:none;border:0;color:var(--tealdk);text-decoration:underline;cursor:pointer;padding:6px 2px;font-size:15px}
+.msg{margin:10px 0 0;min-height:1.2em;font-weight:600;color:var(--kotx)}
+.msg.info{color:var(--oktx)}
+.who{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.who .nm{font-weight:700;font-size:19px}
+.codebox{background:#fff;border:2px dashed #7a9a9b;border-radius:12px;padding:8px 12px;display:inline-flex;gap:10px;align-items:center;flex-wrap:wrap}
+.codebox small{color:var(--muted)}
+.code{font:700 24px/1.1 "Consolas","Menlo","Courier New",monospace;letter-spacing:.08em;white-space:nowrap}
+.copy{border:1px solid #9fb3b3;background:#f6fafa;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:14px}
+/* Wochenkarten */
+.wk{width:100%;text-align:left;background:#fff;border:2px solid var(--teal);border-radius:14px;padding:12px 14px;margin:0 0 12px;display:flex;gap:14px;align-items:center;cursor:pointer}
+.wk:hover{background:var(--tealbg)}
+.wk .bdg{flex:0 0 52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;background:var(--teal);color:#fff;border:4px solid var(--tealdk)}
+.wk.done .bdg{background:var(--b);border-color:var(--bd)}
+.wk .tx{flex:1;min-width:0}
+.wk .tx b{display:block;font-size:18px}
+.wk .tx span{color:var(--muted);font-size:14.5px}
+.wk .st{font-size:14px;font-weight:700;white-space:nowrap;color:var(--tealdk)}
+.wk.lock{border-color:#b9c5c5;background:#f4f7f7;cursor:not-allowed}
+.wk.lock .bdg{background:#b9c5c5;border-color:#98a8a8;color:#fff}
+.wk.lock .st{color:var(--muted)}
+details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:0 0 12px}
+details summary{cursor:pointer;font-weight:700;min-height:28px}
+details p,details li{font-size:15.5px}
+.teach{font-size:15px}
+.teach h4{margin:14px 0 4px;font-size:15.5px}
+.teach ul{margin:4px 0 8px;padding-left:20px}
+.teach table{border-collapse:collapse;font-size:14.5px;margin:6px 0}
+.teach td,.teach th{border:1px solid var(--line);padding:4px 8px;text-align:left}
+footer{max-width:760px;margin:0 auto;padding:6px 14px 30px;color:var(--muted);font-size:13.5px}
+/* Aufgaben */
+.task{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin:0 0 16px}
+.task .th{display:flex;gap:10px;align-items:flex-start;margin-bottom:6px}
+.task .no{flex:0 0 34px;height:34px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+.task .th small{display:block;color:var(--muted);font-weight:400;font-size:14.5px}
+.task .intro{margin:2px 0 10px;font-size:16px}
+.ex{background:var(--tealbg);border-radius:10px;padding:8px 10px;margin:0 0 10px;font-size:15.5px}
+.item{position:relative;border:2px solid var(--line);border-radius:12px;padding:10px 46px 10px 12px;margin:0 0 10px;background:#fff}
+.item .n{font-weight:800;color:var(--tealdk);margin-right:4px}
+.item p{margin:0 0 6px}
+.item .de{font-size:18px;font-weight:600}
+.item .tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;background:var(--tealbg);color:var(--tealdk);border-radius:6px;padding:1px 7px;margin-right:6px;vertical-align:1px}
+.item .hint{color:var(--muted);font-size:14px;margin-left:6px}
+.item .sent{font-size:18px;line-height:1.9}
+.item input.g{display:inline-block;width:auto;min-width:120px;max-width:100%;padding:4px 8px;font-size:17px;border-width:2px;border-radius:8px;margin:0 2px}
+.item .vh{color:var(--muted);font-size:14.5px;margin:0 4px 0 0}
+.item.ok{border-color:var(--ok);background-color:var(--okbg)}
+.item.ko{border:2px dashed var(--ko);background-color:var(--kobg)}
+.item.almost{border:2px solid var(--warn);background-color:var(--warnbg)}
+.item.missing{border-color:var(--ko)}
+.item::after{content:"";position:absolute;right:10px;top:10px;width:28px;height:28px;background-size:contain;background-repeat:no-repeat;display:none}
+.item.ok::after{display:block;background-image:var(--ic-ok)}
+.item.ko::after{display:block;background-image:var(--ic-ko)}
+.item.almost::after{display:block;background-image:var(--ic-mid)}
+.item input[disabled]{background-color:rgba(255,255,255,.7);color:var(--ink)}
+.item.ok input.g,.item.ok input.t{border-color:var(--ok)}
+.item.ko input.g,.item.ko input.t{border:2px dashed var(--ko)}
+.fb{margin:6px 0 0;font-size:15.5px;font-weight:600}
+.item.ok .fb{color:var(--oktx)} .item.ko .fb{color:var(--kotx)} .item.almost .fb{color:var(--warntx)}
+.opts{display:grid;gap:8px;margin-top:6px}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:2px solid #9fb3b3;border-radius:10px;padding:9px 12px 9px 40px;position:relative;cursor:pointer;min-height:44px;font-size:16.5px}
+.opt::before{content:"";position:absolute;left:12px;top:50%;width:16px;height:16px;margin-top:-8px;border:2px solid #6c8283;border-radius:50%;background:#fff}
+.opt.sel{border-color:var(--teal);background:var(--tealbg)}
+.opt.sel::before{background:var(--teal);box-shadow:inset 0 0 0 3px #fff}
+.opt[disabled]{cursor:default}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.right::before{border:0;background:var(--ic-ok) center/contain no-repeat;width:20px;height:20px;margin-top:-10px;left:10px;box-shadow:none}
+.opt.wrong{border:2px dashed var(--ko);background:var(--kobg)}
+.opt.wrong::before{border:0;background:var(--ic-ko) center/contain no-repeat;width:20px;height:20px;margin-top:-10px;left:10px;box-shadow:none}
+.ticks label{display:flex;gap:10px;align-items:flex-start;font-weight:500;margin:8px 0;cursor:pointer}
+.ticks input{width:22px;height:22px;margin-top:2px;flex:0 0 22px;accent-color:var(--teal)}
+.noscore{font-size:14px;color:var(--muted);margin-top:6px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:2px solid var(--teal);padding:10px 14px;z-index:5}
+.bar .in{max-width:760px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.bar .cnt{font-size:15px;color:var(--muted);font-weight:600}
+.bar .bm{font-size:15px;font-weight:700;color:var(--kotx);flex:1 1 100%}
+.res{border-radius:14px;padding:14px;margin:0 0 16px;border:2px solid}
+.res.pass{background:var(--okbg);border-color:var(--ok);color:var(--oktx)}
+.res.fail{background:var(--kobg);border:2px dashed var(--ko);color:var(--kotx)}
+.res .big{font-size:22px;font-weight:800}
+.res .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+/* Zertifikat */
+.cert{background:#fff;border:3px solid var(--medal-dark);border-radius:18px;padding:18px 14px 16px;text-align:center;position:relative;overflow:hidden}
+.cert::before{content:"";position:absolute;left:0;right:0;top:0;height:10px;background:var(--medal-base)}
+.cert h2{margin:6px 0 2px;font-size:26px}
+.cert .cn{font-size:24px;font-weight:800;margin:2px 0 4px;word-break:break-word}
+.cert .sub{color:var(--muted);margin:0 0 6px;font-size:15px}
+.cert .sc{font-size:20px;font-weight:700;margin:6px 0 10px}
+.cert .codebox{margin:6px 0 6px}
+.cert .open{font-weight:700;color:var(--oktx);margin:8px 0 0}
+.cert .dt{color:var(--muted);font-size:13.5px;margin-top:10px}
+.medal{width:132px;height:auto;display:block;margin:6px auto 0}
+.todo{background:var(--warnbg);border:2px solid var(--warn);border-radius:12px;padding:10px 14px;margin:14px 0;font-weight:600;color:var(--warntx)}
+.todo p{margin:4px 0}
+.back{background:none;border:0;color:var(--tealdk);font-weight:700;cursor:pointer;padding:6px 0 10px;font-size:16px}
+@media (max-width:480px){
+  body{font-size:16.5px} header.top h1{font-size:22px}
+  .wk{flex-wrap:wrap} .wk .st{flex:1 1 100%;padding-left:66px;margin-top:-6px}
+  .item{padding-right:42px}
+  .item input.g{min-width:96px}
+}
+@media print{.bar,.back,.btn,.link{display:none}}
+</style></head>
+<body><div id="app"></div>
+<template id="teacher-tpl"><details class="teach"><summary>Für die Lehrkraft (Deutsch)</summary>
+<h4>Einsatz</h4>
+<ul>
+<li>Ersetzt die schriftlichen Hausaufgaben der Wochen 3–5 (jeweils nach der 45′-Stunde). Woche 6 (Testwoche) hat bewusst keinen Satz.</li>
+<li>Pro Woche höchstens drei Aufgaben (Projektregel): Woche 3 Wortschatz · cond. 2 · cond. 1/2 im Vergleich; Woche 4 Wortschatz · A12-Checkliste im Heft · „Say it in English“; Woche 5 Wortschatz · relative clauses · E-Mail-Phrasen.</li>
+<li>Bestehensgrenze 80 %. Bei „Try again“ werden neue Fragen aus dem Pool gezogen. Woche k+1 öffnet erst, wenn Woche k bestanden ist.</li>
+<li>Nachweis: Screenshot des Zertifikats in Teams. Die Medaillenfarbe richtet sich nach der Unit-Woche (3 Smaragdgrün, 4 Rubinrot, 5 Amethyst).</li>
+</ul>
+<h4>Quellen (Camden Town 7, Theme 2)</h4>
+<ul>
+<li>Wortschatz: Wortliste S. 229 (A5–A9), S. 229–230 (A10–A12), S. 230–231 (Part B), samt Beispielsätzen. Alle Einträge sind gleichrangig; Lehrwerksmarkierungen werden nicht ausgewertet. Mit ° markierte Annotationen (z. B. scholarship, like crazy) sind nicht aufgenommen.</li>
+<li>Grammatik: Sätze aus WB 10 (cond. 2), Check Your Progress 3, TM Part A (A8, Beispielsätze), WB 18/Extra Training 2 und 4 (relative clauses), TM Part B (B5, B9). Die Sätze sind aus den Lösungen übernommen oder daran angelehnt.</li>
+<li>„Say it in English“: Wendungen aus TB S. 231 und Check Your Progress 2. E-Mail-Phrasen: TB T1/T3 (S. 44–45) nach Handreichung.</li>
+</ul>
+<p><b>Eigene Formulierung</b> (nicht wörtlich aus dem Lehrwerk): die Kontrastsätze Typ 1/Typ 2 in Woche 3, die Einordnung der Phrasen nach E-Mail-Teil in Woche 5, die Aufgabentexte, die Checklistenpunkte und die Rückmeldetexte. Bitte stichprobenartig gegen das Schülerbuch prüfen, das nicht im Projekt liegt (A8-Impulse, D14–D16, T3-Aufgabentext).</p>
+<h4>Didaktische Entscheidungen</h4>
+<ul>
+<li>Nur Inhalte, die ein Modul zuverlässig auswerten kann. Hör-/Videoaufgaben (WB 12, 13, 15, 17, CYP 6) und freies Schreiben (A12) sind ausgenommen; A12 steht als Selbstcheck-Liste, die nicht gewertet wird.</li>
+<li>Wortschatz: je Durchgang gemischt Deutsch→Englisch, Lückensatz und Englisch→Deutsch (Auswahl). Ablenker bei Auswahlaufgaben sind andere Wörter derselben Woche. Die Reihenfolge der Optionen wird bei jedem Durchgang neu gemischt.</li>
+<li>Woche 3, Aufgaben 2 und 3: Am Ende jeder Aufgabe stehen je zwei „Challenge“-Sätze mit nachgestelltem if-Satz (Hauptsatz zuerst, kein Komma). Sie gehören zu den 5 Items der Aufgabe (je 3 normale + 2 Challenge) und zählen zur Wertung (15 Items in Woche 3); die Sätze sind eigene Formulierungen.</li>
+<li>Grammatik: cond. 1 und cond. 2 werden in Woche 3 getrennt, dann gemischt geübt. Es werden keine contact clauses abgefragt (laut Sequenz erst in Woche 6 und nur erkannt).</li>
+<li>„who/which/whose“: Mindestens ein whose-Satz je Durchgang. Ablenker sind die beiden anderen Pronomen.</li>
+<li>Bei Auswahlaufgaben wird nicht gespeichert, welche falsche Option gewählt wurde.</li>
+</ul>
+<h4>Toleranzregeln</h4>
+<ul>
+<li>Egal: Groß-/Kleinschreibung, Satzzeichen, Apostrophform (’ ' ´), doppelte Leerzeichen, „to“ bei Verben, fehlendes sb/sth.</li>
+<li>Streng: Rechtschreibung im Englischen. Ein Buchstabe daneben → gelb „Almost!“ mit zweitem Versuch; die Grundform statt der verlangten Form → gelb „check the form“.</li>
+<li>Kurzformen: „wouldn't“ und „would not“ sind beide richtig; „wouldnt“ ohne Apostroph nicht.</li>
+<li>Wertung barrierefrei: Blau = richtig, Orange gestrichelt = falsch, Gelb = fast; immer mit Symbol.</li>
+</ul>
+<h4>Speichern und Fortschrittscode</h4>
+<ul>
+<li>Nur <code>sessionStorage</code>; beim Schließen der Seite ist alles weg (geteilte Geräte). Der Code trägt die Zahl der bestandenen Wochen (6 Zeichen, namensgebunden). Beim Wiedereinstieg: Name + Code eingeben, dann sind die Wochen wieder frei.</li>
+<li>Falscher Name oder falscher Code werden gleich abgelehnt, ohne zu sagen, was falsch war. Name in beliebiger Reihenfolge, Umlaute/Akzente egal.</li>
+<li>Kein Netz, kein Export, keine Freischaltung durch die Lehrkraft im Modul. Notweg: Screenshot des Zertifikats in Teams.</li>
+</ul>
+<h4>Code prüfen</h4>
+<p><label for="tn" style="margin:4px 0">Name</label><input type="text" id="tn" autocomplete="off">
+<label for="tc" style="margin:8px 0 4px">Code</label><input type="text" id="tc" autocomplete="off" placeholder="ABC-DEF"></p>
+<p><button class="btn sec" data-act="tcheck">Prüfen</button></p>
+<p id="tout" role="status" style="font-weight:600"></p>
+<h4>Medaillenfarben</h4>
+<table><tr><th>Woche</th><th>Farbe</th></tr><tr><td>3</td><td>Smaragdgrün</td></tr><tr><td>4</td><td>Rubinrot</td></tr><tr><td>5</td><td>Amethyst</td></tr></table>
+<p>Die Farbe ist reine Wochenkennung, keine Rangfolge; die Wochenzahl steht zusätzlich als Text auf der Medaille.</p>
+<h4>Technik</h4>
+<ul><li>Eine HTML-Datei, offline, Systemschriften, bis 390 px Breite ausgelegt. Das Modul wird nur um weitere Sätze ergänzt, nie umgeordnet, damit bestehende Codes gültig bleiben (<code>MODULE_KEY</code> bleibt unverändert).</li></ul>
+</details>
+</template>
+<script>
+/* ===== Abgleich-Bibliothek v3 (mfs-html-lernmodule-selfcheck §3) ===== */
+function norm(s){
+  return String(s==null?"":s).normalize("NFC")
+    .replace(/[’‘´`ʼ]/g,"'")
+    .replace(/[«»“”"]/g," ")
+    .toLowerCase()
+    .replace(/\s*'\s*/g,"'")
+    .replace(/\s*\/\s*/g,"/")
+    .replace(/\s+[-–—]\s+/g," ")
+    .replace(/[.!?¡¿;:,…]/g," ")
+    .replace(/\s+/g," ").trim();
+}
+const _PH = /^(qn|qc|algn|algo|alguien|sb|sth|s\.o\.|s\.th\.|someone|something|jdn|jdm|jds|jmd|jmdn|jmdm|etw)(\/(qn|qc|algn|algo|alguien|sb|sth|jdn|jdm|jds|jmd|jmdn|jmdm|etw))*$/;
+function _stripPH(s){
+  const t = (" "+s+" ")
+    .replace(/ quelque chose /g," ").replace(/ quelqu'un /g," ")
+    .replace(/ algo /g," ").replace(/ alguien /g," ")
+    .replace(/ something /g," ").replace(/ someone /g," ")
+    .trim().split(" ").filter(w=>!_PH.test(w));
+  return t.join(" ");
+}
+const _LET = /[A-Za-zÀ-ÖØ-öø-ÿ]/;
+function _expandGlued(s){
+  let out=[s];
+  for(let g=0; g<6; g++){
+    let changed=false; const next=[];
+    out.forEach(t=>{
+      const re=/(\S?)\(([^()]*)\)(\S?)/g; let m, hit=null;
+      while((m=re.exec(t))){ if(_LET.test(m[1])||_LET.test(m[3])){ hit=m; break; } re.lastIndex=m.index+1; }
+      if(hit){ const inner=hit[2].replace(/-$/,""), pre=t.slice(0,hit.index)+hit[1], post=hit[3]+t.slice(hit.index+hit[0].length);
+        next.push(pre+inner+post, pre+post); changed=true; }
+      else next.push(t);
+    });
+    out=next; if(!changed) break;
+  }
+  return out;
+}
+function _expandParens(s, depth){
+  depth = depth||0;
+  const m = s.match(/\(([^()]*)\)/);
+  if(!m || depth>4) return [s.replace(/[()]/g," ")];
+  const pre = s.slice(0,m.index), post = s.slice(m.index+m[0].length);
+  return _expandParens(pre+" "+m[1]+" "+post, depth+1)
+    .concat(_expandParens(pre+" "+post, depth+1));
+}
+const _ART = ["le","la","l'","les","un","une","el","la","los","las","un","una","the","a","an","der","die","das","den","dem","ein","eine"];
+function _expandSlashes(s){
+  let combos = [""];
+  s.split(" ").forEach(tok=>{
+    let alts = [tok];
+    if(tok.indexOf("/")>0){
+      const p = tok.split("/").filter(Boolean);
+      alts = [tok];
+      p.forEach((a,i)=>{
+        if(i>0 && /^-[a-zà-ÿ]{1,3}$/.test(a)){
+          const suf=a.slice(1);
+          alts.push(/[aeiou]$/.test(p[0]) && /^[aeiou]/.test(suf) ? p[0].slice(0,-1)+suf : p[0]+suf);
+        }
+        else if(i>0 && a.length<=2 && _ART.indexOf(a)<0) alts.push(p[0]+a);
+        else alts.push(a);
+      });
+    }
+    const next = [];
+    combos.forEach(c=>alts.forEach(a=>{ if(next.length<64) next.push(c? c+" "+a : a); }));
+    combos = next;
+  });
+  return combos;
+}
+function _dropArticle(s){
+  return s.replace(/^(der|die|das|den|dem|ein|eine|le|la|les|l'|un|une|el|los|las|the|an) /,"");
+}
+function answerKeys(ans, de){
+  const out = new Set();
+  const add = x => { x = (x||"").replace(/\s+/g," ").trim(); if(x) out.add(x); };
+  _expandGlued(String(ans==null?"":ans)).forEach(g=>{
+    _expandParens(g.replace(/(\S)-(?=\s|$)/g,"$1")).forEach(p=>{
+      const b = norm(p);
+      [b].concat(_expandSlashes(b), b.split("/")).forEach(e=>{
+        add(e); add(_stripPH(e));
+        if(de){ add(_dropArticle(e)); add(_dropArticle(_stripPH(e))); }
+      });
+    });
+  });
+  return out;
+}
+function inputKeys(inp, de){
+  const out = new Set();
+  const add = x => { x = (x||"").replace(/\s+/g," ").trim(); if(x) out.add(x); };
+  const raw = String(inp==null?"":inp), forms = [];
+  [raw].concat(_expandGlued(raw)).forEach(v=>{
+    v = v.replace(/(\S)-(?=\s|$)/g,"$1");
+    forms.push(norm(v), norm(v.replace(/[()]/g," ")));
+  });
+  forms.forEach(x=>{
+    add(x); add(_stripPH(x));
+    if(de){ add(_dropArticle(x)); add(_dropArticle(_stripPH(x))); }
+  });
+  return out;
+}
+function _deaccentFirst(s){
+  return s ? s.charAt(0).normalize("NFD").replace(/[̀-ͯ]/g,"") + s.slice(1) : s;
+}
+function accepts(input, answers, opt){
+  const de = !!(opt && opt.de);
+  const ins = inputKeys(input, de);
+  if(ins.size===0) return false;
+  const capStart = /^[A-ZÀÉÈÊÂÎÔÛÇÑÁÍÓÚÜ]/.test(String(input||"").trim());
+  const list = Array.isArray(answers) ? answers : [answers];
+  for(const a of list){
+    for(const k of answerKeys(a, de)){
+      if(ins.has(k)) return true;
+      if(capStart){ const kk=_deaccentFirst(k); if(ins.has(kk)) return true; }
+    }
+  }
+  return false;
+}
+function splitMeanings(s){
+  const raw=[]; let cur="", d=0;
+  for(const ch of String(s)){
+    if(ch==="(") d++; if(ch===")") d=Math.max(0,d-1);
+    if((ch===","||ch===";") && !d){ raw.push(cur); cur=""; } else cur+=ch;
+  }
+  raw.push(cur);
+  const parts = raw.map(x=>x.replace(/^\s*(\(?(hier|auch)\)?( AE| BE)?|fig\.|ugs\.)\s*:?\)?\s*/i,"").trim()).filter(Boolean);
+  return [String(s)].concat(parts);
+}
+function _lev(a,b){ if(a===b) return 0; const m=a.length,n=b.length; if(!m) return n; if(!n) return m;
+  let p=Array.from({length:n+1},(_,j)=>j);
+  for(let i=1;i<=m;i++){ const c=[i]; for(let j=1;j<=n;j++) c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1)); p=c; }
+  return p[n]; }
+function nearMiss(input, answers, opt){
+  const ins = inputKeys(input, opt && opt.de);
+  const list = Array.isArray(answers) ? answers : [answers];
+  for(const a of list) for(const k of answerKeys(a, opt && opt.de)) for(const i of ins)
+    if(k.length>=4 && _lev(i,k)<=1) return true;
+  return false;
+}
+
+/* ===== DATEN: Camden Town 7, Theme 2 "Welcome to Wales!" – Hausaufgaben Woche 3–5 =====
+   Herkunft: Wortliste TB S. 229–231 (Vokabeln, Beispielsätze, Abschnittsmarken A5–B10);
+   Workbook-Lösungen WB 10, WB 18, Check Your Progress 3, Extra Training 2 und 4 (Items daraus entnommen/angepasst);
+   TM Part A/B (T3 "Answering an email", A12). Mit ° markierte Wörter (scholarship, like crazy) bleiben draußen.
+   Felder Vokabeln: en = Eintrag; de = deutsche Bedeutung; tr = akzeptierte Antworten Deutsch→Englisch (null = nicht abfragbar);
+   ex/bl = Beispielsatz und die darin zu füllende Form; gap = akzeptierte Lückenantworten; lem = Grundform (Hinweis "check the form");
+   grp = Konfliktgruppe (nie zwei Einträge einer Gruppe in einem Durchgang). Lehrwerksmarkierungen werden nicht ausgewertet. */
+const DATA = { weeks: [
+
+/* ---------------- WOCHE 3 · Part A II (A6–A9) ---------------- */
+{ n: 3, key: "w3", title: "Week 3", topic: "Part A II · A5–A9",
+  blurb: "Words p. 229 · if-sentences (type 2) · type 1 and type 2",
+  vocabRange: "p. 229 (A5–A9)",
+  tasks: [
+    { type: "vocab", title: "Words", sub: "Word list p. 229 (A5–A9)", n: 5,
+      intro: "Learn the words on page 229 (A5 to A9) first. Then answer the questions. You can write verbs with or without “to”." },
+    { type: "fill", title: "If I … , I would …", sub: "Conditional clauses, type 2", n: 3,
+      intro: "Gillian is sad. She thinks about how her life could be different. Put the verbs in brackets into the correct form. Write only the missing words.",
+      example: "If I still lived (live) in London, I would meet (meet) my friends in the park every day.",
+      chalIntro: "Challenge: now the if-clause comes second. Do not use a comma.", nc: 2,
+      chal: [
+        ["I ", {a:["would be","'d be"],h:"be"}, " much happier if I ", {a:["lived"],h:"live"}, " near my old friends."],
+        ["Gillian ", {a:["would feel","'d feel"],h:"feel"}, " less homesick if her friends ", {a:["visited"],h:"visit"}, " her more often."],
+        ["Mum ", {a:["would have","'d have"],h:"have"}, " more time for me if she ", {a:["didn't work","did not work"],h:"not work"}, " so much."],
+        ["I ", {a:["wouldn't worry","would not worry"],h:"not worry"}, " about school if I ", {a:["knew"],h:"know"}, " more people."],
+        ["We ", {a:["would explore","'d explore"],h:"explore"}, " the castle together if it ", {a:["was","were"],h:"be"}, " open today."]
+      ],
+      pool: [
+        ["If Caroline and Emma ", {a:["were"],h:"be"}, " here with me, we ", {a:["would explore","'d explore"],h:"explore"}, " Wales together."],
+        ["If I ", {a:["had"],h:"have"}, " a dog, I ", {a:["wouldn't feel","would not feel"],h:"not feel"}, " so lonely."],
+        ["If Mum ", {a:["wasn't","weren't","was not","were not"],h:"not be"}, " expecting a baby, she ", {a:["would have","'d have"],h:"have"}, " more time for me."],
+        ["If I ", {a:["went"],h:"go"}, " back to London on my own, one of my friends ", {a:["would have to","'d have to"],h:"have to"}, " let me stay at their house."],
+        ["If I ", {a:["didn't feel","did not feel"],h:"not feel"}, " so miserable, it ", {a:["would be","'d be"],h:"be"}, " easier for me to make new friends."],
+        ["If I ", {a:["became"],h:"become"}, " seriously ill, perhaps Mum ", {a:["would send","'d send"],h:"send"}, " me home to Dad."],
+        ["If I ", {a:["had"],h:"have"}, " the chance to play football here, I ", {a:["would feel","'d feel"],h:"feel"}, " part of a team again."],
+        ["If the village school ", {a:["had"],h:"have"}, " a football team, I ", {a:["would choose","'d choose"],h:"choose"}, " the school here."],
+        ["If I ", {a:["spoke"],h:"speak"}, " Welsh, it ", {a:["wouldn't be","would not be"],h:"not be"}, " so difficult for me to fit in here."]
+      ] },
+    { type: "fill", title: "Type 1 or type 2?", sub: "Conditional clauses, types 1 and 2", n: 3,
+      intro: "Read the sentences. Put the verbs in brackets into the correct form. Think: is it likely (type 1) or not very likely (type 2)?",
+      chalIntro: "Challenge: now the if-clause comes second. Do not use a comma.", nc: 2,
+      chal: [
+        ["Mum ", {a:["will be","'ll be"],h:"be"}, " happy if I ", {a:["make"],h:"make"}, " friends at my new school."],
+        ["Gillian ", {a:["would be","'d be"],h:"be"}, " less lonely if she ", {a:["had"],h:"have"}, " a dog."],
+        ["Rhys ", {a:["will show","'ll show"],h:"show"}, " us the farm if we ", {a:["visit"],h:"visit"}, " him on Saturday."],
+        ["Victoria ", {a:["would help","'d help"],h:"help"}, " me if I ", {a:["asked"],h:"ask"}, " her."]
+      ],
+      pool: [
+        ["Let's go to the top of Mount Snowdon. If the weather is nice, we ", {a:["will have","'ll have"],h:"have"}, " a great view."],
+        ["If we ", {a:["take"],h:"take"}, " the road along the coast, we will see some famous castles."],
+        ["If it ", {a:["fits"],h:"fit"}, " in with his work, Gwynn will take us to Aberystwyth."],
+        ["If Llandysul had some shops and cafés, I ", {a:["wouldn't mind","would not mind"],h:"not mind"}, " living there."],
+        ["If I ", {a:["didn't go","did not go"],h:"not go"}, " to boarding school, I would definitely want to have a dog."],
+        ["If you meet Rhys and his dog Toby, you ", {a:["will like","'ll like"],h:"like"}, " them immediately."],
+        ["You ", {a:["wouldn't understand","would not understand"],h:"not understand"}, " a word if Rhys started talking to you in Welsh."],
+        ["George ", {a:["would be","'d be"],h:"be"}, " thrilled if Rhys took him to a rugby match."]
+      ] }
+  ],
+  vocab: [
+    { en:"to enjoy yourself", de:"sich amüsieren", tr:["to enjoy yourself","enjoy yourself"], ex:"Did you enjoy yourself on your holiday?", bl:"enjoy yourself", gap:["enjoy yourself"] },
+    { en:"entry", de:"Eintrag, Eintritt", tr:["entry"], ex:"Entry to the castle costs £5.", bl:"Entry", gap:["entry"] },
+    { en:"village", de:"Dorf", tr:["village"], ex:"I live in a small village in the countryside.", bl:"village", gap:["village"] },
+    { en:"not … either", de:"auch nicht", tr:null, ex:"Where is my book? It's not on my desk, and it's not in my bag either.", bl:"either", gap:["either"] },
+    { en:"boarding school", de:"Internat", tr:["boarding school"], ex:"Meg goes to boarding school and comes home at the weekend.", bl:"boarding school", gap:["boarding school"] },
+    { en:"anything", de:"(irgend)etwas, (irgend)was", tr:["anything"], ex:"Is there anything I can do to help?", bl:"anything", gap:["anything"] },
+    { en:"to make friends (with sb)", de:"(mit jdm) Freundschaft schließen", tr:["to make friends (with sb)","make friends (with sb)"], ex:null, gap:null, grp:"friends" },
+    { en:"next door", de:"nebenan, benachbart", tr:["next door"], ex:"I really like my neighbour. He lives right next door.", bl:"next door", gap:["next door"] },
+    { en:"to switch", de:"wechseln", tr:["to switch","switch"], ex:"When we speak German in English lessons, the teacher tells us to switch to English.", bl:"switch", gap:["switch"] },
+    { en:"to be into sb/sth", de:"an jdm/etw interessiert sein", tr:["to be into sb/sth","be into sb/sth"], ex:"I don't like reading but I'm really into dancing.", bl:"into", gap:["into"], grp:"fan" },
+    { en:"to be mad about sb/sth", de:"nach jdm/etw verrückt sein", tr:["to be mad about sb/sth","be mad about sb/sth"], ex:"I love football. I'm mad about it.", bl:"mad about", gap:["mad about"], grp:"fan" },
+    { en:"to go to sleep", de:"(ein)schlafen", tr:["to go to sleep","go to sleep"], ex:"I go to sleep at around 9 pm when I have school in the morning.", bl:"go to sleep", gap:["go to sleep"] },
+    { en:"evidence", de:"Beweis(e)", tr:["evidence"], ex:"Give evidence from the text.", bl:"evidence", gap:["evidence"] },
+    { en:"to continue", de:"weitermachen, fortfahren", tr:["to continue","continue"], ex:"After dinner, they continued to watch TV.", bl:"continued", gap:["continued"], lem:["continue"] },
+    { en:"kilometre", de:"Kilometer", tr:["kilometre"], ex:"My house is 14 kilometres from my school.", bl:"kilometres", gap:["kilometres"], lem:["kilometre"] },
+    { en:"neighbourhood", de:"Nachbarschaft, (Wohn)viertel, Gegend", tr:["neighbourhood"], ex:"I think that girl lives in my neighbourhood. I see her almost every day.", bl:"neighbourhood", gap:["neighbourhood"] },
+    { en:"himself", de:"sich, (sich) selbst", tr:null, ex:"The last time I met Sam he only talked about himself.", bl:"himself", gap:["himself"] }
+  ]
+},
+
+/* ---------------- WOCHE 4 · Part A III (A10–A12) ---------------- */
+{ n: 4, key: "w4", title: "Week 4", topic: "Part A III · A10–A12",
+  blurb: "Words pp. 229–230 · your diary entry (A12) · Say it in English",
+  vocabRange: "pp. 229–230 (A10–A12)",
+  tasks: [
+    { type: "vocab", title: "Words", sub: "Word list pp. 229–230 (A10–A12)", n: 7,
+      intro: "Learn the words on pages 229 and 230 (A10 to A12) first. Then answer the questions. You can write verbs with or without “to”." },
+    { type: "check", title: "Your diary entry (A12)", sub: "In your exercise book",
+      intro: "Write your final version of Caroline’s or Rhys’s diary entry for Saturday, 13 August, in your exercise book. Then check your text. Tick what you did.",
+      boxes: [
+        "I wrote Caroline’s or Rhys’s diary entry for Saturday, 13 August.",
+        "I wrote about feelings and opinions.",
+        "I used at least two if-sentences (type 1 or type 2).",
+        "I used informal language (short forms, exclamations, incomplete sentences).",
+        "I checked my text: spelling, verb forms, if-sentences."
+      ] },
+    { type: "mc", title: "Say it in English", sub: "Useful phrases", n: 8,
+      intro: "Which English sentence matches the German sentence? Choose.",
+      qlabel: "Say it in English:",
+      pool: [
+        { q:"Das hört sich alles ziemlich aufregend an.", a:"It all sounds pretty exciting." },
+        { q:"Ich hätte nichts gegen ein Glas Apfelsaft.", a:"I wouldn't mind a glass of apple juice." },
+        { q:"Die Auswahl an Spielen ist unglaublich.", a:"The choice of games is unbelievable." },
+        { q:"Wir haben das Beste aus der Situation gemacht.", a:"We made the best of the situation." },
+        { q:"Es ist nicht das Ende der Welt.", a:"It's not the end of the world." },
+        { q:"Ich kann mir kein neues Handy leisten.", a:"I can't afford a new phone." },
+        { q:"Ich dachte, du würdest mich nie fragen.", a:"I thought you would never ask me." },
+        { q:"Englisch ist eine ziemliche Herausforderung für mich.", a:"English is quite a challenge for me." }
+      ] }
+  ],
+  vocab: [
+    { en:"thrilled", de:"außer sich vor Freude", tr:["thrilled"], ex:"I'm so thrilled that Zoe is going to visit me!", bl:"thrilled", gap:["thrilled"] },
+    { en:"generous", de:"großzügig, freigebig", tr:["generous"], ex:"Gwynn offered to pay for Caroline's train ticket. That is very generous.", bl:"generous", gap:["generous"] },
+    { en:"to give sb a hug", de:"jdn umarmen", tr:["to give sb a hug","give sb a hug"], ex:"Rani was so happy after the match that he gave me a hug.", bl:"gave me a hug", gap:["gave me a hug"] },
+    { en:"awkward", de:"schwierig, unangenehm, peinlich", tr:["awkward"], ex:"Nobody said a word. That was awkward.", bl:"awkward", gap:["awkward"] },
+    { en:"if only", de:"wenn (doch) nur", tr:["if only"], ex:null, gap:null },
+    { en:"BFF (= Best Friends Forever)", de:"für immer beste Freundinnen/Freunde", tr:["BFF","best friends forever"], ex:null, gap:null },
+    { en:"interview", de:"Interview, hier: Vorstellungsgespräch", tr:null, ex:"He was very nervous during his interview.", bl:"interview", gap:["interview"] },
+    { en:"somebody can't wait (to do sth)", de:"jemand kann es kaum erwarten(, etw. zu tun)", tr:["can't wait","somebody can't wait (to do sth)"], ex:"I can't wait to go swimming! I'm really excited!", bl:"can't wait", gap:["can't wait"] },
+    { en:"thought", de:"Gedanke", tr:["thought"], ex:"When you write a diary entry, you write about your thoughts and feelings.", bl:"thoughts", gap:["thoughts"], lem:["thought"] },
+    { en:"informal", de:"informell, locker, zwanglos", tr:["informal"], ex:null, gap:null },
+    { en:"personal", de:"persönlich, privat", tr:["personal"], ex:"I don't want to talk about it. It's personal.", bl:"personal", gap:["personal"] },
+    { en:"yourself", de:"dich, dir, (du/Sie) selbst", tr:null, ex:"Did you make the dress yourself?", bl:"yourself", gap:["yourself"] },
+    { en:"incomplete", de:"unvollständig, unfertig", tr:["incomplete"], ex:"incomplete = something is missing", bl:"incomplete", gap:["incomplete"] },
+    { en:"exclamation", de:"Ausruf", tr:["exclamation"], ex:"“No way!” is an exclamation.", bl:"exclamation", gap:["exclamation"] },
+    { en:"typical (of)", de:"typisch (für)", tr:["typical (of)"], ex:"This is so typical of Tom! He is always late!", bl:"typical", gap:["typical"] },
+    { en:"to structure", de:"strukturieren", tr:["to structure","structure"], ex:"Please structure your presentation with an introduction, a main part and a conclusion.", bl:"structure", gap:["structure"] },
+    { en:"conclusion", de:"Abschluss, Schluss, Schlussfolgerung", tr:["conclusion"], ex:"Finish your essay with a conclusion.", bl:"conclusion", gap:["conclusion"] }
+  ]
+},
+
+/* ---------------- WOCHE 5 · Part B (B1–B10) ---------------- */
+{ n: 5, key: "w5", title: "Week 5", topic: "Part B · At boarding school",
+  blurb: "Words pp. 230–231 · relative clauses · phrases for an email",
+  vocabRange: "pp. 230–231 (Part B)",
+  tasks: [
+    { type: "vocab", title: "Words", sub: "Word list pp. 230–231 (Part B)", n: 6,
+      intro: "Learn the words on pages 230 and 231 (Part B) first. Then answer the questions. You can write verbs with or without “to”." },
+    { type: "mc", title: "who, which or whose?", sub: "Relative clauses", n: 5, pin: "whose",
+      intro: "Choose the correct relative pronoun.", qlabel: "Complete the sentence:",
+      fixed: ["who","which","whose"],
+      pool: [
+        { q:"At the moment Gillian is reading a book ____ her mum gave her for her birthday.", a:"which" },
+        { q:"Victoria is one of the girls ____ share a dorm room with Gillian.", a:"who" },
+        { q:"Gillian really likes her houseparents ____ are always happy to help her.", a:"who" },
+        { q:"Gareth and Harry are two boys ____ worked with Gillian on a science project.", a:"who" },
+        { q:"St Bernard's has a recording studio ____ has become Gillian's favourite place.", a:"which" },
+        { q:"Is Wales a country ____ you would like to visit?", a:"which" },
+        { q:"Gillian now has to wear a uniform ____ is navy and white.", a:"which" },
+        { q:"School fees is the money ____ you pay to go to a particular school.", a:"which" },
+        { q:"A scholarship is the money ____ a school gives to clever pupils.", a:"which" },
+        { q:"GCSE is an exam ____ pupils take at the age of 16.", a:"which" },
+        { q:"The caretaker is the person ____ helps out when things break down.", a:"who" },
+        { q:"A mixed school is a school ____ teaches both boys and girls.", a:"which" },
+        { q:"The head teacher is the person ____ is the most important teacher.", a:"who" },
+        { q:"I know someone ____ grandfather is 100 years old.", a:"whose", g:"whose" },
+        { q:"Rhys is the boy ____ dog is called Toby.", a:"whose", g:"whose" }
+      ] },
+    { type: "mc", title: "Phrases for an email", sub: "Where does the phrase go?", n: 5,
+      intro: "You will write an email to Gillian soon. Where does each phrase go in an email?", qlabel: "Where does this phrase go?",
+      fixed: ["Greeting","Friendly start","Refer to your friend’s email","Give advice","Hopeful ending","Goodbye"],
+      pool: [
+        { q:"Hi there!", a:"Greeting" },
+        { q:"Dear …", a:"Greeting" },
+        { q:"Hey!", a:"Greeting" },
+        { q:"Good to hear from you.", a:"Friendly start" },
+        { q:"How are things?", a:"Friendly start" },
+        { q:"You say that …", a:"Refer to your friend’s email" },
+        { q:"I was surprised to read that …", a:"Refer to your friend’s email" },
+        { q:"If I were you, I would …", a:"Give advice" },
+        { q:"Try not to worry about …", a:"Give advice" },
+        { q:"It's not the end of the world if …", a:"Give advice" },
+        { q:"We'll keep in touch!", a:"Hopeful ending" },
+        { q:"Please message or email back soon.", a:"Hopeful ending" },
+        { q:"You know you can message me any time.", a:"Hopeful ending" },
+        { q:"Bye for now.", a:"Goodbye" },
+        { q:"See you soon.", a:"Goodbye" }
+      ] }
+  ],
+  vocab: [
+    { en:"worry", de:"Sorge", tr:["worry"], ex:null, gap:null },
+    { en:"subject (line)", de:"Betreff(zeile)", tr:["subject (line)"], ex:null, gap:null },
+    { en:"to survive", de:"überleben", tr:["to survive","survive"], ex:"You can only survive for a few days without water.", bl:"survive", gap:["survive"] },
+    { en:"historic", de:"historisch", tr:["historic"], ex:"The Tower is a historic building.", bl:"historic", gap:["historic"] },
+    { en:"honest", de:"ehrlich", tr:["honest"], ex:"Let's play football! – To be honest, I don't like football.", bl:"honest", gap:["honest"] },
+    { en:"intimidating", de:"beängstigend, bedrohlich", tr:["intimidating"], ex:null, gap:null },
+    { en:"whose", de:"dessen, deren", tr:["whose"], ex:"I know someone whose grandfather is 100 years old.", bl:"whose", gap:["whose"] },
+    { en:"to wonder", de:"sich fragen, sich wundern, überrascht sein", tr:["to wonder","wonder"], ex:"I wonder what it's like to be famous.", bl:"wonder", gap:["wonder"] },
+    { en:"to fit in", de:"dazupassen", tr:["to fit in","fit in"], ex:"I like the other children at my school. I fit in there.", bl:"fit in", gap:["fit in"] },
+    { en:"dorm (= dormitory)", de:"Schlafsaal", tr:["dorm","dormitory"], ex:"Five girls share a dorm. That's where they all sleep.", bl:"dorm", gap:["dorm","dormitory"] },
+    { en:"close", de:"nah(e), hier: eng", tr:["close"], ex:"Greg is very close to his family.", bl:"close", gap:["close"] },
+    { en:"mixed", de:"gemischt", tr:["mixed"], ex:"Amy goes to a mixed school. There are both boys and girls.", bl:"mixed", gap:["mixed"] },
+    { en:"to focus", de:"sich konzentrieren, fokussieren", tr:["to focus","focus"], ex:"It's important to focus in class.", bl:"focus", gap:["focus"] },
+    { en:"to mess about/around", de:"herumblödeln, Blödsinn machen", tr:["to mess about","to mess around","mess about","mess around"], ex:null, gap:null },
+    { en:"to admit", de:"zugeben", tr:["to admit","admit"], ex:"I have to admit that I like my new school.", bl:"admit", gap:["admit"] },
+    { en:"GCSE", de:"Abschlussprüfung der Sekundarstufe 1", tr:["GCSE","General Certificate of Secondary Education"], ex:null, gap:null },
+    { en:"unbelievable", de:"unglaublich, sagenhaft", tr:["unbelievable"], ex:"My brother got a gaming computer for his birthday. – Wow, that's unbelievable!", bl:"unbelievable", gap:["unbelievable"] },
+    { en:"compulsory", de:"vorgeschrieben, obligatorisch, hier: Pflicht-", tr:["compulsory"], ex:null, gap:null },
+    { en:"pretty", de:"ziemlich", tr:["pretty"], ex:"I live in a small village. It's pretty boring.", bl:"pretty", gap:["pretty"] },
+    { en:"tight", de:"fest, eng, hier: gedrängt", tr:["tight"], ex:"We have a very tight schedule with lessons, extracurricular activities and homework.", bl:"tight", gap:["tight"] },
+    { en:"schedule", de:"Zeit-/Terminplan, Programm", tr:["schedule"], ex:null, gap:null },
+    { en:"extracurricular", de:"außerhalb des Stundenplans, Wahl-", tr:["extracurricular"], ex:null, gap:null },
+    { en:"twice", de:"zweimal", tr:["twice"], ex:"twice = two times", bl:"twice", gap:["twice"], grp:"times" },
+    { en:"once", de:"einmal", tr:["once"], ex:"once = one time", bl:"once", gap:["once"], grp:"times" },
+    { en:"guys (pl, informal)", de:"Leute", tr:["guys"], ex:"Hi guys! What about a party on Friday?", bl:"guys", gap:["guys"] },
+    { en:"field trip", de:"Exkursion", tr:["field trip"], ex:null, gap:null },
+    { en:"hiking", de:"Wandern, Wander-", tr:["hiking"], ex:"You can go hiking in the mountains in Wales.", bl:"hiking", gap:["hiking"] },
+    { en:"to afford sth", de:"sich etw leisten, etw bieten", tr:["to afford sth","afford sth","to afford","afford"], ex:"I can't afford it. = It's too expensive for me.", bl:"afford", gap:["afford"] },
+    { en:"to envy sb (sth)", de:"jdn (um etw) beneiden", tr:["to envy sb (sth)","envy sb (sth)"], ex:"Gillian envies the day students.", bl:"envies", gap:["envies"], lem:["envy"] },
+    { en:"day students", de:"Internatsschüler/innen, die nach dem Unterricht nach Hause gehen können", tr:["day students","day student"], ex:null, gap:null },
+    { en:"houseparents (pl)", de:"Angestellte, die sich im Internat um die Schüler/innen eines Hauses kümmern", tr:["houseparents","houseparent"], ex:null, gap:null },
+    { en:"to treat", de:"behandeln", tr:["to treat","treat"], ex:"You should treat everybody with respect.", bl:"treat", gap:["treat"] },
+    { en:"Guess what!", de:"Stell dir vor!, Rate mal!", tr:["Guess what"], ex:null, gap:null },
+    { en:"navy", de:"Marine(-), (See)flotte; marineblau", tr:["navy"], ex:"navy = dark blue", bl:"navy", gap:["navy"] },
+    { en:"skirt", de:"Rock", tr:["skirt"], ex:"Jasmine has bought a new skirt.", bl:"skirt", gap:["skirt"] },
+    { en:"shirt", de:"Hemd", tr:["shirt"], ex:"He's wearing a blue shirt, a dark tie, black trousers and brown shoes.", bl:"shirt", gap:["shirt"], grp:"clothes" },
+    { en:"tie", de:"Krawatte", tr:["tie"], ex:"He's wearing a blue shirt, a dark tie, black trousers and brown shoes.", bl:"tie", gap:["tie"], grp:"clothes" },
+    { en:"to prefer", de:"vorziehen, bevorzugen", tr:["to prefer","prefer"], ex:"Sam prefers apples to oranges. He likes them better.", bl:"prefers", gap:["prefers"], lem:["prefer"], grp:"prefer" },
+    { en:"I'd rather (= I would rather)", de:"ich würde lieber", tr:["I'd rather","I would rather"], ex:"I like swimming but I'd rather go hiking.", bl:"I'd rather", gap:["I'd rather","I would rather"], grp:"prefer" },
+    { en:"compared to/with", de:"verglichen mit", tr:["compared to","compared with"], ex:null, gap:null },
+    { en:"I don't mind …", de:"… ist mir egal, … macht mir nichts aus", tr:["I don't mind","I do not mind"], ex:"I don't mind what we do in London. We can do whatever you want.", bl:"don't mind", gap:["don't mind","do not mind"] },
+    { en:"point", de:"Punkt", tr:["point"], ex:"For every correct answer you get one point.", bl:"point", gap:["point"] },
+    { en:"to be called", de:"genannt werden, heißen", tr:["to be called","be called"], ex:"I'm called Sarah. What's your name?", bl:"called", gap:["called"] },
+    { en:"to leave out", de:"auslassen, weglassen", tr:["to leave out","leave out"], ex:"A contact clause is a relative clause where you can leave out the pronoun.", bl:"leave out", gap:["leave out"] },
+    { en:"to become friends (with)", de:"Freundschaft schließen (mit)", tr:["to become friends (with)","become friends (with)"], ex:"Lara and Sue became friends on their first day at school.", bl:"became friends", gap:["became friends"] },
+    { en:"climbing", de:"Bergsteigen, Klettern", tr:["climbing"], ex:"I love climbing, it's so exciting!", bl:"climbing", gap:["climbing"] },
+    { en:"to address", de:"adressieren, (sich) wenden an, ansprechen", tr:["to address","address"], ex:"The teacher addressed me and asked me what I thought.", bl:"addressed", gap:["addressed"], lem:["address"] },
+    { en:"to take sb/sth seriously", de:"jdn/etw ernst nehmen", tr:["to take sb/sth seriously","take sb/sth seriously"], ex:"Why don't you take me seriously?", bl:"take me seriously", gap:["take me seriously"] },
+    { en:"to refer (back) to", de:"(zurück)verweisen auf, sich beziehen auf", tr:["to refer (back) to","refer (back) to"], ex:"You can refer back to your notes when you give the presentation.", bl:"refer back to", gap:["refer back to","refer to"] },
+    { en:"to improve", de:"(sich) verbessern, besser werden", tr:["to improve","improve"], ex:"Lara's French has improved since she moved to France.", bl:"improved", gap:["improved"], lem:["improve"] }
+  ]
+}
+] };
+const SETS = DATA.weeks;
+
+/* ===== Fortschrittscode (§5.2): namensgebunden, 6 Zeichen, speichert nur k = bestandene Wochen ===== */
+const MODULE_KEY = 'EN7-T2-HA-v1';
+const ALPH = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+function fnv(s){ let h=0x811c9dc5; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,0x01000193)>>>0; } return h>>>0; }
+function mix(h){ h^=h>>>16; h=Math.imul(h,0x85ebca6b)>>>0; h^=h>>>13; h=Math.imul(h,0xc2b2ae35)>>>0; h^=h>>>16; return h>>>0; }
+function nameKey(s){
+  return String(s||'').normalize('NFC').toLowerCase().replace(/ß/g,'ss')
+    .normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .replace(/ae/g,'a').replace(/oe/g,'o').replace(/ue/g,'u')
+    .replace(/[^\p{L}]+/gu,' ').trim().split(' ').filter(Boolean).sort().join(' ');
+}
+function cleanName(s){ return String(s||'').normalize('NFC').replace(/[’‘´`ʼ]/g,"'").replace(/\s+/g,' ').trim().slice(0,40); }
+function nameHash(name,k){ return mix(fnv(MODULE_KEY+'|'+nameKey(name)+'|'+k)) & 0x3FFFFFF; }
+function keyMask(){ return mix(fnv('KEY|'+MODULE_KEY)) & 0x3FFFFFFF; }
+function encodeProgress(name, k){
+  const h=nameHash(name,k), v=((((k^(h&15))&15)<<26)|h) ^ keyMask();
+  let c=''; for(let i=5;i>=0;i--) c+=ALPH[(v>>>(i*5))&31];
+  return c.slice(0,3)+'-'+c.slice(3);
+}
+function decodeProgress(name, code){
+  const c=String(code||'').toUpperCase().replace(/[^0-9A-Z]/g,'');
+  if(c.length!==6 || !nameKey(name)) return null;
+  let v=0; for(const ch of c){ const i=ALPH.indexOf(ch); if(i<0) return null; v=v*32+i; }
+  v=(v ^ keyMask())>>>0;
+  const h=v & 0x3FFFFFF, k=((v>>>26)&15) ^ (h&15);
+  if(k<1 || k>SETS.length) return null;
+  return nameHash(name,k)===h ? k : null;
+}
+/* Medaillenfarbe je Unit-Woche (§5.1): Woche 3 = Smaragdgrün, Woche 4 = Rubinrot, Woche 5 = Amethyst */
+const MEDAL_PALETTE = [
+  { name: "Gold",        light: "#FFE38A", base: "#E8B923", dark: "#9C7A0E" },
+  { name: "Saphirblau",  light: "#8DB6F5", base: "#2E6FD8", dark: "#1B3F80" },
+  { name: "Smaragdgrün", light: "#8FE0B6", base: "#1E9E62", dark: "#0F5C38" },
+  { name: "Rubinrot",    light: "#F29AA3", base: "#D23B4B", dark: "#7D1622" },
+  { name: "Amethyst",    light: "#C9A8F2", base: "#8A4FD6", dark: "#4B2386" },
+  { name: "Türkis",      light: "#8EDFE8", base: "#16A6B6", dark: "#0B5F69" },
+  { name: "Orange",      light: "#FFC08A", base: "#F07F1A", dark: "#8F4507" },
+  { name: "Magenta",     light: "#F5A3CC", base: "#D9418F", dark: "#7F1D52" },
+  { name: "Anthrazit",   light: "#A7B4C2", base: "#4A5A6A", dark: "#26313C" },
+  { name: "Oliv",        light: "#D2DD8A", base: "#8A9A2B", dark: "#4F5A12" }
+];
+function medalFor(week){ return MEDAL_PALETTE[(week - 1) % MEDAL_PALETTE.length]; }
+
+/* ===== Kern ohne DOM: Ziehen der Items, Mischen, Auswerten ===== */
+function shuffle(a){ const b=a.slice(); for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=b[i]; b[i]=b[j]; b[j]=t; } return b; }
+function pickN(a,n){ return shuffle(a).slice(0,Math.min(n,a.length)); }
+function firstLetter(s){ const t=String(s).replace(/^to /,'').replace(/^[(“"']/,''); return t.charAt(0); }
+function blankOut(ex, bl){ const i=ex.indexOf(bl); return i<0 ? ex : ex.slice(0,i)+'______'+ex.slice(i+bl.length); }
+
+function mcOptions(correct, wrongs){
+  const opts = shuffle([{t:correct,ok:true}].concat(wrongs.map(t=>({t:t,ok:false}))));
+  return opts;
+}
+
+function makeVocabItem(w, kind, week){
+  if(kind==='tr') return { kind:'tr', de:w.de, hint:firstLetter(w.tr[0]), ans:w.tr, en:w.en, st:null, val:'', tried:false };
+  if(kind==='gap') return { kind:'gap', sent:blankOut(w.ex,w.bl), de:w.de, hint:firstLetter(w.gap[0]), ans:w.gap, lem:w.lem||null, en:w.en, st:null, val:'', tried:false };
+  /* mc: englisches Wort -> deutsche Bedeutung */
+  const others = week.vocab.filter(o=>o!==w && o.de!==w.de && !(w.grp && o.grp===w.grp));
+  const wr = pickN(others,3).map(o=>o.de);
+  return { kind:'mc', q:w.en, opts:mcOptions(w.de, wr), en:w.en, st:null, val:null };
+}
+function drawVocab(week, n){
+  const picked=[], grps=new Set();
+  for(const w of shuffle(week.vocab)){
+    if(w.grp && grps.has(w.grp)) continue;
+    picked.push(w); if(w.grp) grps.add(w.grp);
+    if(picked.length===n) break;
+  }
+  const want={tr:Math.ceil(n*0.4), gap:Math.ceil(n*0.4), mc:Math.max(1,Math.floor(n*0.2))};
+  const cnt={tr:0,gap:0,mc:0}, items=[];
+  shuffle(picked).forEach(w=>{
+    const el=['mc']; if(w.tr) el.push('tr'); if(w.gap) el.push('gap');
+    el.sort((a,b)=>(cnt[a]/want[a])-(cnt[b]/want[b]) || (Math.random()-0.5));
+    const kind=el[0]; cnt[kind]++;
+    items.push(makeVocabItem(w,kind,week));
+  });
+  return shuffle(items);
+}
+function drawFill(task){
+  const mk=(segs,chal)=>({ kind:'fill', chal:!!chal, segs:segs, st:null, val:segs.filter(s=>typeof s!=='string').map(()=>'') });
+  const main = pickN(task.pool, task.n).map(s=>mk(s,false));
+  const ch = task.chal ? pickN(task.chal, task.nc||0).map(s=>mk(s,true)) : [];
+  return main.concat(ch);
+}
+function drawMc(task){
+  let pool = task.pool, chosen=[];
+  if(task.pin){ const pins=pool.filter(p=>p.g===task.pin); if(pins.length) chosen.push(shuffle(pins)[0]); }
+  const rest = shuffle(pool.filter(p=>chosen.indexOf(p)<0));
+  while(chosen.length<task.n && rest.length) chosen.push(rest.shift());
+  return shuffle(chosen).map(p=>{
+    let opts;
+    if(task.fixed){ opts = shuffle(task.fixed.map(t=>({t:t, ok:t===p.a}))); }
+    else {
+      const wr = pickN(pool.filter(o=>o.a!==p.a).map(o=>o.a), 3);
+      opts = mcOptions(p.a, wr);
+    }
+    return { kind:'mc', q:p.q, label:task.qlabel||'', opts:opts, st:null, val:null };
+  });
+}
+function drawTask(week, task){
+  if(task.type==='vocab') return drawVocab(week, task.n);
+  if(task.type==='fill') return drawFill(task);
+  if(task.type==='mc') return drawMc(task);
+  return [];
+}
+function drawWeek(week){ return week.tasks.map(t=>({ task:t, items:drawTask(week,t), ticks:(t.boxes||[]).map(()=>false) })); }
+
+/* Auswertung eines Items -> {st:'ok'|'ko'|'almost', msg} */
+function evalItem(it){
+  if(it.kind==='mc'){
+    const o = it.opts[it.val];
+    return o && o.ok ? {st:'ok'} : {st:'ko'};
+  }
+  if(it.kind==='fill'){
+    let all=true; it.gapOk=[];
+    it.segs.filter(s=>typeof s!=='string').forEach((g,i)=>{ const ok=accepts(it.val[i], g.a); it.gapOk.push(ok); if(!ok) all=false; });
+    return all ? {st:'ok'} : {st:'ko'};
+  }
+  /* tr, gap */
+  const v = it.val;
+  if(accepts(v, it.ans)) return {st:'ok'};
+  if(!it.tried){
+    if(it.lem && accepts(v, it.lem)){ it.tried=true; return {st:'almost', msg:'Right word – check the form.'}; }
+    if(nearMiss(v, it.ans)){ it.tried=true; return {st:'almost', msg:'Almost! Check your spelling.'}; }
+  }
+  return {st:'ko'};
+}
+function solutionText(it){
+  if(it.kind==='mc') return it.opts.find(o=>o.ok).t;
+  if(it.kind==='fill') return it.segs.filter(s=>typeof s!=='string').map(g=>g.a[0]).join(' … ');
+  return it.ans[0];
+}
+function scoreRun(run){
+  let ok=0, total=0;
+  run.forEach(t=>t.items.forEach(it=>{ total++; if(it.st==='ok') ok++; }));
+  return {ok:ok, total:total, pct: total? ok/total : 0, pass: total>0 && ok/total>=0.8};
+}
+
+/* ===== Oberfläche / Ablauf ===== */
+(function(){
+'use strict';
+const KEY = 'EN7U2HA_' + MODULE_KEY;
+const app = document.getElementById('app');
+let S = { name:'', k:0 };
+let view = 'home', wi = 0, run = null, res = null, barMsg = '', homeMsg = '', homeMsgInfo = false, certWeek = 0;
+
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function load(){
+  try{ const j = JSON.parse(sessionStorage.getItem(KEY)||'null');
+    if(j && typeof j.k==='number'){ S.name = cleanName(j.name||''); S.k = Math.max(0, Math.min(SETS.length, j.k|0)); } }catch(e){}
+  try{ localStorage.removeItem(KEY); }catch(e){}
+}
+function save(){ try{ sessionStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+/* ---------- Kopf ---------- */
+function headerHTML(){
+  return '<header class="top"><div class="in"><div class="kick">English · Class 7 · Homework</div>'
+    + '<h1>Theme 2: Welcome to Wales!</h1><p>Check your homework yourself. You need 80 % to pass a week.</p></div></header><div class="battle"></div>';
+}
+
+/* ---------- Startseite ---------- */
+function weekState(i){ return i < S.k ? 'done' : (i === S.k ? 'open' : 'lock'); }
+function homeHTML(){
+  let h = headerHTML() + '<main>';
+  if(!S.name){
+    h += '<section class="card"><h2>Who are you?</h2>'
+      + '<label for="nm">Write your first name and surname.</label>'
+      + '<input type="text" id="nm" autocomplete="off" autocapitalize="words" maxlength="40" placeholder="First name and surname">'
+      + '<p class="noscore" style="margin:6px 0 0">Always write your name in the same way.</p>'
+      + '<label for="cd">🔑 Already have a code? Type it here:</label>'
+      + '<input type="text" id="cd" autocomplete="off" autocapitalize="characters" maxlength="12" placeholder="ABC-DEF">'
+      + '<p style="margin:14px 0 0"><button class="btn" data-act="go">Start</button></p>'
+      + '<p class="msg' + (homeMsgInfo?' info':'') + '" id="hmsg" role="status">' + esc(homeMsg) + '</p></section>';
+  } else {
+    h += '<section class="card"><div class="who"><div><div class="nm">' + esc(S.name) + '</div>'
+      + '<div class="noscore">' + S.k + ' of ' + SETS.length + ' weeks passed</div></div>'
+      + '<button class="link" data-act="notme">This is not me</button></div>';
+    if(S.k > 0) h += '<div style="margin-top:10px"><div class="codebox"><small>Your code</small><span class="code">' + encodeProgress(S.name, S.k) + '</span><button class="copy" data-act="copy" data-code="' + encodeProgress(S.name, S.k) + '">📋 Copy</button></div>'
+      + '<p class="noscore">Write your code in your exercise book. Nothing is saved when you close the page.</p></div>';
+    h += '<p class="msg' + (homeMsgInfo?' info':'') + '" id="hmsg" role="status">' + esc(homeMsg) + '</p></section>';
+  }
+  h += '<h2 style="margin:16px 0 8px">Your weeks</h2>';
+  SETS.forEach((w, i) => {
+    const st = weekState(i), m = medalFor(w.n);
+    const need = i > 0 ? 'First: ' + SETS[i-1].title.toLowerCase() + ' with 80 %.' : '';
+    h += '<button class="wk ' + st + '" data-act="week" data-i="' + i + '" style="--b:' + m.base + ';--bd:' + m.dark + '"' + (st==='lock'?' aria-disabled="true"':'') + '>'
+      + '<span class="bdg">' + (st==='lock'?'🔒':w.n) + '</span>'
+      + '<span class="tx"><b>' + esc(w.title) + ' · ' + esc(w.topic) + '</b><span>' + esc(w.blurb) + '</span></span>'
+      + '<span class="st">' + (st==='done' ? '✓ Passed · try again' : st==='open' ? 'Start ›' : esc(need)) + '</span></button>';
+  });
+  h += '<details><summary>How does it work?</summary><ol>'
+    + '<li>Write your name.</li><li>Open your week. Do the tasks.</li>'
+    + '<li>Press “Check my answers”. You need 80 % to pass.</li>'
+    + '<li>You get a certificate with a code. Take a screenshot and upload it to Teams.</li>'
+    + '<li>Write your code in your exercise book. Next time: type your name and your code to go on.</li></ol>'
+    + '<p>If you do not pass, you can try again with new questions.</p></details>';
+  h += teacherHTML();
+  h += '</main><footer>Own exercises for Camden Town 7 (Westermann), Theme 2 · word list pp. 229–231 · exercises adapted from the workbook (WB 10 and 18, Check Your Progress 3, Extra Training 2 and 4) · Nothing is saved when you close this page: write your code in your exercise book!</footer>';
+  return h;
+}
+
+/* ---------- Lehrkraftbereich ---------- */
+function teacherHTML(){
+  return document.getElementById('teacher-tpl').innerHTML;
+}
+
+/* ---------- Aufgaben ---------- */
+function itemHTML(it, ti, ii){
+  const cls = it.st ? ' ' + it.st : '';
+  const lock = (it.st==='ok' || it.st==='ko');
+  let b = '';
+  const n = '<span class="n">' + (ii+1) + '.</span>';
+  if(it.kind==='tr'){
+    b = '<p>' + n + '<span class="tag">DE → EN</span>Write the English word or phrase:</p><p class="de">' + esc(it.de) + '</p>'
+      + '<input type="text" class="t" data-ti="' + ti + '" data-ii="' + ii + '" value="' + esc(it.val) + '" autocomplete="off" autocapitalize="none" spellcheck="false"' + (lock?' disabled':'') + '>'
+      + '<span class="hint">starts with “' + esc(it.hint) + '”</span>';
+  } else if(it.kind==='gap'){
+    b = '<p>' + n + '<span class="tag">GAP</span>Write the missing word(s):</p><p class="sent">' + esc(it.sent) + '</p>'
+      + '<p class="de" style="font-size:16px">= ' + esc(it.de) + ' <span class="hint">starts with “' + esc(it.hint) + '”</span></p>'
+      + '<input type="text" class="t" data-ti="' + ti + '" data-ii="' + ii + '" value="' + esc(it.val) + '" autocomplete="off" autocapitalize="none" spellcheck="false"' + (lock?' disabled':'') + '>';
+  } else if(it.kind==='fill'){
+    let gi = 0, s = '';
+    it.segs.forEach(seg => {
+      if(typeof seg === 'string') s += esc(seg);
+      else {
+        const bad = it.st && it.gapOk && it.gapOk[gi] === false;
+        s += '<input type="text" class="g" data-ti="' + ti + '" data-ii="' + ii + '" data-gi="' + gi + '" value="' + esc(it.val[gi]) + '" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="gap ' + (gi+1) + '"' + (lock?' disabled':'') + '>'
+          + '<span class="vh">(' + esc(seg.h) + ')</span>';
+        gi++;
+      }
+    });
+    b = '<p class="sent">' + n + (it.chal ? '<span class="tag">CHALLENGE</span>' : '') + s + '</p>';
+  } else if(it.kind==='mc'){
+    const isWord = !!it.en && !it.label;
+    const q = isWord ? '<p>' + n + '<span class="tag">EN → DE</span>What does <b>' + esc(it.q) + '</b> mean?</p>'
+                     : '<p>' + n + (it.label ? '<span class="hint" style="margin:0">' + esc(it.label) + '</span>' : '') + '</p><p class="sent" style="line-height:1.5">' + esc(it.q) + '</p>';
+    b = q + '<div class="opts" role="radiogroup">';
+    it.opts.forEach((o, oi) => {
+      let c = 'opt';
+      if(it.val === oi) c += ' sel';
+      if(lock){ if(o.ok && (it.val===oi)) c += ' right'; else if(o.ok) c += ' right'; else if(it.val===oi) c += ' wrong'; c = c.replace(' sel',''); }
+      b += '<button class="' + c + '" data-act="opt" data-ti="' + ti + '" data-ii="' + ii + '" data-oi="' + oi + '" role="radio" aria-checked="' + (it.val===oi) + '"' + (lock?' disabled':'') + '>' + esc(o.t) + '</button>';
+    });
+    b += '</div>';
+  }
+  let fb = '';
+  if(it.st === 'ok') fb = '<p class="fb">Correct!</p>';
+  else if(it.st === 'almost') fb = '<p class="fb">' + esc(it.msg) + ' Try again.</p>';
+  else if(it.st === 'ko') fb = '<p class="fb">Not quite. ' + (it.kind==='mc' ? 'The right answer is marked.' : 'Solution: ' + esc(solutionText(it))) + '</p>';
+  return '<div class="item' + cls + '" id="it-' + ti + '-' + ii + '">' + b + fb + '</div>';
+}
+function taskHTML(t, ti){
+  const tk = t.task;
+  let h = '<section class="task"><div class="th"><span class="no">' + (ti+1) + '</span><div><h3>' + esc(tk.title) + '</h3><small>' + esc(tk.sub) + '</small></div></div>';
+  h += '<p class="intro">' + esc(tk.intro) + '</p>';
+  if(tk.example) h += '<div class="ex"><b>Example:</b> ' + esc(tk.example) + '</div>';
+  if(tk.type === 'check'){
+    h += '<div class="ticks">';
+    tk.boxes.forEach((bx, bi) => { h += '<label><input type="checkbox" data-act="tick" data-ti="' + ti + '" data-bi="' + bi + '"' + (t.ticks[bi]?' checked':'') + '>' + esc(bx) + '</label>'; });
+    h += '</div><p class="noscore">This task is not marked here. Your teacher will look at your exercise book.</p>';
+  } else {
+    t.items.forEach((it, ii) => {
+      if(it.chal && !(ii > 0 && t.items[ii-1].chal)) h += '<div class="ex"><b>' + esc(tk.chalIntro) + '</b></div>';
+      h += itemHTML(it, ti, ii);
+    });
+  }
+  return h + '</section>';
+}
+function answeredCount(){
+  let a = 0, tot = 0;
+  run.forEach(t => t.items.forEach(it => { tot++; if(it.st==='ok' || it.st==='ko' || isAnswered(it)) a++; }));
+  return [a, tot];
+}
+function isAnswered(it){
+  if(it.kind==='mc') return it.val !== null;
+  if(it.kind==='fill') return it.val.every(v => String(v).trim() !== '');
+  return String(it.val).trim() !== '';
+}
+function weekHTML(){
+  const w = SETS[wi];
+  let h = headerHTML() + '<main><button class="back" data-act="home">← All weeks</button>';
+  h += '<h2>' + esc(w.title) + ' · ' + esc(w.topic) + '</h2><p style="margin:0 0 12px">Do all tasks. Then press “Check my answers”.</p>';
+  run.forEach((t, ti) => { h += taskHTML(t, ti); });
+  if(res){
+    const need = Math.ceil(res.total * 0.8 - 1e-9);
+    const pct = Math.round(res.pct * 100);
+    if(res.pass){
+      h += '<div class="res pass"><div class="big">' + res.ok + ' of ' + res.total + ' correct · ' + pct + ' %</div><p style="margin:6px 0 0">Well done! You passed ' + esc(w.title.toLowerCase()) + '.</p>'
+        + '<div class="row"><button class="btn" data-act="cert">🏅 Show my certificate</button></div></div>';
+    } else {
+      h += '<div class="res fail"><div class="big">' + res.ok + ' of ' + res.total + ' correct · ' + pct + ' %</div><p style="margin:6px 0 0">You need 80 % (' + need + ' of ' + res.total + '). Look at the solutions. Then try again with new questions.</p>'
+        + '<div class="row"><button class="btn" data-act="retry">↺ Try again</button><button class="btn sec" data-act="home">← All weeks</button></div></div>';
+    }
+  }
+  h += '</main>';
+  if(!res){
+    const c = answeredCount();
+    h += '<div class="bar"><div class="in"><span class="cnt" id="cnt">' + c[0] + ' of ' + c[1] + ' answered</span><button class="btn" data-act="check">Check my answers</button>'
+      + '<div class="bm" id="bm" role="status">' + esc(barMsg) + '</div></div></div>';
+  }
+  return h;
+}
+
+/* ---------- Zertifikat ---------- */
+function medalSVG(week){
+  return '<svg class="medal" viewBox="0 0 120 150" role="img" aria-label="Medal, week ' + week + '">'
+    + '<defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--medal-light)"/><stop offset="1" style="stop-color:var(--medal-base)"/></linearGradient></defs>'
+    + '<path d="M34 0h22l12 58H46z" style="fill:var(--medal-dark)"/><path d="M86 0H64L52 58h22z" style="fill:var(--medal-dark);opacity:.8"/>'
+    + '<circle cx="60" cy="92" r="46" fill="url(#mg)" style="stroke:var(--medal-dark)" stroke-width="5"/>'
+    + '<circle cx="60" cy="92" r="37" fill="none" style="stroke:var(--medal-dark)" stroke-width="2" stroke-dasharray="3 4" opacity=".7"/>'
+    + '<path d="M44 78h6v5h6v-5h8v5h6v-5h6v10H44z" style="fill:var(--medal-dark)" opacity=".9"/>'
+    + '<text x="60" y="118" text-anchor="middle" font-family="Segoe UI,Roboto,Arial,sans-serif" font-weight="800" font-size="26" style="fill:#1d2330">' + week + '</text>'
+    + '<text x="60" y="70" text-anchor="middle" font-family="Segoe UI,Roboto,Arial,sans-serif" font-weight="700" font-size="10" letter-spacing="1" style="fill:#1d2330">WEEK</text></svg>';
+}
+function certHTML(){
+  const w = SETS[certWeek], m = medalFor(w.n);
+  const code = encodeProgress(S.name, S.k);
+  const pct = res ? Math.round(res.pct*100) : 0;
+  const d = new Date().toLocaleDateString('en-GB');
+  let h = headerHTML() + '<main><div class="cert" style="--medal-light:' + m.light + ';--medal-base:' + m.base + ';--medal-dark:' + m.dark + '">'
+    + medalSVG(w.n) + '<h2>' + esc(w.title) + ' passed!</h2><p class="sub">Theme 2 · Welcome to Wales! · Homework</p>'
+    + '<div class="cn">' + esc(S.name) + '</div>'
+    + '<div class="sc">' + (res ? res.ok + ' / ' + res.total + ' · ' + pct + ' %' : '') + '</div>'
+    + '<div class="codebox"><small>Your code</small><span class="code">' + code + '</span><button class="copy" data-act="copy" data-code="' + code + '">📋 Copy</button></div>';
+  if(certWeek + 1 < SETS.length && S.k > certWeek) h += '<p class="open">✓ ' + esc(SETS[certWeek+1].title) + ' is open.</p>';
+  else if(S.k >= SETS.length) h += '<p class="open">✓ You passed all weeks!</p>';
+  const ck = run.filter(t => t.task.type === 'check');
+  if(ck.length){ const n = ck[0].ticks.filter(Boolean).length; h += '<p class="sub" style="margin:8px 0 0">✍️ Exercise book task: ' + n + ' of ' + ck[0].ticks.length + ' boxes ticked</p>'; }
+  h += '<div class="dt">' + d + '</div></div>'
+    + '<div class="todo"><p>📸 Take a screenshot. Upload it to Teams.</p><p>✍️ Write your code in your exercise book.</p></div>'
+    + '<button class="btn sec" data-act="home">← All weeks</button></main>';
+  return h;
+}
+
+/* ---------- Rendern ---------- */
+function render(){
+  if(view === 'home') app.innerHTML = homeHTML();
+  else if(view === 'week') app.innerHTML = weekHTML();
+  else app.innerHTML = certHTML();
+  window.scrollTo(0, 0);
+}
+function rerenderKeepScroll(){ const y = window.scrollY; app.innerHTML = weekHTML(); window.scrollTo(0, y); }
+
+/* ---------- Aktionen ---------- */
+function applyNameCode(){
+  const nm = cleanName((document.getElementById('nm')||{}).value);
+  const cd = ((document.getElementById('cd')||{}).value || '').trim();
+  if(!nameKey(nm)){ homeMsg = 'Please write your first name and surname.'; homeMsgInfo = false; render(); return false; }
+  let k = 0;
+  if(cd){
+    k = decodeProgress(nm, cd);
+    if(k === null){ homeMsg = 'That didn’t work. Check your code (there is no 0, O, 1 or I) and write your name exactly as last time.'; homeMsgInfo = false; render(); const n2 = document.getElementById('nm'); if(n2) n2.value = nm; return false; }
+  }
+  S.name = nm; S.k = k; save(); homeMsg = ''; render(); return true;
+}
+function startWeek(i){
+  const st = weekState(i);
+  if(!S.name){
+    const nm = (document.getElementById('nm')||{}).value, cd = (document.getElementById('cd')||{}).value;
+    if(nm && String(nm).trim()){ if(!applyNameCode()) return; }
+    else { homeMsg = 'Please write your name first.'; homeMsgInfo = false; render(); const n = document.getElementById('nm'); if(n) n.focus(); return; }
+  }
+  if(weekState(i) === 'lock'){ homeMsg = '🔒 ' + (i>0 ? 'First: ' + SETS[i-1].title.toLowerCase() + ' with 80 %.' : ''); homeMsgInfo = false; render(); return; }
+  wi = i; run = drawWeek(SETS[i]); res = null; barMsg = ''; view = 'week'; render();
+}
+function checkAll(){
+  const missing = [];
+  run.forEach((t, ti) => t.items.forEach((it, ii) => { if(it.st==='ok' || it.st==='ko') return; if(!isAnswered(it)) missing.push([ti, ii]); }));
+  document.querySelectorAll('.item.missing').forEach(e => e.classList.remove('missing'));
+  if(missing.length){
+    barMsg = 'Please answer all questions first (' + missing.length + ' left).';
+    const bm = document.getElementById('bm'); if(bm) bm.textContent = barMsg;
+    missing.forEach(m => { const e = document.getElementById('it-' + m[0] + '-' + m[1]); if(e) e.classList.add('missing'); });
+    const first = document.getElementById('it-' + missing[0][0] + '-' + missing[0][1]); if(first) first.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  let almost = 0;
+  run.forEach(t => t.items.forEach(it => {
+    if(it.st==='ok' || it.st==='ko') return;
+    const r = evalItem(it); it.st = r.st; it.msg = r.msg || '';
+    if(r.st === 'almost') almost++;
+  }));
+  if(almost){ barMsg = 'Some answers are almost right (yellow). Correct them and check again.'; rerenderKeepScroll(); const f = document.querySelector('.item.almost'); if(f) f.scrollIntoView({behavior:'smooth', block:'center'}); return; }
+  res = scoreRun(run); barMsg = '';
+  if(res.pass && wi === S.k){ S.k++; save(); }
+  certWeek = wi;
+  rerenderKeepScroll();
+  const r = document.querySelector('.res'); if(r) r.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function updateCount(){
+  const el = document.getElementById('cnt'); if(!el) return; const c = answeredCount(); el.textContent = c[0] + ' of ' + c[1] + ' answered';
+  const bm = document.getElementById('bm'); if(bm && barMsg){ barMsg = ''; bm.textContent = ''; }
+}
+
+app.addEventListener('input', e => {
+  const t = e.target; if(!t.matches('input[type=text][data-ti]')) return;
+  const it = run[+t.dataset.ti].items[+t.dataset.ii];
+  if(t.dataset.gi !== undefined) it.val[+t.dataset.gi] = t.value; else it.val = t.value;
+  const box = t.closest('.item'); if(box) box.classList.remove('missing');
+  updateCount();
+});
+app.addEventListener('keydown', e => {
+  if(e.key === 'Enter'){
+    const t = e.target;
+    if(t.id === 'nm' || t.id === 'cd'){ e.preventDefault(); applyNameCode(); }
+  }
+});
+app.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if(!b) return;
+  const act = b.dataset.act;
+  if(act === 'tick'){ run[+b.dataset.ti].ticks[+b.dataset.bi] = b.checked; return; }
+  if(b.tagName === 'INPUT') return;
+  if(act === 'go') applyNameCode();
+  else if(act === 'week') startWeek(+b.dataset.i);
+  else if(act === 'home'){ view = 'home'; homeMsg = ''; render(); }
+  else if(act === 'check') checkAll();
+  else if(act === 'retry'){ run = drawWeek(SETS[wi]); res = null; barMsg = ''; render(); }
+  else if(act === 'cert'){ view = 'cert'; render(); }
+  else if(act === 'notme'){
+    if(window.confirm('Delete your name and your progress on this device?')){ S = { name:'', k:0 }; save(); homeMsg = ''; render(); }
+  }
+  else if(act === 'copy'){
+    const code = b.dataset.code; const done = () => { b.textContent = '✓ Copied'; };
+    try{ if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(code).then(done, () => sel(b)); } else sel(b); }catch(_){ sel(b); }
+  }
+  else if(act === 'opt'){
+    const it = run[+b.dataset.ti].items[+b.dataset.ii]; if(it.st === 'ok' || it.st === 'ko') return;
+    it.val = +b.dataset.oi;
+    const grp = b.parentElement; grp.querySelectorAll('.opt').forEach((o, oi) => { o.classList.toggle('sel', oi === it.val); o.setAttribute('aria-checked', oi === it.val); });
+    const box = b.closest('.item'); if(box) box.classList.remove('missing'); updateCount();
+  }
+  else if(act === 'tcheck') teacherCheck();
+});
+function sel(b){ const c = b.previousElementSibling; if(c){ const r = document.createRange(); r.selectNodeContents(c); const s = window.getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Press Ctrl+C'; } }
+function teacherCheck(){
+  const n = (document.getElementById('tn')||{}).value, c = (document.getElementById('tc')||{}).value, out = document.getElementById('tout');
+  const k = decodeProgress(n, c);
+  if(k === null){ out.textContent = 'Ungültig (Name oder Code stimmt nicht).'; return; }
+  let s = 'Gültig für „' + cleanName(n) + '“ · bestanden: ';
+  s += SETS.map((w, i) => 'Woche ' + w.n + (i < k ? ' ✓' : ' –')).join(' · ');
+  out.textContent = s;
+}
+
+load();
+window.__HA = { state: () => S, SETS: SETS, run: () => run, draw: drawWeek };
+render();
+})();
+
+</script></body></html>
