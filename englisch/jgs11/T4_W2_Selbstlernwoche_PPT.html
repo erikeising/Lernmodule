@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>T4 W2 Selbstlernwoche: Exam preparation (Harris speech)</title>
+<style>:root{
+  --night:#241538;--plum:#4A2A6E;--plum2:#3A1F57;--lilac:#CDB4F0;--lilac2:#E9DEF8;
+  --paper:#F5F1FA;--card:#FFFFFF;--ink:#1D1530;--muted:#4E4463;--line:#CBBDE0;
+  --ok:#0B57A4;--okbg:#E3EEFA;--oktx:#0B3D6E;
+  --ko:#D35F0B;--kobg:#FDEBDF;--kotx:#7A2E05;
+  --warn:#E8B100;--warnbg:#FFF5D1;--warntx:#5C4300;
+  --sans:"Segoe UI","Helvetica Neue",Helvetica,Arial,"Liberation Sans",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:#120A1F;font-family:var(--sans);color:var(--ink)}
+#stage{position:absolute;width:1920px;height:1080px;transform-origin:0 0;background:var(--paper);overflow:hidden}
+button{font-family:inherit;cursor:pointer}
+:focus-visible{outline:4px solid var(--warn);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- header band ---------- */
+.head{position:absolute;left:0;top:0;width:1920px;height:232px;background:var(--night);color:#fff;
+  border-bottom:8px solid var(--lilac);overflow:hidden}
+.head::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-radial-gradient(circle at 1640px 116px,rgba(205,180,240,.20) 0 3px,transparent 3px 44px)}
+.head::after{content:"";position:absolute;left:0;top:0;bottom:0;width:18px;background:var(--lilac)}
+.phrow{position:absolute;left:70px;top:26px;display:flex;align-items:center;gap:18px}
+.shield{background:var(--lilac);color:var(--night);font-weight:800;font-size:30px;letter-spacing:.04em;padding:6px 20px;border-radius:999px;text-transform:uppercase}
+.pt{font-size:30px;color:var(--lilac2)}
+.head h1{position:absolute;left:70px;top:82px;width:1330px;font-size:60px;line-height:1.08;font-weight:800;color:#fff;text-wrap:balance}
+.head .sub{position:absolute;left:70px;top:166px;width:1330px;font-size:32px;line-height:1.2;color:#E5D9F7}
+#timer{position:absolute;right:70px;top:28px;width:176px;height:176px;display:none}
+#timer.on{display:block}
+#timer>svg{width:176px;height:176px;display:block}
+#timer .led{position:absolute;left:0;right:0;bottom:-6px;text-align:center;font:700 34px ui-monospace,Menlo,Consolas,monospace;
+  color:#FFB347;background:#0A0F1A;border-radius:8px;display:none;padding:2px 0}
+#timer.led .led{display:block}
+#timer.done>svg{animation:pulse .6s 3}
+#timer .bell{position:absolute;left:0;right:0;top:56px;text-align:center;font-size:44px;display:none;color:#fff}
+#timer.done .bell{display:block}
+#timer.done::after{content:"";position:absolute;inset:-6px;border:5px dashed var(--lilac);border-radius:50%}
+@keyframes pulse{50%{transform:scale(1.07)}}
+.tlabel{position:absolute;right:270px;top:84px;font-size:32px;font-weight:700;color:#fff;display:none}
+.tlabel.on{display:block}
+
+/* ---------- body ---------- */
+.body{position:absolute;left:70px;top:256px;width:1780px;height:752px;overflow:hidden}
+.card{background:var(--card);border:2px solid var(--line);border-left:10px solid var(--plum);border-radius:14px;padding:22px 28px}
+.card h2{font-size:38px;margin-bottom:10px;color:var(--plum2)}
+.lead{font-size:38px;line-height:1.28}
+.t36{font-size:36px;line-height:1.3}
+.t32{font-size:32px;line-height:1.3}
+.t30{font-size:30px;line-height:1.3}
+.muted{color:var(--muted)}
+b,strong{font-weight:800}
+.row{display:flex;gap:28px}
+.col{display:flex;flex-direction:column;gap:18px}
+.chips{display:flex;flex-wrap:wrap;gap:12px}
+.chip{background:var(--lilac2);border:2px solid var(--lilac);color:var(--night);border-radius:10px;padding:8px 16px;font-size:30px;line-height:1.2}
+button.chip{border-color:var(--plum);}
+button.chip:hover{background:var(--lilac)}
+.btn{background:var(--plum);color:#fff;border:0;border-radius:10px;padding:12px 26px;font-size:32px;font-weight:700}
+.btn:hover{background:var(--plum2)}
+.btn.ghost{background:#fff;color:var(--plum2);border:3px solid var(--plum)}
+.btn:disabled{opacity:.45;cursor:default}
+.num{flex:0 0 auto;width:54px;height:54px;border-radius:50%;background:var(--plum);color:#fff;font-weight:800;font-size:30px;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px var(--lilac2)}
+
+/* title slide */
+.tslide{position:absolute;inset:0;background:var(--night);color:#fff}
+.tslide::before{content:"";position:absolute;inset:0;
+  background:repeating-radial-gradient(circle at 1380px 470px,rgba(205,180,240,.17) 0 4px,transparent 4px 64px)}
+.tslide .eyebrow{position:absolute;left:110px;top:120px;font-size:34px;letter-spacing:.14em;text-transform:uppercase;color:var(--lilac);font-weight:700}
+.tslide h1{position:absolute;left:110px;top:190px;width:1150px;font-size:120px;line-height:1.02;font-weight:800;text-wrap:balance}
+.tslide .sub{position:absolute;left:110px;top:560px;width:1100px;font-size:42px;line-height:1.25;color:#E5D9F7}
+.tslide .pills{position:absolute;left:110px;top:760px;display:flex;gap:20px;flex-wrap:wrap;width:1300px}
+.pill{background:var(--lilac);color:var(--night);font-weight:800;font-size:34px;border-radius:999px;padding:12px 30px}
+.pill.o{background:transparent;color:#fff;border:3px solid var(--lilac)}
+.tslide .go{position:absolute;left:110px;top:900px}
+
+/* overview */
+.ovgrid{display:flex;gap:40px;height:100%}
+.ovc{flex:1;background:#fff;border:2px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.ovc .top{background:var(--plum);color:#fff;padding:18px 30px;font-size:44px;font-weight:800}
+.ovc .top small{display:block;font-size:30px;font-weight:600;color:var(--lilac2)}
+.ovc ul{list-style:none;padding:24px 30px;display:flex;flex-direction:column;gap:18px;flex:1}
+.ovc li{display:flex;gap:16px;font-size:34px;line-height:1.25}
+.ovc li::before{content:"";flex:0 0 18px;height:18px;border-radius:50%;border:5px solid var(--plum);margin-top:10px}
+.ovc .end{background:var(--lilac2);padding:20px 30px;font-size:32px;line-height:1.25;font-weight:700;color:var(--night)}
+.ovc .go{margin:0 30px 24px}
+
+/* steps */
+.steps{display:flex;flex-direction:column;gap:20px}
+.step{display:flex;gap:24px;align-items:flex-start;background:#fff;border:2px solid var(--line);border-radius:14px;padding:18px 26px}
+.step{align-items:center}
+.step .h{flex:0 0 640px;font-size:34px;line-height:1.15;font-weight:800;color:var(--plum2)}
+.step .t{flex:1;font-size:32px;line-height:1.25;color:var(--ink)}
+
+/* task */
+.legend{display:flex;gap:16px;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:16px;background:#fff;border:2px solid var(--line);border-radius:12px;padding:12px 20px;font-size:32px;line-height:1.2;flex:1 1 560px}
+.sym{flex:0 0 74px;height:54px;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;color:var(--plum2)}
+.sym.box span{border:4px solid var(--plum);padding:0 10px;border-radius:4px;line-height:1.1}
+.sym.circ span{border:4px solid var(--plum);padding:0 14px;border-radius:50%;line-height:1.1}
+.sym.wavy span{text-decoration:underline wavy var(--plum);text-decoration-thickness:4px;text-underline-offset:8px}
+.helps{display:flex;flex-direction:column;gap:12px}
+.help>button{background:var(--warnbg);border:3px solid var(--warn);color:var(--warntx);border-radius:10px;padding:10px 20px;font-size:32px;font-weight:700;text-align:left;width:100%}
+.help .hb{display:none;background:var(--warnbg);border:3px dashed var(--warn);border-top:0;border-radius:0 0 10px 10px;padding:14px 20px;font-size:30px;line-height:1.3;color:var(--warntx)}
+.help.open .hb{display:block}
+.help.open>button{border-radius:10px 10px 0 0}
+
+/* checklist */
+.cl{display:flex;flex-direction:column;gap:12px}
+.ci{display:flex;gap:20px;align-items:flex-start;background:#fff;border:2px solid var(--line);border-radius:12px;padding:14px 22px;font-size:34px;line-height:1.22;cursor:pointer;text-align:left;width:100%}
+.ci .bx{flex:0 0 46px;height:46px;border:4px solid var(--plum);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;color:#fff;margin-top:2px}
+.ci.on{background:var(--okbg);border-color:var(--ok)}
+.ci.on .bx{background:var(--ok);border-color:var(--ok)}
+.ci.on .bx::after{content:"✓"}
+.prog{display:flex;align-items:center;gap:20px;margin-top:6px;font-size:32px;font-weight:700}
+.bar{flex:1;height:30px;border-radius:15px;background:#fff;border:3px solid var(--plum);overflow:hidden}
+.bar i{display:block;height:100%;background:repeating-linear-gradient(135deg,var(--ok) 0 14px,#3B7DC0 14px 28px);width:0;transition:width .3s}
+.note{background:var(--lilac2);border-radius:12px;padding:16px 24px;font-size:32px;line-height:1.25}
+
+/* quiz */
+.qwrap{display:flex;flex-direction:column;gap:18px;height:100%}
+.qhead{display:flex;align-items:center;gap:20px}
+.dots{display:flex;gap:10px}
+.dot{width:26px;height:26px;border-radius:50%;border:4px solid var(--plum);background:#fff}
+.dot.cur{background:var(--lilac)}
+.dot.ok{background:var(--ok);border-color:var(--ok)}
+.dot.half{background:linear-gradient(90deg,var(--warn) 50%,#fff 50%);border-color:var(--warn)}
+.qtext{font-size:38px;line-height:1.22;font-weight:700;color:var(--night)}
+.opts{display:flex;flex-direction:column;gap:14px}
+.opt{display:flex;align-items:center;gap:20px;text-align:left;background:#fff;border:3px solid var(--plum);border-radius:12px;padding:10px 22px;font-size:34px;line-height:1.2;color:var(--ink);position:relative;padding-right:90px}
+.opt .k{flex:0 0 52px;height:52px;border-radius:8px;background:var(--lilac2);color:var(--night);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:32px}
+.opt:hover:not(:disabled){background:var(--lilac2)}
+.opt.ok{background:var(--okbg);border-color:var(--ok);color:var(--oktx)}
+.opt.ok::after{content:"";position:absolute;right:22px;top:50%;margin-top:-22px;width:44px;height:44px;border-radius:50%;background:var(--ok) url("data:image/svg+xml,%3Csvg xmlns='%68ttp://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E") center/32px no-repeat}
+.opt.ko{background:var(--kobg);border:3px dashed var(--ko);color:var(--kotx);text-decoration:line-through}
+.opt.ko::after{content:"";position:absolute;right:22px;top:50%;margin-top:-22px;width:44px;height:44px;border-radius:50%;background:var(--ko) url("data:image/svg+xml,%3Csvg xmlns='%68ttp://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 7l10 10M17 7L7 17' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E") center/32px no-repeat}
+.opt:disabled{cursor:default}
+.fb{border-radius:12px;padding:16px 24px;font-size:32px;line-height:1.25;display:none}
+.fb.on{display:block}
+.fb.ok{background:var(--okbg);border:3px solid var(--ok);color:var(--oktx)}
+.fb.ko{background:var(--kobg);border:3px dashed var(--ko);color:var(--kotx)}
+.res{font-size:46px;font-weight:800;color:var(--night)}
+.led2{display:inline-block;font:700 54px ui-monospace,Menlo,Consolas,monospace;color:#FFB347;background:#0A0F1A;border-radius:10px;padding:4px 22px}
+
+/* match */
+.mrow{display:flex;gap:40px;height:100%}
+.mfields{width:1000px;display:flex;flex-direction:column;gap:10px}
+.mf{display:flex;align-items:stretch;gap:10px;height:84px}
+.mf .cat{flex:0 0 330px;background:var(--plum);color:#fff;border-radius:10px;display:flex;align-items:center;padding:0 18px;font-size:30px;font-weight:700;line-height:1.15}
+.slot{flex:1;border:3px dashed var(--plum);border-radius:10px;background:#fff;display:flex;align-items:center;padding:0 14px;position:relative;font-size:28px;line-height:1.2}
+.slot.hot{background:var(--lilac2)}
+.slot.ok{border:3px solid var(--ok);background:var(--okbg);color:var(--oktx);padding-right:72px}
+.slot.ko{border:3px dashed var(--ko);background:var(--kobg);color:var(--kotx);padding-right:72px}
+.slot.ok::after,.slot.ko::after{content:"";position:absolute;right:16px;top:50%;margin-top:-22px;width:44px;height:44px;border-radius:50%}
+.slot.ok::after{background:var(--ok) url("data:image/svg+xml,%3Csvg xmlns='%68ttp://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E") center/32px no-repeat}
+.slot.ko::after{background:var(--ko) url("data:image/svg+xml,%3Csvg xmlns='%68ttp://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 7l10 10M17 7L7 17' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E") center/32px no-repeat}
+.mpool{flex:1;display:flex;flex-direction:column;gap:10px;min-width:0}
+.mcard{background:#fff;border:3px solid var(--plum);border-radius:10px;height:84px;display:flex;align-items:center;padding:0 16px;font-size:28px;line-height:1.2;text-align:left;touch-action:none;user-select:none;color:var(--ink);width:100%}
+.mcard.sel{background:var(--lilac);box-shadow:0 0 0 5px var(--warn)}
+.mcard.gone{visibility:hidden}
+.slot .mcard{border:0;height:auto;padding:0;background:transparent;width:auto;box-shadow:none;font-size:28px}
+.dragghost{position:fixed;z-index:50;pointer-events:none;background:#fff;border:3px solid var(--plum);border-radius:10px;padding:10px 16px;font-size:28px;line-height:1.2;box-shadow:0 8px 24px rgba(0,0,0,.35);transform-origin:0 0}
+
+/* write */
+.wcols{display:flex;gap:28px;height:100%}
+.wmain{flex:1;display:flex;flex-direction:column;gap:12px;min-width:0}
+.wside{width:600px;display:flex;flex-direction:column;gap:14px}
+.fl{font-size:30px;font-weight:800;color:var(--plum2)}
+textarea{width:100%;font-family:var(--sans);font-size:30px;line-height:1.25;color:var(--ink);background:#fff;border:3px solid var(--plum);border-radius:12px;padding:8px 14px;resize:none}
+textarea:focus{outline:4px solid var(--warn)}
+.cnt{display:flex;align-items:center;gap:14px;font-size:32px;font-weight:700;border-radius:10px;padding:8px 18px;border:3px solid var(--line);background:#fff;width:fit-content}
+.cnt .ic{width:36px;height:36px;border-radius:50%;flex:0 0 36px}
+.cnt.ok{background:var(--okbg);border-color:var(--ok);color:var(--oktx)}
+.cnt.ok .ic{background:var(--ok) url("data:image/svg+xml,%3Csvg xmlns='%68ttp://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E") center/28px no-repeat}
+.cnt.mid{background:var(--warnbg);border-color:var(--warn);color:var(--warntx)}
+.cnt.mid .ic{background:linear-gradient(90deg,var(--warn) 50%,#fff 50%);border:4px solid var(--warn)}
+.cnt.ko{background:var(--kobg);border:3px dashed var(--ko);color:var(--kotx)}
+.cnt.ko .ic{background:var(--ko) url("data:image/svg+xml,%3Csvg xmlns='%68ttp://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 7l10 10M17 7L7 17' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E") center/28px no-repeat}
+.warnline{font-size:28px;color:var(--muted)}
+
+/* pee */
+.pee{display:flex;gap:22px;height:100%}
+.pcol{flex:1;display:flex;flex-direction:column;gap:18px}
+.pbox{border-radius:14px;padding:18px 24px;font-size:34px;line-height:1.25;border:3px solid var(--plum);background:#fff;min-height:120px}
+.pbox .pl{font-size:30px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.pbox.p1{border-left:16px solid var(--plum)}
+.pbox.p2{border-left:16px double var(--plum)}
+.pbox.p3{border-left:16px dotted var(--plum)}
+.pbox.hid{visibility:hidden}
+.mark1{box-shadow:inset 0 -.55em 0 var(--lilac)}
+.mark2{text-decoration:underline;text-decoration-thickness:4px;text-underline-offset:6px}
+.mark3{border-bottom:4px dotted var(--plum)}
+
+/* link */
+.qr{width:540px;height:540px;background:#fff;border:6px solid var(--plum);border-radius:16px;padding:14px;flex:0 0 auto}
+.qr svg{width:100%;height:100%;display:block}
+.url{font:700 34px ui-monospace,Menlo,Consolas,monospace;background:#fff;border:3px solid var(--plum);border-radius:10px;padding:10px 18px;word-break:break-all}
+
+/* eval */
+.ev{display:flex;flex-direction:column;gap:14px}
+.evr{display:flex;align-items:center;gap:20px;background:#fff;border:2px solid var(--line);border-radius:12px;padding:14px 22px}
+.evr .tx{flex:1;font-size:34px;line-height:1.22}
+.lv{display:flex;gap:10px}
+.lv button{border:3px solid var(--plum);background:#fff;color:var(--plum2);border-radius:10px;padding:8px 14px;font-size:28px;font-weight:700;display:flex;align-items:center;gap:10px;white-space:nowrap}
+.lv button .si{width:30px;height:30px;border-radius:50%;border:4px solid var(--plum);flex:0 0 30px}
+.lv button[data-v="3"] .si{background:var(--ok);border-color:var(--ok)}
+.lv button[data-v="2"] .si{background:linear-gradient(90deg,var(--warn) 50%,#fff 50%);border-color:var(--warn)}
+.lv button[data-v="1"] .si{background:#fff;border:4px dashed var(--ko)}
+.lv button.sel{background:var(--lilac);box-shadow:0 0 0 4px var(--night)}
+.back{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+.after{display:flex;gap:20px;margin-top:8px}
+.after .card{flex:1;font-size:32px;line-height:1.25}
+
+/* control bar (inside stage) */
+#ctl{position:absolute;left:0;bottom:0;width:1920px;height:60px;background:var(--night);border-top:4px solid var(--lilac);
+  display:flex;align-items:center;gap:8px;padding:0 20px;transition:opacity .3s;z-index:20}
+#ctl.hide{opacity:0;pointer-events:none}
+#ctl button{height:44px;min-width:44px;border-radius:8px;border:2px solid var(--lilac);background:var(--plum);color:#fff;
+  display:flex;align-items:center;justify-content:center;padding:0 10px;font-weight:700;font-size:24px}
+#ctl button:hover{background:#6A44A0}
+#ctl button:disabled{opacity:.35;cursor:default}
+#ctl button svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+#ctl button svg .f{fill:#fff;stroke:none}
+#ctl .sp{flex:1}
+#ctl .gap{width:14px}
+#ctl .ledc{font:700 28px ui-monospace,Menlo,Consolas,monospace;color:#FFB347;background:#0A0F1A;border-radius:6px;padding:4px 12px;min-width:110px;text-align:center}
+#ctl button.cur{background:var(--lilac);color:var(--night)}
+
+/* panels (outside design grid: use stage-relative sizes) */
+.panel{position:absolute;left:120px;top:90px;width:1680px;height:880px;background:#fff;border:6px solid var(--plum);border-radius:18px;z-index:40;display:none;overflow:auto;padding:30px 40px}
+.panel.on{display:block}
+.panel h2{font-size:40px;color:var(--plum2);margin-bottom:12px}
+.panel h3{font-size:30px;color:var(--plum2);margin:16px 0 6px}
+.panel p,.panel li{font-size:26px;line-height:1.35}
+.panel ul{margin-left:30px}
+.panel .x{position:sticky;top:0;float:right;background:var(--plum);color:#fff;border:0;border-radius:8px;padding:8px 18px;font-size:26px;font-weight:700}
+.ovg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ovg button{text-align:left;background:var(--paper);border:3px solid var(--line);border-radius:10px;padding:10px 14px;font-size:26px;line-height:1.2;color:var(--ink)}
+.ovg button.cur{border-color:var(--plum);background:var(--lilac2);box-shadow:0 0 0 3px var(--warn)}
+.ovg small{display:block;color:var(--muted);font-size:22px}
+details.teach{margin-top:20px;border:3px solid var(--plum);border-radius:12px;padding:12px 20px;background:var(--lilac2)}
+details.teach summary{font-size:30px;font-weight:800;cursor:pointer;color:var(--night)}
+#toast{position:absolute;left:50%;bottom:110px;transform:translateX(-50%);background:var(--night);color:#fff;font-size:30px;padding:10px 26px;border-radius:10px;z-index:60;display:none}
+
+/* ---- layout fixes ---- */
+.wmain>*,.wside>*,.mpool>*,.cl>*,.col>*{flex-shrink:0}
+.cl.dense{gap:8px}
+.cl.dense .ci{font-size:30px;padding:8px 20px}
+.cl.dense .ci .bx{flex:0 0 40px;height:40px}
+.wmain .row{margin-top:2px}
+.mpool .row{flex-wrap:wrap}
+.wside .chip{font-size:28px;padding:6px 14px}
+</style></head><body>
+<div id="stage">
+<div id="root"></div>
+<div id="ctl"></div>
+<div id="toast" role="status"></div>
+<div class="panel" id="pov" role="dialog" aria-label="Overview"><button class="x" type="button" onclick="document.getElementById('pov').classList.remove('on')">Close ✕</button><h2>All slides</h2><div class="ovg" id="ovg"></div></div>
+<div class="panel" id="phelp" role="dialog" aria-label="Help"><button class="x" type="button" onclick="document.getElementById('phelp').classList.remove('on')">Close ✕</button>
+<h2>Help</h2>
+<ul>
+<li><b>Move:</b> arrow keys or the two arrow buttons. <b>O</b> = overview of all slides. <b>F</b> = full screen. <b>Esc</b> closes this window.</li>
+<li><b>Timer:</b> the round clock appears on longer tasks. The coloured part shows the time that is left. Start and pause it with the play button. <b>T</b> starts a 5-minute timer on any slide.</li>
+<li><b>Quiz:</b> click an answer or press 1–4. If you are wrong, read the feedback and try again.</li>
+<li><b>Writing:</b> your text stays only in this browser tab. Copy it (button) before you close the tab or reload.</li>
+</ul>
+<details class="teach"><summary>Für die Lehrkraft</summary>
+<h3>Einsatz</h3><p>Zwei Selbstlernblöcke (Di + Mi, je 80′ Arbeit + 10′ Puffer) zur Vorbereitung der Klausur am Mi, 25.11. Grundlage: Selbstlernwoche_Exam_Prep.pdf. Die Rede (SB S. 220f.) wird ausschließlich im Buch gelesen; sie ist in der Präsentation nicht abgedruckt.</p>
+<h3>Bedienung</h3><ul><li>Timer nur bei Phasen ab 10′; Voreinstellung = Planzeit minus 10 % (mind. 1′). ±1′, Taste D = Ziffern, Taste M = Ton.</li><li>Quiz/Hinge: Antwortreihenfolge wird zur Laufzeit gemischt; falsche Optionen geben eine gezielte Rückmeldung zum Fehlerbild (eigene Formulierung, keine beobachteten Fehler der Klasse).</li><li>Speicherung nur in sessionStorage (Tab). Es wird nichts an Sie übermittelt.</li></ul>
+<h3>Abweichungen und Hinweise</h3><ul>
+<li>Es gibt keine Lehrerfolien. Selbstkontrolle über Checklisten und Kriterien; Lösungen nur zu den selbst erfundenen Beispielen (Zuordnung, PEE).</li>
+<li>Der Analyse-Absatz (PEE) in Lesson 1 ist eine Ergänzung zum PDF.</li>
+<li>Kommentar ohne Gegenargument (Ihre Vorgabe: eine Position, drei Argumente). Das PDF (Tipps 3 und 5) und Kriterium 3 der FelloFish-Aufgabe formulieren dies ggf. anders; bitte angleichen und die Lerngruppe informieren.</li>
+<li>Für die drei Sätze zur Sicht von Harris liegt keine Musterlösung vor; die SuS bringen sie am Mo, 23.11. mit.</li>
+<li>Die Aufgabe in FelloFish wurde nicht verändert. QR-Code und Link auf der Abgabefolie führen zur Aufgabe.</li>
+<li>Bezeichnung: PDF „Theme 3“, Ihre Anfrage „T4 W2“. PEE-Begriffe bitte mit Ihrem Toolkit abgleichen.</li></ul>
+</details></div></div>
+<script>window.DECK=[
+/* ============ LESSON 1 ============ */
+{id:'title',type:'title',lesson:0,
+  eyebrow:'LK English · Q1 · Self-study week 16–22 November',
+  title:'Getting ready for the exam',
+  sub:'Two self-study lessons. Your text: Kamala Harris, speech at the Emerge Gala (SB p. 220f.).',
+  pills:['Exam: Wednesday, 25 November','Speech analysis + comment']},
+
+{id:'ov',type:'overview',lesson:0,ph:'Overview',title:'Your plan for the week',sub:'Go through the slides in order. Each lesson gives you something for the exam.',
+  cards:[
+   {h:'Lesson 1',s:'Read, mark, sum up, analyse',go:'warm',items:['Spot appeals to shared values, “we” and “they”, and repetition','Sum up Harris’s view of the U.S. in three sentences','Write one analysis paragraph: point – evidence – effect'],end:'You leave with: a marked speech, three sentences, one analysis paragraph.'},
+   {h:'Lesson 2',s:'Plan, write and submit your comment',go:'hinge2',items:['Understand the quotation and the task word','Plan and write a comment (250–350 words)','Submit on FelloFish and read the feedback'],end:'You leave with: a plan, a first draft and feedback to work with.'}
+  ]},
+
+{id:'how',type:'steps',lesson:0,ph:'Before you start',title:'How this self-study works',sub:'No teacher in front of the class: you steer, the slides guide.',
+  steps:[
+   {h:'Go in order.',t:'Use the arrow keys or the buttons at the bottom. The bar fades out when you stop moving the mouse.'},
+   {h:'Use your own tools.',t:'Student’s Book (SB p. 220f.), a pencil and your highlighters. Write on paper or on the slides, as you prefer.'},
+   {h:'Timers are yours.',t:'A round timer appears on longer tasks. You start it with ▶. It is a suggestion, not an alarm.'},
+   {h:'Check yourself.',t:'Quizzes and checklists tell you where you stand. Be honest: they are only for you.'},
+   {h:'No AI for first drafts.',t:'Write your first draft yourself. FelloFish comes afterwards, in Lesson 2.'}
+  ]},
+
+{id:'warm',type:'match',lesson:1,ph:'Lesson 1 · Warm-up',min:8,title:'Warm-up: name the tool',sub:'Drag each example into the field of the tool it shows. Then press Check.',
+  pairs:[
+   {cat:'Appeal to shared values',ex:'Fairness and opportunity are what this country was built on.'},
+   {cat:'Inclusive “we”',ex:'We are the ones who decide what happens next.'},
+   {cat:'“They” (naming opponents)',ex:'They think a few loud voices can scare everyone into silence.'},
+   {cat:'Repetition',ex:'Not today. Not tomorrow. Not ever.'},
+   {cat:'Rhetorical question',ex:'If not now, when?'},
+   {cat:'Call to action',ex:'So join me: speak up and be counted.'}
+  ],
+  foot:'The examples are made up for practice. They are not from Harris’s speech.'},
+
+{id:'read',type:'task',lesson:1,ph:'Lesson 1 · Step 1',min:22,title:'Step 1 · Read the speech twice',sub:'SB p. 220f. · Kamala Harris, Emerge Gala, San Francisco, 30 April 2025',
+  lead:'Read the speech twice. While you read, mark three things:',
+  legend:[
+   {c:'box',s:'①',t:'Where Harris appeals to <b>shared American values</b>'},
+   {c:'circ',s:'②',t:'Where she uses <b>“we”</b> and <b>“they”</b>'},
+   {c:'wavy',s:'③',t:'Where she <b>repeats words or structures</b>'}
+  ],
+  after:'First reading: get the gist, no marking. Second reading: mark. Use three highlighter colours or the three symbols.',
+  helps:[{l:'Help: how to mark',h:'Draw a box round values (e.g. freedom, fairness). Circle every “we” and “they” and write who it means in the margin. Underline repeated words or sentence beginnings with a wavy line.'}]},
+
+{id:'chk1',type:'check',lesson:1,ph:'Lesson 1 · Self-check',min:4,title:'Check your marking',sub:'Tick what is true. Go back to the text for everything you cannot tick yet.',
+  items:[
+   'I found at least three places where Harris appeals to shared American values.',
+   'I marked “we” and “they” and I know who each of them means.',
+   'I found at least two repeated words or structures.',
+   'I looked at ll. 38–40 (“Courage is contagious”) and can say who “they” are there.',
+   'I can say why Harris tells this to this audience.'],
+  note:'Optional: if a partner is also working, swap your marked texts. Find one place your partner marked that you missed (3 minutes).'},
+
+{id:'hinge1',type:'quiz',single:true,lesson:1,ph:'Lesson 1 · Check-in',min:4,title:'Describe or analyse?',sub:'One question. Choose the strongest sentence for an analysis paragraph.',
+  qs:[{q:'This sentence is from a made-up speech: “Not today. Not tomorrow. Not ever.” Which sentence from an analysis is the strongest?',
+   o:[
+    {t:'The speaker repeats the word “not” at the start of three short sentences.',ok:0,fb:'This names what happens, but it stops there. An analysis also says what the device does to the audience.'},
+    {t:'The repetition of “not” gives the refusal a steady rhythm and makes it sound final.',ok:1,fb:'Yes: it names the device and explains its effect.'},
+    {t:'The speaker clearly knows how to give a powerful speech and uses language skilfully.',ok:0,fb:'This is a general judgement about the speaker. Point to a device and explain what it does.'},
+    {t:'Everyone in the audience will agree because the sentences are short and catchy.',ok:0,fb:'This claims a reaction without linking it to a device. Say what the device creates (rhythm, emphasis), not what everyone does.'}
+   ]}]},
+
+{id:'sum',type:'write',lesson:1,ph:'Lesson 1 · Step 2',min:14,title:'Step 2 · Sum up in three sentences',sub:'Task 2: How does Harris see the political situation of the U.S.?',
+  fields:[{id:'s1',label:'Sentence 1',rows:2},{id:'s2',label:'Sentence 2',rows:2},{id:'s3',label:'Sentence 3',rows:2}],
+  side:{lead:'<b>Sentence 1:</b> who, when, where, to whom.<br><b>Sentences 2–3:</b> her main ideas, in your own words, in the present tense.',
+   helps:[{l:'Help: sentence starters',h:'1: On 30 April 2025, Kamala Harris addresses … at the Emerge Gala in San Francisco.<br>2: She argues that … / According to Harris, …<br>3: She goes on to explain that … / Finally, she concludes that …'}]},
+  copy:'Copy all three'},
+
+{id:'chk2',type:'check',lesson:1,ph:'Lesson 1 · Self-check',min:3,title:'Check your three sentences',sub:'Read them aloud once. Then tick.',
+  items:[
+   'Sentence 1 says who speaks, when, where and to whom.',
+   'Sentences 2 and 3 give Harris’s main ideas about the political situation in the U.S.',
+   'Everything is in the present tense.',
+   'I used my own words and no direct quotes.',
+   'I did not add my own opinion and I did not analyse her style.'],
+  note:'Bring your three sentences on Monday, 23 November.'},
+
+{id:'peem',type:'pee',lesson:1,ph:'Lesson 1 · Step 3',min:6,title:'Step 3 · How an analysis paragraph works',sub:'Point – Evidence – Effect. Click “Show next” and read along.',
+  example:'“Not today. Not tomorrow. Not ever.”',exnote:'Made-up example sentence, not from Harris.',
+  p:'The speaker uses <span class="mark1">repetition</span> to make her refusal sound final.',
+  e:'When she says <span class="mark2">“Not today. Not tomorrow. Not ever.”</span> (l. X), the word “not” opens three short sentences.',
+  f:'The steady <span class="mark3">rhythm</span> makes the refusal sound final and links to her message that …',
+  tips:'Always: name the device and what it does (point) → quote briefly with the line number (evidence) → explain the effect on the audience and link it to the message (effect).'},
+
+{id:'peew',type:'write',lesson:1,ph:'Lesson 1 · Step 3',min:14,title:'Step 3 · Write one analysis paragraph',sub:'Choose ONE place you marked and write a paragraph (about 100–150 words).',
+  fields:[{id:'pee',label:'Your paragraph',rows:9,counter:'free'}],
+  side:{lead:'<b>Point:</b> device + function.<br><b>Evidence:</b> short quote + line number.<br><b>Effect:</b> what it does to the audience, linked to Harris’s message.',
+   chips:['The speaker uses … when she says “…” (l. X).','The repetition of “…” (ll. X–Y) creates the impression that …','This creates a sense of …','This reinforces her central argument that …'],
+   helps:[{l:'Help: which place to choose',h:'Take the clearest one from your marking: a repeated structure, a “we” / “they” pair, or an appeal to values. One strong example is better than three weak ones.'}]},
+  copy:'Copy paragraph'},
+
+{id:'chk3',type:'check',lesson:1,ph:'Lesson 1 · Self-check',min:4,title:'Check your paragraph',sub:'Tick what is true. Fix what is not.',
+  items:[
+   'My point names the device and what it does.',
+   'I quote briefly and give line numbers.',
+   'I explain the effect on the audience.',
+   'I link the effect to Harris’s overall message.',
+   'Present tense, and I do not retell the speech.']},
+
+{id:'eval1',type:'eval',lesson:1,ph:'Lesson 1 · Wrap-up',title:'Where do you stand?',sub:'Tap one level for each statement. Only you see this.',
+  items:[
+   {t:'I can find appeals to shared values, “we” / “they” and repetition in a speech.',go:'read'},
+   {t:'I can sum up a speaker’s view in three sentences in my own words.',go:'sum'},
+   {t:'I can write an analysis paragraph: point, evidence, effect.',go:'peem'}],
+  after:['Keep your marked speech.','Bring your three sentences on Monday, 23 November.','Next: Lesson 2, the comment.']},
+
+/* ============ LESSON 2 ============ */
+{id:'hinge2',type:'quiz',single:true,lesson:2,ph:'Lesson 2 · Warm-up',min:4,title:'Which plan fits a comment?',sub:'One question before you start.',
+  qs:[{q:'Your task: “Comment on Harris’s claim that ‘fear is not the only thing that’s contagious. Courage is contagious’.” Which plan fits a comment?',
+   o:[
+    {t:'One position, three arguments that support it, the strongest argument last.',ok:1,fb:'Yes: a comment keeps one position from the first paragraph to the last.'},
+    {t:'Two arguments for, two arguments against, and a judgement in the conclusion.',ok:0,fb:'That is the plan for a discussion. A comment keeps one position from the first paragraph to the last.'},
+    {t:'A summary of the speech, followed by a sentence saying whether I agree.',ok:0,fb:'A summary is AFB I and cannot be the core of a comment. A comment is built from arguments.'},
+    {t:'Three neutral paragraphs about the claim, with my position only in the conclusion.',ok:0,fb:'In a comment the reader should know your position from the introduction on. A late position is the logic of a discussion.'}
+   ]}]},
+
+{id:'quote',type:'quiz',lesson:2,ph:'Lesson 2 · Step 4',min:10,title:'Step 4 · Understand the quotation',sub:'“Fear is not the only thing that’s contagious. Courage is contagious.” (ll. 38–40)',
+  ask:'Think first: What does it say? What does it assume? Is courage really as contagious as fear? Then answer the three questions.',
+  qs:[
+   {q:'Which sentence is the closest paraphrase of Harris’s claim?',o:[
+    {t:'Courage can spread from person to person, just as fear can.',ok:1,fb:'Yes: she adds courage to fear as something that spreads.'},
+    {t:'Fear is not real, so only courage really matters.',ok:0,fb:'She does not deny that fear is real. She says it is not the only thing that spreads.'},
+    {t:'People who are brave never feel any fear at all.',ok:0,fb:'The claim is about spreading, not about feeling no fear.'},
+    {t:'Courage spreads faster and further than fear ever does.',ok:0,fb:'Harris says courage is also contagious. She does not say it is more contagious than fear.'}]},
+   {q:'Harris says “what they have overlooked”. What does “overlooked” suggest?',o:[
+    {t:'Those who spread fear did not expect that courage could spread too.',ok:1,fb:'Yes: “overlooked” means they failed to notice something.'},
+    {t:'Those who spread fear are secretly very brave themselves.',ok:0,fb:'Nothing in the claim says this. “Overlooked” means they failed to notice something.'},
+    {t:'Courage is hard to see, so nobody notices it.',ok:0,fb:'“Overlooked” is about what these people fail to see, not about whether courage is visible.'},
+    {t:'Fear is stronger than courage and always wins in the end.',ok:0,fb:'That is the view of those who spread fear. Harris suggests they are missing something.'}]},
+   {q:'What does the task word “comment” ask you to do?',o:[
+    {t:'Take one clear position and defend it with arguments.',ok:1,fb:'Yes: one position, from start to end.'},
+    {t:'Weigh two sides equally and decide only in the conclusion.',ok:0,fb:'That describes a discussion.'},
+    {t:'Explain which stylistic devices Harris uses.',ok:0,fb:'That is an analysis task (AFB II).'},
+    {t:'Sum up the main ideas of the speech.',ok:0,fb:'That is a summary (AFB I).'}]}
+  ]},
+
+{id:'map',type:'steps',lesson:2,ph:'Lesson 2 · Step 5',min:6,title:'Step 5 · The shape of your comment',sub:'250–350 words. Know where every word count goes before you plan.',
+  steps:[
+   {h:'Introduction · about 30–50 words',t:'Refer to the quotation and end with your position in one clear sentence.'},
+   {h:'Arguments 1 and 2 · about 60–80 words each',t:'Claim → reason → example → link back to your position.'},
+   {h:'Argument 3 · about 60–80 words',t:'Your strongest argument goes last. Same pattern: claim → reason → example → link.'},
+   {h:'Conclusion · about 40–50 words',t:'Refer back to the quotation. No new arguments. Finish with a thought about the future or your own evaluation.'}],
+  note:'One position from start to end. A comment is not a balanced discussion.'},
+
+{id:'plan',type:'write',lesson:2,ph:'Lesson 2 · Step 5',min:15,title:'Step 5 · Plan before you write',sub:'Short notes are enough. Your plan is for you.',
+  fields:[
+   {id:'pos',label:'My position (one sentence)',rows:1},
+   {id:'a1',label:'Argument 1: claim → reason → example → link',rows:2},
+   {id:'a2',label:'Argument 2',rows:2},
+   {id:'a3',label:'Argument 3 (strongest)',rows:2},
+   {id:'cc',label:'Introduction idea · conclusion idea',rows:1}],
+  side:{lead:'<b>Where can examples come from?</b>',tags:['People who spoke out','Elle Hunt’s story of staying silent','Online debates','Your own experience'],
+   chips:['I would argue that …','It is my contention that …','I am firmly convinced that …'],
+   helps:[{l:'Help: taking a position',h:'You may agree fully, agree with a limit, or disagree. What counts is that your position is clear and the same in every paragraph.'}]}},
+
+{id:'write',type:'write',lesson:2,ph:'Lesson 2 · Step 6',min:30,title:'Step 6 · Write your first draft',sub:'Without AI. 250–350 words. Use your plan and refer to the quotation.',
+  fields:[{id:'draft',label:'Your comment',rows:11,counter:'range',min:250,max:350}],
+  side:{lead:'Click a phrase to put it into your text.',
+   chips:['First and foremost, …','A further argument in support of this view is that …','Perhaps the most compelling evidence for this is …','This is illustrated by the fact that …','In conclusion, the evidence strongly suggests that …','This matters because, in the long run, …'],
+   helps:[{l:'Help: paper or screen?',h:'Paper is fine for drafting. For FelloFish you will need the text on a device in the next step.'}]},
+  copy:'Copy my comment',warn:'Your text stays only in this browser tab. Closing the tab deletes it: copy it before you leave.'},
+
+{id:'chk4',type:'check',lesson:2,ph:'Lesson 2 · Self-check',min:6,title:'Check your draft',sub:'Tick what is true. Fix the rest before you submit.',
+  items:[
+   'The introduction refers to the quotation and ends with my clear position.',
+   'I have at least three different arguments, each with claim, reason and example.',
+   'My examples come from public life, online debates or my own experience.',
+   'My strongest argument comes last.',
+   'One position from start to end: no balanced discussion.',
+   'The conclusion refers back to the quotation and adds no new argument.',
+   'Clear paragraphs, connectives, 250–350 words.',
+   'Formal register; present tense as base tense, past tense for specific examples.']},
+
+{id:'submit',type:'link',lesson:2,ph:'Lesson 2 · Step 7',min:8,title:'Step 7 · Submit on FelloFish',sub:'Deadline: Sunday, 22 November. You can submit in this lesson.',
+  steps:[
+   'Scan the QR code or open the link.',
+   'Paste your draft and send it in.',
+   'Read the feedback carefully.',
+   'Check it critically: tick it against your checklist. Not every comment is useful.',
+   'Note one strength and one point to fix before the exam.'],
+  path:'app.fello.fish/a/w1p9brhob536d6wdfkl3l3yw',
+  qr:'<svg viewBox="0 0 41 41" shape-rendering="crispEdges" role="img" aria-label="QR code for the FelloFish task"><rect width="41" height="41" fill="#fff"/><path d="M4 4h7v1h-7zM13 4h1v1h-1zM15 4h1v1h-1zM17 4h1v1h-1zM20 4h6v1h-6zM27 4h1v1h-1zM30 4h7v1h-7zM4 5h1v1h-1zM10 5h1v1h-1zM15 5h7v1h-7zM24 5h1v1h-1zM28 5h1v1h-1zM30 5h1v1h-1zM36 5h1v1h-1zM4 6h1v1h-1zM6 6h3v1h-3zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h2v1h-2zM17 6h1v1h-1zM19 6h1v1h-1zM21 6h3v1h-3zM25 6h3v1h-3zM30 6h1v1h-1zM32 6h3v1h-3zM36 6h1v1h-1zM4 7h1v1h-1zM6 7h3v1h-3zM10 7h1v1h-1zM12 7h1v1h-1zM14 7h1v1h-1zM16 7h1v1h-1zM18 7h1v1h-1zM20 7h1v1h-1zM24 7h1v1h-1zM26 7h1v1h-1zM30 7h1v1h-1zM32 7h3v1h-3zM36 7h1v1h-1zM4 8h1v1h-1zM6 8h3v1h-3zM10 8h1v1h-1zM12 8h2v1h-2zM15 8h1v1h-1zM19 8h1v1h-1zM21 8h2v1h-2zM25 8h1v1h-1zM27 8h2v1h-2zM30 8h1v1h-1zM32 8h3v1h-3zM36 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM12 9h1v1h-1zM14 9h2v1h-2zM17 9h1v1h-1zM19 9h2v1h-2zM22 9h1v1h-1zM24 9h3v1h-3zM28 9h1v1h-1zM30 9h1v1h-1zM36 9h1v1h-1zM4 10h7v1h-7zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM28 10h1v1h-1zM30 10h7v1h-7zM12 11h4v1h-4zM19 11h1v1h-1zM22 11h1v1h-1zM25 11h2v1h-2zM4 12h1v1h-1zM6 12h5v1h-5zM13 12h1v1h-1zM15 12h1v1h-1zM17 12h6v1h-6zM24 12h1v1h-1zM26 12h3v1h-3zM30 12h5v1h-5zM4 13h2v1h-2zM12 13h1v1h-1zM14 13h3v1h-3zM18 13h1v1h-1zM22 13h3v1h-3zM27 13h1v1h-1zM30 13h2v1h-2zM33 13h2v1h-2zM36 13h1v1h-1zM5 14h1v1h-1zM8 14h3v1h-3zM12 14h1v1h-1zM15 14h1v1h-1zM19 14h1v1h-1zM22 14h1v1h-1zM24 14h3v1h-3zM28 14h2v1h-2zM32 14h1v1h-1zM34 14h2v1h-2zM5 15h1v1h-1zM7 15h1v1h-1zM11 15h1v1h-1zM16 15h1v1h-1zM18 15h2v1h-2zM25 15h1v1h-1zM27 15h1v1h-1zM30 15h1v1h-1zM32 15h5v1h-5zM4 16h2v1h-2zM7 16h2v1h-2zM10 16h4v1h-4zM15 16h2v1h-2zM19 16h1v1h-1zM22 16h2v1h-2zM27 16h3v1h-3zM32 16h2v1h-2zM35 16h2v1h-2zM11 17h2v1h-2zM14 17h2v1h-2zM17 17h5v1h-5zM24 17h1v1h-1zM26 17h2v1h-2zM29 17h3v1h-3zM34 17h3v1h-3zM10 18h1v1h-1zM13 18h1v1h-1zM16 18h3v1h-3zM21 18h1v1h-1zM23 18h1v1h-1zM25 18h2v1h-2zM29 18h3v1h-3zM35 18h1v1h-1zM5 19h2v1h-2zM8 19h2v1h-2zM12 19h3v1h-3zM16 19h2v1h-2zM20 19h1v1h-1zM23 19h3v1h-3zM27 19h4v1h-4zM34 19h1v1h-1zM4 20h1v1h-1zM7 20h2v1h-2zM10 20h1v1h-1zM12 20h2v1h-2zM15 20h1v1h-1zM18 20h1v1h-1zM20 20h2v1h-2zM23 20h1v1h-1zM26 20h4v1h-4zM31 20h3v1h-3zM36 20h1v1h-1zM4 21h4v1h-4zM11 21h3v1h-3zM17 21h2v1h-2zM20 21h6v1h-6zM27 21h2v1h-2zM30 21h2v1h-2zM33 21h2v1h-2zM36 21h1v1h-1zM6 22h1v1h-1zM8 22h1v1h-1zM10 22h1v1h-1zM16 22h6v1h-6zM28 22h2v1h-2zM31 22h2v1h-2zM34 22h2v1h-2zM5 23h1v1h-1zM7 23h1v1h-1zM12 23h1v1h-1zM18 23h2v1h-2zM21 23h6v1h-6zM28 23h7v1h-7zM4 24h1v1h-1zM6 24h6v1h-6zM13 24h1v1h-1zM15 24h2v1h-2zM18 24h3v1h-3zM26 24h1v1h-1zM28 24h2v1h-2zM31 24h3v1h-3zM36 24h1v1h-1zM4 25h2v1h-2zM8 25h1v1h-1zM12 25h8v1h-8zM22 25h1v1h-1zM26 25h2v1h-2zM30 25h1v1h-1zM33 25h2v1h-2zM36 25h1v1h-1zM4 26h1v1h-1zM6 26h5v1h-5zM12 26h1v1h-1zM14 26h2v1h-2zM18 26h3v1h-3zM22 26h1v1h-1zM25 26h2v1h-2zM28 26h1v1h-1zM31 26h5v1h-5zM4 27h1v1h-1zM6 27h3v1h-3zM11 27h1v1h-1zM13 27h2v1h-2zM16 27h4v1h-4zM25 27h1v1h-1zM27 27h1v1h-1zM29 27h1v1h-1zM34 27h2v1h-2zM4 28h1v1h-1zM7 28h1v1h-1zM9 28h4v1h-4zM15 28h8v1h-8zM26 28h1v1h-1zM28 28h6v1h-6zM12 29h1v1h-1zM15 29h2v1h-2zM22 29h3v1h-3zM27 29h2v1h-2zM32 29h1v1h-1zM34 29h1v1h-1zM36 29h1v1h-1zM4 30h7v1h-7zM13 30h3v1h-3zM19 30h2v1h-2zM22 30h1v1h-1zM25 30h1v1h-1zM27 30h2v1h-2zM30 30h1v1h-1zM32 30h1v1h-1zM34 30h2v1h-2zM4 31h1v1h-1zM10 31h1v1h-1zM12 31h3v1h-3zM20 31h1v1h-1zM23 31h6v1h-6zM32 31h3v1h-3zM36 31h1v1h-1zM4 32h1v1h-1zM6 32h3v1h-3zM10 32h1v1h-1zM12 32h1v1h-1zM15 32h1v1h-1zM19 32h1v1h-1zM22 32h2v1h-2zM26 32h1v1h-1zM28 32h6v1h-6zM4 33h1v1h-1zM6 33h3v1h-3zM10 33h1v1h-1zM12 33h1v1h-1zM16 33h1v1h-1zM18 33h4v1h-4zM26 33h1v1h-1zM28 33h2v1h-2zM32 33h1v1h-1zM34 33h3v1h-3zM4 34h1v1h-1zM6 34h3v1h-3zM10 34h1v1h-1zM12 34h2v1h-2zM16 34h3v1h-3zM21 34h1v1h-1zM24 34h1v1h-1zM26 34h1v1h-1zM28 34h4v1h-4zM33 34h1v1h-1zM4 35h1v1h-1zM10 35h1v1h-1zM13 35h1v1h-1zM16 35h2v1h-2zM20 35h1v1h-1zM23 35h4v1h-4zM29 35h1v1h-1zM32 35h1v1h-1zM34 35h1v1h-1zM4 36h7v1h-7zM12 36h2v1h-2zM15 36h2v1h-2zM20 36h2v1h-2zM27 36h2v1h-2zM31 36h1v1h-1zM33 36h1v1h-1zM35 36h1v1h-1z" fill="#000"/></svg>'},
+
+{id:'eval2',type:'eval',lesson:2,ph:'Lesson 2 · Wrap-up',title:'Where do you stand?',sub:'Tap one level for each statement. Only you see this.',
+  items:[
+   {t:'I can explain what Harris’s claim means and what the task word asks.',go:'quote'},
+   {t:'I can plan a comment with one position and three arguments.',go:'plan'},
+   {t:'I can write a 250–350 word comment with a clear structure.',go:'write'},
+   {t:'I can use feedback critically.',go:'submit'}],
+  after:['Submit on FelloFish by Sunday, 22 November.','Monday, 23 November: bring your three sentences.','Wednesday, 25 November: exam, speech analysis + comment.']}
+];
+
+(function(){
+'use strict';
+var D=window.DECK;
+var PFX='t4w2harris:';
+var stage=document.getElementById('stage'),root=document.getElementById('root'),ctl=document.getElementById('ctl');
+var SCALE=1,cur=0,ST={},tm=null,soundOn=true,ledOn=false,actx=null,tmr=null,idleT=null;
+
+function $(s,r){return (r||document).querySelector(s);}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+function el(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;}
+function sget(k,d){try{var v=sessionStorage.getItem(PFX+k);return v==null?d:JSON.parse(v);}catch(e){return d;}}
+function sset(k,v){try{sessionStorage.setItem(PFX+k,JSON.stringify(v));}catch(e){}}
+function toast(m){var t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast._t);toast._t=setTimeout(function(){t.style.display='none';},1600);}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var x=a[i];a[i]=a[j];a[j]=x;}return a;}
+function byId(id){for(var i=0;i<D.length;i++)if(D[i].id===id)return i;return -1;}
+function words(t){var m=String(t||'').trim().match(/\S+/g);return m?m.length:0;}
+function copyText(t){
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){toast('Copied');},function(){fallback();});}
+  else fallback();
+  function fallback(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('Copied');}catch(e){toast('Copy not possible');}document.body.removeChild(ta);}
+}
+
+/* ---------- scale ---------- */
+function fit(){
+  SCALE=Math.min(innerWidth/1920,innerHeight/1080);
+  stage.style.transform='scale('+SCALE+')';
+  stage.style.left=Math.max(0,(innerWidth-1920*SCALE)/2)+'px';
+  stage.style.top=Math.max(0,(innerHeight-1080*SCALE)/2)+'px';
+}
+
+/* ---------- icons ---------- */
+var IC={
+ prev:'<svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>',
+ next:'<svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>',
+ play:'<svg viewBox="0 0 24 24"><path class="f" d="M7 4l13 8-13 8z"/></svg>',
+ pause:'<svg viewBox="0 0 24 24"><path class="f" d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>',
+ reset:'<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/></svg>',
+ minus:'<svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>',
+ plus:'<svg viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></svg>',
+ list:'<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>',
+ snd:'<svg viewBox="0 0 24 24"><path class="f" d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8c2 2 2 6 0 8M19 5c4 4 4 10 0 14"/></svg>',
+ mute:'<svg viewBox="0 0 24 24"><path class="f" d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>',
+ help:'<svg viewBox="0 0 24 24"><path d="M9 9a3 3 0 1 1 4.5 2.6c-1 .6-1.5 1.2-1.5 2.4M12 18v.5"/></svg>',
+ full:'<svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>'
+};
+
+/* ---------- storage-backed text ---------- */
+function tget(sid,fid){return sget('tx:'+sid+':'+fid,'');}
+function tset(sid,fid,v){sset('tx:'+sid+':'+fid,v);}
+
+/* ---------- header ---------- */
+function timerSlide(s){return !!(s.min>=10||s.cont);}
+function preset(s){var sec=s.min*60;return Math.round(sec-Math.max(60,0.1*sec));}
+function buildHead(s){
+  var h=el('div','head');
+  h.innerHTML='<div class="phrow"><span class="shield">'+s.ph+'</span>'+(s.min?'<span class="pt">'+s.min+'′</span>':'')+'</div><h1>'+s.title+'</h1>'+(s.sub?'<div class="sub">'+s.sub+'</div>':'')+
+   '<div id="timer"><svg viewBox="0 0 176 176"><circle cx="88" cy="88" r="84" fill="#3A1F57" stroke="#CDB4F0" stroke-width="5"/><path id="wedge" fill="#CDB4F0"/></svg><div class="bell">🔔</div><div class="led"></div></div>';
+  return h;
+}
+function pieD(fr){
+  var cx=88,cy=88,r=76;
+  if(fr>=0.999)return 'M'+cx+' '+(cy-r)+'A'+r+' '+r+' 0 1 1 '+(cx-0.01)+' '+(cy-r)+'Z';
+  if(fr<=0)return '';
+  var a=2*Math.PI*(1-fr),x=cx+r*Math.sin(a),y=cy-r*Math.cos(a),large=(2*Math.PI-a)>Math.PI?1:0;
+  return 'M'+cx+' '+cy+'L'+x.toFixed(2)+' '+y.toFixed(2)+'A'+r+' '+r+' 0 '+large+' 1 '+cx+' '+(cy-r)+'Z';
+}
+function fmt(sec){var m=Math.floor(sec/60),s=sec%60;return m+':'+(s<10?'0':'')+s;}
+function drawTimer(){
+  var t=$('#timer');if(!t)return;
+  if(!tm){t.className='';return;}
+  t.className='on'+(ledOn?' led':'')+(tm.done?' done':'');
+  var w=$('#wedge');if(w)w.setAttribute('d',pieD(tm.rem/tm.total));
+  var l=$('.led',t);if(l)l.textContent=fmt(tm.rem);
+  var pp=$('#b-play');if(pp)pp.innerHTML=tm.running?IC.pause:IC.play;
+  $$('.tb').forEach(function(b){b.disabled=!tm;});
+}
+function beep(){
+  if(!soundOn)return;
+  try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();
+   [0,0.25,0.5].forEach(function(d){var o=actx.createOscillator(),g=actx.createGain();o.frequency.value=660;g.gain.value=0.05;o.connect(g);g.connect(actx.destination);o.start(actx.currentTime+d);o.stop(actx.currentTime+d+0.14);});}catch(e){}
+}
+function tick(){
+  if(tm&&tm.running){tm.rem=Math.max(0,Math.ceil((tm.end-Date.now())/1000));if(tm.rem<=0){tm.running=false;tm.done=true;beep();}drawTimer();}
+}
+function tPlay(){
+  if(!tm)return;
+  if(soundOn){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();}catch(e){}}
+  if(tm.done){tm.done=false;tm.rem=tm.total;}
+  if(tm.running){tm.rem=Math.max(0,Math.ceil((tm.end-Date.now())/1000));tm.running=false;}
+  else{tm.running=true;tm.end=Date.now()+tm.rem*1000;}
+  drawTimer();
+}
+function tReset(){if(!tm)return;tm.rem=tm.total;tm.running=false;tm.done=false;drawTimer();}
+function tAdj(d){
+  if(!tm)return;
+  var nt=Math.max(60,tm.total+d*60);var diff=nt-tm.total;tm.total=nt;
+  if(tm.running){tm.end+=diff*1000;tm.rem=Math.max(1,Math.ceil((tm.end-Date.now())/1000));}
+  else{tm.rem=Math.max(0,tm.rem+diff);if(tm.done&&diff>0){tm.done=false;}}
+  drawTimer();
+}
+function manualTimer(){tm={total:300,rem:300,running:false,end:0,done:false,manual:true};if(!$('#timer')){}drawTimer();}
+
+/* ---------- renderers ---------- */
+var R={};
+
+R.title=function(s,b){
+  b.className='';b.style.cssText='';
+  b.innerHTML='<div class="tslide"><div class="eyebrow">'+s.eyebrow+'</div><h1>'+s.title+'</h1><div class="sub">'+s.sub+'</div><div class="pills">'+
+   s.pills.map(function(p,i){return '<span class="pill'+(i?' o':'')+'">'+p+'</span>';}).join('')+'</div><button class="btn go" id="gostart">Start ▸</button></div>';
+  $('#gostart',b).onclick=function(){show(cur+1);};
+};
+
+R.overview=function(s,b){
+  var g=el('div','ovgrid');
+  s.cards.forEach(function(c){
+    var d=el('div','ovc');
+    d.innerHTML='<div class="top">'+c.h+'<small>'+c.s+'</small></div><ul>'+c.items.map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul><div class="end">'+c.end+'</div>';
+    var bt=el('button','btn go','Start '+c.h+' ▸');bt.onclick=function(){show(byId(c.go));};d.appendChild(bt);g.appendChild(d);
+  });
+  b.appendChild(g);
+};
+
+R.steps=function(s,b){
+  var w=el('div','steps');
+  s.steps.forEach(function(st,i){w.appendChild(el('div','step','<div class="num">'+(i+1)+'</div><div class="h">'+st.h+'</div><div class="t">'+st.t+'</div>'));});
+  b.appendChild(w);
+  if(s.note){var n=el('div','note',s.note);n.style.marginTop='16px';b.appendChild(n);}
+};
+
+function helpsEl(hs){
+  var w=el('div','helps');
+  (hs||[]).forEach(function(h){
+    var d=el('div','help','<button type="button">'+h.l+'</button><div class="hb">'+h.h+'</div>');
+    $('button',d).onclick=function(){d.classList.toggle('open');};
+    w.appendChild(d);
+  });
+  return w;
+}
+
+R.task=function(s,b){
+  var c=el('div','col');
+  c.appendChild(el('div','card lead',s.lead));
+  if(s.legend){var l=el('div','legend');s.legend.forEach(function(x){l.appendChild(el('div','leg','<div class="sym '+x.c+'"><span>'+x.s+'</span></div><div>'+x.t+'</div>'));});c.appendChild(l);}
+  if(s.after)c.appendChild(el('div','note',s.after));
+  c.appendChild(helpsEl(s.helps));
+  b.appendChild(c);
+};
+
+R.check=function(s,b){
+  var S=ST[s.id]=ST[s.id]||{on:sget('ck:'+s.id,[])};
+  var c=el('div','cl'+(s.items.length>=7?' dense':''));
+  var items=[];
+  s.items.forEach(function(t,i){
+    var bt=el('button','ci'+(S.on[i]?' on':''),'<span class="bx"></span><span>'+t+'</span>');bt.type='button';
+    bt.setAttribute('role','checkbox');bt.setAttribute('aria-checked',S.on[i]?'true':'false');
+    bt.onclick=function(){S.on[i]=!S.on[i];sset('ck:'+s.id,S.on);bt.classList.toggle('on',!!S.on[i]);bt.setAttribute('aria-checked',S.on[i]?'true':'false');upd();};
+    items.push(bt);c.appendChild(bt);
+  });
+  var pr=el('div','prog','<span id="pc"></span><div class="bar"><i id="pb"></i></div><span id="pm"></span>');
+  c.appendChild(pr);
+  if(s.note)c.appendChild(el('div','note',s.note));
+  b.appendChild(c);
+  function upd(){var n=S.on.filter(Boolean).length,t=s.items.length;$('#pc',b).textContent=n+' / '+t;$('#pb',b).style.width=(100*n/t)+'%';$('#pm',b).textContent=n===t?'All ticked: well done.':'';}
+  upd();
+};
+
+/* quiz ordering: positions come from a shuffled bag, never the same twice in a row */
+function makeOrds(qs){
+  var bag=[],prev=-1,ords=[];
+  qs.forEach(function(q){
+    var k=q.o.length;
+    bag=bag.filter(function(p){return p<k;});
+    if(!bag.length){bag=shuffle([0,1,2,3].filter(function(p){return p<k;}));}
+    var idx=0;
+    if(bag[0]===prev&&bag.length>1)idx=1;
+    var pos=bag.splice(idx,1)[0];prev=pos;
+    var c=0;q.o.forEach(function(o,i){if(o.ok)c=i;});
+    var rest=shuffle(q.o.map(function(o,i){return i;}).filter(function(i){return i!==c;}));
+    var ord=[];for(var j=0;j<k;j++){ord.push(j===pos?c:rest.shift());}
+    ords.push(ord);
+  });
+  return ords;
+}
+function newQuiz(s){return {ords:makeOrds(s.qs),qi:0,first:[],answered:false,finished:false,tried:false,wrong:{}};}
+
+R.quiz=function(s,b){
+  var S=ST[s.id]=ST[s.id]||newQuiz(s);
+  var w=el('div','qwrap');b.appendChild(w);
+  draw();
+  function draw(){
+    w.innerHTML='';
+    if(S.finished){
+      var ok=S.first.filter(Boolean).length;
+      w.appendChild(el('div','card','<div class="res">Result: <span class="led2">'+ok+' / '+s.qs.length+'</span> correct on the first try</div><p class="t32" style="margin-top:14px">'+(ok===s.qs.length?'Very good. You can move on.':'Go back to the questions you missed and read the feedback again.')+'</p>'));
+      var r=el('button','btn','↺ Try again');r.onclick=function(){delete ST[s.id];refresh();};w.appendChild(r);return;
+    }
+    var q=s.qs[S.qi],ord=S.ords[S.qi];
+    var hd=el('div','qhead');
+    if(s.qs.length>1){var dots=el('div','dots');s.qs.forEach(function(_,i){var d=el('span','dot'+(i===S.qi?' cur':'')+(S.first[i]===true?' ok':(S.first[i]===false?' half':'')));dots.appendChild(d);});hd.appendChild(dots);hd.appendChild(el('span','t32 muted','Question '+(S.qi+1)+' of '+s.qs.length));}
+    w.appendChild(hd);
+    w.appendChild(el('div','qtext',q.q));
+    var os=el('div','opts');
+    ord.forEach(function(oi,k){
+      var o=q.o[oi];
+      var bt=el('button','opt'+(S.wrong[S.qi+':'+oi]?' ko':'')+(S.answered&&o.ok?' ok':''),'<span class="k">'+(k+1)+'</span><span>'+o.t+'</span>');
+      bt.type='button';bt.dataset.k=k;bt.dataset.oi=oi;bt.dataset.ok=o.ok?'1':'0';
+      if(S.answered||S.wrong[S.qi+':'+oi])bt.disabled=true;
+      bt.onclick=function(){pick(oi);};
+      os.appendChild(bt);
+    });
+    w.appendChild(os);
+    var fb=el('div','fb');w.appendChild(fb);
+    if(S.last){fb.className='fb on '+(S.last.ok?'ok':'ko');fb.innerHTML=S.last.fb;}
+    else if(s.ask&&S.qi===0){fb.className='fb on';fb.style.cssText='background:var(--lilac2);border:3px solid var(--lilac);color:var(--night)';fb.innerHTML=s.ask;}
+    if(S.answered&&!s.single){
+      var n=el('button','btn',S.qi===s.qs.length-1?'Show result ▸':'Next question ▸');n.id='qnext';n.onclick=function(){
+        if(S.qi===s.qs.length-1){S.finished=true;}else{S.qi++;S.answered=false;S.tried=false;S.last=null;}draw();};
+      w.appendChild(n);
+    }
+  }
+  function pick(oi){
+    if(S.answered)return;
+    var q=s.qs[S.qi],o=q.o[oi];
+    if(o.ok){S.answered=true;if(S.first[S.qi]===undefined)S.first[S.qi]=!S.tried;S.last={ok:true,fb:'<b>Correct.</b> '+o.fb};}
+    else{S.tried=true;S.first[S.qi]=false;S.wrong[S.qi+':'+oi]=true;S.last={ok:false,fb:'<b>Not quite.</b> '+o.fb+' Try again.'};}
+    draw();
+  }
+  S.pickK=function(k){var q=s.qs[S.qi];if(S.finished)return;var oi=S.ords[S.qi][k];if(oi!==undefined&&!S.wrong[S.qi+':'+oi])pick(oi);};
+};
+
+R.match=function(s,b){
+  var n=s.pairs.length;
+  var S=ST[s.id];
+  if(!S){
+    var ord;do{ord=shuffle(s.pairs.map(function(_,i){return i;}));var fx=0,run=0;for(var i=0;i<n;i++){if(ord[i]===i)fx++;if(i>0&&ord[i]===ord[i-1]+1)run++;}}while(fx>1||run>1);
+    S=ST[s.id]={asg:s.pairs.map(function(){return null;}),order:ord,res:null,sel:null};
+  }
+  var row=el('div','mrow');b.appendChild(row);
+  var fields=el('div','mfields'),pool=el('div','mpool');row.appendChild(fields);row.appendChild(pool);
+  var slots=[];
+  s.pairs.forEach(function(p,i){
+    var f=el('div','mf','<div class="cat">'+p.cat+'</div>');
+    var sl=el('div','slot');sl.dataset.i=i;sl.tabIndex=0;sl.setAttribute('role','button');sl.setAttribute('aria-label','Field for '+p.cat);
+    sl.onclick=function(){if(S.sel!==null){place(S.sel,i);}};
+    sl.onkeydown=function(e){if((e.key==='Enter'||e.key===' ')&&S.sel!==null){e.preventDefault();place(S.sel,i);}};
+    f.appendChild(sl);fields.appendChild(f);slots.push(sl);
+  });
+  var cards=[];
+  S.order.forEach(function(ci){
+    var c=el('button','mcard',s.pairs[ci].ex);c.type='button';c.dataset.c=ci;c.setAttribute('aria-label','Example: '+s.pairs[ci].ex);
+    attachDrag(c,ci);cards[ci]=c;
+  });
+  var act=el('div','row');act.style.cssText='gap:14px;align-items:center;margin-top:4px';
+  var ck=el('button','btn','Check');var rs=el('button','btn ghost','Start again');
+  var msg=el('div','t30');msg.style.cssText='flex:1;font-weight:700';
+  act.appendChild(ck);act.appendChild(rs);act.appendChild(msg);
+  S.order.forEach(function(ci){pool.appendChild(cards[ci]);});
+  pool.appendChild(act);
+  if(s.foot){var f=el('div','warnline',s.foot);f.style.marginTop='6px';pool.appendChild(f);}
+  function placed(ci){return S.asg.indexOf(ci);}
+  function render(){
+    slots.forEach(function(sl,i){
+      sl.className='slot';sl.innerHTML='';
+      var ci=S.asg[i];
+      if(ci!==null){
+        var c=cards[ci];c.classList.remove('gone','sel');sl.appendChild(c);
+        if(S.res)sl.classList.add(S.res[i]?'ok':'ko');
+      }
+    });
+    S.order.forEach(function(ci){var c=cards[ci];if(placed(ci)<0){if(c.parentNode!==pool||true){pool.insertBefore(c,act);}c.classList.toggle('sel',S.sel===ci);}});
+    if(S.res){var k=S.res.filter(Boolean).length;msg.textContent=k===n?'All '+n+' correct.':k+' of '+n+' correct. Move the orange ones.';}
+    else{var pl=S.asg.filter(function(x){return x!==null;}).length;msg.textContent=pl+' of '+n+' placed';}
+  }
+  function place(ci,i){
+    var old=S.asg[i];var from=placed(ci);
+    if(from>=0)S.asg[from]=old!==null&&old!==ci?old:null;
+    S.asg[i]=ci;S.sel=null;S.res=null;render();
+  }
+  function unplace(ci){var f=placed(ci);if(f>=0){S.asg[f]=null;S.res=null;render();}}
+  function attachDrag(c,ci){
+    var sx,sy,drag=false,ghost=null,down=false;
+    c.addEventListener('pointerdown',function(e){down=true;drag=false;sx=e.clientX;sy=e.clientY;try{c.setPointerCapture(e.pointerId);}catch(x){}});
+    c.addEventListener('pointermove',function(e){
+      if(!down)return;
+      if(!drag&&Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>10){drag=true;ghost=el('div','dragghost',s.pairs[ci].ex);ghost.style.width=(560*SCALE)+'px';ghost.style.fontSize=(28*SCALE)+'px';document.body.appendChild(ghost);c.style.opacity='.35';}
+      if(drag){ghost.style.left=(e.clientX+10)+'px';ghost.style.top=(e.clientY+10)+'px';
+        $$('.slot',b).forEach(function(x){x.classList.remove('hot');});
+        var t=document.elementsFromPoint(e.clientX,e.clientY).filter(function(x){return x.classList&&x.classList.contains('slot');})[0];if(t)t.classList.add('hot');}
+    });
+    function end(e){
+      if(!down)return;down=false;
+      if(drag){
+        var t=document.elementsFromPoint(e.clientX,e.clientY).filter(function(x){return x.classList&&x.classList.contains('slot');})[0];
+        if(ghost&&ghost.parentNode)ghost.parentNode.removeChild(ghost);ghost=null;c.style.opacity='';
+        $$('.slot',b).forEach(function(x){x.classList.remove('hot');});
+        if(t)place(ci,+t.dataset.i);else if(placed(ci)>=0)unplace(ci);
+        c._noclick=true;setTimeout(function(){c._noclick=false;},140);
+      }
+    }
+    c.addEventListener('pointerup',end);c.addEventListener('pointercancel',end);
+    c.addEventListener('click',function(e){
+      if(c._noclick)return;
+      if(placed(ci)>=0){unplace(ci);return;}
+      S.sel=(S.sel===ci)?null:ci;render();
+    });
+  }
+  ck.onclick=function(){S.res=S.asg.map(function(ci,i){return ci===i;});render();};
+  rs.onclick=function(){delete ST[s.id];refresh();};
+  render();
+};
+
+R.write=function(s,b){
+  var cols=el('div','wcols');var main=el('div','wmain'),side=el('div','wside');cols.appendChild(main);cols.appendChild(side);b.appendChild(cols);
+  var tas=[],last=null;
+  s.fields.forEach(function(f){
+    main.appendChild(el('div','fl',f.label));
+    var ta=document.createElement('textarea');ta.rows=f.rows;ta.value=tget(s.id,f.id);ta.setAttribute('aria-label',f.label);ta.spellcheck=false;
+    ta.addEventListener('focus',function(){last=ta;});
+    ta.addEventListener('input',function(){tset(s.id,f.id,ta.value);cnt();});
+    main.appendChild(ta);tas.push(ta);
+  });
+  var cf=s.fields.filter(function(f){return f.counter;})[0];
+  var cn=null;
+  if(cf){cn=el('div','cnt');main.appendChild(cn);}
+  function cnt(){
+    if(!cf)return;var ta=tas[s.fields.indexOf(cf)],n=words(ta.value);
+    if(cf.counter==='range'){
+      var c='mid',t='Keep going';
+      if(n>=cf.min&&n<=cf.max){c='ok';t='Within the range';}
+      else if(n>cf.max){c='ko';t='Too long: shorten';}
+      else if(n>=cf.min-30&&n>0){c='mid';t='Almost there';}
+      cn.className='cnt '+c;cn.innerHTML='<span class="ic"></span><span>'+n+' words · aim for '+cf.min+'–'+cf.max+' · '+t+'</span>';
+    }else{cn.className='cnt';cn.innerHTML='<span>'+n+' words</span>';}
+  }
+  cnt();
+  var bar=el('div','row');bar.style.cssText='gap:14px;align-items:center;flex-wrap:wrap';
+  if(s.copy){var cb=el('button','btn ghost',s.copy);cb.type='button';cb.onclick=function(){copyText(tas.map(function(t){return t.value;}).filter(Boolean).join('\n\n'));};bar.appendChild(cb);}
+  if(s.warn){bar.appendChild(el('div','warnline',s.warn));}
+  if(bar.children.length)main.appendChild(bar);
+  var sd=s.side||{};
+  if(sd.lead)side.appendChild(el('div','card t32',sd.lead));
+  if(sd.tags){var tg=el('div','chips');sd.tags.forEach(function(t){tg.appendChild(el('span','chip',t));});side.appendChild(tg);}
+  if(sd.chips){var ch=el('div','chips');sd.chips.forEach(function(t){
+    var bt=el('button','chip',t);bt.type='button';bt.onclick=function(){
+      var ta=last||tas[0];var v=ta.value,p=ta.selectionStart==null?v.length:ta.selectionStart;
+      var ins=(p>0&&!/\s$/.test(v.slice(0,p))?' ':'')+t.replace(/ …$/,' ').replace(/…$/,'');
+      ta.value=v.slice(0,p)+ins+v.slice(ta.selectionEnd==null?p:ta.selectionEnd);ta.focus();
+      var np=p+ins.length;ta.setSelectionRange(np,np);tset(s.id,s.fields[tas.indexOf(ta)].id,ta.value);cnt();};
+    ch.appendChild(bt);});side.appendChild(ch);}
+  if(sd.helps)side.appendChild(helpsEl(sd.helps));
+};
+
+R.pee=function(s,b){
+  var S=ST[s.id]=ST[s.id]||{n:0};
+  var row=el('div','pee');var l=el('div','pcol'),r=el('div','pcol');row.appendChild(l);row.appendChild(r);b.appendChild(row);
+  l.style.flex='0 0 640px';
+  l.appendChild(el('div','card','<h2>Example sentence</h2><div class="lead">'+s.example+'</div><div class="warnline" style="margin-top:8px">'+s.exnote+'</div>'));
+  var bt=el('button','btn','Show next ▸');bt.type='button';
+  var rs=el('button','btn ghost','Hide all');rs.type='button';
+  var br=el('div','row');br.style.gap='14px';br.appendChild(bt);br.appendChild(rs);l.appendChild(br);
+  l.appendChild(el('div','note',s.tips));
+  var bx=[
+   el('div','pbox p1','<div class="pl">Point</div>'+s.p),
+   el('div','pbox p2','<div class="pl">Evidence</div>'+s.e),
+   el('div','pbox p3','<div class="pl">Effect</div>'+s.f)];
+  bx.forEach(function(x){r.appendChild(x);});
+  function upd(){bx.forEach(function(x,i){x.classList.toggle('hid',i>=S.n);});bt.textContent=S.n>=3?'All shown':'Show next ▸ ('+S.n+'/3)';bt.disabled=S.n>=3;}
+  bt.onclick=function(){if(S.n<3)S.n++;upd();};rs.onclick=function(){S.n=0;upd();};upd();
+};
+
+R.link=function(s,b){
+  var row=el('div','row');row.style.gap='40px';b.appendChild(row);
+  var q=el('div','qr',s.qr);row.appendChild(q);
+  var c=el('div','col');c.style.flex='1';row.appendChild(c);
+  var w=el('div','steps');w.style.gap='10px';
+  s.steps.forEach(function(t,i){var d=el('div','step','<div class="num">'+(i+1)+'</div><div class="t">'+t+'</div>');d.style.padding='10px 20px';w.appendChild(d);});
+  c.appendChild(w);
+  c.appendChild(el('div','url',s.path));
+  var o=el('button','btn','Open FelloFish ▸');o.type='button';o.style.alignSelf='flex-start';
+  o.onclick=function(){window.open('ht'+'tps://'+s.path,'_blank','noopener');};c.appendChild(o);
+};
+
+R.eval=function(s,b){
+  var S=ST[s.id]=ST[s.id]||{v:sget('ev:'+s.id,{})};
+  var c=el('div','col');b.appendChild(c);
+  var ev=el('div','ev');c.appendChild(ev);
+  var back=el('div','back');
+  var labels={3:'Yes, I can',2:'Almost',1:'Not yet'};
+  s.items.forEach(function(it,i){
+    var r=el('div','evr','<div class="tx">'+it.t+'</div>');
+    var lv=el('div','lv');
+    [3,2,1].forEach(function(v){
+      var bt=el('button',S.v[i]===v?'sel':'','<span class="si"></span>'+labels[v]);bt.type='button';bt.dataset.v=v;
+      bt.onclick=function(){S.v[i]=v;sset('ev:'+s.id,S.v);$$('button',lv).forEach(function(x){x.classList.toggle('sel',+x.dataset.v===v);});upd();};
+      lv.appendChild(bt);
+    });
+    r.appendChild(lv);ev.appendChild(r);
+  });
+  c.appendChild(back);
+  var af=el('div','after');s.after.forEach(function(t){af.appendChild(el('div','card',t));});c.appendChild(af);
+  function upd(){
+    back.innerHTML='';
+    var need=[];s.items.forEach(function(it,i){if(S.v[i]&&S.v[i]<3)need.push(it);});
+    if(need.length){var l=el('div','t32','<b>Go back to:</b>');l.style.alignSelf='center';back.appendChild(l);
+      need.forEach(function(it){var g=byId(it.go);var bt=el('button','btn ghost',D[g].title.replace(/^Step \d · /,''));bt.type='button';bt.style.fontSize='28px';bt.onclick=function(){show(g);};back.appendChild(bt);});}
+  }
+  upd();
+};
+
+/* ---------- navigation ---------- */
+function refresh(){show(cur);}
+function show(i){
+  i=Math.max(0,Math.min(D.length-1,i));cur=i;var s=D[i];
+  closePanels();
+  root.innerHTML='';
+  var body=el('div','body');
+  if(s.type!=='title'){root.appendChild(buildHead(s));}
+  root.appendChild(body);
+  R[s.type](s,body);
+  if(timerSlide(s)){var p=preset(s);tm={total:p,rem:p,running:false,end:0,done:false};}else tm=null;
+  drawTimer();updateBar();
+  try{history.replaceState(null,'','#'+(i+1));}catch(e){}
+  sset('cur',i);
+  var first=$('textarea',body);
+}
+function next(){show(cur+1);}function prev(){show(cur-1);}
+
+/* ---------- control bar ---------- */
+function mk(id,html,title,fn,cls){var b=el('button',cls||'',html);b.type='button';if(id)b.id=id;b.title=title;b.setAttribute('aria-label',title);b.onclick=fn;return b;}
+function buildBar(){
+  ctl.innerHTML='';
+  ctl.appendChild(mk('b-prev',IC.prev,'Previous slide',prev));
+  ctl.appendChild(mk('b-next',IC.next,'Next slide',next));
+  var led=el('div','ledc','1 / '+D.length);led.id='b-led';ctl.appendChild(led);
+  ctl.appendChild(el('div','gap'));
+  ctl.appendChild(mk('b-l1','Lesson 1','Go to Lesson 1',function(){show(byId('warm'));}));
+  ctl.appendChild(mk('b-l2','Lesson 2','Go to Lesson 2',function(){show(byId('hinge2'));}));
+  ctl.appendChild(el('div','gap'));
+  ctl.appendChild(mk('b-tm',IC.minus,'Timer: 1 minute less',function(){tAdj(-1);},'tb'));
+  ctl.appendChild(mk('b-play',IC.play,'Timer: start / pause',tPlay,'tb'));
+  ctl.appendChild(mk('b-rs',IC.reset,'Timer: reset',tReset,'tb'));
+  ctl.appendChild(mk('b-tp',IC.plus,'Timer: 1 minute more',function(){tAdj(1);},'tb'));
+  ctl.appendChild(el('div','sp'));
+  ctl.appendChild(mk('b-ov',IC.list,'Overview of all slides (O)',function(){togglePanel('pov');}));
+  ctl.appendChild(mk('b-snd',IC.snd,'Sound on / off (M)',function(){soundOn=!soundOn;$('#b-snd').innerHTML=soundOn?IC.snd:IC.mute;$('#b-snd').setAttribute('aria-pressed',String(!soundOn));}));
+  ctl.appendChild(mk('b-help',IC.help,'Help (?)',function(){togglePanel('phelp');}));
+  ctl.appendChild(mk('b-full',IC.full,'Full screen (F)',function(){if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}));
+}
+function updateBar(){
+  $('#b-led').textContent=(cur+1)+' / '+D.length;
+  $('#b-prev').disabled=cur===0;$('#b-next').disabled=cur===D.length-1;
+  var l=D[cur].lesson;
+  $('#b-l1').classList.toggle('cur',l===1);$('#b-l2').classList.toggle('cur',l===2);
+  drawTimer();
+}
+function wake(){ctl.classList.remove('hide');clearTimeout(idleT);idleT=setTimeout(function(){if(!ctl.matches(':hover'))ctl.classList.add('hide');},3500);}
+
+/* ---------- panels ---------- */
+function closePanels(){$$('.panel').forEach(function(p){p.classList.remove('on');});}
+function togglePanel(id){var p=$('#'+id),on=p.classList.contains('on');closePanels();if(!on){p.classList.add('on');if(id==='pov')buildOv();}}
+function buildOv(){
+  var g=$('#ovg');g.innerHTML='';
+  D.forEach(function(s,i){var b=el('button',i===cur?'cur':'','<b>'+(i+1)+'.</b> '+s.title+'<small>'+(s.ph||'')+(s.min?' · '+s.min+'′':'')+'</small>');b.type='button';b.onclick=function(){show(i);};g.appendChild(b);});
+  var c=$('.cur',g);if(c&&c.focus)c.focus();
+}
+
+/* ---------- keys ---------- */
+document.addEventListener('keydown',function(e){
+  wake();
+  var t=e.target,inp=t&&(t.tagName==='TEXTAREA'||t.tagName==='INPUT');
+  if(e.key==='Escape'){closePanels();return;}
+  if(inp)return;
+  var k=e.key;
+  if(k==='ArrowRight'||k==='PageDown'){next();e.preventDefault();}
+  else if(k==='ArrowLeft'||k==='PageUp'){prev();e.preventDefault();}
+  else if(k==='o'||k==='O'||k==='g'||k==='G'){togglePanel('pov');}
+  else if(k==='?'||k==='h'||k==='H'){togglePanel('phelp');}
+  else if(k==='f'||k==='F'){$('#b-full').click();}
+  else if(k==='t'||k==='T'){manualTimer();}
+  else if(k==='d'||k==='D'){ledOn=!ledOn;drawTimer();}
+  else if(k==='m'||k==='M'){$('#b-snd').click();}
+  else if(k==='r'||k==='R'){tReset();}
+  else if(/^[1-4]$/.test(k)){var S=ST[D[cur].id];if(S&&S.pickK){S.pickK(+k-1);}}
+});
+['mousemove','pointerdown','touchstart'].forEach(function(ev){document.addEventListener(ev,wake,{passive:true});});
+
+/* ---------- init ---------- */
+function init(){
+  fit();window.addEventListener('resize',fit);
+  buildBar();
+  tmr=setInterval(tick,250);
+  var h=parseInt((location.hash||'').slice(1),10);
+  var start=isNaN(h)?sget('cur',0):h-1;
+  show(start);wake();
+  window.__DECK={goto:show,next:next,prev:prev,state:function(){return {cur:cur,n:D.length,tm:tm};},S:ST,D:D,reset:function(id){delete ST[id];if(D[cur].id===id)refresh();},tm:function(){return tm;},timerSlide:timerSlide,preset:preset};
+}
+init();
+})();
+</script></body></html>
