@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job File — Homework Theme 4 (Weeks 3–5)</title>
+<style>
+:root{
+  --navy:#1f3561;--navy-d:#152648;--gold:#d9a21b;--gold-l:#f3d27a;--manila:#f4e7c5;--manila-d:#e2cf9f;--paper:#fbf8f1;--bg:#e8ebf1;
+  --ink:#1d2330;--muted:#5d6472;--line:#d6dae3;
+  --ok:#0b57a4;--okbg:#e3eefa;--oktx:#0b3d6e;--ko:#d35f0b;--kobg:#fdebdf;--kotx:#a4410a;--warn:#e8b100;--warnbg:#fff5d1;--warntx:#5c4300;
+  --medal-light:#8FE0B6;--medal-base:#1E9E62;--medal-dark:#0F5C38;
+  --sans:"Segoe UI",Calibri,Carlito,system-ui,-apple-system,Roboto,Arial,sans-serif;--mono:Consolas,"Liberation Mono",Menlo,monospace;
+  --ic-ok:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='9' fill='%230b57a4'/%3E%3Cpath d='M5.5 10.5l3 3 6-6.5' stroke='white' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --ic-ko:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='9' fill='%23d35f0b'/%3E%3Cpath d='M6.5 6.5l7 7M13.5 6.5l-7 7' stroke='white' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
+  --ic-mid:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8' fill='white' stroke='%23e8b100' stroke-width='2'/%3E%3Cpath d='M10 2a8 8 0 0 1 0 16z' fill='%23e8b100'/%3E%3C/svg%3E");
+}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:var(--sans);font-size:17px;line-height:1.5;color:var(--ink);background:var(--bg);min-height:100vh;
+  background-image:linear-gradient(rgba(31,53,97,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(31,53,97,.045) 1px,transparent 1px);background-size:22px 22px}
+button,select,input{font:inherit}button{cursor:pointer}
+.wrap{max-width:720px;margin:0 auto;padding:0 14px 60px}
+.screen{display:none}.screen.active{display:block}
+.muted{color:var(--muted)}
+/* header = file cover */
+.cover{margin-top:18px;background:linear-gradient(160deg,var(--navy),var(--navy-d));color:#fff;border-radius:6px 16px 16px 16px;padding:20px 20px 18px;position:relative;box-shadow:0 8px 20px rgba(21,38,72,.25)}
+.cover::before{content:"";position:absolute;left:0;top:-14px;width:150px;height:16px;background:var(--navy);border-radius:8px 8px 0 0}
+.cover .ey{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-l);font-weight:700}
+.cover h1{margin:.15em 0 .1em;font-size:clamp(1.6rem,6vw,2.2rem);line-height:1.1}
+.cover p{margin:0;color:#dfe5f2;font-size:.95rem}
+.compact .cover{padding:10px 16px}.compact .cover p,.compact .cover .ey{display:none}.compact .cover h1{font-size:1.15rem;margin:0}
+/* cards */
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;margin-top:16px}
+label{font-weight:700;font-size:.92rem;display:block;margin-bottom:6px}
+input[type=text]{width:100%;padding:11px 13px;border:1px solid #b9c0cd;border-radius:8px;background:#fff;color:var(--ink)}
+input[type=text]:focus{outline:3px solid rgba(31,53,97,.25);border-color:var(--navy)}
+.row2{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}.row2 > div{flex:1 1 220px}
+.err{color:var(--kotx);font-weight:700;font-size:.92rem;min-height:1.3em;margin-top:6px}
+.hint{color:var(--muted);font-size:.9rem;margin:.5em 0 0}
+.btn{display:inline-block;font-weight:700;border:1px solid var(--navy);background:var(--navy);color:#fff;padding:11px 18px;border-radius:8px}
+.btn.full{display:block;width:100%;margin-top:10px}
+.btn.gold{background:var(--gold);border-color:#a87b10;color:#1d2330}
+.btn.ghost{background:#fff;color:var(--navy);border-color:#b9c0cd}
+.btn.link{background:none;border:0;color:var(--muted);text-decoration:underline;padding:8px 0}
+.btn:disabled{opacity:.5;cursor:default}
+.codebox{display:inline-block;font-family:var(--mono);font-weight:700;font-size:1.25rem;letter-spacing:.12em;white-space:nowrap;background:#fff;border:2px dashed var(--navy);border-radius:8px;padding:4px 12px;color:var(--navy)}
+.who{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.who b{font-size:1.1rem}
+h2{color:var(--navy);margin:22px 0 2px;font-size:1.25rem}
+/* week tabs = file dividers */
+.weeks{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:22px 12px;margin-top:24px}
+.tab{position:relative;text-align:left;background:var(--manila);border:1px solid var(--manila-d);border-radius:0 10px 10px 10px;padding:14px 14px 12px;min-height:168px;border-top:5px solid var(--mb);color:var(--ink);display:flex;flex-direction:column;gap:3px;transition:transform .12s}
+.tab:hover{transform:translateY(-2px)}
+.tabear{position:absolute;top:-24px;left:-1px;background:var(--mb);color:#fff;font-weight:800;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 12px;border-radius:8px 8px 0 0;text-shadow:0 1px 1px rgba(0,0,0,.35)}
+.tab .tt{font-weight:800;font-size:1.08rem;line-height:1.2;color:var(--navy)}
+.tab .dd{font-size:.86rem;color:var(--muted)}
+.tab .mm{font-size:.78rem;color:var(--muted);margin-top:auto}
+.tab .openmsg{font-weight:800;color:var(--navy)}
+.tab .stamp{align-self:flex-start;font-weight:800;font-size:.8rem;letter-spacing:.08em;color:var(--md);border:2px solid var(--md);border-radius:6px;padding:0 8px;transform:rotate(-4deg);background:rgba(255,255,255,.6)}
+.tab .lockmsg{font-size:.85rem;font-weight:700;color:var(--muted)}
+.tab.lock{background:#eef0f4;border-color:var(--line);filter:grayscale(.75);opacity:.8;cursor:not-allowed}
+.tab.lock:hover{transform:none}
+.how ul{margin:.4em 0 0;padding-left:1.2em}.how li{margin:3px 0}
+/* quiz */
+.qtop{display:flex;justify-content:space-between;gap:10px;margin-top:14px;font-size:.88rem;color:var(--muted);font-weight:700;flex-wrap:wrap}
+.dots{display:flex;gap:4px;margin:8px 0 4px}.dots i{flex:1;height:9px;border-radius:3px;background:#cfd4de}.dots i.done{background:var(--medal-base)}.dots i.now{background:var(--navy)}
+.sec{font-weight:800;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--medal-dark);margin:12px 0 6px}
+.prompt{background:linear-gradient(160deg,var(--navy),var(--navy-d));color:#fff;border-radius:10px;padding:16px;border-bottom:5px solid var(--gold);margin-bottom:12px}
+.prompt .lbl{font-size:.72rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#cdd5e6}
+.prompt .word{font-weight:800;font-size:clamp(1.35rem,6vw,2rem);color:var(--gold-l);line-height:1.2;margin-top:4px;text-align:center}
+.prompt .word.de{color:#fff}
+.prompt .cloze{font-size:clamp(1.02rem,3.8vw,1.2rem);margin-top:6px}
+.prompt .gap{color:var(--gold-l);font-weight:800}
+.prompt .ret{text-align:center;font-size:.82rem;color:#cdd5e6;margin-top:4px}
+.opts{display:grid;gap:9px}
+.opt{text-align:left;font-weight:600;border:1px solid #b9c0cd;background:#fff;color:var(--ink);padding:11px 40px 11px 14px;border-radius:8px;position:relative;line-height:1.35}
+.opt:hover:not(:disabled){border-color:var(--navy)}
+.opt.sel{border:2px solid var(--navy);background:#eef2f9;padding:10px 39px 10px 13px}
+.opt.ok,.opt.sol{border:2px solid var(--ok);background-color:var(--okbg);color:var(--oktx)}
+.opt.ko{border:2px dashed var(--ko);background-color:var(--kobg);color:var(--kotx);opacity:1}
+.opt.ok::after,.opt.sol::after,.opt.ko::after{content:"";position:absolute;right:10px;top:50%;width:22px;height:22px;margin-top:-11px;background-size:contain;background-repeat:no-repeat}
+.opt.ok::after,.opt.sol::after{background-image:var(--ic-ok)}.opt.ko::after{background-image:var(--ic-ko)}
+.opt:disabled{cursor:default}
+.typer input{font-size:1.1rem;padding-right:42px;background-repeat:no-repeat;background-position:right 10px center;background-size:22px}
+.typer input.ok{border:2px solid var(--ok);background-color:var(--okbg);background-image:var(--ic-ok)!important}
+.typer input.ko{border:2px dashed var(--ko);background-color:var(--kobg);background-image:var(--ic-ko)!important}
+.typer input.mid{border:2px solid var(--warn);background-color:var(--warnbg);background-image:var(--ic-mid)!important}
+.match{display:grid;gap:8px}
+.mrow{display:grid;grid-template-columns:1fr minmax(150px,44%);gap:8px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 36px 8px 10px;position:relative}
+.mrow select{width:100%;padding:8px;border:1px solid #b9c0cd;border-radius:6px;background:#fff;color:var(--ink)}
+.mrow.ok{border:2px solid var(--ok);background-color:var(--okbg)}.mrow.ko{border:2px dashed var(--ko);background-color:var(--kobg)}
+.mrow.ok::after,.mrow.ko::after,.ans li.ok::after,.ans li.ko::after{content:"";position:absolute;right:8px;top:50%;width:20px;height:20px;margin-top:-10px;background-size:contain;background-repeat:no-repeat}
+.mrow.ok::after,.ans li.ok::after{background-image:var(--ic-ok)}.mrow.ko::after,.ans li.ko::after{background-image:var(--ic-ko)}
+@media (max-width:480px){.mrow{grid-template-columns:1fr}}
+.olbl{font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:6px 0 4px}
+.ans{margin:0 0 6px;padding-left:1.6em;min-height:30px;border:1px dashed #b9c0cd;border-radius:8px;padding-top:6px;padding-bottom:6px;background:var(--paper)}
+.ans li{position:relative;padding-right:30px;margin:3px 0}
+.ans li.ok .chip{border-color:var(--ok);background:var(--okbg)}.ans li.ko .chip{border:2px dashed var(--ko);background:var(--kobg)}
+.src{display:grid;gap:7px}
+.chip{display:block;width:100%;text-align:left;border:1px solid #b9c0cd;background:#fff;color:var(--ink);padding:9px 12px;border-radius:8px;line-height:1.35}
+.chip.in{background:var(--manila);border-color:var(--manila-d)}.chip .x{color:var(--muted);font-size:.8em;float:right}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.tools .sp{flex:1}
+.hintbox{background:var(--manila);border-left:4px solid var(--gold);border-radius:6px;padding:8px 12px;margin-top:10px;font-size:.95rem}
+.fb{margin-top:12px;border-radius:8px;font-size:.97rem;min-height:0}
+.fb:empty{display:none}
+.fb.g,.fb.r,.fb.y{padding:10px 12px 10px 42px;position:relative}
+.fb.g::before,.fb.r::before,.fb.y::before{content:"";position:absolute;left:12px;top:11px;width:22px;height:22px;background-size:contain;background-repeat:no-repeat}
+.fb.g{background-color:var(--okbg);color:var(--oktx);border:2px solid var(--ok)}.fb.g::before{background-image:var(--ic-ok)}
+.fb.r{background-color:var(--kobg);color:var(--kotx);border:2px dashed var(--ko)}.fb.r::before{background-image:var(--ic-ko)}
+.fb.y{background-color:var(--warnbg);color:var(--warntx);border:2px solid var(--warn)}.fb.y::before{background-image:var(--ic-mid)}
+/* result */
+.score{font-weight:800;font-size:clamp(2.4rem,11vw,3.4rem);text-align:center;line-height:1}
+.score.pass{color:var(--oktx)}.score.fail{color:var(--kotx)}
+.rbadge{display:block;margin:4px auto 8px;width:36px;height:36px;background-size:contain}.rbadge.pass{background-image:var(--ic-ok)}.rbadge.fail{background-image:var(--ic-ko)}
+.rmsg{text-align:center;color:var(--muted);margin:.4em 0}
+.review{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}
+.review h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 6px}
+.review .row{display:flex;gap:8px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:.93rem}
+.review .row i{flex:0 0 20px;height:20px;background-size:contain;margin-top:2px}
+.review .row i.x{background-image:var(--ic-ko)}.review .row i.v{background-image:var(--ic-ok)}.review .row i.m{background-image:var(--ic-mid)}
+/* certificate */
+.cert{position:relative;background:var(--paper);border:2px solid var(--navy);border-radius:10px;padding:22px 18px 16px;margin-top:16px;overflow:hidden}
+.cert::before{content:"";position:absolute;inset:6px;border:1px solid var(--manila-d);border-radius:6px;pointer-events:none}
+.cert .cap{font-size:.74rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--navy)}
+.cert h3{font-size:1.5rem;margin:.1em 0;color:var(--navy)}
+.cert .rt{color:var(--muted);margin:0}
+.seal{float:right;width:116px;height:116px;margin:-4px 0 8px 12px;border-radius:50%;position:relative;
+  background:radial-gradient(circle at 35% 30%,var(--medal-light),var(--medal-base) 62%,var(--medal-dark));box-shadow:0 0 0 4px #fff,0 0 0 7px var(--medal-dark);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.55);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.seal::before{content:"";position:absolute;inset:7px;border-radius:50%;border:2px dashed rgba(255,255,255,.8)}
+.seal .a{font-size:.6rem;font-weight:800;letter-spacing:.16em}.seal .b{font-weight:800;font-size:2.4rem;line-height:1}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;margin-top:10px;clear:none}
+.fields div{font-size:.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.fields b{display:block;font-size:1.12rem;color:var(--ink);text-transform:none;letter-spacing:0}
+.fields .full{grid-column:1/-1}
+.codeline{clear:both;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.next{font-weight:700;color:var(--oktx);margin:10px 0 0}
+.todo{background:#fff;border:1px dashed var(--navy);border-radius:8px;padding:10px;margin-top:12px;font-size:.93rem}
+/* teacher */
+details.teacher{margin-top:28px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:0 14px}
+details.teacher summary{cursor:pointer;font-weight:700;padding:12px 0;color:var(--navy)}
+details.teacher h4{margin:14px 0 4px;color:var(--navy)}
+details.teacher p,details.teacher li{font-size:.9rem}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.86rem;color:var(--muted)}
+.legend i{display:inline-block;width:13px;height:13px;border-radius:50%;margin-right:5px;vertical-align:-1px;border:1px solid}
+.verdict{margin-top:10px;padding:10px 12px;border-radius:6px;font-weight:700}
+.verdict.ok{background:var(--okbg);color:var(--oktx);border:2px solid var(--ok)}.verdict.bad{background:var(--kobg);color:var(--kotx);border:2px dashed var(--ko)}
+.verdict small{display:block;font-weight:400;color:var(--ink);margin-top:4px}
+footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:24px}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+@media (max-width:440px){.fields{grid-template-columns:1fr}.seal{width:94px;height:94px}.seal .b{font-size:1.9rem}}
+@media print{.cover,.noprint,details.teacher,footer{display:none!important}body{background:#fff}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="cover">
+    <div class="ey">Camden Town 9 · Theme 4 · Homework</div>
+    <h1>My Job File · Weeks 3–5</h1>
+    <p>Interview, CV, cover letter: one file divider for every week. Reach 80&nbsp;% and you get your certificate and the code for the next week.</p>
+  </header>
+
+  <section class="screen active" id="screen-start">
+    <div class="card" id="newUser">
+      <div class="row2">
+        <div><label for="name">Write your first name and surname.</label><input type="text" id="name" autocomplete="name" placeholder="e.g. Alex Müller"></div>
+        <div><label for="code">🔑 Already have a code? Type it here:</label><input type="text" id="code" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABC-DEF"></div>
+      </div>
+      <button class="btn full" id="goBtn" type="button">Continue</button>
+      <p class="hint">First time? Only write your name and choose <b>Week 3</b>. Always write your name the same way – your code only works with your name.</p>
+    </div>
+    <div class="card" id="who" style="display:none">
+      <div class="who"><span>📁 <b id="whoName"></b></span><span class="muted" id="whoK"></span></div>
+      <div class="who" id="whoCodeRow" style="margin-top:8px"><span>Your code:</span><span class="codebox" id="whoCode"></span></div>
+      <button class="btn link" id="notMe" type="button">This is not me</button>
+    </div>
+    <div class="err" id="startErr" role="alert"></div>
+    <h2>Choose your week</h2>
+    <div class="weeks" id="weeks"></div>
+    <div class="card how"><b>How it works</b>
+      <ul>
+        <li>Every week has <b>12 tasks</b>. They are mixed, so every attempt is different.</li>
+        <li>You have <b>two tries</b> for every task: right at once = 1 point, right at the second try = ½ point. The 💡 help costs nothing.</li>
+        <li>You need <b>80&nbsp;%</b> (10 of 12 points). Then you get your certificate and a <b>code</b>. The next week opens only after you have passed the week before.</li>
+        <li>📸 Take a screenshot of your certificate and upload it to <b>TEAMS</b>. ✍️ Write your code in your exercise book.</li>
+        <li>Nothing is saved when you close the page: <b>write down your code!</b></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-quiz">
+    <div class="qtop"><span id="qWeek"></span><span id="qName"></span></div>
+    <div class="dots" id="dots" aria-hidden="true"></div>
+    <div class="qtop" style="margin-top:2px"><span>Task <span id="qPos"></span></span></div>
+    <div class="sec" id="qSec"></div>
+    <div class="prompt"><div class="lbl" id="qLbl"></div><div id="qPrompt"></div></div>
+    <div id="qArea"></div>
+    <div class="hintbox" id="hintBox" style="display:none"></div>
+    <div class="fb" id="fb" role="status" aria-live="polite"></div>
+    <div class="tools">
+      <button class="btn ghost" id="hintBtn" type="button">💡 Help</button><span class="sp"></span>
+      <button class="btn" id="checkBtn" type="button">Check</button>
+      <button class="btn gold" id="nextBtn" type="button" style="display:none">Next →</button>
+    </div>
+    <button class="btn link" id="quit" type="button">← Back to the weeks (this attempt will not count)</button>
+  </section>
+
+  <section class="screen" id="screen-result">
+    <div class="card">
+      <span class="rbadge" id="rBadge"></span>
+      <div class="score" id="resScore"></div>
+      <p class="rmsg" id="resMsg"></p>
+      <p class="rmsg" id="resCode"></p>
+      <button class="btn gold full" id="getCert" type="button" style="display:none">Get my certificate →</button>
+      <button class="btn ghost full" id="retry" type="button">↺ Start again</button>
+      <button class="btn ghost full" id="toList" type="button">Back to the weeks</button>
+      <div class="review" id="review"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-cert">
+    <div class="cert" id="certBox">
+      <div class="seal" aria-hidden="true"><span class="a">WEEK</span><span class="b" id="cNum"></span><span class="a">PASSED</span></div>
+      <div class="cap">Job File · Camden Town 9 · Theme 4</div>
+      <h3>Homework certificate</h3>
+      <p class="rt" id="cTitle"></p>
+      <div class="fields">
+        <div class="full">Name<b id="cName"></b></div>
+        <div>Date<b id="cDate"></b></div>
+        <div>Score<b id="cScore"></b></div>
+      </div>
+      <div class="codeline"><span>Your code:</span><span class="codebox" id="cCode"></span><button class="btn ghost noprint" id="copyBtn" type="button">📋 Copy</button></div>
+      <p class="next" id="cNext"></p>
+      <div class="todo">📸 <b>Take a screenshot of this certificate</b> → upload it to TEAMS.<br>✍️ <b>Write your code in your exercise book.</b></div>
+    </div>
+    <button class="btn ghost full noprint" id="printBtn" type="button">Print / save as PDF</button>
+    <button class="btn full noprint" id="again" type="button">Back to the weeks</button>
+  </section>
+
+  <details class="teacher noprint">
+    <summary>Für die Lehrkraft</summary>
+    <h4>Einsatz</h4>
+    <p>Hausaufgaben-Modul zu Theme 4 ab Woche 3 (Englisch Kl. 9 G, Camden Town 9). Je Woche 12 Aufgaben aus Pools, gemischte Formate (Wortschatz tippen, Auswahl, Zuordnen, Ordnen). Bestanden ab 80&nbsp;% (10 von 12 Punkten). Zweiter Versuch je Aufgabe = ½ Punkt; bei „Almost!“ (ein Zeichen Abstand) zählt der zweite Versuch voll. Die 💡-Hilfe kostet nichts.</p>
+    <ul>
+      <li><b>Woche 3 · Ready for the interview</b> (KA-Übungswoche): Wortschatz Part B, KV19-Phrasen, soft/hard skills, „one skill + one example“, future progressive/perfect (G10), Tipps fürs Video-Interview. Die drei KA-Berufe (Lifeguard, Tour guide, Animal shelter volunteer) kommen bewusst nicht vor; im Ordnungs-Dialog steht der Übungsberuf Babysitter.</li>
+      <li><b>Woche 4 · My CV</b> (nach der KA): CV-Wortschatz, Teile eines CV, Tipps für einen englischen CV, Checkliste Content/Layout/Language, personal profile, Culture box.</li>
+      <li><b>Woche 5 · Cover letter &amp; let / make / have</b>: <i>vorläufig</i> nach der Reihenfolge „CV → let/make/have + Anschreiben“; bitte mit der endgültigen Planung abgleichen. Fragen innerhalb einer Woche lassen sich ändern, ohne dass Codes ungültig werden.</li>
+    </ul>
+    <h4>Datengrundlage</h4>
+    <p>Wortliste Theme 4 und Theme 1 (wie im Vokabeltrainer des Projekts, Beispielsätze aus der Wortliste), KV19 (B4), TM Theme 4 Part A (A4 soft/hard skills, A7 CV-Checkliste und Culture box, T1/T2 S. 99), Grammatik G10/G11. Aus den WB-Lösungen (nur Lehrerwissen, die SuS haben kein WB) stammen die Inhalte der CV-Tipps (WB14), Interview-Tipps (E3) und let/make/have (WB15); alle Items sind <b>eigene Formulierungen</b>, keine WB-Texte. Wiederholung Theme 1 (↺): capable, knowledge, to gain, to communicate, to benefit, to represent, currently, to vary, official.</p>
+    <h4>Fortschrittscode und Datenschutz</h4>
+    <p>Woche 4 öffnet sich erst nach bestandener Woche 3, Woche 5 nach Woche 4. Der 6-stellige Code (Format ABC-DEF) enthält nur die Zahl der bestandenen Wochen und gilt nur zusammen mit demselben Namen (Groß-/Kleinschreibung, Akzente, ü/ue und Reihenfolge der Namensteile egal). Kein Name, keine Punkte, kein Datum im Code. Gespeichert wird nur im Tab (sessionStorage), keine Netzwerkanfragen. Code verloren → steht auf dem TEAMS-Screenshot. Schlüssel: <code>EN9-T4-HA-W3-v1</code> (nicht ändern, solange Codes im Umlauf sind). Die Sperre ist eine didaktische Schranke, kein Sicherheitsmechanismus; Nachweis bleibt das Zertifikat in TEAMS.</p>
+    <h4>Medaillenfarbe = Woche</h4>
+    <div class="legend" id="legend"></div>
+    <p class="muted" style="font-size:.84rem">Farben wie im bisherigen U4-Modul (Woche 3 Smaragdgrün, Woche 4 Rubinrot, Woche 5 Amethyst). Die Wochenzahl steht zusätzlich im Siegel.</p>
+    <h4>Code prüfen</h4>
+    <label for="vName">Name (wie auf dem Zertifikat)</label><input type="text" id="vName">
+    <label for="vCode" style="margin-top:8px">Code</label><input type="text" id="vCode" placeholder="ABC-DEF">
+    <button class="btn full" id="vBtn" type="button">Prüfen</button>
+    <div id="verdict" role="status"></div>
+    <p style="margin-bottom:14px"></p>
+  </details>
+  <footer>Own exercises for Camden Town 9, Theme 4 (word list Theme 4 + Theme 1, KV19, G10, G11) · nothing is saved when you close the page – write down your code</footer>
+</div>
+<script>
+/* ===== DATA · Homework Theme 4, Weeks 3–5 =====
+   Sources (teacher info, see "Für die Lehrkraft"):
+   - Words: Camden Town 9 word list Theme 4 (+ Theme 1 retrieval) as in Vokabeltrainer_Theme1_Theme4.html (example sentences = word list)
+   - KV19 Phrases for successful conversations (B4)
+   - TM Theme 4 Part A: A4 (hard/soft skills), A7 (CV checklist content/layout/language, culture box), T1/T2 p.99 (soft skills, register)
+   - WB solutions (teacher knowledge only, students have no WB): WB14 (CV feedback), WB15 (let/make/have), WB16 (cover letter), E3 (video interview tips)
+   - Grammar: G10 (future progressive/perfect), G11 (let/make/have)
+   All items are own formulations based on these sources. Lifeguard / Tour guide / Animal shelter volunteer (oral exam jobs) are deliberately NOT used.
+   Item fields: t = type (text | mc | vmc | match | order); p = prompt; a = answer(s); d = distractors [{o, fb}]; hint = help text; r = ↺ also in Theme 1
+*/
+const MODULE_KEY = 'EN9-T4-HA-W3-v1';
+
+const POOLS = {
+/* ---------- WEEK 3 · Ready for the interview ---------- */
+W3_WORDS: [
+  {t:'text', p:'(herum)zappeln, herumspielen', a:['to fidget'], hint:'You move your hands or feet all the time because you are nervous. It starts with “f”.'},
+  {t:'text', p:'Zeit gewinnen / schinden', a:['to buy time'], hint:'Look at KV19: one of the four headings. Three words: b… t…'},
+  {t:'text', p:'ebenfalls, gleichfalls', a:['likewise'], hint:'“Pleased to meet you.” – “L…!”'},
+  {t:'text', p:'entspannt, locker', a:['relaxed'], hint:'Be r…, but not too r… – you are not talking to a friend.'},
+  {t:'text', p:'enthusiastisch, begeistert', a:['enthusiastic'], hint:'It starts with “enth…”.'},
+  {t:'text', p:'ordentlich, sauber', a:['tidy'], hint:'Your background in a video interview should be t… (4 letters).'},
+  {t:'text', p:'in Panik geraten', a:['to panic'], hint:'Almost the same word as in German.'},
+  {t:'text', p:'zurechtkommen mit, bewältigen', a:['to cope with'], hint:'“to c… with stress” (3 words).'},
+  {t:'text', p:'(heraus)fordernd', a:['challenging'], hint:'“That sounds interesting / ch…!” (KV19)'},
+  {t:'text', p:'verlässlich, zuverlässig', a:['reliable'], hint:'You can count on this person. It starts with “rel…”.'}
+],
+W3_CTX: [
+  {t:'mc', p:'Don’t ___ with your pen during the interview – it makes you look nervous.', a:'fidget',
+   d:[{o:'panic',fb:'“To panic” = to suddenly be very afraid. Here you play with your pen all the time.'},{o:'repeat',fb:'“To repeat” = to say sth again. Here you play with your pen all the time.'},{o:'respond',fb:'“To respond” = to answer. Here you play with your pen all the time.'}], hint:'You move your hands all the time.'},
+  {t:'mc', p:'In a video interview, make sure your background is ___ .', a:'tidy',
+   d:[{o:'relaxed',fb:'People can be relaxed, a room can’t. Which word means “ordentlich”?'},{o:'enthusiastic',fb:'People can be enthusiastic, a room can’t. Which word means “ordentlich”?'},{o:'challenging',fb:'“Challenging” = difficult. Which word means “ordentlich”?'}], hint:'Your room should not be messy.'},
+  {t:'mc', p:'Callie wants to work in an animal shelter because she is ___ about helping animals.', a:'enthusiastic',
+   d:[{o:'tidy',fb:'“Tidy” is about a room or a desk. Callie really loves helping animals.'},{o:'challenging',fb:'“Challenging” describes a task, not a person’s feelings.'},{o:'impolite',fb:'“Impolite” = rude. Callie really loves helping animals.'}], hint:'She really, really wants to help animals.'},
+  {t:'mc', p:'This task is ___, but it will help you to learn.', a:'challenging',
+   d:[{o:'tidy',fb:'A task is not tidy or messy. “But it will help you” – so the task is difficult.'},{o:'likewise',fb:'“Likewise” is an answer: “Pleased to meet you.” – “Likewise!”'},{o:'enthusiastic',fb:'People are enthusiastic, tasks are not.'}], hint:'The task is difficult.'},
+  {t:'mc', p:'David has lots of homework to do, but he is ___ the stress well.', a:'coping with',
+   d:[{o:'repeating',fb:'“To repeat” = to say or do sth again. You can’t repeat stress “well”.'},{o:'sorting',fb:'“To sort” = to put things in groups. Which verb means “bewältigen”?'},{o:'touching',fb:'“To touch” = berühren. Which verb means “bewältigen”?'}], hint:'He manages the stress well.'}
+],
+W3_T1: [
+  {t:'vmc', en:'capable', de:'fähig', r:1},
+  {t:'vmc', en:'knowledge', de:'Kenntnis(se), Wissen', r:1},
+  {t:'vmc', en:'to gain', de:'bekommen, erreichen, gewinnen', r:1},
+  {t:'vmc', en:'patience', de:'Geduld'},
+  {t:'vmc', en:'trustworthy', de:'vertrauenswürdig'},
+  {t:'vmc', en:'ability', de:'Fähigkeit, Talent, Begabung'}
+],
+KV19: [
+  {t:'match', p:'What does the phrase do in a conversation? Choose the right heading from KV19.', k:4, perOpt:1,
+   opts:['Opening a conversation','Keeping the conversation going','Buying time','Ending a conversation'],
+   rows:[
+    {l:'Pleased to meet you.',a:'Opening a conversation'},{l:'Shall we start?',a:'Opening a conversation'},{l:'How are you today?',a:'Opening a conversation'},{l:'OK then, let’s get started …',a:'Opening a conversation'},
+    {l:'That sounds interesting.',a:'Keeping the conversation going'},{l:'So what you are saying is …?',a:'Keeping the conversation going'},{l:'When you say …, do you mean …?',a:'Keeping the conversation going'},{l:'I hope it’s OK to ask: …?',a:'Keeping the conversation going'},
+    {l:'That’s a good question. Let me think.',a:'Buying time'},{l:'Please give me a moment to think about it.',a:'Buying time'},{l:'I’ve never been asked that question before.',a:'Buying time'},
+    {l:'Thank you so much for your time.',a:'Ending a conversation'},{l:'It’s been great getting to know you.',a:'Ending a conversation'},{l:'Have a good day!',a:'Ending a conversation'}],
+   hint:'Opening = the start · Keeping … going = you react or ask · Buying time = you need a moment · Ending = goodbye.'}
+],
+W3_PHR: [
+  {t:'mc', p:'The interviewer asks a difficult question and you need a moment. What can you say?', a:'That’s a good question. Let me think.',
+   d:[{o:'Have a good day!',fb:'This phrase ends a conversation. You need a phrase for “buying time”.'},{o:'Shall we start?',fb:'This phrase opens a conversation. You need a phrase for “buying time”.'},{o:'Likewise!',fb:'This is the answer to “Pleased to meet you.” You need a phrase for “buying time”.'}], hint:'KV19: Buying time.'},
+  {t:'mc', p:'The interviewer says: “Pleased to meet you.” What do you answer?', a:'Likewise!',
+   d:[{o:'Have a good day!',fb:'This is for the end of the conversation.'},{o:'Let me think.',fb:'This is for buying time – you don’t need time to answer “Pleased to meet you”.'},{o:'So what you are saying is …?',fb:'This is for checking what someone means.'}], hint:'KV19: Opening a conversation.'},
+  {t:'mc', p:'The interview is over. What do you say?', a:'Thank you so much for your time.',
+   d:[{o:'Shall we start?',fb:'This is for the start of the interview.'},{o:'That sounds challenging.',fb:'This keeps the conversation going – but the interview is over.'},{o:'Please give me a moment to think about it.',fb:'This is for buying time.'}], hint:'KV19: Ending a conversation.'},
+  {t:'mc', p:'You are not sure what the interviewer means. What do you say?', a:'When you say …, do you mean …?',
+   d:[{o:'It’s been great getting to know you.',fb:'This is for the end of the conversation.'},{o:'Pleased to meet you.',fb:'This is for the start of the conversation.'},{o:'Have a good day!',fb:'This is for the end of the conversation.'}], hint:'KV19: Keeping the conversation going – you check what someone means.'}
+],
+SOFTHARD: [
+  {t:'match', p:'Soft skill or hard skill?', k:4, perOpt:1, opts:['soft skill','hard skill'],
+   rows:[
+    {l:'speaking a foreign language',a:'hard skill'},{l:'playing an instrument',a:'hard skill'},{l:'a driver’s licence',a:'hard skill'},{l:'using computer programs',a:'hard skill'},{l:'a first-aid certificate',a:'hard skill'},{l:'a babysitting certificate',a:'hard skill'},
+    {l:'being creative',a:'soft skill'},{l:'being open to new challenges',a:'soft skill'},{l:'being motivated',a:'soft skill'},{l:'being reliable',a:'soft skill'},{l:'being punctual',a:'soft skill'},{l:'working well in a team',a:'soft skill'}],
+   hint:'Hard skills can be tested, e.g. with a certificate. Soft skills are part of your personality.'}
+],
+CLAIM: [
+  {t:'mc', p:'Interviewer: “What are your strengths?” Which answer is best?', a:'I’m very reliable. For example, I have walked my neighbour’s dog every day for two years.',
+   d:[{o:'I’m reliable, patient, creative, friendly and hard-working.',fb:'That’s only a list. Name one skill and give an example that proves it.'},
+      {o:'Well, last summer we visited my aunt, and she has a dog, and the dog is really big, and …',fb:'That’s a long story, not an answer. Answer to the point: one skill + one example.'},
+      {o:'I don’t know. Maybe I’m reliable?',fb:'Sound confident: name your skill and give an example.'}], hint:'Remember: one skill + one example.'},
+  {t:'mc', p:'Interviewer: “Do you have any hard skills that could help you in this job?” Which answer is best?', a:'Yes, I have a first-aid certificate. I did the course at school last year.',
+   d:[{o:'Yes, I’m very friendly and open to new challenges.',fb:'Friendly and open to challenges are soft skills. The question asks for a hard skill.'},
+      {o:'Yes.',fb:'Too short. Name the skill and give an example.'},
+      {o:'My hobbies are football, music and my bike.',fb:'Hobbies are not hard skills. Name a skill that can be tested, e.g. a certificate or a language.'}], hint:'Hard skill = can be tested. Then add an example.'},
+  {t:'mc', p:'Interviewer: “Why should we choose you?” Which answer is best?', a:'I’m good at working in a team. For example, I help to organise the training for our school football team.',
+   d:[{o:'Because I really need the money.',fb:'Talk about what you can offer the employer: one skill + one example.'},
+      {o:'Because I’m the best candidate in the world.',fb:'That’s too much – and there is no proof. Give one skill and one example.'},
+      {o:'Team. Football. Organise.',fb:'Use full sentences in an interview: one skill + one example.'}], hint:'Remember: one skill + one example.'}
+],
+FUT: [
+  {t:'mc', p:'This time next week, I ___ at the summer camp.', a:'will be working',
+   d:[{o:'will have worked',fb:'Future perfect = finished before a time. Here the action is going on at that time → will be + -ing.'},{o:'am working',fb:'“This time next week” + an action that is going on at that time → future progressive: will be working.'},{o:'will be work',fb:'Check the form: will be + verb + -ing.'}], hint:'G10: an action that is going on at a time in the future.'},
+  {t:'mc', p:'By the end of the summer, I ___ enough money for a new bike.', a:'will have saved',
+   d:[{o:'will be saving',fb:'“By the end of …” = finished before that time → future perfect: will have + past participle.'},{o:'will have save',fb:'Check the form: will have + past participle (saved).'},{o:'have saved',fb:'Present perfect looks back from now. “By the end of the summer” is in the future → will have saved.'}], hint:'G10: finished before a time in the future.'},
+  {t:'mc', p:'Don’t call me at 3 pm tomorrow – I ___ my first-aid course then.', a:'will be doing',
+   d:[{o:'will have done',fb:'At 3 pm the course is going on → future progressive: will be doing.'},{o:'do',fb:'“At 3 pm tomorrow” + an action that is going on at that time → will be doing.'},{o:'will doing',fb:'Check the form: will be + verb + -ing.'}], hint:'G10: an action that is going on at a time in the future.'},
+  {t:'mc', p:'By June, I ___ all my exams.', a:'will have finished',
+   d:[{o:'will be finishing',fb:'“By June” = finished before that time → future perfect.'},{o:'have finished',fb:'Present perfect looks back from now. “By June” is in the future → will have finished.'},{o:'will have finish',fb:'Check the form: will have + past participle (finished).'}], hint:'G10: finished before a time in the future.'}
+],
+FUT_T: [
+  {t:'text', p:'This time next summer, I ________ (work) at a café.', a:['will be working','\'ll be working','I will be working','I\'ll be working'], hint:'An action that is going on at a time in the future: will be + -ing.'},
+  {t:'text', p:'By the time the job starts, I ________ (finish) school.', a:['will have finished','\'ll have finished','I will have finished','I\'ll have finished'], hint:'Finished before a time in the future: will have + past participle.'},
+  {t:'text', p:'At 9 o’clock tomorrow morning, we ________ (do) our practice interview.', a:['will be doing','\'ll be doing','we will be doing','we\'ll be doing'], hint:'An action that is going on at a time in the future: will be + -ing.'},
+  {t:'text', p:'By the end of the week, she ________ (send) three applications.', a:['will have sent','\'ll have sent','she will have sent','she\'ll have sent'], hint:'Finished before a time in the future: will have + past participle. send – sent – sent'}
+],
+TIPS: [
+  {t:'mc', p:'Which is a good tip for a video job interview?', a:'Make sure your background is tidy or use a neutral background filter.',
+   d:[{o:'You don’t need to practise answers – just answer the questions on the day.',fb:'Not a good tip: practise answers to common interview questions before the interview.'},
+      {o:'Don’t worry about your clothes – they will only see your head.',fb:'Not a good tip: dress smartly. They may see more than your head – you may even have to stand up.'},
+      {o:'Do the video call in a café with good internet.',fb:'Good internet is important, but find a quiet place, e.g. at home.'}], hint:'Think about what the interviewer can see and hear.'},
+  {t:'mc', p:'Which is a good tip for a video job interview?', a:'Listen carefully and give precise answers to all the questions.',
+   d:[{o:'You don’t need to practise answers – just answer the questions on the day.',fb:'Not a good tip: practise answers to common interview questions before the interview.'},
+      {o:'Don’t worry about your clothes – they will only see your head.',fb:'Not a good tip: dress smartly. They may see more than your head – you may even have to stand up.'},
+      {o:'Do the video call in a café with good internet.',fb:'Good internet is important, but find a quiet place, e.g. at home.'}], hint:'Think about Alex’s last answer in the video.'},
+  {t:'mc', p:'Which is a good tip for a video job interview?', a:'Be relaxed, but not too relaxed – you are not talking to a friend.',
+   d:[{o:'You don’t need to practise answers – just answer the questions on the day.',fb:'Not a good tip: practise answers to common interview questions before the interview.'},
+      {o:'Don’t worry about your clothes – they will only see your head.',fb:'Not a good tip: dress smartly. They may see more than your head – you may even have to stand up.'},
+      {o:'Do the video call in a café with good internet.',fb:'Good internet is important, but find a quiet place, e.g. at home.'}], hint:'You talk to a possible future employer.'}
+],
+W3_ORDER: [
+  {t:'order', p:'Put the interview in the right order. Tap the lines one after the other.', seq:[
+    'Interviewer: Good morning. Pleased to meet you.',
+    'Candidate: Likewise! Thank you for inviting me.',
+    'Interviewer: Shall we start? Why would you like to work as a babysitter?',
+    'Candidate: That’s a good question. Let me think. … I love working with children, and I’m very patient.',
+    'Interviewer: Thank you so much for your time.',
+    'Candidate: It’s been great getting to know you. Have a good day!'], hint:'Opening → question → answer → ending.'},
+  {t:'order', p:'Put the parts in the right order to make a sentence.', seq:['By the end of the summer,','I','will have','saved','enough money','for a new bike.'], hint:'Future perfect: will have + past participle.'},
+  {t:'order', p:'Put the parts in the right order to make a sentence.', seq:['This time','next week,','I','will be','working','at the sports shop.'], hint:'Future progressive: will be + -ing.'}
+],
+
+/* ---------- WEEK 4 · My CV ---------- */
+W4_WORDS: [
+  {t:'text', p:'Lebenslauf', a:['CV','curriculum vitae','CV (curriculum vitae)'], hint:'Two letters.'},
+  {t:'text', p:'Arbeitgeber/in', a:['employer'], hint:'It starts with “emp…”.'},
+  {t:'text', p:'Textverarbeitung', a:['word processing'], hint:'Two words: w… p…'},
+  {t:'text', p:'Tabellenkalkulation', a:['spreadsheet'], hint:'One word: spr…'},
+  {t:'text', p:'Familienstand', a:['marital status'], hint:'Two words: m… s…'},
+  {t:'text', p:'fleißig, hart arbeitend', a:['hard-working','hardworking','hard working'], hint:'h…-w…'},
+  {t:'text', p:'Muttersprachler/in', a:['native speaker'], hint:'Two words: n… s…'},
+  {t:'text', p:'auf Anfrage', a:['on request'], hint:'“References available o… r…”'},
+  {t:'text', p:'Praktikum', a:['internship'], hint:'It starts with “int…”.'},
+  {t:'text', p:'Datenbank', a:['database'], hint:'One word: d…'},
+  {t:'text', p:'(Arbeits)zeugnis, Referenz', a:['reference'], hint:'It starts with “ref…”.'},
+  {t:'text', p:'sich freiwillig melden, ehrenamtlich tätig sein', a:['to volunteer'], hint:'It starts with “vol…”.'}
+],
+W4_CTX: [
+  {t:'mc', p:'A clear and correct ___ shows the employer that you are serious about your application.', a:'CV',
+   d:[{o:'shift',fb:'A shift is a time when you work (Schicht).'},{o:'database',fb:'A database is a collection of data on a computer.'},{o:'furniture',fb:'Furniture = tables, chairs … (Möbel).'}], hint:'The paper with your education, work experience and skills.'},
+  {t:'mc', p:'Mia needs a ___ from her employer.', a:'reference',
+   d:[{o:'spreadsheet',fb:'A spreadsheet is a table on the computer.'},{o:'database',fb:'A database is a collection of data on a computer.'},{o:'marital status',fb:'Your marital status (Familienstand) is not something an employer gives you.'}], hint:'(Arbeits)zeugnis'},
+  {t:'mc', p:'Luke has done all his homework and cleaned the house; he is so ___ .', a:'hard-working',
+   d:[{o:'rude',fb:'“Rude” = unhöflich. Luke does a lot of work.'},{o:'formal',fb:'“Formal” describes language or clothes. Luke does a lot of work.'},{o:'anonymous',fb:'“Anonymous” = without a name. Luke does a lot of work.'}], hint:'He works a lot.'},
+  {t:'mc', p:'Ola is ___ for getting her mum’s birthday present.', a:'responsible',
+   d:[{o:'capable',fb:'We say “capable OF sth”. Here: it is Ola’s job to get the present.'},{o:'hard-working',fb:'Here: it is Ola’s job to get the present → zuständig.'},{o:'formal',fb:'“Formal” describes language or clothes.'}], hint:'It is her job to get the present (zuständig).'}
+],
+W4_T1: [
+  {t:'text', p:'My goal is to ________ experience and one day work in the media industry.', a:['gain'], r:1, hint:'↺ Theme 1: “Australia g… independence from Britain.” It starts with “g”.'},
+  {t:'text', p:'Everyone is ________ of good grades if they work hard.', a:['capable'], r:1, hint:'fähig – it starts with “cap…”.'},
+  {t:'text', p:'Anna doesn’t know much about animals, but she has lots of ________ about flowers.', a:['knowledge'], r:1, hint:'Wissen – it starts with “kn…”.'},
+  {t:'text', p:'In a team it is important to ________ .', a:['communicate'], r:1, hint:'kommunizieren – it starts with “comm…”.'}
+],
+SECT: [
+  {t:'match', p:'Which part of the CV is it?', k:4, perOpt:1, opts:['Personal profile','Education','Work experience','Skills'],
+   rows:[
+    {l:'I am a reliable and hard-working student with a passion for animals.',a:'Personal profile'},
+    {l:'2019 – present: Gymnasium am Park, Berlin',a:'Education'},
+    {l:'07/2025 – 08/2025: internship at a bike shop (repaired bikes, helped customers)',a:'Work experience'},
+    {l:'word processing, spreadsheets · German (native speaker), English (B1)',a:'Skills'}], hint:'Education = schools · Work experience = jobs and internships · Skills = what you can do.'},
+  {t:'match', p:'Which part of the CV is it?', k:4, perOpt:1, opts:['Personal profile','Education','Work experience','Skills'],
+   rows:[
+    {l:'I am a friendly and creative person and I enjoy working in a team.',a:'Personal profile'},
+    {l:'2015 – 2019: Grundschule am See, Berlin',a:'Education'},
+    {l:'2024 – present: babysitting for a neighbour’s family (two children)',a:'Work experience'},
+    {l:'first-aid certificate (2025) · Spanish (A2)',a:'Skills'}], hint:'Education = schools · Work experience = jobs and internships · Skills = what you can do.'}
+],
+BETTER: [
+  {t:'mc', p:'Your phone number on an English CV. Which is better?', a:'+49 152 1234 5678',
+   d:[{o:'0152 1234 5678',fb:'Your CV might go to people who are not in Germany. Add the country code +49.'},{o:'Handy: 0152 1234 5678',fb:'Write your CV in English – and add the country code +49.'}], hint:'Your CV might go to people in other countries.'},
+  {t:'mc', p:'Which heading is better on an English CV?', a:'Education',
+   d:[{o:'Schools',fb:'“Education” sounds more professional.'},{o:'My school time',fb:'Too informal. “Education” sounds more professional.'}], hint:'It sounds more professional.'},
+  {t:'mc', p:'Which date is better on a CV?', a:'2023 – present',
+   d:[{o:'2023+',fb:'Write “2023 – present”. It is clearer and more professional.'},{o:'2023 – now',fb:'“Present” is the usual word on a CV.'}], hint:'Which word do you use on a CV for “until today”?'},
+  {t:'mc', p:'Which email address is better for a CV?', a:'lena.schmidt@mail.com',
+   d:[{o:'crazylena@mail.com',fb:'Use a professional email address with your first name and surname.'},{o:'lena_xx_2010@mail.com',fb:'Use a professional email address with your first name and surname.'}], hint:'First name + surname.'},
+  {t:'mc', p:'How do you write your languages on an English CV?', a:'German (native speaker), English (B1)',
+   d:[{o:'Deutsch, Englisch',fb:'Write the languages in English: German, not Deutsch.'},{o:'German, English, Latin',fb:'Say how good you are – add your level or qualification.'}], hint:'In English – and say how good you are.'},
+  {t:'mc', p:'Which description of a job is better on a CV?', a:'Helped customers and sorted products in the shop.',
+   d:[{o:'Some shop work etc.',fb:'Not specific enough. Say what you did and don’t use “etc.”.'},{o:'I was there in the summer.',fb:'Not specific enough. Say what you did.'}], hint:'Say exactly what you did.'}
+],
+W4_ORDER: [
+  {t:'order', p:'Put the work experience in the right order for an English CV. Tap the lines one after the other.', seq:[
+    '09/2025 – present: babysitting for a neighbour’s family',
+    '07/2025 – 08/2025: internship at a bike shop',
+    '06/2024: helping at the school summer fair',
+    '09/2022 – 05/2023: delivering a local newspaper'], hint:'On an English CV, your most recent job is at the top.'},
+  {t:'order', p:'Put the work experience in the right order for an English CV. Tap the lines one after the other.', seq:[
+    '2025 – present: walking a neighbour’s dog twice a week',
+    '10/2024: two-week internship at a hotel',
+    '07/2024: volunteering at a summer camp',
+    '04/2023: helping at a school bake sale'], hint:'On an English CV, your most recent job is at the top.'}
+],
+CHECK: [
+  {t:'match', p:'Checklist for a CV: Content, Layout or Language?', k:4, perOpt:1, opts:['Content','Layout','Language'],
+   rows:[
+    {l:'your phone number and email address',a:'Content'},{l:'your work experience',a:'Content'},{l:'your skills',a:'Content'},
+    {l:'easy to read',a:'Layout'},{l:'well-structured, with clear headings',a:'Layout'},
+    {l:'correct grammar and spelling',a:'Language'},{l:'formal language',a:'Language'},{l:'“job” words, e.g. reliable, responsible',a:'Language'}],
+   hint:'Content = what you write · Layout = how it looks · Language = how you write it.'}
+],
+PROFILE: [
+  {t:'mc', p:'Which sentence fits a personal profile best?', a:'I am a reliable and hard-working student and I enjoy working in a team.',
+   d:[{o:'You can rely on me and I am fine to work hard.',fb:'This sounds unnatural. Use “job” words: reliable, hard-working …'},
+      {o:'I’m, like, super good with computers!!!',fb:'Too informal. A CV needs formal language.'},
+      {o:'My hobbies are computers, my bike, football and music.',fb:'This is only a list of hobbies. Show your skills and what you can offer.'}], hint:'Formal language + “job” words.'},
+  {t:'mc', p:'Which sentence fits a personal profile best?', a:'I am able to work well on my own, but I also enjoy working with others in a team.',
+   d:[{o:'I like to work on my own but I can also work in a team I guess.',fb:'“I guess” sounds unsure and informal. Be confident and formal.'},
+      {o:'Teamwork is cool and I’m cool too.',fb:'Too informal. A CV needs formal language.'},
+      {o:'I play football, I play the guitar and I play computer games.',fb:'This is only a list of hobbies. Show your skills and what you can offer.'}], hint:'Formal language + confident.'}
+],
+CULTURE: [
+  {t:'mc', p:'Why do many employers in English-speaking countries not want a photo on a CV?', a:'They might judge you by your photo before they have met you.',
+   d:[{o:'Photos are too expensive to print.',fb:'It’s not about money. Think about fairness: the employer should look at your skills.'},
+      {o:'Photos are only for social media.',fb:'Think about fairness: the employer should look at your skills, not at your face.'},
+      {o:'Photos make the CV too long.',fb:'Think about fairness: the employer should look at your skills, not at your face.'}], hint:'Culture box: think about fairness.'},
+  {t:'mc', p:'Which information is often left out of an English CV because it has nothing to do with the job?', a:'your marital status',
+   d:[{o:'your email address',fb:'The employer needs your email address to contact you.'},
+      {o:'your work experience',fb:'Your work experience is very important for the job.'},
+      {o:'your skills',fb:'Your skills are very important for the job.'}], hint:'Culture box: what has nothing to do with your work?'}
+],
+
+/* ---------- WEEK 5 · Cover letter & let / make / have (provisional) ---------- */
+W5_WORDS: [
+  {t:'text', p:'Anschreiben', a:['cover letter'], hint:'Two words: c… l…'},
+  {t:'text', p:'Sehr geehrte Damen und Herren', a:['Dear Sir/Madam','Dear Sir or Madam'], hint:'D… S…/M…'},
+  {t:'text', p:'als Antwort auf', a:['in response to'], hint:'“I am writing in r… to your job advert.”'},
+  {t:'text', p:'Qualifikation, Abschluss', a:['qualification'], hint:'Almost the same word as in German.'},
+  {t:'text', p:'geeignet (für)', a:['suited (to)'], hint:'s… to'},
+  {t:'text', p:'nicht haben, fehlen', a:['to lack'], hint:'4 letters: l…'},
+  {t:'text', p:'brauchen, verlangen, benötigen', a:['to require'], hint:'It starts with “req…”.'},
+  {t:'text', p:'formell, förmlich', a:['formal'], hint:'Almost the same word as in German.'},
+  {t:'text', p:'sich (wieder) bei jdm melden', a:['to get back to sb'], hint:'g… b… to sb'}
+],
+W5_CTX: [
+  {t:'mc', p:'In a ___ you can tell the employer more about yourself.', a:'cover letter',
+   d:[{o:'spreadsheet',fb:'A spreadsheet is a table on the computer.'},{o:'shift',fb:'A shift is a time when you work (Schicht).'},{o:'database',fb:'A database is a collection of data on a computer.'}], hint:'You send it with your CV.'},
+  {t:'mc', p:'Unfortunately, Tim ___ the skills for the job.', a:'lacks',
+   d:[{o:'responds',fb:'“To respond (to)” = to answer.'},{o:'volunteers',fb:'“To volunteer” = to work for free.'},{o:'panics',fb:'“To panic” = to suddenly be very afraid.'}], hint:'“Unfortunately” – he doesn’t have them.'},
+  {t:'mc', p:'This job is ___ to someone who loves being outside.', a:'suited',
+   d:[{o:'formal',fb:'“Formal” describes language or clothes.'},{o:'closing',fb:'“Closing” = at the end, e.g. the closing sentence.'},{o:'anonymous',fb:'“Anonymous” = without a name.'}], hint:'geeignet'},
+  {t:'mc', p:'I use ___ language in a job application but informal language when chatting with my friends.', a:'formal',
+   d:[{o:'anonymous',fb:'“Anonymous” = without a name. Look at “but informal …”.'},{o:'average',fb:'“Average” = normal, not special. Look at “but informal …”.'},{o:'closing',fb:'“Closing” = at the end. Look at “but informal …”.'}], hint:'The opposite of informal.'},
+  {t:'mc', p:'Yasmine’s application attracted the employer’s ___ .', a:'attention',
+   d:[{o:'subject',fb:'The subject (Betreff) is the title of an email or letter.'},{o:'qualification',fb:'A qualification is what you have, e.g. a certificate.'},{o:'characteristic',fb:'A characteristic is a typical feature of a person.'}], hint:'Aufmerksamkeit'}
+],
+REG: [
+  {t:'mc', p:'Which sentence is formal enough for a cover letter?', a:'I look forward to hearing from you.',
+   d:[{o:'Write back soon, OK?',fb:'Too informal for a cover letter.'},{o:'Can’t wait to hear from you!!',fb:'Too informal for a cover letter.'},{o:'Text me if you like my letter.',fb:'Too informal for a cover letter.'}], hint:'Formal = polite and not like a chat with friends.'},
+  {t:'mc', p:'Which sentence is formal enough for a cover letter?', a:'Please find my CV attached.',
+   d:[{o:'Here’s my CV – have a look!',fb:'Too informal for a cover letter.'},{o:'I put my CV in the email somewhere.',fb:'Too informal – and not clear.'},{o:'CV attached, enjoy!',fb:'Too informal for a cover letter.'}], hint:'Formal = polite and not like a chat with friends.'},
+  {t:'mc', p:'Which sentence is formal enough for a cover letter?', a:'I would be very grateful if you could give me the chance to work for you.',
+   d:[{o:'Give me the job, please.',fb:'Too direct and informal.'},{o:'I really, really want this job!!!',fb:'Too informal for a cover letter.'},{o:'So, can I have the job?',fb:'Too direct and informal.'}], hint:'Formal = polite and not like a chat with friends.'}
+],
+CLOSE: [
+  {t:'mc', p:'Your letter starts with “Dear Sir/Madam,”. How do you end it?', a:'Yours faithfully,',
+   d:[{o:'Love,',fb:'Only for family and friends.'},{o:'See you soon,',fb:'Too informal for a cover letter.'},{o:'Cheers,',fb:'Too informal for a cover letter.'}], hint:'Word list: the closing for a letter to a person you don’t know by name.'}
+],
+LETTER: [
+  {t:'order', p:'Put the parts of the cover letter in the right order. Tap the lines one after the other.', seq:[
+    'Dear Sir/Madam,',
+    'I am writing in response to your job advert for a sales assistant.',
+    'I am a reliable and friendly person, and I have experience in working with customers.',
+    'Please find my CV attached.',
+    'I look forward to hearing from you.',
+    'Yours faithfully,'], hint:'Greeting → why you write → your skills → CV → closing sentence → goodbye.'}
+],
+LMH: [
+  {t:'mc', p:'My boss let me ___ the new till on my first day.', a:'use',
+   d:[{o:'to use',fb:'After let + person, use the infinitive WITHOUT “to”: let me use.'},{o:'using',fb:'After let + person, use the infinitive without “to”: let me use.'},{o:'used',fb:'“used” (past participle) is for have sth done. Here: let me use.'}], hint:'G11: let sb do sth.'},
+  {t:'mc', p:'My dad made me ___ some typical interview questions with him.', a:'go through',
+   d:[{o:'to go through',fb:'After make + person, use the infinitive WITHOUT “to”: made me go through.'},{o:'going through',fb:'After make + person, use the infinitive without “to”.'},{o:'gone through',fb:'The past participle is for have sth done. Here: made me go through.'}], hint:'G11: make sb do sth.'},
+  {t:'mc', p:'I had my CV ___ on nice paper.', a:'printed',
+   d:[{o:'print',fb:'have sth done: have + thing + PAST PARTICIPLE → had my CV printed.'},{o:'to print',fb:'have sth done: have + thing + past participle → printed.'},{o:'printing',fb:'have sth done: have + thing + past participle → printed.'}], hint:'G11: have sth done – someone else does it for you.'},
+  {t:'mc', p:'She is going to have her photo ___ for the application.', a:'taken',
+   d:[{o:'take',fb:'have sth done: have + thing + PAST PARTICIPLE → have her photo taken.'},{o:'to take',fb:'have sth done: have + thing + past participle → taken.'},{o:'taking',fb:'have sth done: have + thing + past participle → taken.'}], hint:'G11: have sth done. take – took – taken'}
+],
+LMH_T: [
+  {t:'text', p:'Let me ________ (know) if you need any help with your interview.', a:['know'], hint:'let sb do sth – no “to”.'},
+  {t:'text', p:'My parents made me ________ (write) my cover letter again.', a:['write'], hint:'make sb do sth – no “to”.'},
+  {t:'text', p:'I had my cover letter ________ (check) by my English teacher.', a:['checked'], hint:'have sth done – past participle.'},
+  {t:'text', p:'The manager didn’t let us ________ (leave) early.', a:['leave'], hint:'let sb do sth – no “to”.'}
+],
+LMH_MEAN: [
+  {t:'match', p:'What does it mean?', k:3, perOpt:1, opts:['You allow sb to do sth.','You force sb to do sth.','Sb else does it for you.'],
+   rows:[{l:'let sb do sth',a:'You allow sb to do sth.'},{l:'make sb do sth',a:'You force sb to do sth.'},{l:'have sth done',a:'Sb else does it for you.'}],
+   hint:'Grammar card G11.'}
+],
+W5_T1: [
+  {t:'vmc', en:'to benefit', de:'profitieren, Nutzen ziehen', r:1},
+  {t:'vmc', en:'to represent', de:'repräsentieren, vertreten', r:1},
+  {t:'vmc', en:'to communicate', de:'kommunizieren, Kontakt haben', r:1},
+  {t:'vmc', en:'currently', de:'zurzeit, gegenwärtig, momentan', r:1},
+  {t:'vmc', en:'to vary', de:'variieren', r:1},
+  {t:'vmc', en:'official', de:'offiziell', r:1}
+]
+};
+
+/* Weeks: only append, never reorder (progress codes depend on the order). */
+const SETS = [
+  {week:3, title:'Ready for the interview', desc:'Interview words, KV19 phrases, soft & hard skills, future progressive / future perfect.', sb:'TB p. 100–103 · KV19 · G10',
+   slots:[{pool:'W3_WORDS',n:2,sec:'Words'},{pool:'W3_CTX',n:1,sec:'Words in context'},{pool:'W3_T1',n:1,sec:'Words · Theme 1 + 4'},
+          {pool:'KV19',n:1,sec:'Phrases (KV19)'},{pool:'W3_PHR',n:1,sec:'Phrases (KV19)'},{pool:'SOFTHARD',n:1,sec:'Skills'},
+          {pool:'CLAIM',n:1,sec:'Skills: one skill + one example'},{pool:'FUT',n:1,sec:'Grammar: future forms (G10)'},{pool:'FUT_T',n:1,sec:'Grammar: future forms (G10)'},
+          {pool:'TIPS',n:1,sec:'Video interview tips'},{pool:'W3_ORDER',n:1,sec:'Put it in order'}]},
+  {week:4, title:'My CV', desc:'CV words, the parts of a CV, tips for an English CV, personal profile.', sb:'TB p. 96 (A7, Culture box)',
+   slots:[{pool:'W4_WORDS',n:3,sec:'Words'},{pool:'W4_CTX',n:1,sec:'Words in context'},{pool:'W4_T1',n:1,sec:'Words · Theme 1 + 4'},
+          {pool:'SECT',n:1,sec:'The parts of a CV'},{pool:'BETTER',n:2,sec:'Tips for an English CV'},{pool:'W4_ORDER',n:1,sec:'Put it in order'},
+          {pool:'CHECK',n:1,sec:'CV checklist'},{pool:'PROFILE',n:1,sec:'Personal profile'},{pool:'CULTURE',n:1,sec:'Culture box'}]},
+  {week:5, title:'Cover letter & let / make / have', desc:'Cover-letter words, formal language, let / make sb do sth, have sth done.', sb:'TB p. 97–99 · G11',
+   slots:[{pool:'W5_WORDS',n:2,sec:'Words'},{pool:'W5_CTX',n:2,sec:'Words in context'},{pool:'REG',n:1,sec:'Formal language'},
+          {pool:'CLOSE',n:1,sec:'Formal language'},{pool:'LETTER',n:1,sec:'Put it in order'},{pool:'LMH',n:2,sec:'Grammar: let / make / have (G11)'},
+          {pool:'LMH_T',n:1,sec:'Grammar: let / make / have (G11)'},{pool:'LMH_MEAN',n:1,sec:'Grammar: let / make / have (G11)'},{pool:'W5_T1',n:1,sec:'Words · Theme 1'}]}
+];
+
+function norm(s){
+  return String(s==null?"":s).normalize("NFC")
+    .replace(/[’‘´`ʼ]/g,"'")
+    .replace(/[«»“”"]/g," ")
+    .toLowerCase()
+    .replace(/\s*'\s*/g,"'")
+    .replace(/\s*\/\s*/g,"/")
+    .replace(/\s+[-–—]\s+/g," ")
+    .replace(/[.!?¡¿;:,…]/g," ")   // ¡ ¿ (ES) wie andere Satzzeichen
+    .replace(/\s+/g," ").trim();
+}
+
+// Platzhalter, die in einer SuS-Antwort fehlen dürfen (FR/ES/EN/DE)
+const _PH = /^(qn|qc|algn|algo|alguien|sb|sth|s\.o\.|s\.th\.|someone|something|jdn|jdm|jds|jmd|jmdn|jmdm|etw)(\/(qn|qc|algn|algo|alguien|sb|sth|jdn|jdm|jds|jmd|jmdn|jmdm|etw))*$/;
+function _stripPH(s){
+  const t = (" "+s+" ")
+    .replace(/ quelque chose /g," ").replace(/ quelqu'un /g," ")
+    .replace(/ algo /g," ").replace(/ alguien /g," ")
+    .replace(/ something /g," ").replace(/ someone /g," ")
+    .trim().split(" ").filter(w=>!_PH.test(w));
+  return t.join(" ");
+}
+
+// Klammern direkt am Wort = Wortbestandteil: "(Schuss)waffe", "zu(aller)erst", "seul(e)", "forward(s)", "Sicherheit(s-)"
+const _LET = /[A-Za-zÀ-ÖØ-öø-ÿ]/;
+function _expandGlued(s){
+  let out=[s];
+  for(let g=0; g<6; g++){
+    let changed=false; const next=[];
+    out.forEach(t=>{
+      const re=/(\S?)\(([^()]*)\)(\S?)/g; let m, hit=null;
+      while((m=re.exec(t))){ if(_LET.test(m[1])||_LET.test(m[3])){ hit=m; break; } re.lastIndex=m.index+1; }
+      if(hit){ const inner=hit[2].replace(/-$/,""), pre=t.slice(0,hit.index)+hit[1], post=hit[3]+t.slice(hit.index+hit[0].length);
+        next.push(pre+inner+post, pre+post); changed=true; }
+      else next.push(t);
+    });
+    out=next; if(!changed) break;
+  }
+  return out;
+}
+
+// Klammern mit Leerzeichen davor = optionaler Teil: "rendre qc (à qn)" → ["rendre qc à qn", "rendre qc"]
+function _expandParens(s, depth){
+  depth = depth||0;
+  const m = s.match(/\(([^()]*)\)/);
+  if(!m || depth>4) return [s.replace(/[()]/g," ")];
+  const pre = s.slice(0,m.index), post = s.slice(m.index+m[0].length);
+  return _expandParens(pre+" "+m[1]+" "+post, depth+1)
+    .concat(_expandParens(pre+" "+post, depth+1));
+}
+
+const _ART = ["le","la","l'","les","un","une","el","la","los","las","un","una","the","a","an","der","die","das","den","dem","ein","eine"];
+
+// löst Schrägstrich-Varianten auf: "seul/seule" → ["seul","seule"]; "Streber/in" → ["Streber","Streberin"]
+function _expandSlashes(s){
+  let combos = [""];
+  s.split(" ").forEach(tok=>{
+    let alts = [tok];
+    if(tok.indexOf("/")>0){
+      const p = tok.split("/").filter(Boolean);
+      alts = [tok];
+      p.forEach((a,i)=>{
+        // „alumno/-a“ → alumna (Endvokal ersetzt), „profesor/-a“ → profesora (angehängt)
+        if(i>0 && /^-[a-zà-ÿ]{1,3}$/.test(a)){
+          const suf=a.slice(1);
+          alts.push(/[aeiou]$/.test(p[0]) && /^[aeiou]/.test(suf) ? p[0].slice(0,-1)+suf : p[0]+suf);
+        }
+        else if(i>0 && a.length<=2 && _ART.indexOf(a)<0) alts.push(p[0]+a);
+        else alts.push(a);
+      });
+    }
+    const next = [];
+    combos.forEach(c=>alts.forEach(a=>{ if(next.length<64) next.push(c? c+" "+a : a); }));
+    combos = next;
+  });
+  return combos;
+}
+
+function _dropArticle(s){
+  return s.replace(/^(der|die|das|den|dem|ein|eine|le|la|les|l'|un|une|el|los|las|the|an) /,"");
+}
+
+// de:true → deutscher Artikel darf fehlen (Standardfall bei Wortschatz-Abfragen Zielsprache→Deutsch)
+function answerKeys(ans, de){
+  const out = new Set();
+  const add = x => { x = (x||"").replace(/\s+/g," ").trim(); if(x) out.add(x); };
+  _expandGlued(String(ans==null?"":ans)).forEach(g=>{
+    _expandParens(g.replace(/(\S)-(?=\s|$)/g,"$1")).forEach(p=>{   // "Lebensmittel-" → "Lebensmittel"
+      const b = norm(p);
+      [b].concat(_expandSlashes(b), b.split("/")).forEach(e=>{
+        add(e); add(_stripPH(e));
+        if(de){ add(_dropArticle(e)); add(_dropArticle(_stripPH(e))); }
+      });
+    });
+  });
+  return out;
+}
+
+function inputKeys(inp, de){
+  const out = new Set();
+  const add = x => { x = (x||"").replace(/\s+/g," ").trim(); if(x) out.add(x); };
+  const raw = String(inp==null?"":inp), forms = [];
+  [raw].concat(_expandGlued(raw)).forEach(v=>{
+    v = v.replace(/(\S)-(?=\s|$)/g,"$1");
+    forms.push(norm(v), norm(v.replace(/[()]/g," ")));
+  });
+  forms.forEach(x=>{
+    add(x); add(_stripPH(x));
+    if(de){ add(_dropArticle(x)); add(_dropArticle(_stripPH(x))); }
+  });
+  return out;
+}
+
+function _deaccentFirst(s){
+  return s ? s.charAt(0).normalize("NFD").replace(/[̀-ͯ]/g,"") + s.slice(1) : s;
+}
+
+function accepts(input, answers, opt){
+  const de = !!(opt && opt.de);
+  const ins = inputKeys(input, de);
+  if(ins.size===0) return false;
+  const capStart = /^[A-ZÀÉÈÊÂÎÔÛÇÑÁÍÓÚÜ]/.test(String(input||"").trim());
+  const list = Array.isArray(answers) ? answers : [answers];
+  for(const a of list){
+    for(const k of answerKeys(a, de)){
+      if(ins.has(k)) return true;
+      if(capStart){ const kk=_deaccentFirst(k); if(ins.has(kk)) return true; }
+    }
+  }
+  return false;
+}
+
+/* Bedeutungsliste aus einem Wortlisten-Eintrag: "in Verbindung bringen, hier: Kontakt haben/halten"
+   → ["in Verbindung bringen, hier: …", "in Verbindung bringen", "Kontakt haben/halten"] (jede Bedeutung einzeln richtig).
+   Kommas in Klammern trennen nicht ("ältere(r, s)"); "(auch:)", "(hier:)", "hier AE:" werden entfernt. */
+function splitMeanings(s){
+  const raw=[]; let cur="", d=0;
+  for(const ch of String(s)){
+    if(ch==="(") d++; if(ch===")") d=Math.max(0,d-1);
+    if((ch===","||ch===";") && !d){ raw.push(cur); cur=""; } else cur+=ch;
+  }
+  raw.push(cur);
+  const parts = raw.map(x=>x.replace(/^\s*(\(?(hier|auch)\)?( AE| BE)?|fig\.|ugs\.)\s*:?\)?\s*/i,"").trim()).filter(Boolean);
+  return [String(s)].concat(parts);
+}
+
+/* Fast richtig? Genau ein Zeichen Abstand (Levenshtein) ab 4 Zeichen. Nie als richtig werten, wenn
+   die Zielsprache abgefragt wird – nur als „Almost“ mit zweitem Versuch. Akzentfehler (ecole/école) fallen hierunter. */
+function _lev(a,b){ if(a===b) return 0; const m=a.length,n=b.length; if(!m) return n; if(!n) return m;
+  let p=Array.from({length:n+1},(_,j)=>j);
+  for(let i=1;i<=m;i++){ const c=[i]; for(let j=1;j<=n;j++) c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1)); p=c; }
+  return p[n]; }
+function nearMiss(input, answers, opt){
+  const ins = inputKeys(input, opt && opt.de);
+  const list = Array.isArray(answers) ? answers : [answers];
+  for(const a of list) for(const k of answerKeys(a, opt && opt.de)) for(const i of ins)
+    if(k.length>=4 && _lev(i,k)<=1) return true;
+  return false;
+}
+
+/* Nur Akzentfehler? Erkennt fehlende oder vertauschte Akzente an Stellen, an denen die Lösung einen hat.
+   Ein zusätzlicher Akzent (révise → révisé) ist ein Formfehler, kein Akzentfehler. */
+function deacc(s){ return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/œ/g,"oe"); }
+function _baseCh(c){ return c.normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function accentOnly(input, answers){
+  const raw=norm(input); const i=deacc(input); if(!i) return false;
+  const list = Array.isArray(answers) ? answers : [answers];
+  for(const a of list) for(const k of answerKeys(a,false)){
+    if(deacc(k)!==i || k===raw) continue;
+    const A=Array.from(raw), K=Array.from(k); if(A.length!==K.length) continue;
+    if(A.every((c,j)=>c===K[j] || (_baseCh(K[j])!==K[j] && (_baseCh(K[j])===c || _baseCh(c)===_baseCh(K[j]))))) return true;
+  }
+  return false;
+}
+
+/* ===== ENGINE · HA module with progress code (mfs-html-lernmodule-selfcheck §5) ===== */
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+/* ---- medal colours (§5.1), by week number ---- */
+const MEDAL_PALETTE=[
+ {name:"Gold",light:"#FFE38A",base:"#E8B923",dark:"#9C7A0E"},{name:"Saphirblau",light:"#8DB6F5",base:"#2E6FD8",dark:"#1B3F80"},
+ {name:"Smaragdgrün",light:"#8FE0B6",base:"#1E9E62",dark:"#0F5C38"},{name:"Rubinrot",light:"#F29AA3",base:"#D23B4B",dark:"#7D1622"},
+ {name:"Amethyst",light:"#C9A8F2",base:"#8A4FD6",dark:"#4B2386"},{name:"Türkis",light:"#8EDFE8",base:"#16A6B6",dark:"#0B5F69"},
+ {name:"Orange",light:"#FFC08A",base:"#F07F1A",dark:"#8F4507"},{name:"Magenta",light:"#F5A3CC",base:"#D9418F",dark:"#7F1D52"},
+ {name:"Anthrazit",light:"#A7B4C2",base:"#4A5A6A",dark:"#26313C"},{name:"Oliv",light:"#D2DD8A",base:"#8A9A2B",dark:"#4F5A12"}];
+const medal=w=>MEDAL_PALETTE[(w-1)%MEDAL_PALETTE.length];
+function applyMedalColors(week,el){const p=medal(week);el.style.setProperty('--medal-light',p.light);el.style.setProperty('--medal-base',p.base);el.style.setProperty('--medal-dark',p.dark);return p.name;}
+
+/* ---- progress code (§5.2) ---- */
+const ALPH='23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+function fnv(s){let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,0x01000193)>>>0;}return h>>>0;}
+function mix(h){h^=h>>>16;h=Math.imul(h,0x85ebca6b)>>>0;h^=h>>>13;h=Math.imul(h,0xc2b2ae35)>>>0;h^=h>>>16;return h>>>0;}
+function nameKey(s){return String(s||'').normalize('NFC').toLowerCase().replace(/ß/g,'ss').normalize('NFD').replace(/[̀-ͯ]/g,'')
+  .replace(/ae/g,'a').replace(/oe/g,'o').replace(/ue/g,'u').replace(/['’‘´`ʼ]/g,'').replace(/[^\p{L}]+/gu,' ').trim().split(' ').filter(Boolean).sort().join(' ');}
+function cleanName(s){return String(s||'').normalize('NFC').replace(/[’‘´`ʼ]/g,"'").replace(/\s+/g,' ').trim().slice(0,40);}
+function nameHash(name,k){return mix(fnv(MODULE_KEY+'|'+nameKey(name)+'|'+k)) & 0x3FFFFFF;}
+function keyMask(){return mix(fnv('KEY|'+MODULE_KEY)) & 0x3FFFFFFF;}
+function encodeProgress(name,k){const h=nameHash(name,k),v=((((k^(h&15))&15)<<26)|h)^keyMask();let c='';for(let i=5;i>=0;i--)c+=ALPH[(v>>>(i*5))&31];return c.slice(0,3)+'-'+c.slice(3);}
+function decodeProgress(name,code){const c=String(code||'').toUpperCase().replace(/[^0-9A-Z]/g,'');if(c.length!==6||!nameKey(name))return null;
+  let v=0;for(const ch of c){const i=ALPH.indexOf(ch);if(i<0)return null;v=v*32+i;}v=(v^keyMask())>>>0;
+  const h=v&0x3FFFFFF,k=((v>>>26)&15)^(h&15);if(k<1||k>SETS.length)return null;return nameHash(name,k)===h?k:null;}
+
+/* ---- session state (sessionStorage only) ---- */
+const SKEY='ha_'+MODULE_KEY;
+try{Object.keys(localStorage).forEach(k=>{if(k.indexOf('ha_EN9-T4')===0)localStorage.removeItem(k);});}catch(e){}
+let ST={name:'',k:0};
+try{const s=JSON.parse(sessionStorage.getItem(SKEY)||'null');if(s&&s.name)ST=s;}catch(e){}
+function save(){try{sessionStorage.setItem(SKEY,JSON.stringify(ST));}catch(e){}}
+
+/* ---- build a run ---- */
+function vmcItem(w,pool){const others=shuffle(pool.filter(x=>x.de!==w.de)).slice(0,3);
+  return {t:'mc',lbl:'English → Deutsch',word:w.en,r:w.r,a:w.de,d:others.map(x=>({o:x.de,fb:'“'+x.de+'” = '+x.en+'.'})),hint:'Think of a sentence with “'+w.en+'”.'};}
+function buildRun(set){let run=[];
+  set.slots.forEach(s=>{const pool=POOLS[s.pool];shuffle(pool).slice(0,s.n).forEach(it=>{
+    let q=it.t==='vmc'?vmcItem(it,pool):Object.assign({},it);q.sec=s.sec;
+    if(q.t==='text'&&!q.lbl)q.lbl=/_{3,}/.test(q.p)?'Type the missing words':'Deutsch → English · type the word';
+    if(q.t==='mc'){if(!q.lbl)q.lbl=/___/.test(q.p)?'Choose the word that fits':'Choose the best answer';q.opts=shuffle([{o:q.a,ok:true}].concat(q.d));}
+    if(q.t==='match'){q.lbl='Choose for each line';q.rowsNow=pickRows(q);}
+    if(q.t==='order'){q.lbl='Tap in the right order';let s2;do{s2=shuffle(q.seq);}while(s2.join('|')===q.seq.join('|'));q.pool=s2;}
+    run.push(q);});});
+  return run;}
+function pickRows(q){/* k rows, every option at least perOpt times */
+  for(let g=0;g<200;g++){let pick=[];q.opts.forEach(o=>{pick=pick.concat(shuffle(q.rows.filter(r=>r.a===o)).slice(0,q.perOpt||1));});
+    const rest=shuffle(q.rows.filter(r=>pick.indexOf(r)<0));while(pick.length<q.k&&rest.length)pick.push(rest.pop());
+    if(pick.length>=q.k)return shuffle(pick.slice(0,q.k));}
+  return shuffle(q.rows).slice(0,q.k);}
+
+/* ---- screens ---- */
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');document.body.classList.toggle('compact',id!=='screen-start');window.scrollTo(0,0);}
+
+function weekState(i){const n=i+1;if(n<=ST.k)return 'done';if(n===ST.k+1)return 'open';return 'lock';}
+function drawStart(){
+  const known=!!ST.name;
+  $('who').style.display=known?'block':'none';$('newUser').style.display=known?'none':'block';
+  if(known){$('whoName').textContent=ST.name;$('whoK').textContent=ST.k===0?'No week passed yet.':(ST.k===1?'1 week passed.':ST.k+' weeks passed.');
+    $('whoCode').textContent=ST.k?encodeProgress(ST.name,ST.k):'–';$('whoCodeRow').style.display=ST.k?'flex':'none';}
+  const box=$('weeks');box.innerHTML='';
+  SETS.forEach((s,i)=>{const st=weekState(i),b=document.createElement('button');b.type='button';b.className='tab '+st;
+    const p=medal(s.week);b.style.setProperty('--mb',p.base);b.style.setProperty('--md',p.dark);b.style.setProperty('--ml',p.light);
+    const prev=SETS[i-1];
+    const status=st==='done'?'<span class="stamp">✓ PASSED</span>':st==='lock'?'<span class="lockmsg">🔒 First: Week '+prev.week+' with 80 %.</span>':'<span class="openmsg">Open now →</span>';
+    b.innerHTML='<span class="tabear">Week '+s.week+'</span><span class="tt">'+esc(s.title)+'</span><span class="dd">'+esc(s.desc)+'</span><span class="mm">'+s.slots.reduce((x,y)=>x+y.n,0)+' tasks · '+esc(s.sb)+'</span>'+status;
+    if(st==='lock'){b.setAttribute('aria-disabled','true');}
+    b.addEventListener('click',()=>tryStart(i));box.appendChild(b);});
+}
+function readNameCode(){
+  if(ST.name)return true;
+  const n=cleanName($('name').value),c=$('code').value.trim();
+  if(nameKey(n).length<2){$('startErr').textContent='Please write your first name and surname first.';$('name').focus();return false;}
+  if(c){const k=decodeProgress(n,c);if(k===null){$('startErr').textContent='That didn’t work. Check your code (there is no 0, O, 1 or I) and write your name exactly as last time.';return false;}
+    ST={name:n,k:k};}else ST={name:n,k:0};
+  $('startErr').textContent='';save();return true;}
+$('goBtn').addEventListener('click',()=>{if(readNameCode())drawStart();});
+$('code').addEventListener('keydown',e=>{if(e.key==='Enter'&&readNameCode())drawStart();});
+$('notMe').addEventListener('click',()=>{if(!confirm('Start again with another name? The progress on this page will be deleted.'))return;
+  ST={name:'',k:0};save();$('name').value='';$('code').value='';drawStart();});
+
+/* ---- quiz ---- */
+let cur=null,run=[],pos=0,score=0,tries=0,log=[];
+function tryStart(i){if(!readNameCode()){drawStart();return;}drawStart();
+  if(weekState(i)==='lock'){$('startErr').textContent='🔒 First: Week '+SETS[i-1].week+' with 80 %.';return;}
+  cur=SETS[i];run=buildRun(cur);pos=0;score=0;log=[];
+  applyMedalColors(cur.week,document.body);$('qWeek').textContent='Week '+cur.week+' · '+cur.title;$('qName').textContent=ST.name;
+  $('dots').innerHTML=run.map(()=>'<i></i>').join('');show('screen-quiz');renderQ();}
+function setFb(kind,html){const f=$('fb');f.className='fb '+(kind||'');f.innerHTML=html||'';}
+function renderQ(){const q=run[pos];tries=0;
+  [...$('dots').children].forEach((x,i)=>x.className=i<pos?'done':(i===pos?'now':''));
+  $('qPos').textContent=(pos+1)+' / '+run.length;$('qSec').textContent=q.sec;$('qLbl').textContent=q.lbl;
+  const P=$('qPrompt');
+  if(q.word){P.innerHTML='<div class="word">'+esc(q.word)+'</div>'+(q.r?'<div class="ret">↺ also in Theme 1</div>':'');}
+  else if(q.t==='text'&&!/_{3,}/.test(q.p)){P.innerHTML='<div class="word de">'+esc(q.p)+'</div>';}
+  else P.innerHTML='<div class="cloze">'+esc(q.p).replace(/_{3,}/,'<span class="gap">______</span>')+'</div>'+(q.r?'<div class="ret">↺ also in Theme 1</div>':'');
+  $('hintBox').style.display='none';$('hintBox').textContent=q.hint||'';$('hintBtn').style.display=q.hint?'inline-block':'none';
+  setFb('','');$('nextBtn').style.display='none';$('checkBtn').style.display='inline-block';$('checkBtn').disabled=false;
+  const A=$('qArea');A.innerHTML='';
+  if(q.t==='mc'){A.className='opts';q.opts.forEach((o,i)=>{const b=document.createElement('button');b.type='button';b.className='opt';b.textContent=o.o;b.dataset.i=i;
+      b.addEventListener('click',()=>{if(b.disabled)return;A.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');});A.appendChild(b);});}
+  else if(q.t==='text'){A.className='typer';A.innerHTML='<input type="text" id="tin" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Your answer" placeholder="Type your answer …">';
+      $('tin').addEventListener('keydown',e=>{if(e.key==='Enter'){if($('checkBtn').style.display!=='none')check();else next();}});setTimeout(()=>$('tin').focus(),30);}
+  else if(q.t==='match'){A.className='match';q.rowsNow.forEach((r,i)=>{const row=document.createElement('div');row.className='mrow';
+      row.innerHTML='<span class="ml">'+esc(r.l)+'</span><select data-i="'+i+'" aria-label="'+esc(r.l)+'"><option value="">– choose –</option>'+q.opts.map(o=>'<option>'+esc(o)+'</option>').join('')+'</select>';A.appendChild(row);});}
+  else if(q.t==='order'){A.className='order';q.picked=[];drawOrder(q);}
+}
+function drawOrder(q){const A=$('qArea');
+  A.innerHTML='<div class="olbl">Your order:</div><ol class="ans" id="oAns"></ol><div class="olbl">Tap the next line:</div><div class="src" id="oSrc"></div>';
+  q.picked.forEach((t,i)=>{const li=document.createElement('li');li.innerHTML='<button type="button" class="chip in">'+esc(t)+' <span class="x" aria-hidden="true">✕</span></button>';
+    li.firstChild.addEventListener('click',()=>{if(q.lockedOrder)return;q.picked.splice(i,1);drawOrder(q);});$('oAns').appendChild(li);});
+  q.pool.filter(t=>q.picked.indexOf(t)<0).forEach(t=>{const b=document.createElement('button');b.type='button';b.className='chip';b.textContent=t;
+    b.addEventListener('click',()=>{if(q.lockedOrder)return;q.picked.push(t);drawOrder(q);});$('oSrc').appendChild(b);});
+  if(!$('oSrc').children.length)$('oSrc').innerHTML='<span class="muted">All lines used. Tap a line above to take it back.</span>';}
+
+function award(pts,q,ok,shown){score+=pts;log.push({q,pts,shown});finishItem();}
+function finishItem(){$('checkBtn').style.display='none';$('nextBtn').style.display='inline-block';$('nextBtn').focus();}
+function solutionText(q){if(q.t==='mc')return q.a;if(q.t==='text')return q.a[0];if(q.t==='match')return q.rowsNow.map(r=>r.l+' → '+r.a).join('<br>');if(q.t==='order')return q.seq.map((s,i)=>(i+1)+'. '+esc(s)).join('<br>');}
+function check(){const q=run[pos];tries++;
+  if(q.t==='mc'){const sel=$('qArea').querySelector('.opt.sel');if(!sel){setFb('y','Choose an answer first.');tries--;return;}
+    const o=q.opts[+sel.dataset.i];
+    if(o.ok){sel.classList.add('ok');lockMc();setFb('g','<b>Correct!</b>'+(tries>1?' (second try: ½ point)':''));award(tries>1?0.5:1,q,true);}
+    else{sel.classList.add('ko');sel.disabled=true;sel.classList.remove('sel');
+      if(tries<2){setFb('r','<b>Not quite.</b> '+esc(o.fb)+' <i>Try once more.</i>');}
+      else{lockMc();$('qArea').querySelectorAll('.opt').forEach(b=>{if(q.opts[+b.dataset.i].ok)b.classList.add('sol');});
+        setFb('r','<b>Not quite.</b> '+esc(o.fb)+'<br>Correct answer: <b>'+esc(q.a)+'</b>');award(0,q,false,true);}}}
+  else if(q.t==='text'){const inp=$('tin'),v=inp.value;if(!v.trim()){setFb('y','Type your answer first.');tries--;return;}
+    const ans=answersOf(q);
+    if(accepts(v,ans)){inp.classList.remove('ko','mid');inp.classList.add('ok');inp.disabled=true;setFb('g','<b>Correct!</b>'+(tries>1&&!q.nearUsed?' (second try: ½ point)':''));award(tries>1&&!q.nearUsed?0.5:1,q,true);}
+    else if(tries<2&&nearMiss(v,ans)){q.nearUsed=true;inp.classList.add('mid');setFb('y','<b>Almost!</b> Check your spelling and try again.');}
+    else if(tries<2){inp.classList.add('ko');setFb('r','<b>Not quite.</b> Try once more'+(q.hint?' – the 💡 help may be useful.':'.'));}
+    else{inp.classList.remove('mid');inp.classList.add('ko');inp.disabled=true;setFb('r','<b>Not quite.</b> Correct answer: <b>'+esc(q.a[0])+'</b>');award(0,q,false,true);}}
+  else if(q.t==='match'){const sels=[...$('qArea').querySelectorAll('select')];if(sels.some(s=>!s.value)){setFb('y','Choose something for every line first.');tries--;return;}
+    let wrong=0;sels.forEach(s=>{const r=q.rowsNow[+s.dataset.i],row=s.parentNode;row.classList.remove('ok','ko');
+      if(s.value===r.a){row.classList.add('ok');}else{row.classList.add('ko');wrong++;}});
+    if(!wrong){sels.forEach(s=>s.disabled=true);setFb('g','<b>All correct!</b>'+(tries>1?' (second try: ½ point)':''));award(tries>1?0.5:1,q,true);}
+    else if(tries<2){setFb('r','<b>'+wrong+(wrong===1?' line is':' lines are')+' not right yet</b> (marked ✕). Change them and check again.');}
+    else{sels.forEach(s=>s.disabled=true);setFb('r','<b>Not quite.</b> Solution:<br>'+solutionText(q));award(0,q,false,true);}}
+  else if(q.t==='order'){if(q.picked.length<q.seq.length){setFb('y','Put all the lines in order first.');tries--;return;}
+    const lis=[...document.querySelectorAll('#oAns li')];let wrong=0;
+    lis.forEach((li,i)=>{li.classList.remove('ok','ko');if(q.picked[i]===q.seq[i])li.classList.add('ok');else{li.classList.add('ko');wrong++;}});
+    if(!wrong){q.lockedOrder=true;setFb('g','<b>Correct order!</b>'+(tries>1?' (second try: ½ point)':''));award(tries>1?0.5:1,q,true);}
+    else if(tries<2){setFb('r','<b>Not quite.</b> The lines marked ✕ are in the wrong place. Tap them to take them back and try again.');}
+    else{q.lockedOrder=true;setFb('r','<b>Not quite.</b> Right order:<br>'+solutionText(q));award(0,q,false,true);}}
+}
+function answersOf(q){const out=[];q.a.forEach(a=>{out.push(a);if(/^to /i.test(a))out.push(a.replace(/^to /i,''));});return out;}
+function lockMc(){$('qArea').querySelectorAll('.opt').forEach(b=>b.disabled=true);}
+function next(){pos++;if(pos>=run.length)result();else renderQ();}
+$('checkBtn').addEventListener('click',check);$('nextBtn').addEventListener('click',next);
+$('hintBtn').addEventListener('click',()=>{const h=$('hintBox');h.style.display=h.style.display==='none'?'block':'none';});
+$('quit').addEventListener('click',()=>{if(confirm('Leave this week? This attempt will not count.')){drawStart();show('screen-start');}});
+
+/* ---- result ---- */
+const fmt=x=>(Math.round(x*10)/10).toString().replace('.5','½').replace(/^0½/,'½');
+function result(){const total=run.length,need=Math.ceil(total*0.8),passed=score>=need-1e-9,pct=Math.round(score/total*100),i=SETS.indexOf(cur);
+  if(passed&&i+1===ST.k+1){ST.k=i+1;save();}
+  const rs=$('resScore');rs.textContent=fmt(score)+' / '+total;rs.className='score '+(passed?'pass':'fail');$('rBadge').className='rbadge '+(passed?'pass':'fail');
+  $('resMsg').textContent=passed?('Passed with '+pct+' %. Get your certificate now!'):('Not yet: '+pct+' %. You need '+need+' / '+total+' (80 %). Look at the review and try again.');
+  $('getCert').style.display=passed?'block':'none';$('retry').textContent='↺ Start week '+cur.week+' again';
+  $('resCode').innerHTML=ST.k?'Your code (unchanged): <span class="codebox">'+encodeProgress(ST.name,ST.k)+'</span>':'';
+  $('resCode').style.display=(!passed&&ST.k)?'block':'none';
+  const bad=log.filter(l=>l.pts<1);let h='<h3>Review</h3>';
+  if(!bad.length)h+='<div class="row"><i class="v"></i><span>All correct. Brilliant!</span></div>';
+  bad.forEach(l=>{const q=l.q,pr=q.word||q.p;h+='<div class="row"><i class="'+(l.pts>0?'m':'x')+'"></i><span><b>'+esc(pr)+'</b><br>→ '+solutionText(q)+'</span></div>';});
+  $('review').innerHTML=h;show('screen-result');}
+$('retry').addEventListener('click',()=>tryStart(SETS.indexOf(cur)));
+$('toList').addEventListener('click',()=>{drawStart();show('screen-start');});
+$('getCert').addEventListener('click',cert);
+
+/* ---- certificate ---- */
+function cert(){const d=new Date(),i=SETS.indexOf(cur);applyMedalColors(cur.week,$('certBox'));
+  $('cNum').textContent=cur.week;$('cTitle').textContent='Week '+cur.week+' · '+cur.title;$('cName').textContent=ST.name;
+  $('cDate').textContent=String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();
+  $('cScore').textContent=fmt(score)+' / '+run.length+' ('+Math.round(score/run.length*100)+' %)';
+  const code=encodeProgress(ST.name,ST.k);$('cCode').textContent=code;
+  const nx=SETS[ST.k];$('cNext').textContent=nx?('✓ Week '+nx.week+' is open now.'):'✓ You have passed all weeks of this module.';
+  show('screen-cert');}
+$('copyBtn').addEventListener('click',()=>{const c=$('cCode').textContent;
+  const ok=()=>{$('copyBtn').textContent='✓ Copied';setTimeout(()=>$('copyBtn').textContent='📋 Copy',1500);};
+  try{navigator.clipboard.writeText(c).then(ok,()=>selectCode());}catch(e){selectCode();}});
+function selectCode(){const r=document.createRange();r.selectNodeContents($('cCode'));const s=getSelection();s.removeAllRanges();s.addRange(r);}
+$('again').addEventListener('click',()=>{drawStart();show('screen-start');});
+$('printBtn').addEventListener('click',()=>window.print());
+
+/* ---- teacher ---- */
+$('legend').innerHTML=SETS.map(s=>{const p=medal(s.week);return '<span><i style="background:'+p.base+';border-color:'+p.dark+'"></i>Woche '+s.week+': '+p.name+'</span>';}).join('');
+$('vBtn').addEventListener('click',()=>{const k=decodeProgress(cleanName($('vName').value),$('vCode').value),v=$('verdict');
+  if(k===null){v.className='verdict bad';v.innerHTML='✗ Ungültig<small>Name und Code passen nicht zusammen (oder Tippfehler).</small>';return;}
+  v.className='verdict ok';v.innerHTML='✓ Gültig für „'+esc(cleanName($('vName').value))+'“<small>'+SETS.map((s,i)=>'W'+s.week+(i<k?' ✓':' –')).join(' · ')+' · Stand: '+k+' von '+SETS.length+' Wochen bestanden</small>';});
+
+drawStart();
+window.__HA={POOLS,SETS,buildRun,encodeProgress,decodeProgress,nameKey,state:()=>({ST,cur,run,pos,score})};
+})();
+
+</script>
+</body>
+</html>
