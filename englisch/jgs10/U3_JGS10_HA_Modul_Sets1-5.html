@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Homework – Theme 3 “Global challenges” · Global Youth Summit</title>
+<style>
+:root{
+  --u:#13505B; --ud:#0B2A33; --ul:#8fc3ca; --us:#e6f1f2; --accent:#E8A33D;
+  --bg:#eef2f1; --ink:#1d2330; --muted:#5d6876; --line:#d9e1e3; --card:#fff;
+  --ok:#0b57a4; --okbg:#e3eefa; --oktx:#0b3d6e;
+  --ko:#d35f0b; --kobg:#fdebdf; --kotx:#a4410a;
+  --ic-ok:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%230b57a4'/%3E%3Cpath d='M6.5 12.5l3.5 3.5 7.5-8' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --ic-ko:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%23d35f0b'/%3E%3Cpath d='M8 8l8 8M16 8l-8 8' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  --medal-light:#FFE38A; --medal-base:#E8B923; --medal-dark:#9C7A0E;
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);line-height:1.5;-webkit-text-size-adjust:100%;
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  background:var(--bg) repeating-linear-gradient(135deg,rgba(19,80,91,.035) 0 2px,transparent 2px 14px)}
+h1,h2,h3{font-family:"Gill Sans","Gill Sans MT","Trebuchet MS","Segoe UI",sans-serif;letter-spacing:.2px}
+.wrap{max-width:760px;margin:0 auto;padding:14px 14px 60px}
+.hide{display:none!important}
+
+/* top bar = delegate pass */
+.top{background:linear-gradient(90deg,var(--ud),#123c47);color:#e9f3f4;padding:8px 14px}
+.top .in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.badge{display:flex;align-items:center;gap:8px;background:#fff;color:var(--ink);border-radius:8px;padding:4px 10px 4px 6px;font-size:.85rem;max-width:240px;position:relative}
+.badge::before{content:"";position:absolute;left:50%;top:3px;width:14px;height:3px;margin-left:-7px;background:#c7d3d6;border-radius:2px}
+.badge .av{width:26px;height:26px;border-radius:6px;background:var(--u);color:#fff;display:grid;place-items:center;font-weight:800;font-size:.78rem;flex:none}
+.badge b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .tt{flex:1 1 180px;font-weight:700;letter-spacing:1.5px;font-size:.8rem;text-transform:uppercase;color:#cfe6e8}
+.quorum{display:flex;gap:3px;align-items:center;font-size:.8rem}
+.quorum i{width:10px;height:14px;border-radius:2px;background:rgba(255,255,255,.18)} .quorum i.on{background:#9fe0e6}
+
+/* hero */
+.hero{background:radial-gradient(120% 90% at 50% 100%,#1d5c68 0%,var(--ud) 70%);color:#e9f3f4;border-radius:14px;padding:16px 14px 14px;margin:14px 0;text-align:center}
+.hero .kick{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:#9fd0d6}
+.hero h1{font-size:1.5rem;margin:2px 0 0;color:#fff}
+.hero .sub{color:#d6e9eb;font-size:.92rem;margin:2px 0 4px}
+.hero svg{display:block;width:100%;max-width:520px;height:auto;margin:4px auto 0}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:16px}
+.card h2{font-size:1.15rem;margin:0 0 10px}
+label{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{width:100%;padding:11px 12px;font-size:1rem;border:2px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font-family:inherit}
+input[type=text]:focus{outline:none;border-color:var(--u)}
+button{font-family:inherit;font-size:1rem;cursor:pointer;border:none;border-radius:10px}
+.btn{background:var(--u);color:#fff;padding:12px 20px;font-weight:700}
+.btn:hover{filter:brightness(1.12)}
+.btn-alt{background:var(--accent);color:#2a1a00}
+.btn-ghost{background:#fff;color:var(--u);border:2px solid var(--u);padding:10px 16px;font-weight:700}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center}
+.note{background:var(--us);border-radius:8px;padding:11px 13px;font-size:.92rem;color:#2c4a50}
+.warnmsg{color:var(--kotx);font-weight:600;margin-top:10px;font-size:.95rem}
+.oktxt{color:var(--oktx);font-weight:600}
+.codein{font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:2px;text-transform:uppercase;max-width:180px}
+.who{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.who .nm{font-size:1.15rem;font-weight:700}
+.linkbtn{background:none;color:var(--muted);text-decoration:underline;font-size:.88rem;padding:4px}
+
+/* agenda = sets */
+.agenda{display:grid;gap:12px}
+.item{display:flex;gap:14px;align-items:flex-start;width:100%;text-align:left;background:#fff;border:2px solid var(--sc,var(--u));border-top-width:6px;border-radius:12px;padding:14px;color:var(--ink);position:relative}
+.item:hover{box-shadow:0 0 0 2px var(--ul)}
+.item .seal{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.78rem;line-height:1.05;text-align:center;
+  background:var(--sl,var(--us));color:var(--sd,var(--u));border:2px dashed var(--sc,var(--ul))}
+.item .t{font-weight:700;font-size:1.02rem;display:block}
+.item .s{color:var(--muted);font-size:.88rem;display:block}
+.item .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.area{display:inline-block;font-size:.74rem;font-weight:700;border-radius:999px;padding:2px 9px;color:#fff;background:var(--ad)}
+.chip{display:inline-block;font-size:.78rem;font-weight:700;border-radius:999px;padding:2px 10px;background:var(--us);color:var(--u)}
+.item.done{background:linear-gradient(180deg,var(--sl,#fff),#fff 70%)}
+.item.done .seal{border:3px solid var(--medal-dark);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5);
+  background:radial-gradient(circle at 34% 30%,var(--medal-light) 0%,var(--medal-base) 58%,var(--medal-dark) 100%)}
+.item.done .chip.st{background:var(--okbg);color:var(--oktx)}
+.item.open .chip.st{background:#fff4dc;color:#6b4a00}
+.item.lock{opacity:.62;cursor:not-allowed}
+.item.lock .seal{border-style:solid;border-color:#c9d2d4;color:#8a969a;background:#f3f5f6}
+
+/* quiz */
+.qhead{display:flex;justify-content:space-between;gap:10px;font-size:.86rem;color:var(--muted)}
+.bar{height:8px;background:#e3e9ea;border-radius:6px;overflow:hidden;margin:6px 0 16px}
+.bar i{display:block;height:100%;background:var(--u);width:0;transition:width .25s}
+.podium{display:inline-flex;align-items:center;gap:8px;font-size:.74rem;letter-spacing:2px;text-transform:uppercase;color:#fff;background:var(--ad,var(--u));border-radius:999px;padding:3px 12px 3px 8px;font-weight:700;margin-bottom:8px}
+.podium::before{content:"";width:14px;height:11px;border-radius:2px 2px 0 0;background:var(--ac,#fff)}
+#qcard{border:2px solid var(--ac,var(--line));border-top-width:7px;border-radius:12px}
+#qcard .bar i{background:var(--ac,var(--u))}
+.consigne{color:var(--ad,var(--ud))!important}
+.consigne{font-weight:700;font-size:1.06rem;margin:0 0 4px;color:var(--ud)}
+.prompt{font-size:1.12rem;margin:8px 0 14px}
+.prompt .gap{display:inline-block;min-width:70px;border-bottom:2px solid var(--accent)}
+.cue{font-size:.9rem;color:var(--muted);font-style:italic}
+.opts{display:grid;gap:9px}
+.opt{position:relative;width:100%;text-align:left;background:#f4f7f7;color:var(--ink);padding:12px 44px 12px 14px;border:2px solid transparent;font-size:1rem;border-radius:8px}
+.opt:hover{border-color:var(--ul)}
+.opt.sel{border-color:var(--u);background:var(--us)}
+.opt.ok{border:2px solid var(--ok);background:var(--okbg);color:var(--oktx)}
+.opt.no{border:2px dashed var(--ko);background:var(--kobg);color:var(--kotx)}
+.opt.ok::after,.opt.no::after,.answerline.ok::after,.answerline.no::after,.mrow.ok::after,.mrow.no::after{content:"";position:absolute;right:10px;top:50%;width:22px;height:22px;margin-top:-11px;background-size:contain;background-repeat:no-repeat}
+.opt.ok::after,.answerline.ok::after,.mrow.ok::after{background-image:var(--ic-ok)}
+.opt.no::after,.answerline.no::after,.mrow.no::after{background-image:var(--ic-ko)}
+input.ok{border:2px solid var(--ok)!important;background:var(--okbg) var(--ic-ok) no-repeat right 10px center/22px!important;padding-right:42px}
+input.no{border:2px dashed var(--ko)!important;background:var(--kobg) var(--ic-ko) no-repeat right 10px center/22px!important;padding-right:42px}
+.words{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 6px}
+.word{background:#f4f7f7;border:2px solid var(--line);padding:8px 12px;font-size:1rem;color:var(--ink);border-radius:8px}
+.word.used{opacity:.3;pointer-events:none}
+.answerline{position:relative;min-height:52px;border:2px dashed #b9c8cb;border-radius:8px;padding:8px 42px 8px 8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#fff}
+.answerline .word{background:var(--u);color:#fff;border-color:var(--u)}
+.answerline .ph{color:var(--muted);font-size:.92rem;padding-left:4px}
+.answerline.ok{border:2px solid var(--ok);background:var(--okbg)}
+.answerline.no{border:2px dashed var(--ko);background:var(--kobg)}
+.mrow{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;margin-bottom:9px;padding-right:34px}
+.mrow .l{background:#f4f7f7;padding:10px 12px;border-radius:8px;font-weight:600}
+select{width:100%;padding:10px;font-size:1rem;font-family:inherit;border:2px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+select.ok{border:2px solid var(--ok);background:var(--okbg);color:var(--oktx)}
+select.no{border:2px dashed var(--ko);background:var(--kobg);color:var(--kotx)}
+.aidebtn{background:#fff;color:var(--u);border:2px solid var(--ul);padding:8px 14px;font-weight:700;font-size:.92rem}
+.aide{background:var(--ud);color:#fff;border-radius:8px;padding:12px 14px;font-size:.96rem;width:100%}
+.aide b{color:#f2c879}
+.fb{border-radius:8px;padding:12px 14px 12px 46px;margin-top:14px;position:relative}
+.fb::before{content:"";position:absolute;left:14px;top:13px;width:22px;height:22px;background-size:contain;background-repeat:no-repeat}
+.fb.ok{background:var(--okbg);border:2px solid var(--ok);color:var(--oktx)} .fb.ok::before{background-image:var(--ic-ok)}
+.fb.no{background:var(--kobg);border:2px dashed var(--ko);color:var(--kotx)} .fb.no::before{background-image:var(--ic-ko)}
+.fb b{display:block;margin-bottom:2px}
+.fb .why{display:block;margin-top:6px;color:var(--ink)}
+
+/* certificate = delegate credential */
+.cert{position:relative;background:linear-gradient(160deg,var(--ud),#173f49);color:#eef6f7;border-radius:16px;padding:44px 22px 26px;text-align:center;overflow:hidden;border-bottom:8px solid var(--medal-base)}
+.cert::before{content:"";position:absolute;left:50%;top:12px;width:56px;height:8px;margin-left:-28px;border-radius:5px;background:rgba(255,255,255,.22)}
+.cert .arc{position:absolute;left:50%;bottom:-150px;width:420px;height:300px;margin-left:-210px;border-radius:50%;border:18px solid rgba(255,255,255,.04)}
+.cert .inner{position:relative}
+.medal{width:96px;height:96px;border-radius:50%;margin:0 auto 12px;
+  background:radial-gradient(circle at 34% 30%,var(--medal-light) 0%,var(--medal-base) 58%,var(--medal-dark) 100%);
+  border:4px solid var(--medal-dark);box-shadow:0 0 0 3px rgba(255,255,255,.55),0 6px 14px rgba(0,0,0,.35);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.55)}
+.medal small{font-size:.68rem;letter-spacing:.16em;font-weight:700}
+.medal span{font-size:1.7rem;font-weight:800;line-height:1.05}
+.cert .band{display:inline-block;font-size:.72rem;letter-spacing:4px;font-weight:800;color:#2a1a00;background:var(--medal-light);padding:3px 12px;border-radius:4px}
+.cert h2{font-size:1.45rem;margin:10px 0 2px;color:#fff}
+.cert .sub{color:#cfe3e6;font-size:.92rem}
+.cert .lbl{color:#9fd0d6;font-size:.78rem;letter-spacing:2px;text-transform:uppercase;margin-top:16px}
+.cert .name{font-size:1.75rem;font-weight:700;margin:2px 0;word-break:break-word}
+.cert .line{height:2px;background:rgba(255,255,255,.25);margin:14px auto;max-width:280px}
+.cert .score{font-size:2.4rem;font-weight:800;color:var(--medal-light);line-height:1.1}
+.cert .date{color:#cfe3e6;font-size:.9rem}
+.codebox{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;background:#fff;color:var(--ink);border:2px dashed var(--u);border-radius:10px;padding:10px 14px;margin-top:14px}
+.codebox code{font-family:ui-monospace,Menlo,Consolas,"Courier New",monospace;font-size:1.35rem;font-weight:700;letter-spacing:3px;white-space:nowrap;color:var(--ud)}
+.codebox .cp{background:var(--us);color:var(--u);padding:6px 12px;font-weight:700;font-size:.9rem}
+.unlock{margin-top:10px;color:#d7f0f2;font-weight:600}
+.todo{background:#fff4dc;color:#4a3300;border-radius:10px;padding:13px 15px;font-weight:600;margin-top:16px;text-align:left}
+.fail{background:var(--kobg);border:2px dashed var(--ko);border-radius:12px;padding:20px}
+.fail h2{color:var(--kotx);margin-top:0}
+
+.teacher{margin-top:8px;text-align:center}
+.tbox{background:var(--ud);color:#eef6f7;border-radius:12px;padding:18px 20px;margin-top:10px;text-align:left;font-size:.92rem}
+.tbox h3{margin:0 0 8px;color:#f2c879;font-size:1.05rem}
+.tbox h4{margin:14px 0 4px;color:#9fd0d6;font-size:.95rem}
+.tbox label{color:#cfe3e6;font-size:.86rem;margin-top:8px}
+.tbox .out{margin-top:12px;background:rgba(255,255,255,.09);border-radius:8px;padding:10px 12px}
+.tbox table{width:100%;border-collapse:collapse;margin-top:6px}
+.tbox td{padding:4px 6px;border-top:1px solid rgba(255,255,255,.15);vertical-align:top}
+.swatch{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:middle;margin-right:6px;border:1px solid rgba(255,255,255,.6)}
+.tbox ul{margin:4px 0;padding-left:18px}
+footer{font-size:.8rem;color:var(--muted);text-align:center;margin-top:18px}
+@media (max-width:520px){
+  .mrow{grid-template-columns:1fr}
+  .cert .name{font-size:1.4rem}
+  .hero h1{font-size:1.3rem}
+  .top .tt{display:none}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <span class="badge"><span class="av" id="av">?</span><b id="bname">Delegate</b></span>
+  <span class="tt">Global Youth Summit · Homework</span>
+  <span class="quorum" id="quorum" aria-label="sets passed"></span>
+</div></header>
+
+<div class="wrap">
+<section id="screen-start">
+  <div class="hero">
+    <div class="kick">English · Year 10 · Theme 3 · Global challenges</div>
+    <h1>Homework sessions</h1>
+    <div class="sub">Five sessions · twelve questions each · your seat in the hall</div>
+    <svg viewBox="0 0 520 170" aria-hidden="true" id="hall"></svg>
+  </div>
+
+  <div class="card" id="idcard">
+    <div id="id-form">
+      <label for="nom">Write your first name and surname.</label>
+      <input type="text" id="nom" placeholder="First name Surname" autocomplete="off">
+      <div class="note" style="margin-top:10px">Always write your name the same way – your code only works with your name.</div>
+      <label for="code" style="margin-top:14px">🔑 Already have a code? Type it here:</label>
+      <div class="row" style="margin-top:0">
+        <input type="text" id="code" class="codein" placeholder="ABC-DEF" autocomplete="off" spellcheck="false">
+        <button class="btn-ghost" id="btn-code">Continue</button>
+      </div>
+      <div class="note" style="margin-top:10px">First time? Just write your name and choose session 1.</div>
+      <div id="idwarn" class="warnmsg hide"></div>
+    </div>
+    <div id="id-known" class="hide">
+      <div class="who"><span class="nm" id="knm"></span><span class="chip" id="kk"></span></div>
+      <div id="kcode"></div>
+      <div class="row"><button class="linkbtn" id="btn-notme">This isn’t me</button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>The agenda</h2>
+    <div class="agenda" id="agenda"></div>
+  </div>
+
+  <div class="card">
+    <h2>How it works</h2>
+    <ol style="margin:0;padding-left:20px">
+      <li>Write your name, then open the session for this week.</li>
+      <li>Answer the 12 questions. You get the correction straight away.</li>
+      <li>From <b>80 %</b> you receive your delegate certificate – and a <b>code</b>.</li>
+      <li>Take a screenshot of the certificate and upload it to the MS Teams assignment.</li>
+      <li>Write your code in your exercise book. Next week, type your name and your code – the next session opens.</li>
+    </ol>
+    <div class="note" style="margin-top:10px">🔒 A session opens only when the session before it is passed with 80 %. Under 80 %? Start again as often as you like. The 💡 <b>Help</b> button costs no points. Plan about <b>20 minutes</b> per session.<br><b>Nothing is saved when you close the page – write down your code!</b></div>
+  </div>
+
+  <div class="teacher">
+    <button class="linkbtn" id="tlink">For the teacher</button>
+    <div id="tpanel" class="hide"></div>
+  </div>
+  <footer>Own exercises for Camden Town Oberstufe, Theme 3 (SB pp. 60–84; word list Theme 3, Webcode WES-73630-06). Nothing is stored on a server.</footer>
+</section>
+
+<section id="screen-quiz" class="hide">
+  <div class="card" id="qcard">
+    <div class="qhead"><span id="q-mod"></span><span id="q-count"></span></div>
+    <div class="bar"><i id="q-bar"></i></div>
+    <div class="podium" id="q-area">On the floor</div>
+    <p class="consigne" id="q-consigne"></p>
+    <div class="prompt" id="q-prompt"></div>
+    <div id="q-body"></div>
+    <div id="q-aide" class="row"></div>
+    <div id="q-warn" class="warnmsg hide"></div>
+    <div id="q-fb"></div>
+    <div class="row">
+      <button class="btn" id="btn-check">Check</button>
+      <button class="btn btn-alt hide" id="btn-next">Next question</button>
+      <button class="btn-ghost" id="btn-quit">Back to the agenda</button>
+    </div>
+  </div>
+</section>
+
+<section id="screen-end" class="hide">
+  <div id="end-body"></div>
+  <div class="row">
+    <button class="btn" id="btn-retry">Do this session again</button>
+    <button class="btn-ghost" id="btn-menu">Back to the agenda</button>
+  </div>
+</section>
+</div>
+
+<script>
+function norm(s){
+  return String(s==null?"":s).normalize("NFC")
+    .replace(/[’‘´`ʼ]/g,"'")
+    .replace(/[«»“”"]/g," ")
+    .toLowerCase()
+    .replace(/\s*'\s*/g,"'")
+    .replace(/\s*\/\s*/g,"/")
+    .replace(/\s+[-–—]\s+/g," ")
+    .replace(/[.!?¡¿;:,…]/g," ")   // ¡ ¿ (ES) wie andere Satzzeichen
+    .replace(/\s+/g," ").trim();
+}
+
+// Platzhalter, die in einer SuS-Antwort fehlen dürfen (FR/ES/EN/DE)
+const _PH = /^(qn|qc|algn|algo|alguien|sb|sth|s\.o\.|s\.th\.|someone|something|jdn|jdm|jds|jmd|jmdn|jmdm|etw)(\/(qn|qc|algn|algo|alguien|sb|sth|jdn|jdm|jds|jmd|jmdn|jmdm|etw))*$/;
+function _stripPH(s){
+  const t = (" "+s+" ")
+    .replace(/ quelque chose /g," ").replace(/ quelqu'un /g," ")
+    .replace(/ algo /g," ").replace(/ alguien /g," ")
+    .replace(/ something /g," ").replace(/ someone /g," ")
+    .trim().split(" ").filter(w=>!_PH.test(w));
+  return t.join(" ");
+}
+
+// Klammern direkt am Wort = Wortbestandteil: "(Schuss)waffe", "zu(aller)erst", "seul(e)", "forward(s)", "Sicherheit(s-)"
+const _LET = /[A-Za-zÀ-ÖØ-öø-ÿ]/;
+function _expandGlued(s){
+  let out=[s];
+  for(let g=0; g<6; g++){
+    let changed=false; const next=[];
+    out.forEach(t=>{
+      const re=/(\S?)\(([^()]*)\)(\S?)/g; let m, hit=null;
+      while((m=re.exec(t))){ if(_LET.test(m[1])||_LET.test(m[3])){ hit=m; break; } re.lastIndex=m.index+1; }
+      if(hit){ const inner=hit[2].replace(/-$/,""), pre=t.slice(0,hit.index)+hit[1], post=hit[3]+t.slice(hit.index+hit[0].length);
+        next.push(pre+inner+post, pre+post); changed=true; }
+      else next.push(t);
+    });
+    out=next; if(!changed) break;
+  }
+  return out;
+}
+
+// Klammern mit Leerzeichen davor = optionaler Teil: "rendre qc (à qn)" → ["rendre qc à qn", "rendre qc"]
+function _expandParens(s, depth){
+  depth = depth||0;
+  const m = s.match(/\(([^()]*)\)/);
+  if(!m || depth>4) return [s.replace(/[()]/g," ")];
+  const pre = s.slice(0,m.index), post = s.slice(m.index+m[0].length);
+  return _expandParens(pre+" "+m[1]+" "+post, depth+1)
+    .concat(_expandParens(pre+" "+post, depth+1));
+}
+
+const _ART = ["le","la","l'","les","un","une","el","la","los","las","un","una","the","a","an","der","die","das","den","dem","ein","eine"];
+
+// löst Schrägstrich-Varianten auf: "seul/seule" → ["seul","seule"]; "Streber/in" → ["Streber","Streberin"]
+function _expandSlashes(s){
+  let combos = [""];
+  s.split(" ").forEach(tok=>{
+    let alts = [tok];
+    if(tok.indexOf("/")>0){
+      const p = tok.split("/").filter(Boolean);
+      alts = [tok];
+      p.forEach((a,i)=>{
+        // „alumno/-a“ → alumna (Endvokal ersetzt), „profesor/-a“ → profesora (angehängt)
+        if(i>0 && /^-[a-zà-ÿ]{1,3}$/.test(a)){
+          const suf=a.slice(1);
+          alts.push(/[aeiou]$/.test(p[0]) && /^[aeiou]/.test(suf) ? p[0].slice(0,-1)+suf : p[0]+suf);
+        }
+        else if(i>0 && a.length<=2 && _ART.indexOf(a)<0) alts.push(p[0]+a);
+        else alts.push(a);
+      });
+    }
+    const next = [];
+    combos.forEach(c=>alts.forEach(a=>{ if(next.length<64) next.push(c? c+" "+a : a); }));
+    combos = next;
+  });
+  return combos;
+}
+
+function _dropArticle(s){
+  return s.replace(/^(der|die|das|den|dem|ein|eine|le|la|les|l'|un|une|el|los|las|the|an) /,"");
+}
+
+// de:true → deutscher Artikel darf fehlen (Standardfall bei Wortschatz-Abfragen Zielsprache→Deutsch)
+function answerKeys(ans, de){
+  const out = new Set();
+  const add = x => { x = (x||"").replace(/\s+/g," ").trim(); if(x) out.add(x); };
+  _expandGlued(String(ans==null?"":ans)).forEach(g=>{
+    _expandParens(g.replace(/(\S)-(?=\s|$)/g,"$1")).forEach(p=>{   // "Lebensmittel-" → "Lebensmittel"
+      const b = norm(p);
+      [b].concat(_expandSlashes(b), b.split("/")).forEach(e=>{
+        add(e); add(_stripPH(e));
+        if(de){ add(_dropArticle(e)); add(_dropArticle(_stripPH(e))); }
+      });
+    });
+  });
+  return out;
+}
+
+function inputKeys(inp, de){
+  const out = new Set();
+  const add = x => { x = (x||"").replace(/\s+/g," ").trim(); if(x) out.add(x); };
+  const raw = String(inp==null?"":inp), forms = [];
+  [raw].concat(_expandGlued(raw)).forEach(v=>{
+    v = v.replace(/(\S)-(?=\s|$)/g,"$1");
+    forms.push(norm(v), norm(v.replace(/[()]/g," ")));
+  });
+  forms.forEach(x=>{
+    add(x); add(_stripPH(x));
+    if(de){ add(_dropArticle(x)); add(_dropArticle(_stripPH(x))); }
+  });
+  return out;
+}
+
+function _deaccentFirst(s){
+  return s ? s.charAt(0).normalize("NFD").replace(/[̀-ͯ]/g,"") + s.slice(1) : s;
+}
+
+function accepts(input, answers, opt){
+  const de = !!(opt && opt.de);
+  const ins = inputKeys(input, de);
+  if(ins.size===0) return false;
+  const capStart = /^[A-ZÀÉÈÊÂÎÔÛÇÑÁÍÓÚÜ]/.test(String(input||"").trim());
+  const list = Array.isArray(answers) ? answers : [answers];
+  for(const a of list){
+    for(const k of answerKeys(a, de)){
+      if(ins.has(k)) return true;
+      if(capStart){ const kk=_deaccentFirst(k); if(ins.has(kk)) return true; }
+    }
+  }
+  return false;
+}
+
+/* Bedeutungsliste aus einem Wortlisten-Eintrag: "in Verbindung bringen, hier: Kontakt haben/halten"
+   → ["in Verbindung bringen, hier: …", "in Verbindung bringen", "Kontakt haben/halten"] (jede Bedeutung einzeln richtig).
+   Kommas in Klammern trennen nicht ("ältere(r, s)"); "(auch:)", "(hier:)", "hier AE:" werden entfernt. */
+function splitMeanings(s){
+  const raw=[]; let cur="", d=0;
+  for(const ch of String(s)){
+    if(ch==="(") d++; if(ch===")") d=Math.max(0,d-1);
+    if((ch===","||ch===";") && !d){ raw.push(cur); cur=""; } else cur+=ch;
+  }
+  raw.push(cur);
+  const parts = raw.map(x=>x.replace(/^\s*(\(?(hier|auch)\)?( AE| BE)?|fig\.|ugs\.)\s*:?\)?\s*/i,"").trim()).filter(Boolean);
+  return [String(s)].concat(parts);
+}
+
+/* Fast richtig? Genau ein Zeichen Abstand (Levenshtein) ab 4 Zeichen. Nie als richtig werten, wenn
+   die Zielsprache abgefragt wird – nur als „Almost“ mit zweitem Versuch. Akzentfehler (ecole/école) fallen hierunter. */
+function _lev(a,b){ if(a===b) return 0; const m=a.length,n=b.length; if(!m) return n; if(!n) return m;
+  let p=Array.from({length:n+1},(_,j)=>j);
+  for(let i=1;i<=m;i++){ const c=[i]; for(let j=1;j<=n;j++) c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1)); p=c; }
+  return p[n]; }
+function nearMiss(input, answers, opt){
+  const ins = inputKeys(input, opt && opt.de);
+  const list = Array.isArray(answers) ? answers : [answers];
+  for(const a of list) for(const k of answerKeys(a, opt && opt.de)) for(const i of ins)
+    if(k.length>=4 && _lev(i,k)<=1) return true;
+  return false;
+}
+
+/* Nur Akzentfehler? Erkennt fehlende oder vertauschte Akzente an Stellen, an denen die Lösung einen hat.
+   Ein zusätzlicher Akzent (révise → révisé) ist ein Formfehler, kein Akzentfehler. */
+function deacc(s){ return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/œ/g,"oe"); }
+function _baseCh(c){ return c.normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function accentOnly(input, answers){
+  const raw=norm(input); const i=deacc(input); if(!i) return false;
+  const list = Array.isArray(answers) ? answers : [answers];
+  for(const a of list) for(const k of answerKeys(a,false)){
+    if(deacc(k)!==i || k===raw) continue;
+    const A=Array.from(raw), K=Array.from(k); if(A.length!==K.length) continue;
+    if(A.every((c,j)=>c===K[j] || (_baseCh(K[j])!==K[j] && (_baseCh(K[j])===c || _baseCh(c)===_baseCh(K[j]))))) return true;
+  }
+  return false;
+}
+
+/* ============================================================
+   DATA – Homework module Unit 3 "Global challenges: In times of rapid change" (Kl. 10)
+   Vocabulary: publisher word list Theme 3 (Webcode WES-73630-06), SB pp. 60–77,
+               German meanings and example sentences from that list.
+   Theme 2 retrieval only where the list repeats the word (hostility, to encounter, to adapt).
+   Grammar:    SchiC Kl. 10 – gerunds and infinitives (introduced inductively in T5).
+   Own formulations (marked in the teacher area): English definitions of chart verbs and
+               language devices, mediation and summary items, all distractor explanations.
+   Quotation Set 5/11: Barack Obama, UN Climate Summit, 23 Sept 2014 (SB pp. 73–75).
+   Order of SETS must never change while codes are in use (append only).
+   ============================================================ */
+var SETS = [
+{
+  id:1, due:"due Tue 8 Dec",
+  title:"First words: migration, climate, global economy",
+  sub:"SB pp. 60–63 (headlines, WordPool) · describing a cartoon",
+  questions:[
+    {type:"qcm", consigne:"Choose the correct German meaning.", prompt:"“drought”",
+     options:["Dürre, Trockenheit","Hungersnot","Überschwemmung","Erdbeben"], answer:0,
+     aide:"During a ___, you are not allowed to water your garden."},
+    {type:"qcm", consigne:"Choose the correct German meaning.", prompt:"“famine”",
+     options:["Armut","Hungersnot","Seuche","Dürre"], answer:1,
+     aide:"The potato ___ in Ireland forced many people to emigrate."},
+    {type:"qcm", consigne:"Choose the correct German meaning.", prompt:"“to deport”",
+     options:["einwandern","einbürgern","abschieben","ausreisen"], answer:2,
+     aide:"The criminal was ___ to his home country to be prosecuted."},
+    {type:"match", consigne:"Match each word to its German meaning.", prompt:"WordPool: migration",
+     pairs:[["refugee","Flüchtling"],["xenophobia","Fremdenfeindlichkeit"],["hostility","Feindseligkeit"],["unrest","Unruhe(n)"]],
+     aide:"You know one of these words from Theme 2: his suggestions were met with ___ from the other team members."},
+    {type:"text", consigne:"Complete the sentence.", prompt:"There are many camps for ___ along the border.",
+     answers:["refugees"],
+     aide:"People who have to leave their country because of war or danger. Careful: plural."},
+    {type:"text", consigne:"Complete the sentence.", prompt:"It’s easier to ___ into a new country when you can speak the language.",
+     answers:["integrate"],
+     aide:"German: (sich) integrieren."},
+    {type:"match", consigne:"Match each word to its German meaning.", prompt:"WordPool: climate and energy",
+     pairs:[["fossil fuel","fossiler Brennstoff"],["greenhouse gas","Treibhausgas"],["consumption","Verbrauch, Konsum"],["carbon","Kohlenstoff"]],
+     aide:"The main ___ are coal, oil and natural gas."},
+    {type:"qcm", consigne:"Choose the correct German meaning.", prompt:"“vulnerable”",
+     options:["wertvoll","verantwortlich","verwundbar, verletzlich","gefährlich"], answer:2,
+     aide:"She felt very ___ waiting alone in the dark at the bus stop."},
+    {type:"match", consigne:"Match each word to its German meaning.", prompt:"WordPool: global economy",
+     pairs:[["sweatshop","Ausbeutungsbetrieb"],["wage(s)","Lohn"],["crop","Feldfrucht, Ernte"],["labour","Arbeit"]],
+     aide:"Jobs in London often offer higher ___ than jobs elsewhere in the UK."},
+    {type:"text", consigne:"Complete with the correct form of the verb.", prompt:"The assassination of the diplomat ___ war between the two countries. &nbsp;<span class='cue'>(to trigger)</span>",
+     answers:["triggered"],
+     aide:"German: auslösen. The sentence is about the past."},
+    {type:"qcm", consigne:"Describing a cartoon: which sentence is correct?", prompt:"",
+     options:["In the foreground, two men are sitting at a table.","In the foreground, two men sit at a table every day.","In the front ground, two men are sitting at a table."], answer:0,
+     whys:["","You describe what is happening in the picture right now – use the present progressive.","The word is “foreground” (Vordergrund)."],
+     aide:"Use the present progressive for what people in a cartoon are doing."},
+    {type:"order", consigne:"Put the sentence in the correct order.", prompt:"Interpreting a cartoon",
+     words:["The","cartoon","shows","that","politicians","act","too","slowly"],
+     answers:["The cartoon shows that politicians act too slowly"],
+     aide:"Start with “The cartoon …”. The that-clause has normal word order: subject – verb – adverb."}
+  ]
+},
+{
+  id:2, due:"due Tue 15 Dec",
+  title:"Energy: charts and discussions",
+  sub:"SB pp. 72f. (statistics, cartoons) · gerunds and infinitives",
+  questions:[
+    {type:"qcm", consigne:"Choose the correct German meaning.", prompt:"“to surge”",
+     options:["schwanken","steil ansteigen","sinken","stagnieren"], answer:1,
+     aide:"The number of visitors to Brazil ___ when it hosted the Olympic Games."},
+    {type:"qcm", consigne:"Choose the correct German meaning.", prompt:"“demand”",
+     options:["Angebot","Preis","(An)forderung, Nachfrage","Verbrauch"], answer:2,
+     aide:"There is an increasing ___ for housing as the population grows."},
+    {type:"qcm", consigne:"Choose the correct German meaning.", prompt:"“hydro (= hydroelectric)”",
+     options:["Wasserkraft(-)","Windkraft(-)","Kernkraft(-)","Erdwärme(-)"], answer:0,
+     aide:"The Greek word <i>hydor</i> means ‘water’."},
+    {type:"match", consigne:"Talking about charts: match each verb to its meaning.", prompt:"Chart language",
+     pairs:[["to rise","to go up"],["to fall","to go down"],["to double","to become twice as big"],["to level off","to stop rising or falling"]],
+     aide:"“Level” can mean flat. A line that levels off becomes flat."},
+    {type:"qcm", consigne:"Talking about charts: which sentence is correct?", prompt:"The share of coal fell from 50 % to 30 %.",
+     options:["It fell by 20 percentage points.","It fell by 20 per cent.","It fell by 30 percentage points."], answer:0,
+     whys:["","20 per cent of 50 % would be only 10 points. The difference between two percentages is measured in percentage points.","Calculate the difference: 50 minus 30."],
+     aide:"The difference between two percentages: 50 – 30 = ?"},
+    {type:"text", consigne:"Complete with the correct form of the verb.", prompt:"Between 2015 and 2025, the use of wind and solar power ___ sharply. &nbsp;<span class='cue'>(rise)</span>",
+     answers:["rose"],
+     aide:"Irregular verb: rise – rose – risen. The time period is finished."},
+    {type:"qcm", consigne:"Which sentence is a good <b>first sentence</b> for a chart talk?", prompt:"",
+     options:["This bar chart shows how electricity was produced in Northland in 2015 and 2025.","Coal is the worst energy source of all.","I think this chart is very interesting."], answer:0,
+     whys:["","That is an opinion. First say what the chart shows: topic, place, time.","That says nothing about the chart. Name the topic, the place and the time."],
+     aide:"A good first sentence names the type of chart, the topic, the place and the time."},
+    {type:"qcm", consigne:"Grammar: choose the correct form.", prompt:"I suggest ___ more solar panels on the school roof.",
+     options:["installing","to install","install"], answer:0,
+     whys:["","After <i>suggest</i> we use the -ing form, not the to-infinitive.","After <i>suggest</i> you need the -ing form."],
+     aide:"<i>suggest</i> works like <i>enjoy</i> and <i>avoid</i>."},
+    {type:"qcm", consigne:"Grammar: choose the correct form.", prompt:"Our town has decided ___ a new wind farm.",
+     options:["building","to build","build"], answer:1,
+     whys:["After <i>decide</i> we use the to-infinitive.","","After <i>decide</i> you need <i>to</i> + verb."],
+     aide:"<i>decide</i> works like <i>want</i>, <i>plan</i> and <i>hope</i>."},
+    {type:"text", consigne:"Grammar: complete the sentence.", prompt:"I can’t stand ___ about the climate without doing anything. &nbsp;<span class='cue'>(talk)</span>",
+     answers:["talking"],
+     aide:"<i>can’t stand</i> is followed by the -ing form – just like <i>doing</i> in the same sentence."},
+    {type:"match", consigne:"Grammar: which form follows each verb?", prompt:"-ing or to?",
+     pairs:[["enjoy","+ -ing"],["refuse","+ to + verb"],["avoid","+ -ing"],["promise","+ to + verb"]],
+     options:["+ -ing","+ to + verb"],
+     aide:"Two verbs take the -ing form, two take the to-infinitive."},
+    {type:"text", consigne:"Grammar: complete the sentence.", prompt:"Saving energy at school is worth ___ about. &nbsp;<span class='cue'>(think)</span>",
+     answers:["thinking"],
+     aide:"<i>to be worth</i> is always followed by the -ing form."}
+  ]
+},
+{
+  id:3, due:"due Tue 12 Jan",
+  title:"Migration: reading and summarizing an article",
+  sub:"Workshop SB pp. 64–69 · summary · language analysis",
+  questions:[
+    {type:"qcm", consigne:"Choose the correct German meaning.", prompt:"“to vilify”",
+     options:["loben","verunglimpfen, verleumden","ignorieren","wählen"], answer:1,
+     aide:"The candidate ___ his opponent in front of the TV crew."},
+    {type:"qcm", consigne:"Choose the correct German meaning.", prompt:"“crucial”",
+     options:["grausam","zufällig","entscheidend, äußerst wichtig","neugierig"], answer:2,
+     aide:"Baking powder is a ___ ingredient in the recipe: without it, the cake won’t rise."},
+    {type:"match", consigne:"Match each word to its German meaning.", prompt:"Workshop",
+     pairs:[["to embrace","umarmen, aufgreifen"],["to naturalize","einbürgern"],["to enable","ermöglichen"],["to omit","weglassen"]],
+     aide:"After 20 years in the UK, she was finally ___ and received her British passport."},
+    {type:"text", consigne:"Complete the sentence.", prompt:"In ___ of this new evidence, the police are reopening the case.",
+     answers:["light","the light"],
+     aide:"German: angesichts, vor dem Hintergrund."},
+    {type:"text", consigne:"Complete with the correct form of the verb.", prompt:"All his hard work ___ in a place at the best university in the country. &nbsp;<span class='cue'>(to culminate)</span>",
+     answers:["culminated"],
+     aide:"German: gipfeln. The sentence is about the past."},
+    {type:"qcm", consigne:"Choose the correct German meaning.", prompt:"“mutual”",
+     options:["einseitig","gegenseitig","stumm","veränderlich"], answer:1,
+     aide:"The couple’s decision to break up was ___ – both wanted it."},
+    {type:"qcm", consigne:"Writing a summary: what belongs in it?", prompt:"",
+     options:["the main ideas of the text in your own words","quotations from the text and your own opinion","every detail, in the same order as the text"], answer:0,
+     whys:["","A summary is neutral and short: no quotations, no opinion.","A summary leaves out details and examples."],
+     aide:"A summary is short and neutral."},
+    {type:"qcm", consigne:"Writing a summary: which tense do you normally use?", prompt:"",
+     options:["the simple past","the simple present","the will-future"], answer:1,
+     whys:["You report what the text says – that is still true now.","","A summary reports what the text says, not what will happen."],
+     aide:"“The author <b>explains</b> that …”"},
+    {type:"match", consigne:"Language analysis: match each device to its description.", prompt:"Language devices",
+     pairs:[["rhetorical question","a question that needs no answer"],["alliteration","words that start with the same sound"],["enumeration","a list of examples or facts"],["emotive language","words that create strong feelings"]],
+     aide:"“Enumerate” means to count or list."},
+    {type:"qcm", consigne:"Grammar: choose the correct form.", prompt:"The government refused ___ the law.",
+     options:["changing","to change","change"], answer:1,
+     whys:["After <i>refuse</i> we use the to-infinitive.","","After <i>refuse</i> you need <i>to</i> + verb."],
+     aide:"<i>refuse</i> works like <i>promise</i> and <i>decide</i>."},
+    {type:"text", consigne:"Grammar: complete the sentence.", prompt:"Many immigrants look forward to ___ citizens one day. &nbsp;<span class='cue'>(become)</span>",
+     answers:["becoming"],
+     aide:"Careful: in <i>look forward to</i>, “to” is a preposition – so the -ing form follows."},
+    {type:"order", consigne:"Put the sentence for a summary in the correct order.", prompt:"",
+     words:["The","author","claims","that","immigrants","are","crucial","for","the","economy"],
+     answers:["The author claims that immigrants are crucial for the economy"],
+     aide:"Start with “The author …”, then the reporting verb."}
+  ]
+},
+{
+  id:4, due:"due Tue 19 Jan",
+  title:"Mediation – and revision for the vocabulary test",
+  sub:"Skills training SB pp. 78–84 · word list Theme 3 (vocabulary test Tue 19 Jan)",
+  questions:[
+    {type:"qcm", consigne:"Mediation: what is it?", prompt:"",
+     options:["passing on the important information in another language, for a certain person and purpose","translating every sentence word for word","giving your opinion on a German text in English"], answer:0,
+     whys:["","Mediation is not a translation. You choose what is important for your reader.","Your opinion is not part of mediation – you pass on information."],
+     aide:"Think of the task: someone needs information, you help them."},
+    {type:"qcm", consigne:"Mediation: what do you check <b>first</b>?", prompt:"",
+     options:["how many words the German text has","who you are writing for and why","which German words you don’t know"], answer:1,
+     whys:["The length of the German text does not decide what you write.","","Unknown words matter later. First decide what your reader needs."],
+     aide:"The task always names a person and a purpose."},
+    {type:"qcm", consigne:"Mediation: you write an e-mail to your British exchange partner. Which beginning fits?", prompt:"",
+     options:["Dear Sir or Madam,","Hi Jack, you asked me about our school, so here’s what I found out.","To whom it may concern:"], answer:1,
+     whys:["That is for a formal letter to a stranger.","","That is for very formal letters."],
+     aide:"An exchange partner is a friend of your age: informal register."},
+    {type:"qcm", consigne:"Mediation: a German word has no English equivalent (e.g. “Willkommensklasse”). What do you do?", prompt:"",
+     options:["leave it out","translate it word for word and add nothing","explain it in simple English"], answer:2,
+     whys:["Your reader then misses important information.","A word-for-word translation may not make sense to your reader.",""],
+     aide:"Your reader must understand the idea."},
+    {type:"qcm", consigne:"Choose the correct German meaning.", prompt:"“to denounce”",
+     options:["verkünden","verurteilen, beschuldigen","verteidigen","verzichten"], answer:1,
+     aide:"The activist ___ the company’s policies for harming the environment."},
+    {type:"qcm", consigne:"Choose the correct German meaning.", prompt:"“ordeal”",
+     options:["Anordnung","Abenteuer","Tortur, Quälerei","Urteil"], answer:2,
+     aide:"She did not want to talk about the traumatic ___ she suffered as a child."},
+    {type:"match", consigne:"Match each word to its German meaning.", prompt:"Word list Theme 3",
+     pairs:[["to stigmatize","brandmarken, stigmatisieren"],["to demonize","verteufeln"],["depiction","Darstellung"],["friction","Reibung, Spannungen"]],
+     aide:"The film was an accurate ___ of the war."},
+    {type:"text", consigne:"Complete the sentence.", prompt:"There can be ___ consequences when you break the law.",
+     answers:["severe"],
+     aide:"German: schwer, schlimm, heftig."},
+    {type:"text", consigne:"Complete the sentence with the missing preposition.", prompt:"It can take some time to settle ___ a new house when you first move.",
+     answers:["into"],
+     aide:"German: sich gewöhnen an."},
+    {type:"match", consigne:"Match each word to its German meaning.", prompt:"Word list Theme 3",
+     pairs:[["to implement","ausführen, umsetzen"],["to amplify","verstärken"],["raid","Razzia"],["to back","unterstützen, befürworten"]],
+     aide:"The school ___ a new recycling scheme after the students’ campaign."},
+    {type:"text", consigne:"Complete the sentence.", prompt:"Spain has a large population of British ___.",
+     answers:["expatriates","expats"],
+     aide:"German: Auswanderer/innen. Careful: plural."},
+    {type:"text", consigne:"Complete with the correct form of the verb.", prompt:"The factory ___ all types of clothing items, from dresses to jeans. &nbsp;<span class='cue'>(to manufacture)</span>",
+     answers:["manufactures"],
+     aide:"German: herstellen. Simple present – he, she, it: the s must fit!"}
+  ]
+},
+{
+  id:5, due:"due Tue 26 Jan",
+  title:"Consumerism: words, grammar and discussion",
+  sub:"SB pp. 76f. (radio report, Rana Plaza, blog) · gerunds and infinitives · speech",
+  questions:[
+    {type:"qcm", consigne:"Choose the correct German meaning.", prompt:"“cotton”",
+     options:["Wolle","Seide","Baumwolle","Leinen"], answer:2,
+     aide:"Clothes made out of 100% ___ are very soft."},
+    {type:"qcm", consigne:"Choose the correct German meaning.", prompt:"“to fancy sth” (BE, informal)",
+     options:["etw. wollen, mögen","sich etw. vorstellen","sich verkleiden","von etw. träumen"], answer:0,
+     aide:"He ___ Indian food for dinner."},
+    {type:"match", consigne:"Match each word to its German meaning.", prompt:"Texts SB pp. 74–77",
+     pairs:[["cattle","Vieh, Rinder"],["prosperous","wohlhabend, erfolgreich"],["to ship","versenden, verschicken"],["sound","gesund, solide"]],
+     aide:"The house was old, but the structure was ___."},
+    {type:"qcm", consigne:"Choose the correct German meaning.", prompt:"“distribution”",
+     options:["Verteilung, Vertrieb","Herstellung","Verschmutzung","Verbrauch"], answer:0,
+     aide:"Volunteers helped with the ___ of food and clothing to those affected by the flood."},
+    {type:"text", consigne:"Complete the sentence.", prompt:"The farm kept ___, sheep and chickens.",
+     answers:["cattle"],
+     aide:"German: Vieh, Rinder. This word has no singular form."},
+    {type:"qcm", consigne:"Grammar: choose the correct form.", prompt:"I’ll never forget ___ the photos of the collapsed factory.",
+     options:["seeing","to see"], answer:0,
+     whys:["","<i>forget to do</i> = not do something you should do. Here it is a memory of the past: <i>forget doing</i>."],
+     aide:"Is it a memory of something in the past, or a task for the future?"},
+    {type:"qcm", consigne:"Grammar: choose the correct form.", prompt:"Please remember ___ your old clothes to the swap party on Friday.",
+     options:["bringing","to bring"], answer:1,
+     whys:["<i>remember doing</i> = a memory of the past. This is a task for the future: <i>remember to do</i>.",""],
+     aide:"Is it a memory of something in the past, or a task for the future?"},
+    {type:"qcm", consigne:"Grammar: choose the correct form.", prompt:"After the documentary, we stopped ___ fast fashion.",
+     options:["buying","to buy"], answer:0,
+     whys:["","<i>stop to buy</i> = stop (doing something else) in order to buy. Here they don’t buy it any more."],
+     aide:"Do they still buy fast fashion?"},
+    {type:"text", consigne:"Grammar: complete the sentence.", prompt:"Instead of ___ new jeans, I repaired my old ones. &nbsp;<span class='cue'>(buy)</span>",
+     answers:["buying"],
+     aide:"After a preposition (<i>instead of, before, without …</i>) we use the -ing form."},
+    {type:"match", consigne:"Discussion: what does each phrase do?", prompt:"Fishbowl phrases",
+     pairs:[["That’s a good point, but …","disagreeing politely"],["Could you explain what you mean by …?","asking for clarification"],["Let me add something to that.","adding a point"],["So, all in all, …","concluding"]],
+     aide:"Start with the phrase you are surest about."},
+    {type:"qcm", consigne:"Speech analysis: which device does Obama use here?", prompt:"“We are the first generation to feel the effect of climate change and the last generation who can do something about it.” <span class='cue'>(UN Climate Summit, 2014)</span>",
+     options:["contrast (first – last)","a rhetorical question","alliteration"], answer:0,
+     whys:["","There is no question in the sentence.","Alliteration means several words that start with the same sound."],
+     aide:"Look at the two words in front of “generation”."},
+    {type:"order", consigne:"Put the sentence in the correct order.", prompt:"",
+     words:["Buying","fewer","clothes","is","one","way","of","protecting","the","planet"],
+     answers:["Buying fewer clothes is one way of protecting the planet","One way of protecting the planet is buying fewer clothes"],
+     aide:"An -ing form can be the subject of a sentence: “Buying fewer clothes is …”"}
+  ]
+}
+];
+
+/* ============================================================
+   APP – HA-Modul nach mfs-html-lernmodule-selfcheck §5 (Fortschrittscode §5.2, Medaillen §5.1)
+   ============================================================ */
+var MODULE_KEY = "EN10-U3-HA-v1";
+var SEUIL = 0.80;
+var ALPH = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+function fnv(s){ var h=0x811c9dc5; for(var i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,0x01000193)>>>0; } return h>>>0; }
+function mix(h){ h^=h>>>16; h=Math.imul(h,0x85ebca6b)>>>0; h^=h>>>13; h=Math.imul(h,0xc2b2ae35)>>>0; h^=h>>>16; return h>>>0; }
+function nameKey(s){
+  return String(s||"").normalize("NFC").toLowerCase().replace(/ß/g,"ss")
+    .normalize("NFD").replace(/[̀-ͯ]/g,"")
+    .replace(/ae/g,"a").replace(/oe/g,"o").replace(/ue/g,"u")
+    .replace(/[^\p{L}]+/gu," ").trim().split(" ").filter(Boolean).sort().join(" ");
+}
+function cleanName(s){ return String(s||"").normalize("NFC").replace(/[’‘´`ʼ]/g,"'").replace(/\s+/g," ").trim().slice(0,40); }
+function nameHash(name,k){ return mix(fnv(MODULE_KEY+"|"+nameKey(name)+"|"+k)) & 0x3FFFFFF; }
+function keyMask(){ return mix(fnv("KEY|"+MODULE_KEY)) & 0x3FFFFFFF; }
+function encodeProgress(name, k){
+  var h=nameHash(name,k), v=((((k^(h&15))&15)<<26)|h) ^ keyMask();
+  var c=""; for(var i=5;i>=0;i--) c+=ALPH[(v>>>(i*5))&31];
+  return c.slice(0,3)+"-"+c.slice(3);
+}
+function decodeProgress(name, code){
+  var c=String(code||"").toUpperCase().replace(/[^0-9A-Z]/g,"");
+  if(c.length!==6 || !nameKey(name)) return null;
+  var v=0; for(var j=0;j<c.length;j++){ var i=ALPH.indexOf(c[j]); if(i<0) return null; v=v*32+i; }
+  v=(v ^ keyMask())>>>0;
+  var h=v & 0x3FFFFFF, k=((v>>>26)&15) ^ (h&15);
+  if(k<1 || k>SETS.length) return null;
+  return nameHash(name,k)===h ? k : null;
+}
+
+/* medal colour per session (= Woche des HA-Moduls), §5.1 */
+var MEDAL_PALETTE = [
+  { name:"Gold",        light:"#FFE38A", base:"#E8B923", dark:"#9C7A0E" },
+  { name:"Saphirblau",  light:"#8DB6F5", base:"#2E6FD8", dark:"#1B3F80" },
+  { name:"Smaragdgrün", light:"#8FE0B6", base:"#1E9E62", dark:"#0F5C38" },
+  { name:"Rubinrot",    light:"#F29AA3", base:"#D23B4B", dark:"#7D1622" },
+  { name:"Amethyst",    light:"#C9A8F2", base:"#8A4FD6", dark:"#4B2386" },
+  { name:"Türkis",      light:"#8EDFE8", base:"#16A6B6", dark:"#0B5F69" },
+  { name:"Orange",      light:"#FFC08A", base:"#F07F1A", dark:"#8F4507" },
+  { name:"Magenta",     light:"#F5A3CC", base:"#D9418F", dark:"#7F1D52" },
+  { name:"Anthrazit",   light:"#A7B4C2", base:"#4A5A6A", dark:"#26313C" },
+  { name:"Oliv",        light:"#D2DD8A", base:"#8A9A2B", dark:"#4F5A12" }
+];
+function medalOf(n){ return MEDAL_PALETTE[(n-1) % MEDAL_PALETTE.length]; }
+function medalStyle(n){ var p=medalOf(n); return "--medal-light:"+p.light+";--medal-base:"+p.base+";--medal-dark:"+p.dark+";"; }
+
+/* Bereichsfarben wie die Ausschüsse der Lernwerkstatt */
+var AREAS = { W:{n:"Words", c:"#2E6FD8"}, G:{n:"Grammar", c:"#E8740F"}, M:{n:"Speaking", c:"#C2307A"}, T:{n:"Writing & reading", c:"#2F8F4E"}, S:{n:"Mediation", c:"#7A3FC8"} };
+var SETCOL = ["#2E6FD8","#E8740F","#2F8F4E","#7A3FC8","#C2307A"];
+function hexmix(h,t,a){ var p=[1,3,5].map(function(i){ return parseInt(h.substr(i,2),16); }), q=[1,3,5].map(function(i){ return parseInt(t.substr(i,2),16); }); return "#"+p.map(function(v,i){ return ("0"+Math.round(v*(1-a)+q[i]*a).toString(16)).slice(-2); }).join(""); }
+function areaOf(q){ var c=q.consigne;
+  if(/Grammar/.test(c)) return "G"; if(/Mediation/.test(c)) return "S";
+  if(/summary|Language analysis|Speech analysis/i.test(c)) return "T";
+  if(/cartoon|chart|Discussion|first sentence/i.test(c)) return "M"; return "W"; }
+function areaStyle(k){ var c=AREAS[k].c; return "--ac:"+c+";--ad:"+hexmix(c,"#000000",0.42)+";"; }
+function setStyle(n){ var c=SETCOL[(n-1)%SETCOL.length]; return "--sc:"+c+";--sl:"+hexmix(c,"#ffffff",0.88)+";--sd:"+hexmix(c,"#000000",0.42)+";"; }
+
+/* ---------- state: sessionStorage only ---------- */
+var SKEY = "HA:"+MODULE_KEY;
+try{ Object.keys(localStorage).forEach(function(k){ if(k.indexOf(MODULE_KEY)>=0 || k.indexOf("HA:")===0) localStorage.removeItem(k); }); }catch(e){}
+var S = {name:"", k:0};
+try{ var _s = JSON.parse(sessionStorage.getItem(SKEY)); if(_s && typeof _s.k==="number") S=_s; }catch(e){}
+function save(){ try{ sessionStorage.setItem(SKEY, JSON.stringify(S)); }catch(e){} }
+
+var el = function(id){ return document.getElementById(id); };
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function shuffle(a){ var b=a.slice(); for(var i=b.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=b[i]; b[i]=b[j]; b[j]=t; } return b; }
+function showGap(t){ return t.replace(/___/g,'<span class="gap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>'); }
+function dstr(d){ return String(d.getDate()).padStart(2,"0")+"."+String(d.getMonth()+1).padStart(2,"0")+"."+d.getFullYear(); }
+function initials(n){ var p=cleanName(n).split(" ").filter(Boolean); return p.length ? (p[0][0]+(p.length>1?p[p.length-1][0]:"")).toUpperCase() : "?"; }
+
+function statusOf(n){
+  var set=SETS[n-1];
+  if(n<=S.k) return "done";
+  for(var i=0;i<n-1;i++){ if(!SETS[i].questions.length) return "lock"; }
+  if(!set.questions.length) return "soon";
+  return n===S.k+1 ? "open" : "lock";
+}
+
+/* ---------- start screen ---------- */
+function drawTop(){
+  el("av").textContent = S.name ? initials(S.name) : "?";
+  el("bname").textContent = S.name ? cleanName(S.name) : "Delegate";
+  el("quorum").innerHTML = SETS.map(function(s,i){ return '<i class="'+(i<S.k?"on":"")+'"></i>'; }).join("")+'<span style="margin-left:6px">'+S.k+" / "+SETS.length+"</span>";
+}
+function drawHall(){
+  var n=SETS.length, cx=260, cy=160, r=118, h="";
+  h+='<path d="M70 160 A190 132 0 0 1 450 160" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="16"/>';
+  for(var i=0;i<n;i++){
+    var a=Math.PI*(1-(i+0.5)/n), x=cx+168*Math.cos(a), y=cy-6-108*Math.sin(a), st=statusOf(i+1), p=medalOf(i+1);
+    var sc=SETCOL[i%SETCOL.length]; var fill = st==="done" ? p.base : (st==="open" ? sc : hexmix(sc,"#0B2A33",0.6));
+    var col = "#fff";
+    h+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="21" fill="'+fill+'" stroke="'+(st==="done"?p.dark:(st==="open"?"#F2C879":sc))+'" stroke-width="'+(st==="open"?3.5:2.5)+'"/>';
+    h+='<text x="'+x.toFixed(1)+'" y="'+(y+5).toFixed(1)+'" text-anchor="middle" font-size="15" font-weight="800" fill="'+col+'">'+(st==="lock"?"🔒":(i+1))+'</text>';
+  }
+  h+='<rect x="222" y="128" width="76" height="30" rx="6" fill="#fff"/><text x="260" y="148" text-anchor="middle" font-size="14" font-weight="800" fill="#0B2A33">'+S.k+' / '+n+'</text>';
+  el("hall").innerHTML=h;
+}
+function codeBoxHtml(code){
+  return '<div class="codebox"><span style="font-size:.85rem;color:#5d6876">Your code</span><code class="cv">'+esc(code)+'</code><button type="button" class="cp">📋 Copy</button></div>';
+}
+function bindCopy(root){
+  (root||document).querySelectorAll(".codebox .cp").forEach(function(b){
+    b.onclick=function(){
+      var t=b.parentNode.querySelector(".cv").textContent;
+      function ok(){ b.textContent="✓ Copied"; }
+      function fb(){ var r=document.createRange(); r.selectNodeContents(b.parentNode.querySelector(".cv")); var s=window.getSelection(); s.removeAllRanges(); s.addRange(r); try{ if(document.execCommand("copy")) ok(); }catch(e){} }
+      if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(ok, fb); else fb();
+    };
+  });
+}
+function drawId(){
+  var known = S.k>0 && S.name;
+  el("id-form").classList.toggle("hide", !!known);
+  el("id-known").classList.toggle("hide", !known);
+  if(known){
+    el("knm").textContent = cleanName(S.name);
+    el("kk").textContent = S.k+" of "+SETS.length+" sessions passed";
+    el("kcode").innerHTML = codeBoxHtml(encodeProgress(S.name, S.k));
+    bindCopy(el("kcode"));
+  } else if(S.name && !el("nom").value) el("nom").value = S.name;
+}
+function buildMenu(){
+  drawTop(); drawHall(); drawId();
+  var box=el("agenda"); box.innerHTML="";
+  SETS.forEach(function(m,i){
+    var n=i+1, st=statusOf(n);
+    var b=document.createElement("button");
+    b.className="item "+st; b.setAttribute("style", medalStyle(n)+setStyle(n));
+    var ar={}; m.questions.forEach(function(q){ ar[areaOf(q)]=1; });
+    var arHtml=Object.keys(AREAS).filter(function(k){ return ar[k]; }).map(function(k){ return '<span class="area" style="'+areaStyle(k)+'">'+AREAS[k].n+'</span>'; }).join("");
+    var stTxt = st==="done" ? "✓ passed – you can do it again" : st==="open" ? "open" : st==="soon" ? "coming soon" : "🔒 First: session "+(S.k+1)+" with 80 %.";
+    b.innerHTML='<span class="seal">'+(st==="done"?"SET<br>"+n:(st==="lock"?"🔒":"SET<br>"+n))+'</span><span><span class="t">Session '+n+' · '+esc(m.title)+'</span><span class="s">'+esc(m.sub)+'</span><span class="meta">'+arHtml+'</span>'+
+      '<span class="meta"><span class="chip">'+esc(m.due)+'</span><span class="chip st">'+esc(stTxt)+'</span></span></span>';
+    if(st==="lock"||st==="soon"){ b.setAttribute("aria-disabled","true"); b.onclick=function(){ idWarn(st==="soon"?"This session is not ready yet.":"🔒 First: session "+(S.k+1)+" with 80 %."); }; }
+    else b.onclick=function(){ startModule(n); };
+    box.appendChild(b);
+  });
+}
+function idWarn(t){ var w=el("idwarn"); if(!t){ w.classList.add("hide"); return; } w.textContent=t; w.classList.remove("hide"); if(!el("id-form").classList.contains("hide")) el("idcard").scrollIntoView({behavior:"smooth",block:"center"}); else alert(t); }
+var BADCODE = "That didn’t work. Check your code (there is no 0, O, 1 or I) and write your name exactly as last time.";
+function tryCode(){
+  var nm=cleanName(el("nom").value), c=el("code").value.trim();
+  if(!nm){ idWarn("Write your first name and surname first."); return false; }
+  if(!c) return true;
+  var k=decodeProgress(nm, c);
+  if(!k){ idWarn(BADCODE); return false; }
+  var same=nameKey(S.name)===nameKey(nm); S.k=Math.max(k, same?S.k:0); S.name=nm; save(); idWarn(""); buildMenu(); return true;
+}
+el("btn-code").onclick=function(){ if(!el("code").value.trim()){ idWarn("Type your code first – or just choose session 1."); return; } tryCode(); };
+el("nom").addEventListener("input", function(){ idWarn(""); });
+el("btn-notme").onclick=function(){
+  if(!confirm("Start again with another name? The progress on this screen will be deleted (your code still works).")) return;
+  S={name:"",k:0}; save(); el("nom").value=""; el("code").value=""; buildMenu();
+};
+
+/* ---------- quiz ---------- */
+var state={mod:null, n:0, idx:0, score:0, checked:false, items:[]}, current=null;
+function startModule(n){
+  if(el("id-form") && !el("id-form").classList.contains("hide")){
+    var nm=cleanName(el("nom").value);
+    if(!nm){ idWarn("Write your first name and surname first."); el("nom").focus(); return; }
+    if(el("code").value.trim()){ if(!tryCode()) return; }
+    else { if(nameKey(nm)!==nameKey(S.name)) S.k=0; S.name=nm; save(); }
+    if(statusOf(n)==="lock"){ buildMenu(); idWarn("🔒 First: session "+(S.k+1)+" with 80 %."); return; }
+  }
+  state.mod=SETS[n-1]; state.n=n; state.idx=0; state.score=0; state.items=shuffle(state.mod.questions);
+  el("screen-start").classList.add("hide"); el("screen-end").classList.add("hide"); el("screen-quiz").classList.remove("hide");
+  drawTop(); renderQuestion(); window.scrollTo(0,0);
+}
+function warnQ(m){ var w=el("q-warn"); if(!m){ w.classList.add("hide"); return; } w.textContent=m; w.classList.remove("hide"); }
+function renderQuestion(){
+  var q=state.items[state.idx];
+  state.checked=false; current={q:q, sel:null, order:[]}; warnQ("");
+  el("q-mod").textContent="Session "+state.n+" · "+state.mod.title;
+  el("q-count").textContent="Question "+(state.idx+1)+" / "+state.items.length;
+  el("q-bar").style.width=(state.idx/state.items.length*100)+"%";
+  var ak=areaOf(q); el("qcard").setAttribute("style", areaStyle(ak)); el("q-area").textContent=AREAS[ak].n;
+  el("q-consigne").innerHTML=q.consigne;
+  el("q-prompt").innerHTML=q.prompt ? showGap(q.prompt) : "";
+  el("q-fb").innerHTML="";
+  el("btn-check").classList.remove("hide"); el("btn-next").classList.add("hide");
+  var aw=el("q-aide"); aw.innerHTML="";
+  if(q.aide){ var ab=document.createElement("button"); ab.className="aidebtn"; ab.textContent="💡 Help";
+    ab.onclick=function(){ ab.remove(); var d=document.createElement("div"); d.className="aide"; d.innerHTML="<b>Help:</b> "+q.aide; aw.appendChild(d); }; aw.appendChild(ab); }
+  var body=el("q-body"); body.innerHTML="";
+  if(q.type==="qcm"){
+    var opts=shuffle(q.options.map(function(t,i){ return {t:t, ok:i===q.answer, why:(q.whys||[])[i]||""}; }));
+    current.opts=opts;
+    var box=document.createElement("div"); box.className="opts";
+    opts.forEach(function(o,i){ var b=document.createElement("button"); b.className="opt"; b.innerHTML=o.t;
+      b.onclick=function(){ if(state.checked) return; box.querySelectorAll(".opt").forEach(function(x){ x.classList.remove("sel"); }); b.classList.add("sel"); current.sel=i; warnQ(""); };
+      box.appendChild(b); });
+    body.appendChild(box);
+  }
+  if(q.type==="text"){
+    var inp=document.createElement("input"); inp.type="text"; inp.id="q-input"; inp.placeholder="Your answer…";
+    inp.autocomplete="off"; inp.setAttribute("autocapitalize","off"); inp.spellcheck=false;
+    inp.addEventListener("keydown", function(e){ if(e.key==="Enter"){ e.preventDefault(); if(state.checked) onNext(); else onCheck(); } });
+    body.appendChild(inp); setTimeout(function(){ inp.focus(); },30);
+  }
+  if(q.type==="order"){
+    var line=document.createElement("div"); line.className="answerline"; line.id="q-line";
+    var pool=document.createElement("div"); pool.className="words"; pool.id="q-pool";
+    body.appendChild(line); body.appendChild(pool);
+    var idx=q.words.map(function(w,i){ return i; }), sh, t=0; do{ sh=shuffle(idx); t++; }while(t<20 && sh.join()===idx.join());
+    sh.forEach(function(i){ var w=q.words[i]; var b=document.createElement("button"); b.className="word"; b.textContent=w;
+      b.onclick=function(){ if(state.checked) return; b.classList.add("used"); current.order.push({w:w, src:b}); drawLine(); warnQ(""); };
+      pool.appendChild(b); });
+    drawLine();
+  }
+  if(q.type==="match"){
+    var rights = shuffle(q.options ? q.options.slice() : q.pairs.map(function(p){ return p[1]; }));
+    q.pairs.forEach(function(p,i){
+      var row=document.createElement("div"); row.className="mrow"; row.id="mr"+i;
+      var l=document.createElement("div"); l.className="l"; l.textContent=p[0];
+      var s=document.createElement("select"); s.id="m"+i; s.setAttribute("aria-label", p[0]);
+      s.innerHTML='<option value="">— choose —</option>'+rights.map(function(r){ return '<option value="'+esc(r)+'">'+esc(r)+'</option>'; }).join("");
+      row.appendChild(l); row.appendChild(s); body.appendChild(row);
+    });
+  }
+}
+function drawLine(){
+  var line=el("q-line"); line.innerHTML="";
+  if(!current.order.length){ line.innerHTML='<span class="ph">Click the words in the correct order.</span>'; return; }
+  current.order.forEach(function(o,i){ var b=document.createElement("button"); b.className="word"; b.textContent=o.w;
+    b.onclick=function(){ if(state.checked) return; o.src.classList.remove("used"); current.order.splice(i,1); drawLine(); };
+    line.appendChild(b); });
+}
+function plain(s){ return String(s).replace(/<[^>]+>/g,""); }
+function onCheck(){
+  if(state.checked) return;
+  var q=current.q, ok=false, corr="", why="";
+  if(q.type==="qcm"){
+    if(current.sel===null){ warnQ("Choose an answer first."); return; }
+    var chosen=current.opts[current.sel]; ok=chosen.ok; why=ok?"":chosen.why;
+    corr=plain(current.opts.filter(function(o){ return o.ok; })[0].t);
+    var btns=el("q-body").querySelectorAll(".opt");
+    current.opts.forEach(function(o,i){ btns[i].classList.remove("sel"); if(o.ok) btns[i].classList.add("ok"); else if(i===current.sel) btns[i].classList.add("no"); });
+  }
+  if(q.type==="text"){
+    var inp=el("q-input"), v=inp.value;
+    if(!v.trim()){ warnQ("Write your answer first."); return; }
+    ok=accepts(v, q.answers); corr=q.answers[0];
+    if(!ok && nearMiss(v, q.answers)) why="Check your spelling – you were very close.";
+    inp.classList.add(ok?"ok":"no"); inp.disabled=true;
+  }
+  if(q.type==="order"){
+    if(current.order.length!==q.words.length){ warnQ("Use all the words."); return; }
+    ok=accepts(current.order.map(function(o){ return o.w; }).join(" "), q.answers); corr=q.answers[0]+".";
+    el("q-line").classList.add(ok?"ok":"no");
+  }
+  if(q.type==="match"){
+    var filled=q.pairs.every(function(p,i){ return !!el("m"+i).value; });
+    if(!filled){ warnQ("Complete every line."); return; }
+    var good=0;
+    q.pairs.forEach(function(p,i){ var s=el("m"+i), r=norm(s.value)===norm(p[1]); s.classList.add(r?"ok":"no"); s.disabled=true; el("mr"+i).classList.add(r?"ok":"no"); if(r) good++; });
+    ok=good===q.pairs.length; corr=q.pairs.map(function(p){ return p[0]+" → "+p[1]; }).join(" · ");
+  }
+  if(ok) state.score++;
+  state.checked=true; warnQ("");
+  el("q-fb").innerHTML = ok
+    ? '<div class="fb ok"><b>Correct – well done!</b>'+(q.type==="text"?"Answer: "+esc(corr):"")+'</div>'
+    : '<div class="fb no"><b>Not yet.</b>The correct answer: <b style="display:inline">'+esc(corr)+'</b>'+(why?'<span class="why">💡 '+why+'</span>':'')+'</div>';
+  el("btn-check").classList.add("hide");
+  var nx=el("btn-next"); nx.classList.remove("hide");
+  nx.textContent = state.idx===state.items.length-1 ? "See my result" : "Next question"; nx.focus();
+}
+function onNext(){ if(state.idx===state.items.length-1){ showEnd(); return; } state.idx++; renderQuestion(); window.scrollTo(0,0); }
+
+/* ---------- result ---------- */
+function showEnd(){
+  el("screen-quiz").classList.add("hide"); el("screen-end").classList.remove("hide");
+  var total=state.items.length, pct=Math.round(state.score/total*100), passed=state.score/total>=SEUIL, n=state.n, m=state.mod;
+  var newly=false;
+  if(passed && n===S.k+1){ S.k=n; newly=true; save(); }
+  var code=S.k>0 ? encodeProgress(S.name, S.k) : "";
+  var box=el("end-body");
+  if(passed){
+    var nextOpen = S.k<SETS.length && SETS[S.k].questions.length;
+    box.innerHTML=
+      '<div class="cert" style="'+medalStyle(n)+'"><span class="arc"></span><div class="inner">'+
+        '<div class="medal"><small>SESSION</small><span>'+n+'</span></div>'+
+        '<span class="band">ADOPTED</span>'+
+        '<h2>Delegate certificate</h2>'+
+        '<div class="sub">Global Youth Summit · Homework Theme 3 “Global challenges”</div>'+
+        '<div class="lbl">Delegate</div><div class="name">'+esc(cleanName(S.name))+'</div>'+
+        '<div class="sub">Session '+n+' – '+esc(m.title)+'</div>'+
+        '<div class="line"></div>'+
+        '<div class="score">'+pct+' %</div><div class="sub">'+state.score+' / '+total+' correct answers</div>'+
+        '<div class="date" style="margin-top:6px">Completed on '+dstr(new Date())+'</div>'+
+        codeBoxHtml(code)+
+        (newly && nextOpen ? '<div class="unlock">✓ Session '+(n+1)+' is open.</div>' : (newly && S.k===SETS.length ? '<div class="unlock">✓ All sessions passed.</div>' : ''))+
+      '</div></div>'+
+      '<div class="todo">📸 Take a screenshot of this certificate – with the code – and upload it to the MS Teams assignment.<br>✍️ Write your code in your exercise book.</div>';
+  } else {
+    var missing=Math.ceil(total*SEUIL)-state.score;
+    box.innerHTML='<div class="fail"><h2>Almost there!</h2>'+
+      '<p style="font-size:1.15rem;margin:0 0 8px"><b>'+state.score+' / '+total+'</b> correct ('+pct+' %).</p>'+
+      '<p style="margin:0 0 10px">You need <b>80 %</b> for the certificate – that is '+missing+' more correct answer'+(missing>1?"s":"")+'.</p>'+
+      '<p style="margin:0">Start again: the questions come in a different order, and the 💡 <b>Help</b> button costs nothing.</p>'+
+      (code?'<div style="margin-top:10px">Your code is still: </div>'+codeBoxHtml(code):'')+'</div>';
+  }
+  el("btn-retry").textContent = "↺ Do session "+n+" again";
+  bindCopy(box); drawTop(); window.scrollTo(0,0);
+}
+function toMenu(){ el("screen-quiz").classList.add("hide"); el("screen-end").classList.add("hide"); el("screen-start").classList.remove("hide"); buildMenu(); window.scrollTo(0,0); }
+el("btn-check").onclick=onCheck;
+el("btn-next").onclick=onNext;
+el("btn-quit").onclick=function(){ if(confirm("Back to the agenda? The answers in this session will be lost.")) toMenu(); };
+el("btn-menu").onclick=toMenu;
+el("btn-retry").onclick=function(){ startModule(state.n); };
+
+/* ---------- teacher area (Deutsch) ---------- */
+el("tlink").onclick=function(){
+  var p=el("tpanel");
+  if(!p.classList.contains("hide")){ p.classList.add("hide"); return; }
+  p.classList.remove("hide");
+  p.innerHTML='<div class="tbox" lang="de">'+
+    '<h3>Für die Lehrkraft</h3>'+
+    '<p style="margin:0">HA-Modul Unit 3 (Kl. 10), fünf Sets à 12 Aufgaben, ersetzt das Workbook. Ab 80 % (10/12) erscheint das Zertifikat; SuS laden einen Screenshot in TEAMS hoch.</p>'+
+    '<h4>Code prüfen</h4>'+
+    '<label for="tn">Name (wie auf dem Zertifikat)</label><input type="text" id="tn" placeholder="Vorname Nachname">'+
+    '<label for="tc">Code</label><input type="text" id="tc" class="codein" placeholder="ABC-DEF">'+
+    '<div class="row"><button class="btn" id="tgo">Prüfen</button></div><div class="out" id="tout" style="display:none"></div>'+
+    '<h4>Sets und Medaillenfarben</h4><table>'+SETS.map(function(m,i){ var c=medalOf(i+1); return '<tr><td><span class="swatch" style="background:'+c.base+'"></span>Set '+(i+1)+' · '+c.name+'</td><td>'+esc(m.due.replace("due ","fällig "))+'</td></tr>'; }).join("")+'</table>'+
+    '<h4>Freischaltung und Code</h4><ul>'+
+      '<li>Set n öffnet sich erst, wenn Set n−1 mit mindestens 80 % bestanden ist. Bestandene Sets bleiben wiederholbar; der Stand sinkt nie.</li>'+
+      '<li>Der 6-stellige Code enthält nur die Zahl der bestandenen Sets, als Prüfsumme an den Namen gebunden (Modulschlüssel '+MODULE_KEY+'). Kein Name, kein Datum, keine Antworten im Code.</li>'+
+      '<li>Toleriert beim Namen: Groß-/Kleinschreibung, Akzente, ä/ae, Leerzeichen, Bindestriche, Reihenfolge Vor-/Nachname. Ein fehlender Namensteil oder Tippfehler wird abgelehnt.</li>'+
+      '<li>Code verloren: Er steht auf dem zuletzt in TEAMS hochgeladenen Zertifikat.</li>'+
+      '<li>Eine Freischaltung durch die Lehrkraft gibt es bewusst nicht (wäre für SuS erreichbar). Die Sperre ist eine didaktische Schranke; Nachweis bleibt das Zertifikat.</li></ul>'+
+    '<h4>Datenschutz</h4><p style="margin:0">Keine Netzwerkanfragen, keine Speicherung über das Schließen des Tabs hinaus (nur sessionStorage: Name und Zahl der bestandenen Sets).</p>'+
+    '<h4>Inhalte und Quellen</h4><ul>'+
+      '<li>Wortschatz, deutsche Bedeutungen und Beispielsätze: Wordlist Theme 3 (Webcode WES-73630-06), SB S. 60–77. Wiederholung aus Theme 2 nur, wo die Liste das Wort erneut führt (hostility).</li>'+
+      '<li>Grammatik: gerunds and infinitives (SchiC Kl. 10), induktiv eingeführt in T5; Erklärungen zu falschen Antworten = eigene Formulierung.</li>'+
+      '<li>Eigene Formulierungen: Definitionen der Diagrammverben und Stilmittel, Aufgaben zu summary und Mediation, Diskussionsredemittel, Beispielsätze zu Grammatik und Diagramm („Northland“ ist erfunden, wie in der Lernwerkstatt).</li>'+
+      '<li>Zitat Set 5: Barack Obama, UN-Klimagipfel 23.09.2014 (SB S. 73–75).</li>'+
+      '<li>Set 4 ist auf den Vokabeltest (Di 19.01.) zugeschnitten: Wiederholung über die ganze Wortliste.</li></ul>'+
+    '<h4>Abgleich</h4><p style="margin:0">Tolerant bei Groß-/Kleinschreibung, Leerzeichen, Apostroph-Varianten und Satzzeichen; streng bei Rechtschreibung. Ein Zeichen Abstand gilt als falsch, mit Hinweis „very close“.</p>'+
+  '</div>';
+  el("tgo").onclick=function(){
+    var n=cleanName(el("tn").value), c=el("tc").value, o=el("tout"); o.style.display="block";
+    if(!n){ o.textContent="Bitte den Namen eingeben."; return; }
+    var k=decodeProgress(n,c);
+    o.innerHTML = k ? "<b>Gültig</b> für „"+esc(n)+"“. Bestanden: "+SETS.map(function(s,i){ return "Set "+(i+1)+" "+(i<k?"✓":"–"); }).join(" · ") : "<b>Ungültig</b> (anderer Name, Tippfehler oder anderes Modul).";
+  };
+};
+
+buildMenu();
+window.__HA = { SETS:SETS, accepts:accepts, encodeProgress:encodeProgress, decodeProgress:decodeProgress, medalOf:medalOf, S:function(){ return S; }, nameKey:nameKey };
+
+</script>
+</body>
+</html>
